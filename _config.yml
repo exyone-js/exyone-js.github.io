@@ -24,9 +24,9 @@ repository               : "exyone-js/exyone-js.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "Your Sidebar Name"
-  pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
+  name             : "Exyone"
+  pronouns         : "he/him/they" # example: "she/her"  
+  bio              : "A .NET Programmer,also do well in the Front-end."
   location         : "Dongying,Shandong,PRC"
   employer         : "Independent developer"
   uri              : "www.exyone.me" # URL
