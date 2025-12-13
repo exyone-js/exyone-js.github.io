@@ -255,6 +255,10 @@ defaults:
     values:
       layout: single
       author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
   # _tutorials
   - scope:
       path: ""
@@ -262,8 +266,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-      share: true
+      read_time: true
       comments: true
+      share: true
+      related: true
   # _portfolio
   - scope:
       path: ""
@@ -271,8 +277,10 @@ defaults:
     values:
       layout: single
       author_profile: true
+      read_time: true
+      comments: true
       share: true
-      comment: true
+      related: true
 
 # Sass/SCSS
 sass:
