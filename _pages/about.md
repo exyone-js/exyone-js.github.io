@@ -7,8 +7,6 @@ redirect_from:
   - /about.html
 ---
 
----
-
 ## About Me
 
 Hi! I'm Exyone, a passionate .NET developer with a strong focus on backend development and growing skills in frontend technologies.
