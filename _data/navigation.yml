@@ -18,9 +18,6 @@ main:
   - title: "Portfolio"
     url: /portfolio/
     
-  - title: "中文站"
-    url: https://www.exyone.me    
-    
   - title: "GitHub"
     url: https://github.com/exyone-js
 
@@ -29,3 +26,6 @@ main:
 
   - title: "QQ Group"
     url: https://qm.qq.com/q/MVXT2oyLm0
+    
+  - title: "中文站"
+    url: https://www.exyone.me    
