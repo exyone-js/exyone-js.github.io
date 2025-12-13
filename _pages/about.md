@@ -1,10 +1,12 @@
 ---
 permalink: /
-title: "Welcome to Exyone's blog! Codes, Lens & Ink."
+title: "Welcome to Exyone's blog!"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
+---
+
 ---
 
 # About Me
