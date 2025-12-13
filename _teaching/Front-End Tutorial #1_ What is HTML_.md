@@ -8,15 +8,15 @@ tags:
   - category2
 ---
 
-# Welcome to Your First Step in Front-End Development: HTML!
+## Welcome to Your First Step in Front-End Development: HTML!
 
-## What is HTML?
+### What is HTML?
 
 Have you ever wondered how your browser knows what content to display and how to display it when you open a webpage? The secret behind this lies largely in HTML—a specialized language used to describe the structure and content of web pages.
 
 HTML is like the skeleton of a webpage; the text displayed on the webpage is supported by HTML.
 
-### Understanding HTML Basics
+#### Understanding HTML Basics
 
 HTML stands for HyperText Markup Language. But what does that mean in simpler terms?
 
@@ -28,20 +28,20 @@ HTML stands for HyperText Markup Language. But what does that mean in simpler te
 - An HTML document contains HTML tags and plain text.
 - An HTML document is also commonly called a web page.
 
-## HTML Tags:
+### HTML Tags:
 
 HTML uses tags to mark different parts of a webpage.
 
 You can also think of tags as **marker pen**; after using them, HTML will tell the web page what this piece of text means.
 
-### What Are HTML Tags?
+#### What Are HTML Tags?
 
 - HTML tags are keywords surrounded by angle brackets, like `<html>`
 - Most HTML tags come in pairs: an opening tag (`<b>`) and a closing tag (`</b>`)
 - The first tag in a pair is the opening tag, and the second is the closing tag
 - Opening and closing tags are also called start tags and end tags
 
-### Tag Syntax
+#### Tag Syntax
 ```
 <tag>content</tag>
 ```
@@ -51,11 +51,11 @@ For example, to make text bold, you would use:
 <b>This text will appear bold</b>
 ```
 
-## HTML Elements: More Than Just Tags
+### HTML Elements: More Than Just Tags
 
 While the terms "HTML tag" and "HTML element" are often used interchangeably, there's an important distinction to understand:
 
-### What's the Difference?
+#### What's the Difference?
 
 An HTML element encompasses everything from the opening tag to the closing tag. Think of it this way:
 - Tags are like the "bookends" 
@@ -66,7 +66,7 @@ To put it in perspective, think of making a sandwich:
 - Everything between them (meat, cheese, vegetables) is like the content
 - The whole sandwich is like the HTML element
 
-### Example of an HTML Element:
+#### Example of an HTML Element:
 ```html
 <p>This is a paragraph.</p>
 ```
@@ -76,11 +76,11 @@ In this example:
 - `</p>` is the closing tag (like the bottom slice of bread)
 - The entire line including both tags and the content ("This is a paragraph.") is the HTML element (the complete sandwich)
 
-## Web Browsers: The Interpreters of HTML
+### Web Browsers: The Interpreters of HTML
 
 Web browsers like Chrome, Internet Explorer, Firefox, and Safari act as interpreters for HTML documents. Think of them as skilled translators that convert the "secret code" of HTML into the beautiful web pages you see every day.
 
-### How Browsers Work with HTML
+#### How Browsers Work with HTML
 
 - Browsers **don't display** the HTML tags themselves
 - Instead, they use these tags as instructions to determine how to render the content
@@ -89,7 +89,7 @@ Web browsers like Chrome, Internet Explorer, Firefox, and Safari act as interpre
 
 It's like having a recipe written in a foreign language—you can't understand the symbols on the page, but a translator (the browser) can interpret those symbols and turn them into a delicious meal (the webpage)!
 
-## HTML Page Structure: Building Your Webpage
+### HTML Page Structure: Building Your Webpage
 
 Every HTML document follows a specific structure—think of it as the blueprint for constructing a house. Just as a house needs a foundation, walls, and a roof, an HTML page needs certain essential elements to function properly.
 
@@ -98,7 +98,7 @@ Think of building a house:
 - The `<head>` is like the attic—contains important information but isn't visible from the street
 - The `<body>` is like the main living space—what everyone sees when they visit
 
-### Basic HTML Page Structure:
+#### Basic HTML Page Structure:
 ```html
 <html>
 <head>
@@ -112,7 +112,7 @@ Think of building a house:
 </html>
 ```
 
-### Key Components Explained:
+#### Key Components Explained:
 
 1. **`<html>`** - The root element that wraps the entire document (like the property fence around a house)
 2. **`<head>`** - Contains meta-information about the document (not displayed) (like the home's blueprint)
@@ -121,11 +121,11 @@ Think of building a house:
 
 **Important Note:** Only content inside the `<body>` section is displayed in the browser window.
 
-## Evolution of HTML: From Simple to Sophisticated
+### Evolution of HTML: From Simple to Sophisticated
 
 HTML has come a long way since the early days of the web! Like software and technology, HTML has evolved through multiple versions, each bringing new features and capabilities.
 
-### Journey Through HTML History:
+#### Journey Through HTML History:
 
 | Version   | Year | Key Features                                         |
 | --------- | ---- | ---------------------------------------------------- |
@@ -140,15 +140,15 @@ HTML has come a long way since the early days of the web! Like software and tech
 
 Each version built upon the previous one, making HTML more powerful and versatile for creating modern web experiences.
 
-## The <!DOCTYPE> Declaration: Setting the Rules
+### The <!DOCTYPE> Declaration: Setting the Rules
 
 The `<!DOCTYPE>` declaration is like telling your browser which "dialect" of HTML you're using. It's not an HTML tag, but rather an instruction that helps browsers display your webpage correctly.
 
-### Why Is It Important?
+#### Why Is It Important?
 
 Without a proper DOCTYPE declaration, browsers might enter "quirks mode" and render your page inconsistently. Think of it as telling someone which language you're speaking before starting a conversation.
 
-### HTML5 DOCTYPE (Modern Standard):
+#### HTML5 DOCTYPE (Modern Standard):
 
 ```html
 <!DOCTYPE html>
@@ -156,33 +156,33 @@ Without a proper DOCTYPE declaration, browsers might enter "quirks mode" and ren
 
 This simple declaration is all you need for modern HTML5 documents.
 
-### Other Common DOCTYPE Declarations:
+#### Other Common DOCTYPE Declarations:
 
-#### HTML 4.01
+##### HTML 4.01
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 ```
 
-#### XHTML 1.0
+##### XHTML 1.0
 ```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 ```
 
-### Key Points to Remember:
+#### Key Points to Remember:
 
 - The declaration is **not case sensitive**
 - Place it at the very top of your HTML document (before the `<html>` tag)
 - For modern websites, `<!DOCTYPE html>` is sufficient and recommended
 
-## Character Encoding: Making Text Display Correctly
+### Character Encoding: Making Text Display Correctly
 
 To ensure your web pages display text correctly—especially in different languages like Chinese—you need to declare the character encoding. Without proper encoding, visitors might see strange symbols instead of readable text.
 
-### Why Character Encoding Matters
+#### Why Character Encoding Matters
 
 Imagine trying to read a book where all the letters are jumbled or replaced with random symbols—that's what happens when character encoding isn't properly declared!
 
-### Setting UTF-8 Encoding (Recommended)
+#### Setting UTF-8 Encoding (Recommended)
 
 For modern websites, UTF-8 is the standard encoding that supports virtually all languages:
 
@@ -192,7 +192,7 @@ For modern websites, UTF-8 is the standard encoding that supports virtually all 
 
 Place this line within the `<head>` section of your HTML document.
 
-### Complete Example with Proper Encoding
+#### Complete Example with Proper Encoding
 
 ```html
 <!DOCTYPE html>
@@ -208,11 +208,11 @@ Place this line within the `<head>` section of your HTML document.
 </html>
 ```
 
-## Putting It All Together: A Complete HTML Example
+### Putting It All Together: A Complete HTML Example
 
 Let's look at a full HTML document that incorporates everything we've learned so far. This example will serve as your template for creating web pages.
 
-### Full HTML Document Example:
+#### Full HTML Document Example:
 
 ```html
 <!DOCTYPE html>
@@ -229,7 +229,7 @@ Let's look at a full HTML document that incorporates everything we've learned so
 </html>
 ```
 
-### Breaking Down the Example:
+#### Breaking Down the Example:
 
 1. **`<!DOCTYPE html>`** - Declares this as an HTML5 document
 2. **`<html>`** - Root element containing the entire page
@@ -243,6 +243,6 @@ Let's look at a full HTML document that incorporates everything we've learned so
    - **`<i>`** - Italic text
    - **`<a>`** - Hyperlink
 
-### Try It Yourself!
+#### Try It Yourself!
 
 Copy this code into a text editor, save it as _index.html_, and open it in your browser to see your first webpage come to life!
