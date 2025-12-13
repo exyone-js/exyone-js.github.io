@@ -3,7 +3,7 @@ title: 'Front-End Tutorial #1: What is HTML?'
 date: 2023-08-14
 ---
 
-# 🎉 Welcome to Your First Step in Front-End Development: HTML!
+# Welcome to Your First Step in Front-End Development: HTML!
 
 ## What is HTML? The Skeleton of Web Pages!
 
@@ -23,7 +23,7 @@ Think of HTML as the skeleton of a webpage—the underlying framework that gives
 - An HTML document contains HTML tags and plain text.
 - An HTML document is also commonly called a web page.
 
-## 🔍 HTML Tags: The Building Blocks
+## HTML Tags: The Building Blocks
 
 Think of HTML tags as special labels that tell your browser how to display content. Just like how you might use different colored highlighters to mark different types of information in a book, HTML uses tags to mark different parts of a webpage.
 
@@ -44,7 +44,7 @@ For example, to make text bold, you would use:
 <b>This text will appear bold</b>
 ```
 
-## 🧩 HTML Elements: More Than Just Tags
+## HTML Elements: More Than Just Tags
 
 While the terms "HTML tag" and "HTML element" are often used interchangeably, there's an important distinction to understand:
 
@@ -69,7 +69,7 @@ In this example:
 - `</p>` is the closing tag (like the bottom slice of bread)
 - The entire line including both tags and the content ("This is a paragraph.") is the HTML element (the complete sandwich)
 
-## 🌐 Web Browsers: The Interpreters of HTML
+## Web Browsers: The Interpreters of HTML
 
 Web browsers like Chrome, Internet Explorer, Firefox, and Safari act as interpreters for HTML documents. Think of them as skilled translators that convert the "secret code" of HTML into the beautiful web pages you see every day.
 
@@ -82,7 +82,7 @@ Web browsers like Chrome, Internet Explorer, Firefox, and Safari act as interpre
 
 It's like having a recipe written in a foreign language—you can't understand the symbols on the page, but a translator (the browser) can interpret those symbols and turn them into a delicious meal (the webpage)!
 
-## 🏗️ HTML Page Structure: Building Your Webpage
+## HTML Page Structure: Building Your Webpage
 
 Every HTML document follows a specific structure—think of it as the blueprint for constructing a house. Just as a house needs a foundation, walls, and a roof, an HTML page needs certain essential elements to function properly.
 
@@ -112,9 +112,9 @@ Think of building a house:
 3. **`<title>`** - Sets the title shown in the browser tab (like the nameplate on your mailbox)
 4. **`<body>`** - Contains all visible content (like the rooms in your house where guests can see)
 
-💡 **Important Note:** Only content inside the `<body>` section is displayed in the browser window.
+**Important Note:** Only content inside the `<body>` section is displayed in the browser window.
 
-## ⏳ Evolution of HTML: From Simple to Sophisticated
+## Evolution of HTML: From Simple to Sophisticated
 
 HTML has come a long way since the early days of the web! Like software and technology, HTML has evolved through multiple versions, each bringing new features and capabilities.
 
@@ -133,7 +133,7 @@ HTML has come a long way since the early days of the web! Like software and tech
 
 Each version built upon the previous one, making HTML more powerful and versatile for creating modern web experiences.
 
-## 📋 The <!DOCTYPE> Declaration: Setting the Rules
+## The <!DOCTYPE> Declaration: Setting the Rules
 
 The `<!DOCTYPE>` declaration is like telling your browser which "dialect" of HTML you're using. It's not an HTML tag, but rather an instruction that helps browsers display your webpage correctly.
 
@@ -167,7 +167,7 @@ This simple declaration is all you need for modern HTML5 documents.
 - Place it at the very top of your HTML document (before the `<html>` tag)
 - For modern websites, `<!DOCTYPE html>` is sufficient and recommended
 
-## 🌍 Character Encoding: Making Text Display Correctly
+## Character Encoding: Making Text Display Correctly
 
 To ensure your web pages display text correctly—especially in different languages like Chinese—you need to declare the character encoding. Without proper encoding, visitors might see strange symbols instead of readable text.
 
@@ -201,7 +201,7 @@ Place this line within the `<head>` section of your HTML document.
 </html>
 ```
 
-## 🎯 Putting It All Together: A Complete HTML Example
+## Putting It All Together: A Complete HTML Example
 
 Let's look at a full HTML document that incorporates everything we've learned so far. This example will serve as your template for creating web pages.
 
