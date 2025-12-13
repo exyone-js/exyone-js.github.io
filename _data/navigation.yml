@@ -11,6 +11,9 @@ main:
 
   - title: "Blog Posts"
     url: /year-archive/  
+
+  - title: "Tutorials"
+    url: /tutorials/
     
   - title: "Portfolio"
     url: /portfolio/
@@ -20,3 +23,9 @@ main:
     
   - title: "GitHub"
     url: https://github.com/exyone-js
+
+  - title: "Telegram Group"
+    url: https://t.me/exyone_blog
+
+  - title: "QQ Group"
+    url: https://qm.qq.com/q/MVXT2oyLm0
