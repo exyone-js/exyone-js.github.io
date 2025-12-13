@@ -32,6 +32,8 @@ HTML stands for HyperText Markup Language. But what does that mean in simpler te
 
 HTML uses tags to mark different parts of a webpage.
 
+You can also think of tags as highlighters; after using them, HTML will tell the web page what this piece of text means.
+
 ### What Are HTML Tags?
 
 - HTML tags are keywords surrounded by angle brackets, like `<html>`
