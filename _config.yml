@@ -255,19 +255,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _teaching
+  # _tutorials
   - scope:
       path: ""
-      type: teaching
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _publications
-  - scope:
-      path: ""
-      type: publications
+      type: tutorials
     values:
       layout: single
       author_profile: true
@@ -282,15 +273,6 @@ defaults:
       author_profile: true
       share: true
       comment: true
-  # _talks
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
-
 
 # Sass/SCSS
 sass:
