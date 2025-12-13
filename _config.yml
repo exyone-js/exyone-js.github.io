@@ -29,7 +29,7 @@ author:
   bio              : "A .NET Programmer,also do well in the Front-end."
   location         : "Dongying,Shandong,PRC"
   employer         : "Independent developer"
-  uri              : "https://www.exyone.me" # URL
+  uri              : https://www.exyone.me # URL
   email            : "exyone.dev@icloud.com" 
 
   # Academic websites
