@@ -1,26 +1,30 @@
 ---
 permalink: /
-title: "Academic Pages is a ready-to-fork GitHub Pages template for academic personal websites"
+title: "Exyone's blog"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
 
-# About me:
+# About Me
 
-## Technology stack
+Hi! I'm Exyone, a passionate .NET developer with a strong focus on backend development and growing skills in frontend technologies.
 
-A .NET Programmer,also do well in Front-end.
-I'm good at C# and HTML,is learning F# and advanced CSS now.
+## Tech Stack
+I'm primarily a **.NET programmer** specializing in **C#**, and I'm proficient in **HTML/CSS/JavaScript** for frontend work.  
+Currently, I'm diving deeper into **F#** (for functional programming) and advanced **CSS** techniques (like Flexbox, Grid, and modern animations).
 
-## Myself
+I love building robust, efficient applications and sharing my learning journey through blogging.
 
-I come from Cangzhou Hebei PRC,I live in Dongying Shandong PRC now.
-Please speak zh-CN or en-US when you are talk with me.
+## A Bit About Myself
+I'm excited to start writing in both English and Chinese to improve my skills and connect with more people.
 
-## My other websites:
+Feel free to reach out in **English (en-US)** or **Chinese (zh-CN)** — I welcome discussions in either language!
 
-- My zh-CN blog:https://www.exyone.me
-- My personal Gitea:https://git.exyone.me
-- Email:exyone.dev@icloud.com/root@exyone.me
+## My Other Sites & Contact
+- Chinese Blog: [https://www.exyone.me](https://www.exyone.me)
+- Personal Gitea: [https://git.exyone.me](https://git.exyone.me)
+- Email: exyone.dev@icloud.com or alt.exyone@yandex.com
+
+Thanks for visiting!
