@@ -1,7 +1,7 @@
 ---
 title: 'Front-End Tutorial #1. What is HTML?'
 date: 2023-08-14
-permalink: /posts/2012/08/blog-post-1/
+permalink: /tutorial/Front-End-Tutorial-1-What-is-HTML-/
 tags:
   - cool posts
   - category1
@@ -32,7 +32,7 @@ HTML stands for HyperText Markup Language. But what does that mean in simpler te
 
 HTML uses tags to mark different parts of a webpage.
 
-You can also think of tags as highlighters; after using them, HTML will tell the web page what this piece of text means.
+You can also think of tags as **marker pen**; after using them, HTML will tell the web page what this piece of text means.
 
 ### What Are HTML Tags?
 
@@ -245,4 +245,4 @@ Let's look at a full HTML document that incorporates everything we've learned so
 
 ### Try It Yourself!
 
-Copy this code into a text editor, save it as `index.html`, and open it in your browser to see your first webpage come to life!
+Copy this code into a text editor, save it as _index.html_, and open it in your browser to see your first webpage come to life!
