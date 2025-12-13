@@ -1,5 +1,11 @@
 ---
 title: 'Introduction: Why Consider F#?'
+date: 2024-08-14
+permalink: /posts/2024/08/introduction-why-consider-f/
+tags:
+  - cool posts
+  - category1
+  - category2
 ---
 
 .NET development has long been dominated by C#. While VB could once be mentioned in the same breath as C#, it has since fallen by the wayside. In contrast, F#, another member of the .NET family, has remained relatively under the radar. Unlike VB, which has been declared dead, F# is still actively updated. In .NET 10, Microsoft introduced a wealth of new syntax for F#.
