@@ -14,6 +14,8 @@ tags:
 
 Have you ever wondered how your browser knows what content to display and how to display it when you open a webpage? The secret behind this lies largely in HTML—a specialized language used to describe the structure and content of web pages.
 
+HTML is like the skeleton of a webpage; the text displayed on the webpage is supported by HTML.
+
 ### Understanding HTML Basics
 
 HTML stands for HyperText Markup Language. But what does that mean in simpler terms?
