@@ -1,19 +1,22 @@
 ---
-title: 'Front-End Tutorial #1: What is HTML?'
+title: 'Front-End Tutorial #1. What is HTML?'
 date: 2023-08-14
+permalink: /posts/2012/08/blog-post-1/
+tags:
+  - cool posts
+  - category1
+  - category2
 ---
 
 # Welcome to Your First Step in Front-End Development: HTML!
 
-## What is HTML? The Skeleton of Web Pages!
+## What is HTML?
 
 Have you ever wondered how your browser knows what content to display and how to display it when you open a webpage? The secret behind this lies largely in HTML—a specialized language used to describe the structure and content of web pages.
 
 ### Understanding HTML Basics
 
 HTML stands for HyperText Markup Language. But what does that mean in simpler terms?
-
-Think of HTML as the skeleton of a webpage—the underlying framework that gives structure to everything you see online. Just as a skeleton provides the framework for your body, HTML provides the framework for a webpage.
 
 - HTML is **NOT** a programming language—it's a markup language (like highlighting parts of a document)
 - As a markup language, it uses special tags to annotate and organize text (similar to how you might use different colored pens to mark up a document)
@@ -23,9 +26,9 @@ Think of HTML as the skeleton of a webpage—the underlying framework that gives
 - An HTML document contains HTML tags and plain text.
 - An HTML document is also commonly called a web page.
 
-## HTML Tags: The Building Blocks
+## HTML Tags:
 
-Think of HTML tags as special labels that tell your browser how to display content. Just like how you might use different colored highlighters to mark different types of information in a book, HTML uses tags to mark different parts of a webpage.
+HTML uses tags to mark different parts of a webpage.
 
 ### What Are HTML Tags?
 
