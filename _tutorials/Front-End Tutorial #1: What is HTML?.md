@@ -1,34 +1,30 @@
-Front-End Fundamentals #1: What is HTML?
+---
+title: 'Front-End Tutorial #1: What is HTML?'
+date: 2023-08-14
+---
 
-What is HTML?
-HTML is the language used to describe web pages.
+# What is HTML?
 
-    HTML stands for HyperText Markup Language.
+## HTML is the language used to describe web pages.
 
-    HTML is not a programming language; it is a markup language.
+- HTML stands for HyperText Markup Language.
+- HTML is not a programming language; it is a markup language.
+- A markup language uses a set of markup tags to annotate text.
+- HTML uses these tags to describe the structure and content of a web page.
+- An HTML document contains HTML tags and plain text.
+- An HTML document is also commonly called a web page.
 
-    A markup language uses a set of markup tags to annotate text.
+# HTML Tags
+## HTML markup tags are usually called HTML tags.
 
-    HTML uses these tags to describe the structure and content of a web page.
+- HTML tags are keywords surrounded by angle brackets, like **<html>**.
+- Most HTML tags come in pairs, like **<b>** and **</b>**.
+- The first tag in a pair is the opening tag, and the second is the closing tag.
+- Opening and closing tags are also called start tags and end tags.
 
-    An HTML document contains HTML tags and plain text.
+**Syntax: <tag>content</tag>**
 
-    An HTML document is also commonly called a web page.
-
-HTML Tags
-HTML markup tags are usually called HTML tags.
-
-    HTML tags are keywords surrounded by angle brackets, like <html>.
-
-    Most HTML tags come in pairs, like <b> and </b>.
-
-    The first tag in a pair is the opening tag, and the second is the closing tag.
-
-    Opening and closing tags are also called start tags and end tags.
-
-    Syntax: <tag>content</tag>
-
-HTML Elements
+# HTML Elements
 The terms "HTML tag" and "HTML element" are often used interchangeably.
 However, strictly speaking, an HTML element encompasses everything from the opening tag to the closing tag, as shown in this example:
 HTML Element:
@@ -101,8 +97,10 @@ To correctly display Chinese characters in most browsers and avoid garbled text,
 
 A Complete HTML Example
 Here is a simple but complete example of an HTML page:
-html
 
+```
+
+html
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,3 +112,5 @@ html
     <p>My first paragraph.</p>
 </body>
 </html>
+
+```
