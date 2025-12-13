@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Exyone's blog"
+title: "Welcome to Exyone's blog! Codes, Lens & Ink."
 author_profile: true
 redirect_from: 
   - /about/
