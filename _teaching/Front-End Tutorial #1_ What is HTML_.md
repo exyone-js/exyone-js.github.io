@@ -1,11 +1,6 @@
 ---
 title: 'Front-End Tutorial #1. What is HTML?'
-date: 2023-08-14
 permalink: /tutorial/Front-End-Tutorial-1-What-is-HTML-/
-tags:
-  - cool posts
-  - category1
-  - category2
 ---
 
 # Welcome to Your First Step in Front-End Development: HTML!
