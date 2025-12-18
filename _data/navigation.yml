@@ -12,8 +12,8 @@ main:
   - title: "Blog Posts"
     url: /year-archive/  
 
-  - title: "Tutorials"
-    url: /teaching/
+  - title: "Interview & Talks"
+    url: /talks/   
     
   - title: "Portfolio"
     url: /portfolio/
