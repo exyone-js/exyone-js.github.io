@@ -90,45 +90,25 @@
 
 
 
-  <!-- ========================================================== -->
-  <!--  PWA: Web App Manifest                                      -->
-  <!-- ========================================================== -->
+  <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#4CAF50">
+  <meta name="theme-color" content="#7c6faa">
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Umami                                           -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Umami -->
   
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Google (gtag.js)                                -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Google (gtag.js) -->
   
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Cloudflare Web Analytics                        -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Cloudflare Web Analytics -->
   
 </head>
 <body>
-  <!-- Forest Scene (SVG tree silhouette background) -->
-  <div class="forest-scene" aria-hidden="true">
-    <svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-      <path d="M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,224C672,235,768,245,864,234.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,256L48,250.7C96,245,192,235,288,218.7C384,203,480,181,576,181.3C672,181,768,203,864,213.3C960,224,1056,224,1152,213.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,192L48,181.3C96,171,192,149,288,154.7C384,160,480,192,576,202.7C672,213,768,203,864,186.7C960,171,1056,149,1152,154.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-    </svg>
-  </div>
-
-  <!-- Falling Leaves (subtle CSS animation) -->
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
+  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
+  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
 
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
@@ -176,7 +156,7 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author + Site info (merged hero) -->
+  <!-- Author Card -->
   <div class="left-nav__author">
     <div class="left-nav__avatar">
       <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
@@ -204,7 +184,7 @@
     </div>
   </div>
 
-  <!-- Main navigation -->
+  <!-- Navigation Menu -->
   <nav class="left-nav__menu" aria-label="Main navigation">
     
       <a href="/" class="left-nav__item">
@@ -237,6 +217,32 @@
     
   </nav>
 
+  <!-- Digital Clock -->
+  <div class="clock-widget">
+    <div class="clock-widget__time" id="clockTime">--:--:--</div>
+    <div class="clock-widget__date" id="clockDate">----.--.--</div>
+  </div>
+
+  <!-- Mini Calendar -->
+  <div class="calendar-widget" id="calendarWidget">
+    <div class="calendar-widget__header">
+      <span class="calendar-widget__month" id="calendarMonth">June 2026</span>
+      <div class="calendar-widget__nav">
+        <button id="calendarPrev" aria-label="上个月">&#8249;</button>
+        <button id="calendarNext" aria-label="下个月">&#8250;</button>
+      </div>
+    </div>
+    <div class="calendar-widget__grid" id="calendarGrid">
+      <span class="calendar-widget__day-name">日</span>
+      <span class="calendar-widget__day-name">一</span>
+      <span class="calendar-widget__day-name">二</span>
+      <span class="calendar-widget__day-name">三</span>
+      <span class="calendar-widget__day-name">四</span>
+      <span class="calendar-widget__day-name">五</span>
+      <span class="calendar-widget__day-name">六</span>
+    </div>
+  </div>
+
   <!-- Overlay for mobile -->
   <div class="left-nav__overlay" id="navOverlay"></div>
 </aside>
@@ -251,8 +257,8 @@
         <ul class="archive-year__list">
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-06-01</span>
-              <a href="/posts/eleventy-guide/" class="archive-year__link">用Eleventy搭建静态博客的完整指南</a>
+              <span class="archive-year__date">2026-03-28</span>
+              <a href="/posts/copilot-data-policy-open-source/" class="archive-year__link">Copilot的数据政策变更：AI时代的开源思考</a>
               
                 <span class="archive-year__cats">
                   
@@ -263,8 +269,51 @@
             </li>
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-05-20</span>
-              <a href="/posts/css-custom-properties/" class="archive-year__link">CSS自定义属性实现主题切换</a>
+              <span class="archive-year__date">2026-04-26</span>
+              <a href="/posts/chirpy-twikoo-comment-plugin/" class="archive-year__link">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2026-04-26</span>
+              <a href="/posts/jekyll-chirpy-trial-and-error/" class="archive-year__link">Jekyll 与 Chirpy：一段试错之旅</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+      <div class="archive-year">
+        <h2 class="archive-year__title">2025</h2>
+        <ul class="archive-year__list">
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2025-01-19</span>
+              <a href="/posts/openlist-zfile-cloud-drive-tools/" class="archive-year__link">在 Zfile / OpenList 上挂载天翼云盘的实用方法</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2025-02-28</span>
+              <a href="/posts/css-paragraph-text-indent/" class="archive-year__link">CSS 实现正文段落首行缩进的最佳实践</a>
               
                 <span class="archive-year__cats">
                   
@@ -275,8 +324,27 @@
             </li>
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-05-15</span>
-              <a href="/posts/responsive-design/" class="archive-year__link">响应式设计的最佳实践</a>
+              <span class="archive-year__date">2025-03-30</span>
+              <a href="/posts/sheaffer-imperial-ii-review/" class="archive-year__link">犀飞利 帝国二：可能是最适合我的钢笔</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+                  
+                </span>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+      <div class="archive-year">
+        <h2 class="archive-year__title">2024</h2>
+        <ul class="archive-year__list">
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-01-16</span>
+              <a href="/posts/only-bsd2-and-apache2-licenses/" class="archive-year__link">为什么我只用 BSD-2-Clause 和 Apache 2.0</a>
               
                 <span class="archive-year__cats">
                   
@@ -287,20 +355,80 @@
             </li>
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-05-01</span>
-              <a href="/posts/clean-code-notes/" class="archive-year__link">读书笔记：代码整洁之道</a>
+              <span class="archive-year__date">2024-02-18</span>
+              <a href="/posts/goodbye-github-hello-codeberg/" class="archive-year__link">告别微软霸权的GitHub，拥抱真正开源的家园CodeBerg</a>
               
                 <span class="archive-year__cats">
                   
-                    <a href="/categories/writing/" class="category-badge">笔耕问道</a>
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
                   
                 </span>
               
             </li>
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-04-20</span>
-              <a href="/posts/weekend-hiking/" class="archive-year__link">记一次周末徒步</a>
+              <span class="archive-year__date">2024-03-19</span>
+              <a href="/posts/why-return-to-halo-blog/" class="archive-year__link">浅谈：折腾了这么多博客，为何最后还是回归Halo？</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-05-21</span>
+              <a href="/posts/github-alternatives-code-hosting/" class="archive-year__link">不想用GitHub？快来看看这些代码托管平台吧！</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-06-21</span>
+              <a href="/posts/from-wubi-to-shuangpin/" class="archive-year__link">从五笔到双拼：一场不得不作的告别</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-06-22</span>
+              <a href="/posts/halo-theme-comprehensive-review/" class="archive-year__link">Halo主题大评测：一次看完最值得选用的主题！</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-07-23</span>
+              <a href="/posts/migrating-eleventy-to-hugo/" class="archive-year__link">从Eleventy迁移到Hugo，顺便聊聊我为什么要搬家</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-08-16</span>
+              <a href="/posts/yongsheng-601a-triumph-nib/" class="archive-year__link">永生601A：现产唯一的胜利尖钢笔</a>
               
                 <span class="archive-year__cats">
                   
@@ -311,12 +439,139 @@
             </li>
           
             <li class="archive-year__item">
-              <span class="archive-year__date">2026-04-10</span>
-              <a href="/posts/docker-deployment/" class="archive-year__link">Docker容器化部署实践</a>
+              <span class="archive-year__date">2024-09-09</span>
+              <a href="/posts/nds-psp-handheld-golden-age/" class="archive-year__link">NDS与PSP：掌机黄金时代</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-09-25</span>
+              <a href="/posts/docker-tinkering-lessons-learned/" class="archive-year__link">折腾Docker和面板之后，我决定不折腾了</a>
               
                 <span class="archive-year__cats">
                   
                     <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-10-26</span>
+              <a href="/posts/minecraft-server-lag-debug/" class="archive-year__link">从一次Minecraft服务器卡顿排查，看容器化部署的正确性</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-11-27</span>
+              <a href="/posts/self-hosted-awesome-tools-2025/" class="archive-year__link">2025 年还在纠结建站用啥？不同技术栈最值得部署的开源神器合集</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2024-12-28</span>
+              <a href="/posts/forum-software-tinkering-journey/" class="archive-year__link">折腾笔记：从 Misskey 到 Rhex，再到 Discourse，最后我放弃了……但我又回来了</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/projects/" class="category-badge">项目分享</a>
+                  
+                </span>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+      <div class="archive-year">
+        <h2 class="archive-year__title">2023</h2>
+        <ul class="archive-year__list">
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-03-15</span>
+              <a href="/posts/chinese-vintage-pen-history/" class="archive-year__link">中国古董钢笔厂商的上世纪印记：英雄、永生、金星与鸵鸟墨水的时代故事</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-04-16</span>
+              <a href="/posts/japanese-fountain-pen-trinity/" class="archive-year__link">日本钢笔御三家：百乐、白金、写乐的墨香传承</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-05-17</span>
+              <a href="/posts/western-fountain-pen-history/" class="archive-year__link">欧美钢笔厂商的故事：万宝龙、百利金、水人、派克、犀飞利</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-07-26</span>
+              <a href="/posts/misans-font-for-long-reading/" class="archive-year__link">小米兰亭：更适合长文阅读的字体</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-09-07</span>
+              <a href="/posts/how-to-choose-email-service/" class="archive-year__link">怎么选邮箱？我试了一圈，就说点实在的</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
+                  
+                </span>
+              
+            </li>
+          
+            <li class="archive-year__item">
+              <span class="archive-year__date">2023-11-30</span>
+              <a href="/posts/protonmail-review-not-worth-it/" class="archive-year__link">深入体验ProtonMail：不值！</a>
+              
+                <span class="archive-year__cats">
+                  
+                    <a href="/categories/tech-notes/" class="category-badge">技术笔记</a>
                   
                 </span>
               
@@ -330,9 +585,7 @@
 
 
 <aside class="right-sidebar">
-  <!-- ============================================================ -->
-  <!--  Table of Contents                                            -->
-  <!-- ============================================================ -->
+  <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
       <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
@@ -341,9 +594,7 @@
     <nav class="toc" id="toc"></nav>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Site Stats                                                   -->
-  <!-- ============================================================ -->
+  <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
       <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
@@ -351,38 +602,25 @@
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">6</span>
+        <span class="site-info-card__stat-value">25</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">4</span>
+        <span class="site-info-card__stat-value">3</span>
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">15</span>
+        <span class="site-info-card__stat-value">40</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">2026</span>
+        <span class="site-info-card__stat-value">丙午马年</span>
         <span class="site-info-card__stat-label">建站</span>
       </div>
     </div>
-    <div style="display:flex;gap:0.375rem;flex-wrap:wrap;margin-top:0.625rem;justify-content:center;">
-      <span class="stat-pill">
-        <span class="stat-pill__value">6</span> 文章
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">4</span> 分类
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">2026</span> 建站
-      </span>
-    </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Categories                                                   -->
-  <!-- ============================================================ -->
+  <!-- Categories -->
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
@@ -392,20 +630,22 @@
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">3</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">1</span></a>
+          <a href="/categories/life-snippets/">闲情杂记<span class="categories-list__count">6</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- ============================================================ -->
-  <!--  Tag Cloud                                                    -->
-  <!-- ============================================================ -->
+  <!-- Tag Cloud -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
@@ -414,23 +654,85 @@
     </h3>
     <div class="tag-cloud">
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="2">教程</a>
+        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
       
-        <a href="/tags/css/" class="tag-cloud__item" data-count="2">CSS</a>
+        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="2">前端</a>
+        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
       
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="1">Docker</a>
+        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="1">部署</a>
+        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
       
-        <a href="/tags/responsive/" class="tag-cloud__item" data-count="1">响应式</a>
+        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+      
+        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+      
+        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+      
+        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+      
+        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+      
+        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+      
+        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
+      
+        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
+      
+        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
+      
+        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
+      
+        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
+      
+        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
+      
+        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
+      
+        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
+      
+        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
+      
+        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
+      
+        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
+      
+        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
+      
+        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
       
         <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
       
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">Eleventy</a>
+        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="1">静态站点</a>
+        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
+      
+        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
+      
+        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
+      
+        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
+      
+        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
+      
+        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
+      
+        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
+      
+        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
+      
+        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
+      
+        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
+      
+        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
+      
+        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
+      
+        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
+      
+        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
       
     </div>
   </div>
@@ -441,14 +743,9 @@
   </div>
 
   
-<footer class="site-footer minimal-footer">
-  <div class="container">
-    <p class="small" style="color: #999;">
-      &copy; 2026 Exyone.dev.
-    </p>
-    <p style="color: #bbb; font-size: 0.75rem;">
-      Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener" style="color: #bbb; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(0,0,0,0.15);">Eleventy</a>
-    </p>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
@@ -460,9 +757,7 @@
 
   <script src="/assets/js/main.js"></script>
 
-  <!-- ========================================================== -->
-  <!--  Search Modal                                               -->
-  <!-- ========================================================== -->
+  <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
@@ -479,9 +774,7 @@
     </div>
   </div>
 
-  <!-- ========================================================== -->
-  <!--  PWA: Service Worker Registration                          -->
-  <!-- ========================================================== -->
+  <!-- PWA: Service Worker Registration -->
   
   <script>
     if ('serviceWorker' in navigator) {

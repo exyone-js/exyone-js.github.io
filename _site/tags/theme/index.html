@@ -90,45 +90,25 @@
 
 
 
-  <!-- ========================================================== -->
-  <!--  PWA: Web App Manifest                                      -->
-  <!-- ========================================================== -->
+  <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#4CAF50">
+  <meta name="theme-color" content="#7c6faa">
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Umami                                           -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Umami -->
   
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Google (gtag.js)                                -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Google (gtag.js) -->
   
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Cloudflare Web Analytics                        -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Cloudflare Web Analytics -->
   
 </head>
 <body>
-  <!-- Forest Scene (SVG tree silhouette background) -->
-  <div class="forest-scene" aria-hidden="true">
-    <svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-      <path d="M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,224C672,235,768,245,864,234.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,256L48,250.7C96,245,192,235,288,218.7C384,203,480,181,576,181.3C672,181,768,203,864,213.3C960,224,1056,224,1152,213.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,192L48,181.3C96,171,192,149,288,154.7C384,160,480,192,576,202.7C672,213,768,203,864,186.7C960,171,1056,149,1152,154.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-    </svg>
-  </div>
-
-  <!-- Falling Leaves (subtle CSS animation) -->
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
+  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
+  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
 
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
@@ -176,7 +156,7 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author + Site info (merged hero) -->
+  <!-- Author Card -->
   <div class="left-nav__author">
     <div class="left-nav__avatar">
       <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
@@ -204,7 +184,7 @@
     </div>
   </div>
 
-  <!-- Main navigation -->
+  <!-- Navigation Menu -->
   <nav class="left-nav__menu" aria-label="Main navigation">
     
       <a href="/" class="left-nav__item">
@@ -237,6 +217,32 @@
     
   </nav>
 
+  <!-- Digital Clock -->
+  <div class="clock-widget">
+    <div class="clock-widget__time" id="clockTime">--:--:--</div>
+    <div class="clock-widget__date" id="clockDate">----.--.--</div>
+  </div>
+
+  <!-- Mini Calendar -->
+  <div class="calendar-widget" id="calendarWidget">
+    <div class="calendar-widget__header">
+      <span class="calendar-widget__month" id="calendarMonth">June 2026</span>
+      <div class="calendar-widget__nav">
+        <button id="calendarPrev" aria-label="上个月">&#8249;</button>
+        <button id="calendarNext" aria-label="下个月">&#8250;</button>
+      </div>
+    </div>
+    <div class="calendar-widget__grid" id="calendarGrid">
+      <span class="calendar-widget__day-name">日</span>
+      <span class="calendar-widget__day-name">一</span>
+      <span class="calendar-widget__day-name">二</span>
+      <span class="calendar-widget__day-name">三</span>
+      <span class="calendar-widget__day-name">四</span>
+      <span class="calendar-widget__day-name">五</span>
+      <span class="calendar-widget__day-name">六</span>
+    </div>
+  </div>
+
   <!-- Overlay for mobile -->
   <div class="left-nav__overlay" id="navOverlay"></div>
 </aside>
@@ -251,7 +257,7 @@
     <!-- Title row: categories + title on the same line -->
     <div class="post-card__title-row">
       <h2 class="post-card__title">
-        <a href="/posts/css-custom-properties/">CSS自定义属性实现主题切换</a>
+        <a href="/posts/halo-theme-comprehensive-review/">Halo主题大评测：一次看完最值得选用的主题！</a>
       </h2>
       
         <div class="post-card__categories">
@@ -264,7 +270,7 @@
 
     <!-- Post excerpt -->
     <p class="post-card__excerpt">
-      使用CSS自定义属性（CSS Variables）实现博客主题的灵活配置，包括颜色方案、字体样式和布局参数的动态调整。
+      最近一直忙于各种事务，更新文章的时间也少了。虽然本站建于2025年，但近期一直在整理、迁移以往在其他平台发布的旧文，重新编辑上传，因而挤占了原本就不多的写新文章的时间。转眼已进入2026年，是时候更新一波内容了。今天就来和大家聊聊关于 Halo 主题的选择，希望能为大家提供一些参考。
     </p>
 
     <!-- Post metadata -->
@@ -276,18 +282,18 @@
           <line x1="8" y1="2" x2="8" y2="6"/>
           <line x1="3" y1="10" x2="21" y2="10"/>
         </svg>
-        2026-05-20
+        2024-06-22
       </span>
 
       <!-- Tag badges -->
       
         <div class="post-card__tags">
           
-            <a href="/tags/css/" class="tag-badge">#CSS</a>
-          
-            <a href="/tags/frontend/" class="tag-badge">#前端</a>
+            <a href="/tags/halo/" class="tag-badge">#halo</a>
           
             <a href="/tags/theme/" class="tag-badge">#主题</a>
+          
+            <a href="/tags/frontend/" class="tag-badge">#前端</a>
           
         </div>
       
@@ -301,9 +307,7 @@
 
 
 <aside class="right-sidebar">
-  <!-- ============================================================ -->
-  <!--  Table of Contents                                            -->
-  <!-- ============================================================ -->
+  <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
       <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
@@ -312,9 +316,7 @@
     <nav class="toc" id="toc"></nav>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Site Stats                                                   -->
-  <!-- ============================================================ -->
+  <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
       <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
@@ -322,38 +324,25 @@
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">6</span>
+        <span class="site-info-card__stat-value">25</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">4</span>
+        <span class="site-info-card__stat-value">3</span>
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">15</span>
+        <span class="site-info-card__stat-value">40</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">2026</span>
+        <span class="site-info-card__stat-value">丙午马年</span>
         <span class="site-info-card__stat-label">建站</span>
       </div>
     </div>
-    <div style="display:flex;gap:0.375rem;flex-wrap:wrap;margin-top:0.625rem;justify-content:center;">
-      <span class="stat-pill">
-        <span class="stat-pill__value">6</span> 文章
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">4</span> 分类
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">2026</span> 建站
-      </span>
-    </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Categories                                                   -->
-  <!-- ============================================================ -->
+  <!-- Categories -->
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
@@ -363,20 +352,22 @@
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">3</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">1</span></a>
+          <a href="/categories/life-snippets/">闲情杂记<span class="categories-list__count">6</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- ============================================================ -->
-  <!--  Tag Cloud                                                    -->
-  <!-- ============================================================ -->
+  <!-- Tag Cloud -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
@@ -385,23 +376,85 @@
     </h3>
     <div class="tag-cloud">
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="2">教程</a>
+        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
       
-        <a href="/tags/css/" class="tag-cloud__item" data-count="2">CSS</a>
+        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="2">前端</a>
+        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
       
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="1">Docker</a>
+        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="1">部署</a>
+        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
       
-        <a href="/tags/responsive/" class="tag-cloud__item" data-count="1">响应式</a>
+        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+      
+        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+      
+        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+      
+        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+      
+        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+      
+        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+      
+        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
+      
+        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
+      
+        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
+      
+        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
+      
+        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
+      
+        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
+      
+        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
+      
+        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
+      
+        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
+      
+        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
+      
+        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
+      
+        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
+      
+        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
       
         <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
       
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">Eleventy</a>
+        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="1">静态站点</a>
+        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
+      
+        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
+      
+        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
+      
+        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
+      
+        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
+      
+        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
+      
+        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
+      
+        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
+      
+        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
+      
+        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
+      
+        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
+      
+        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
+      
+        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
+      
+        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
       
     </div>
   </div>
@@ -412,14 +465,9 @@
   </div>
 
   
-<footer class="site-footer minimal-footer">
-  <div class="container">
-    <p class="small" style="color: #999;">
-      &copy; 2026 Exyone.dev.
-    </p>
-    <p style="color: #bbb; font-size: 0.75rem;">
-      Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener" style="color: #bbb; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(0,0,0,0.15);">Eleventy</a>
-    </p>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
@@ -431,9 +479,7 @@
 
   <script src="/assets/js/main.js"></script>
 
-  <!-- ========================================================== -->
-  <!--  Search Modal                                               -->
-  <!-- ========================================================== -->
+  <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
@@ -450,9 +496,7 @@
     </div>
   </div>
 
-  <!-- ========================================================== -->
-  <!--  PWA: Service Worker Registration                          -->
-  <!-- ========================================================== -->
+  <!-- PWA: Service Worker Registration -->
   
   <script>
     if ('serviceWorker' in navigator) {

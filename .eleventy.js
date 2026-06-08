@@ -32,19 +32,33 @@ module.exports = function (eleventyConfig) {
   /** Current year for copyright footer */
   eleventyConfig.addFilter("year", () => new Date().getFullYear());
 
+  /** Ensure date is a Date object (handle string dates in frontmatter) */
+  function ensureDate(d) {
+    if (!d) return new Date();
+    if (typeof d === "string") {
+      // YYYY-MM-DD or other ISO-like string
+      const parsed = DateTime.fromISO(d, { zone: "utc" });
+      if (parsed.isValid) return parsed.toJSDate();
+      return new Date(d);
+    }
+    if (d instanceof Date) return d;
+    if (typeof d === "number") return new Date(d);
+    return new Date();
+  }
+
   /** Format date to readable string (e.g., "2026-06-07") */
   eleventyConfig.addFilter("readableDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("yyyy-MM-dd");
+    return DateTime.fromJSDate(ensureDate(dateObj), { zone: "utc" }).toFormat("yyyy-MM-dd");
   });
 
   /** Format date to RFC 3339 for JSON-LD */
   eleventyConfig.addFilter("dateToRfc3339", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toISO();
+    return DateTime.fromJSDate(ensureDate(dateObj), { zone: "utc" }).toISO();
   });
 
   /** Format date for archive display */
   eleventyConfig.addFilter("archiveDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("LLL dd, yyyy");
+    return DateTime.fromJSDate(ensureDate(dateObj), { zone: "utc" }).toFormat("LLL dd, yyyy");
   });
 
   /** URL-safe slug using taxonomy mapping, falling back to ASCII-safe slug */
@@ -64,13 +78,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("groupByYear", (posts) => {
     const groups = {};
     posts.forEach((post) => {
-      const year = post.date.getFullYear();
+      const year = ensureDate(post.date).getFullYear();
       if (!groups[year]) groups[year] = [];
       groups[year].push(post);
     });
     return Object.entries(groups)
       .sort((a, b) => b[0] - a[0])
-      .map(([year, posts]) => [year, posts.sort((a, b) => b.date - a.date)]);
+      .map(([year, posts]) => [year, posts.sort((a, b) => ensureDate(a.date) - ensureDate(b.date))]);
   });
 
   /** Estimate reading time based on word count (average 300 WPM) */
@@ -135,15 +149,19 @@ module.exports = function (eleventyConfig) {
     posts.forEach((post) => {
       const cats = post.data.categories || [];
       cats.forEach((cat) => {
-        if (!map[cat]) map[cat] = [];
-        map[cat].push(post);
+        const slug = taxonomy.categories[cat] || cat.toLowerCase().replace(/\s+/g, "-");
+        if (!map[slug]) {
+          map[slug] = { name: cat, posts: [] };
+        }
+        map[slug].posts.push(post);
       });
     });
     return Object.entries(map)
-      .map(([name, posts]) => ({
+      .map(([slug, { name, posts }]) => ({
         name,
-        slug: taxonomy.categories[name] || name.toLowerCase().replace(/\s+/g, "-"),
-        posts: posts.sort((a, b) => b.date - a.date),
+        slug,
+        posts: [...new Map(posts.map((p) => [p.url, p])).values()]
+          .sort((a, b) => b.date - a.date),
       }))
       .sort((a, b) => b.posts.length - a.posts.length);
   });
@@ -155,15 +173,21 @@ module.exports = function (eleventyConfig) {
     posts.forEach((post) => {
       const tags = post.data.tags || [];
       tags.forEach((tag) => {
-        if (!map[tag]) map[tag] = [];
-        map[tag].push(post);
+        const slug = taxonomy.tags[tag] || tag.toLowerCase().replace(/\s+/g, "-");
+        // Deduplicate by slug — merge posts if same slug
+        if (!map[slug]) {
+          map[slug] = { name: tag, posts: [] };
+        }
+        map[slug].posts.push(post);
       });
     });
     return Object.entries(map)
-      .map(([name, posts]) => ({
+      .map(([slug, { name, posts }]) => ({
         name,
-        slug: taxonomy.tags[name] || name.toLowerCase().replace(/\s+/g, "-"),
-        posts: posts.sort((a, b) => b.date - a.date),
+        slug,
+        // Deduplicate posts (same post may appear in merged tags)
+        posts: [...new Map(posts.map((p) => [p.url, p])).values()]
+          .sort((a, b) => b.date - a.date),
       }))
       .sort((a, b) => b.posts.length - a.posts.length);
   });

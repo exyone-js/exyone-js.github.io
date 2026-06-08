@@ -1,15 +1,9 @@
 {# ================================================================
    Site Footer (Template Layer - Component)
-   Minimal footer. Background slightly darker than page.
-   Centered text, light gray color, no fancy links.
+   Centered minimal footer.
    ================================================================ #}
-<footer class="site-footer minimal-footer">
-  <div class="container">
-    <p class="small" style="color: #999;">
-      &copy; {{ "now" | year }} {{ author.name }}.
-    </p>
-    <p style="color: #bbb; font-size: 0.75rem;">
-      Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener" style="color: #bbb; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(0,0,0,0.15);">Eleventy</a>
-    </p>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>&copy; {{ "now" | year }} {{ author.name }} &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>

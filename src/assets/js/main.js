@@ -325,14 +325,103 @@
     });
   })();
 
+  /* ================================================================ */
+  /*  Digital Clock (updates every second)                             */
+  /* ================================================================ */
   (function () {
-    // Create blob elements if they don't exist
-    var blobCount = 3;
-    for (var i = 1; i <= blobCount; i++) {
-      if (!document.querySelector(".bg-blob--" + i)) {
-        var blob = document.createElement("div");
-        blob.className = "bg-blob bg-blob--" + i;
-        document.body.appendChild(blob);
+    var clockTime = document.getElementById("clockTime");
+    var clockDate = document.getElementById("clockDate");
+    if (!clockTime && !clockDate) return;
+
+    function pad(n) { return n < 10 ? "0" + n : n; }
+
+    function updateClock() {
+      var now = new Date();
+      if (clockTime) {
+        clockTime.textContent = pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
+      }
+      if (clockDate) {
+        var weekdays = ["日", "一", "二", "三", "四", "五", "六"];
+        clockDate.textContent =
+          now.getFullYear() + "." +
+          pad(now.getMonth() + 1) + "." +
+          pad(now.getDate()) + " 星期" + weekdays[now.getDay()];
       }
     }
+
+    updateClock();
+    setInterval(updateClock, 1000);
   })();
+
+  /* ================================================================ */
+  /*  Mini Calendar (right sidebar)                                   */
+  /* ================================================================ */
+  (function () {
+    var grid = document.getElementById("calendarGrid");
+    var monthLabel = document.getElementById("calendarMonth");
+    var prevBtn = document.getElementById("calendarPrev");
+    var nextBtn = document.getElementById("calendarNext");
+
+    if (!grid) return;
+
+    var today = new Date();
+    var currentYear = today.getFullYear();
+    var currentMonth = today.getMonth();
+
+    var monthNames = ["January","February","March","April","May","June",
+                      "July","August","September","October","November","December"];
+
+    function renderCalendar(year, month) {
+      // Update header
+      if (monthLabel) monthLabel.textContent = monthNames[month] + " " + year;
+
+      // Remove old day cells (keep day-name headers)
+      var cells = grid.querySelectorAll(".calendar-widget__day");
+      for (var i = 0; i < cells.length; i++) { cells[i].remove(); }
+
+      var firstDay = new Date(year, month, 1).getDay();
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+      var prevMonthDays = new Date(year, month, 0).getDate();
+
+      // Previous month fill
+      for (var i = firstDay - 1; i >= 0; i--) {
+        var span = document.createElement("span");
+        span.className = "calendar-widget__day calendar-widget__day--other";
+        span.textContent = prevMonthDays - i;
+        grid.appendChild(span);
+      }
+
+      // Current month
+      for (var d = 1; d <= daysInMonth; d++) {
+        var span = document.createElement("span");
+        span.className = "calendar-widget__day";
+        span.textContent = d;
+
+        if (year === today.getFullYear() && month === today.getMonth() && d === today.getDate()) {
+          span.classList.add("calendar-widget__day--today");
+        }
+
+        grid.appendChild(span);
+      }
+    }
+
+    renderCalendar(currentYear, currentMonth);
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        currentMonth--;
+        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+        renderCalendar(currentYear, currentMonth);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        currentMonth++;
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+        renderCalendar(currentYear, currentMonth);
+      });
+    }
+  })();
+
+  /* ================================================================ */

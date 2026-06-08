@@ -1,12 +1,9 @@
 /**
  * Responsive Styles (Presentation Layer)
  *
- * Breakpoint overrides for tablet and mobile layouts.
- * Desktop:  >= 1200px (three columns)
+ * Desktop: >= 1200px (three columns)
  * Tablet:   768px - 1199px (two columns)
  * Mobile:   < 768px (single column)
- *
- * Updated for wider content area and enhanced glass effects.
  */
 
 /* ================================================================ */
@@ -30,7 +27,7 @@
     bottom: 0;
     z-index: 30;
     width: 280px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     background: var(--glass-bg-strong);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -44,7 +41,7 @@
     position: fixed;
     inset: 0;
     z-index: 29;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(44, 38, 70, 0.3);
     backdrop-filter: blur(4px);
   }
 
@@ -53,7 +50,7 @@
   }
 
   .right-sidebar {
-    padding: 1rem 0;
+    padding: 0.75rem 0;
   }
 
   .site-header__inner {
@@ -77,10 +74,6 @@
 
   .right-sidebar {
     display: none;
-  }
-
-  .right-sidebar.active {
-    display: flex;
   }
 
   .site-header__inner {
@@ -151,7 +144,6 @@
     height: 60px;
   }
 
-  /* 移动端隐藏头部导航链接和工具按钮 */
   .header-nav,
   .header-tools {
     display: none;
@@ -159,6 +151,10 @@
 
   .search-modal {
     padding-top: 10vh;
+  }
+
+  .glow-orb {
+    display: none;
   }
 }
 
@@ -191,14 +187,5 @@
 
   html {
     scroll-behavior: auto;
-  }
-
-  .post-card {
-    animation: none;
-  }
-
-  .bg-blob,
-  .falling-leaf {
-    display: none !important;
   }
 }

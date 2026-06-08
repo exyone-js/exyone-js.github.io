@@ -1,11 +1,9 @@
 {# ================================================================
    Right Sidebar (Template Layer - Component)
-   TOC, site stats, categories, and tag cloud.
+   TOC, page pagination, site stats, categories, tag cloud.
    ================================================================ #}
 <aside class="right-sidebar">
-  <!-- ============================================================ -->
-  <!--  Table of Contents                                            -->
-  <!-- ============================================================ -->
+  <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
       <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
@@ -14,9 +12,7 @@
     <nav class="toc" id="toc"></nav>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Site Stats                                                   -->
-  <!-- ============================================================ -->
+  <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
       <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
@@ -36,26 +32,13 @@
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">{{ "now" | year }}</span>
+        <span class="site-info-card__stat-value">丙午马年</span>
         <span class="site-info-card__stat-label">建站</span>
       </div>
     </div>
-    <div style="display:flex;gap:0.375rem;flex-wrap:wrap;margin-top:0.625rem;justify-content:center;">
-      <span class="stat-pill">
-        <span class="stat-pill__value">{{ collections.posts.length }}</span> 文章
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">{{ collections.categories.length }}</span> 分类
-      </span>
-      <span class="stat-pill">
-        <span class="stat-pill__value">{{ "now" | year }}</span> 建站
-      </span>
-    </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!--  Categories                                                   -->
-  <!-- ============================================================ -->
+  <!-- Categories -->
   {% if sidebarCategories and sidebarCategories.length %}
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
@@ -72,9 +55,7 @@
   </div>
   {% endif %}
 
-  <!-- ============================================================ -->
-  <!--  Tag Cloud                                                    -->
-  <!-- ============================================================ -->
+  <!-- Tag Cloud -->
   {% if sidebarTags and sidebarTags.length %}
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">

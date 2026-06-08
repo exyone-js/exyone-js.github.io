@@ -9,35 +9,17 @@ permalink: /guestbook/
   <h1 class="page-title">留言</h1>
   <p class="page-subtitle">欢迎留言交流</p>
 
-  <section class="post-content">
-    <p>在这里留下你的想法吧。</p>
-  </section>
+  <article class="post-content">
+    <p>欢迎留言！无论是打个招呼、技术问题，还是随便聊聊——这里都欢迎你。</p>
 
-  {% if comments.provider == "giscus" and comments.giscus.repo %}
-  <section class="comments-section" id="comments">
-    <script src="https://giscus.app/client.js"
-      data-repo="{{ comments.giscus.repo }}"
-      data-repo-id="{{ comments.giscus.repo_id }}"
-      data-category="{{ comments.giscus.category }}"
-      data-category-id="{{ comments.giscus.category_id }}"
-      data-mapping="{{ comments.giscus.mapping }}"
-      data-strict="{{ comments.giscus.strict }}"
-      data-reactions-enabled="{{ comments.giscus.reactions_enabled }}"
-      data-emit-metadata="0"
-      data-input-position="{{ comments.giscus.input_position }}"
-      data-lang="{{ site.lang }}"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </section>
-  {% elseif comments.provider == "twikoo" and comments.twikoo.env_id %}
-  <section class="comments-section" id="comments">
-    <div id="twikoo-comments"></div>
-    <script src="https://cdn.jsdelivr.net/npm/twikoo@{{ comments.twikoo.version }}/dist/twikoo.all.min.js"></script>
-    <script>twikoo.init({ envId: '{{ comments.twikoo.env_id }}', el: '#twikoo-comments' });</script>
-  </section>
-  {% endif %}
+    <h3>留言须知</h3>
+
+    <ul>
+    <li>保持友善与尊重</li>
+    <li>欢迎提问和建议</li>
+    <li>技术问题请尽量描述详细</li>
+    </ul>
+  </article>
 </main>
 
 {% include "right-sidebar.njk" %}

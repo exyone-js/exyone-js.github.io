@@ -8,52 +8,32 @@
   {% include "head.njk" %}
   {% include "jsonld.njk" %}
 
-  <!-- ========================================================== -->
-  <!--  PWA: Web App Manifest                                      -->
-  <!-- ========================================================== -->
+  <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#4CAF50">
+  <meta name="theme-color" content="#7c6faa">
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Umami                                           -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Umami -->
   {% if analytics.umami.id and analytics.umami.domain %}
   <script defer src="https://cloud.umami.is/script.js" data-website-id="{{ analytics.umami.id }}" data-domains="{{ analytics.umami.domain }}"></script>
   {% endif %}
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Google (gtag.js)                                -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Google (gtag.js) -->
   {% if analytics.google.id %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics.google.id }}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','{{ analytics.google.id }}');</script>
   {% endif %}
 
-  <!-- ========================================================== -->
-  <!--  Analytics: Cloudflare Web Analytics                        -->
-  <!-- ========================================================== -->
+  <!-- Analytics: Cloudflare Web Analytics -->
   {% if analytics.cloudflare.id %}
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "{{ analytics.cloudflare.id }}"}'></script>
   {% endif %}
 </head>
 <body>
-  <!-- Forest Scene (SVG tree silhouette background) -->
-  <div class="forest-scene" aria-hidden="true">
-    <svg viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-      <path d="M0,288L48,272C96,256,192,224,288,213.3C384,203,480,213,576,224C672,235,768,245,864,234.7C960,224,1056,192,1152,181.3C1248,171,1344,181,1392,186.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,256L48,250.7C96,245,192,235,288,218.7C384,203,480,181,576,181.3C672,181,768,203,864,213.3C960,224,1056,224,1152,213.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-      <path d="M0,192L48,181.3C96,171,192,149,288,154.7C384,160,480,192,576,202.7C672,213,768,203,864,186.7C960,171,1056,149,1152,154.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/>
-    </svg>
-  </div>
-
-  <!-- Falling Leaves (subtle CSS animation) -->
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
-  <div class="falling-leaf" aria-hidden="true"></div>
+  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
+  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
 
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
@@ -73,9 +53,7 @@
 
   <script src="/assets/js/main.js"></script>
 
-  <!-- ========================================================== -->
-  <!--  Search Modal                                               -->
-  <!-- ========================================================== -->
+  <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
@@ -92,9 +70,7 @@
     </div>
   </div>
 
-  <!-- ========================================================== -->
-  <!--  PWA: Service Worker Registration                          -->
-  <!-- ========================================================== -->
+  <!-- PWA: Service Worker Registration -->
   {% if pwa.enabled %}
   <script>
     if ('serviceWorker' in navigator) {

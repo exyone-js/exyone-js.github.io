@@ -3,7 +3,7 @@
   <!-- Home page -->
   <url>
     <loc>https://exyon.ee/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -33,28 +33,21 @@
 
   <url>
     <loc>https://exyon.ee/categories/tech-notes/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/categories/writing/</loc>
-    <lastmod>2026-05-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/categories/life-snippets/</loc>
-    <lastmod>2026-04-20T00:00:00Z</lastmod>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://exyon.ee/categories/projects/</loc>
-    <lastmod>2026-04-10T00:00:00Z</lastmod>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/categories/life-snippets/</loc>
+    <lastmod>2025-03-30T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -63,106 +56,281 @@
   <!-- Tag pages -->
 
   <url>
+    <loc>https://exyon.ee/tags/open-source/</loc>
+    <lastmod>2026-03-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/fountain-pen/</loc>
+    <lastmod>2025-03-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/fountain-pen-collection/</loc>
+    <lastmod>2025-03-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://exyon.ee/tags/tutorial/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
+    <lastmod>2025-02-28T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/tags/css/</loc>
-    <lastmod>2026-05-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/frontend/</loc>
-    <lastmod>2026-05-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/eleventy/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/static-site/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/theme/</loc>
-    <lastmod>2026-05-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/responsive/</loc>
-    <lastmod>2026-05-15T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/reading/</loc>
-    <lastmod>2026-05-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/programming/</loc>
-    <lastmod>2026-05-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/code-quality/</loc>
-    <lastmod>2026-05-01T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/life/</loc>
-    <lastmod>2026-04-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/hiking/</loc>
-    <lastmod>2026-04-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/nature/</loc>
-    <lastmod>2026-04-20T00:00:00Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://exyon.ee/tags/docker/</loc>
-    <lastmod>2026-04-10T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/tags/self-hosted/</loc>
+    <lastmod>2025-01-19T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://exyon.ee/tags/deployment/</loc>
-    <lastmod>2026-04-10T00:00:00Z</lastmod>
+    <lastmod>2025-01-19T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/static-site/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/frontend/</loc>
+    <lastmod>2025-02-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/history/</loc>
+    <lastmod>2023-05-17T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/jekyll/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/programming/</loc>
+    <lastmod>2026-03-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/docker/</loc>
+    <lastmod>2024-10-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/design/</loc>
+    <lastmod>2024-08-16T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/halo/</loc>
+    <lastmod>2024-06-22T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/productivity/</loc>
+    <lastmod>2024-06-21T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/github/</loc>
+    <lastmod>2024-05-21T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/email/</loc>
+    <lastmod>2023-11-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/twikoo/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/plugin/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/chirpy/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/ai/</loc>
+    <lastmod>2026-03-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/sheaffer/</loc>
+    <lastmod>2025-03-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/css/</loc>
+    <lastmod>2025-02-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/forum/</loc>
+    <lastmod>2024-12-28T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/minecraft/</loc>
+    <lastmod>2024-10-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/troubleshooting/</loc>
+    <lastmod>2024-10-26T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/gaming/</loc>
+    <lastmod>2024-09-09T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/retro/</loc>
+    <lastmod>2024-09-09T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/life/</loc>
+    <lastmod>2024-09-09T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/eleventy/</loc>
+    <lastmod>2024-07-23T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/hugo/</loc>
+    <lastmod>2024-07-23T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/migration/</loc>
+    <lastmod>2024-07-23T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/theme/</loc>
+    <lastmod>2024-06-22T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/input-method/</loc>
+    <lastmod>2024-06-21T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/git-hosting/</loc>
+    <lastmod>2024-05-21T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/blog/</loc>
+    <lastmod>2024-03-19T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/codeberg/</loc>
+    <lastmod>2024-02-18T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/privacy/</loc>
+    <lastmod>2023-11-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/review/</loc>
+    <lastmod>2023-11-30T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/typography/</loc>
+    <lastmod>2023-07-26T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -171,43 +339,176 @@
   <!-- Post pages -->
 
   <url>
-    <loc>https://exyon.ee/posts/eleventy-guide/</loc>
-    <lastmod>2026-06-01T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/chirpy-twikoo-comment-plugin/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/css-custom-properties/</loc>
-    <lastmod>2026-05-20T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/jekyll-chirpy-trial-and-error/</loc>
+    <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/responsive-design/</loc>
-    <lastmod>2026-05-15T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/copilot-data-policy-open-source/</loc>
+    <lastmod>2026-03-28T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/clean-code-notes/</loc>
-    <lastmod>2026-05-01T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/sheaffer-imperial-ii-review/</loc>
+    <lastmod>2025-03-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/weekend-hiking/</loc>
-    <lastmod>2026-04-20T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/css-paragraph-text-indent/</loc>
+    <lastmod>2025-02-28T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/docker-deployment/</loc>
-    <lastmod>2026-04-10T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/openlist-zfile-cloud-drive-tools/</loc>
+    <lastmod>2025-01-19T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/forum-software-tinkering-journey/</loc>
+    <lastmod>2024-12-28T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/self-hosted-awesome-tools-2025/</loc>
+    <lastmod>2024-11-27T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/minecraft-server-lag-debug/</loc>
+    <lastmod>2024-10-26T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/docker-tinkering-lessons-learned/</loc>
+    <lastmod>2024-09-25T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/nds-psp-handheld-golden-age/</loc>
+    <lastmod>2024-09-09T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/yongsheng-601a-triumph-nib/</loc>
+    <lastmod>2024-08-16T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/migrating-eleventy-to-hugo/</loc>
+    <lastmod>2024-07-23T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/halo-theme-comprehensive-review/</loc>
+    <lastmod>2024-06-22T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/from-wubi-to-shuangpin/</loc>
+    <lastmod>2024-06-21T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/github-alternatives-code-hosting/</loc>
+    <lastmod>2024-05-21T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/why-return-to-halo-blog/</loc>
+    <lastmod>2024-03-19T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/goodbye-github-hello-codeberg/</loc>
+    <lastmod>2024-02-18T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/only-bsd2-and-apache2-licenses/</loc>
+    <lastmod>2024-01-16T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/protonmail-review-not-worth-it/</loc>
+    <lastmod>2023-11-30T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/how-to-choose-email-service/</loc>
+    <lastmod>2023-09-07T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/misans-font-for-long-reading/</loc>
+    <lastmod>2023-07-26T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/western-fountain-pen-history/</loc>
+    <lastmod>2023-05-17T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/japanese-fountain-pen-trinity/</loc>
+    <lastmod>2023-04-16T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/chinese-vintage-pen-history/</loc>
+    <lastmod>2023-03-15T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>

@@ -36,6 +36,12 @@ module.exports = function () {
       "生活": "life",
       "徒步": "hiking",
       "自然": "nature",
+      "收藏": "fountain-pen-collection",
+      "插件": "plugin",
+      "效率": "productivity",
+      "输入法": "input-method",
+      "论坛": "forum",
+      "设计": "design",
     },
   };
 };

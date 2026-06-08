@@ -1,10 +1,9 @@
 {# ================================================================
    Left Navigation (Template Layer - Component)
-   Sticky sidebar navigation with author profile, merged hero info,
-   menu links, and bottom-aligned theme toggle.
+   Author profile, navigation menu, digital clock, mini calendar.
    ================================================================ #}
 <aside class="left-nav" id="leftNav">
-  <!-- Author + Site info (merged hero) -->
+  <!-- Author Card -->
   <div class="left-nav__author">
     <div class="left-nav__avatar">
       <img src="{{ author.avatar }}" alt="{{ author.name }}" loading="lazy">
@@ -32,7 +31,7 @@
     </div>
   </div>
 
-  <!-- Main navigation -->
+  <!-- Navigation Menu -->
   <nav class="left-nav__menu" aria-label="Main navigation">
     {% for item in nav %}
       <a href="{{ item.url }}" class="left-nav__item{% if page.url == item.url %} left-nav__item--active{% endif %}">
@@ -49,6 +48,32 @@
       </a>
     {% endfor %}
   </nav>
+
+  <!-- Digital Clock -->
+  <div class="clock-widget">
+    <div class="clock-widget__time" id="clockTime">--:--:--</div>
+    <div class="clock-widget__date" id="clockDate">----.--.--</div>
+  </div>
+
+  <!-- Mini Calendar -->
+  <div class="calendar-widget" id="calendarWidget">
+    <div class="calendar-widget__header">
+      <span class="calendar-widget__month" id="calendarMonth">June 2026</span>
+      <div class="calendar-widget__nav">
+        <button id="calendarPrev" aria-label="上个月">&#8249;</button>
+        <button id="calendarNext" aria-label="下个月">&#8250;</button>
+      </div>
+    </div>
+    <div class="calendar-widget__grid" id="calendarGrid">
+      <span class="calendar-widget__day-name">日</span>
+      <span class="calendar-widget__day-name">一</span>
+      <span class="calendar-widget__day-name">二</span>
+      <span class="calendar-widget__day-name">三</span>
+      <span class="calendar-widget__day-name">四</span>
+      <span class="calendar-widget__day-name">五</span>
+      <span class="calendar-widget__day-name">六</span>
+    </div>
+  </div>
 
   <!-- Overlay for mobile -->
   <div class="left-nav__overlay" id="navOverlay"></div>

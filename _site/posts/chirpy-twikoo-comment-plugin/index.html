@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     Base Layout (Template Layer)
+     Serves as the root template for all pages.
+     ============================================================ -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Eleventy v3">
+
+<title>为 Chirpy 添加 Twikoo 评论：一次插件开发记录 - EXYONE@BLOG:~$</title>
+<meta name="description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta name="author" content="Exyone.dev">
+
+<!-- ========================================================== -->
+<!--  Open Graph / Social Preview                                -->
+<!-- ========================================================== -->
+<meta property="og:title" content="为 Chirpy 添加 Twikoo 评论：一次插件开发记录 - EXYONE@BLOG:~$">
+<meta property="og:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://exyon.ee/posts/chirpy-twikoo-comment-plugin/">
+<meta property="og:site_name" content="EXYONE@BLOG:~$">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://exyon.ee/assets/images/avatar.png">
+
+<!-- ========================================================== -->
+<!--  Twitter Card                                               -->
+<!-- ========================================================== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@exyone_frosty">
+<meta name="twitter:title" content="为 Chirpy 添加 Twikoo 评论：一次插件开发记录 - EXYONE@BLOG:~$">
+<meta name="twitter:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta name="twitter:image" content="https://exyon.ee/assets/images/avatar.png">
+
+<!-- ========================================================== -->
+<!--  Webmaster Verification                                     -->
+<!-- ========================================================== -->
+<meta name="google-site-verification" content="kBZNtZYwiUvmQLdeBYw3KVii7WNN8MEFG3yZlizKv08">
+
+
+
+<!-- ========================================================== -->
+<!--  Font Awesome 6 (Free)                                      -->
+<!-- ========================================================== -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- ========================================================== -->
+<!--  Stylesheets                                                -->
+<!-- ========================================================== -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!-- ========================================================== -->
+<!--  Google Fonts (via loli.net mirror)                          -->
+<!-- ========================================================== -->
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gfonts.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
+
+<!-- ========================================================== -->
+<!--  Favicon (SVG inline — cloud-drizzle icon)                 -->
+<!-- ========================================================== -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon-precomposed" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="EXYONE@BLOG:~$">
+<meta name="application-name" content="EXYONE@BLOG:~$">
+<meta name="theme-color" content="#ffffff">
+
+  
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "为 Chirpy 添加 Twikoo 评论：一次插件开发记录",
+  "description": "Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行...",
+  "datePublished": "2026-04-26T00:00:00Z",
+  "dateModified": "2026-04-26T00:00:00Z",
+  "author": {
+    "@type": "Person",
+    "name": "Exyone.dev",
+    "url": "https://github.com/exyone-labs"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://exyon.ee/posts/chirpy-twikoo-comment-plugin/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Exyone.dev"
+  },
+  "url": "https://exyon.ee/posts/chirpy-twikoo-comment-plugin/"
+}
+</script>
+
+
+
+  <!-- PWA: Web App Manifest -->
+  <link rel="manifest" href="/assets/manifest.json">
+  <meta name="theme-color" content="#7c6faa">
+
+  <!-- Analytics: Umami -->
+  
+
+  <!-- Analytics: Google (gtag.js) -->
+  
+
+  <!-- Analytics: Cloudflare Web Analytics -->
+  
+</head>
+<body>
+  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
+  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
+  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="site-header__logo">
+      <span class="leaf-accent" style="margin-right:6px;"></span>
+      <span class="site-header__logo-text">EXYONE@BLOG:~$</span>
+    </a>
+
+    <!-- Main Navigation (text links) -->
+    <nav class="header-nav">
+      <a href="/" class="header-nav__link">导航</a>
+      <a href="/categories/" class="header-nav__link">整理</a>
+      <a href="/links/" class="header-nav__link">友链</a>
+      <a href="/guestbook/" class="header-nav__link">留言</a>
+      <a href="/share/" class="header-nav__link">分享</a>
+      <a href="/about/" class="header-nav__link">关于</a>
+    </nav>
+
+    <!-- Right-aligned tools -->
+    <div class="header-tools">
+      <!-- Search -->
+      <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
+        <i class="fas fa-search"></i>
+      </button>
+
+      <!-- Theme Toggle -->
+      <div class="header-tools__btn header-theme-toggle" id="themeToggle">
+        <i class="fas fa-moon theme-icon-dark"></i>
+        <i class="fas fa-sun theme-icon-light"></i>
+      </div>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+  <div class="site-container">
+    
+
+<aside class="left-nav" id="leftNav">
+  <!-- Author Card -->
+  <div class="left-nav__author">
+    <div class="left-nav__avatar">
+      <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
+    </div>
+    <h2 class="left-nav__author-name">Exyone.dev</h2>
+    <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
+    <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
+    <p class="left-nav__author-desc">将好奇心转化为代码</p>
+    <div class="left-nav__social">
+      
+        <a href="https://github.com/exyone-labs" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      
+      
+        <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      
+      
+        <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="left-nav__menu" aria-label="Main navigation">
+    
+      <a href="/" class="left-nav__item">
+        
+          <i class="fas fa-house"></i>
+        
+        <span>首页</span>
+      </a>
+    
+      <a href="/categories/" class="left-nav__item">
+        
+          <i class="fas fa-layer-group"></i>
+        
+        <span>分类</span>
+      </a>
+    
+      <a href="/tags/" class="left-nav__item">
+        
+          <i class="fas fa-tags"></i>
+        
+        <span>标签</span>
+      </a>
+    
+      <a href="/archive/" class="left-nav__item">
+        
+          <i class="fas fa-box-archive"></i>
+        
+        <span>归档</span>
+      </a>
+    
+  </nav>
+
+  <!-- Digital Clock -->
+  <div class="clock-widget">
+    <div class="clock-widget__time" id="clockTime">--:--:--</div>
+    <div class="clock-widget__date" id="clockDate">----.--.--</div>
+  </div>
+
+  <!-- Mini Calendar -->
+  <div class="calendar-widget" id="calendarWidget">
+    <div class="calendar-widget__header">
+      <span class="calendar-widget__month" id="calendarMonth">June 2026</span>
+      <div class="calendar-widget__nav">
+        <button id="calendarPrev" aria-label="上个月">&#8249;</button>
+        <button id="calendarNext" aria-label="下个月">&#8250;</button>
+      </div>
+    </div>
+    <div class="calendar-widget__grid" id="calendarGrid">
+      <span class="calendar-widget__day-name">日</span>
+      <span class="calendar-widget__day-name">一</span>
+      <span class="calendar-widget__day-name">二</span>
+      <span class="calendar-widget__day-name">三</span>
+      <span class="calendar-widget__day-name">四</span>
+      <span class="calendar-widget__day-name">五</span>
+      <span class="calendar-widget__day-name">六</span>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="left-nav__overlay" id="navOverlay"></div>
+</aside>
+
+
+<main class="main-content" id="main-content">
+  <article class="post-detail">
+    <!-- Article header -->
+    <header class="post-detail__header">
+      <!-- Title row: categories + title on the same line -->
+      <div class="post-detail__title-row">
+        <h1 class="post-detail__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h1>
+        
+          <div class="post-detail__categories">
+            
+              <a href="/categories/projects/" class="category-badge">项目分享</a>
+            
+          </div>
+        
+      </div>
+
+      <!-- Tag badges -->
+      
+        <div class="post-detail__tags mb-3">
+          
+            <a href="/tags/jekyll/" class="tag-badge">#jekyll</a>
+          
+            <a href="/tags/twikoo/" class="tag-badge">#twikoo</a>
+          
+            <a href="/tags/plugin/" class="tag-badge">#插件</a>
+          
+        </div>
+      
+
+      <!-- Post metadata -->
+      <div class="post-detail__meta">
+        <span class="post-detail__date">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          发布于 2026-04-26
+        </span>
+        
+        
+        <span class="post-detail__reading-time">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          3 分钟阅读
+        </span>
+        
+        
+        <span class="post-detail__word-count">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          629 字
+        </span>
+        
+      </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!--  Excerpt                                                      -->
+    <!-- ============================================================ -->
+    
+      <div class="post-detail__excerpt">Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行...</div>
+    
+
+    <!-- ============================================================ -->
+    <!--  Article Content                                              -->
+    <!-- ============================================================ -->
+    <div class="post-detail__content">
+      <p>Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。</p>
+<h2>为什么选择 Twikoo？</h2>
+<p>Giscus 很好——免费、无广告、评论存储在 GitHub Discussions 中。但有个问题：读者需要 GitHub 账号才能评论。对于一些朋友，尤其是网络受限地区的用户，或者单纯没有 GitHub 账号的人，这造成了不必要的障碍。比如一位来自中国的读者，可能能稳定访问你的博客，却难以加载 GitHub 的认证页面。另一位读者可能只是想留个言，不想为此再注册一个在线账号。</p>
+<p>Twikoo 提供了更简单的替代方案。它支持匿名评论，无需第三方账号，提供轻量级的评论体验。代价是你需要自己托管一个 Twikoo 后端（可以使用腾讯云 CloudBase、Vercel 或自建方案），但对于很多博主来说，为了给读者提供灵活性，这个代价是值得的。通过同时提供 Giscus 和 Twikoo，读者可以根据自己的情况选择最合适的方式。</p>
+<h2>问题所在</h2>
+<p>Chirpy 使用 Giscus 作为评论系统，通过 <code>_config.yml</code> 配置。主题的模板被打包在 Ruby gem 里，这意味着你不能直接在项目目录中编辑它们。你可以 fork 主题然后修改，但这会带来维护负担——每次主题更新，你都需要把更新合并到你的 fork 中。</p>
+<p>我想要一个能在主题更新后继续工作的方案，不需要维护单独的 fork。目标是在不触碰主题核心文件的情况下，将 Twikoo 注入到文章页面中。</p>
+<h2>解决方案：多次迭代的历程</h2>
+<p>我的实现经过几个阶段的迭代才找到正确的方法。每种方法都有其局限性，促使我转向下一个方法。</p>
+<h3>第一次尝试：后渲染钩子</h3>
+<p>我最初创建了一个 Jekyll 插件，使用后渲染钩子在构建完成后将 Twikoo 的 HTML 和 JavaScript 注入到每篇文章页面中。这个钩子在 Jekyll 完成每个文档渲染后运行。它检查输出是否为 HTML，验证文档是否为文章，然后将 Twikoo 容器注入到 <code>&lt;/body&gt;</code> 标签之前。</p>
+<p>这种方法在本地和某些托管平台上有效，但我发现 GitHub Actions 的构建环境处理 Jekyll 插件的方式不同。插件在 GitHub Pages 构建上根本不会执行，尽管它在 Cloudflare Pages 和本地运行良好。经过数周的调试——更改钩子类型、添加错误处理、清理缓存、尝试各种配置——我意识到问题根本在于 GitHub Pages 加载自定义插件的方式。</p>
+<blockquote>
+<p>完整源码可在我的 <a href="https://github.com/exyone-labs/exyone-labs.github.io">GitHub 仓库</a>中找到，文件位置是 <code>_plugins/twikoo-inject.rb</code>。</p>
+</blockquote>
+<h3>第二次尝试：footer.html 模板</h3>
+<p>插件方法在 GitHub Pages 上失败后，我尝试使用 Liquid 模板将 Twikoo 直接嵌入到 <code>_includes/footer.html</code> 中。这种方法完全绕过了插件系统——由于 footer.html 是站点模板文件的一部分，Jekyll 在正常构建周期中会处理它，无论插件加载行为如何。</p>
+<p>这个想法是合理的，但结果不一致。GitHub Actions 的构建环境处理模板 includes 的方式与其他平台不同。footer include 在不同部署场景中没有一致地处理，这意味着评论系统在一些构建上会出现，但在另一些上不会。</p>
+<h3>第三次尝试：本地构建工作流程</h3>
+<p>经过两次失败的尝试，我意识到核心问题：不同的构建环境会产生不同的结果。即使使用相同的源代码和相同的 Jekyll 版本，平台配置其构建运行器的细微差异也可能导致输出不一致。</p>
+<p>我最终采用的解决方案是本地构建后推送工作流程。不再依赖托管平台构建站点，而是先在本地构建，然后将预生成的 <code>_site</code> 文件夹推送到部署仓库。这确保了无论在哪个平台托管，输出都完全一致——由于站点是预构建的，主机只需要提供静态文件，而不需要运行 Jekyll。</p>
+<h2>实现细节</h2>
+<h3>插件注入（第一次尝试）</h3>
+<p>最初的插件方法使用多个检查来确保可靠的注入。它检查输出是否为 HTML，验证文档是否为文章，并通过查找现有标记来防止重复注入。</p>
+<h3>防止重复注入</h3>
+<p>使用独特的数据属性作为标记，可以避免文章本身包含提及注入目标的代码示例时出现误判。这是撰写关于自己插件的技术文档时常见的陷阱。</p>
+<h3>切换 UI 设计</h3>
+<p>由于 Giscus 无法隐藏（由主题渲染），我创建了一个切换按钮来显示/隐藏 Twikoo 区域。设计采用了水平分隔线配居中文字的方式——这是出版中常见的模式，用于分隔内容的不同部分。</p>
+<p>切换按钮有实际用途：它为不想评论的读者保持页面整洁，同时为想评论的读者提供选项。按钮文字从&quot;展开 Twikoo 评论&quot;变为&quot;收起 Twikoo 评论&quot;，清楚地指示当前状态。</p>
+<h3>懒加载</h3>
+<p>Twikoo 只在用户点击切换按钮时才初始化，节省资源。没有懒加载的话，每次页面加载都会获取 Twikoo JavaScript 库并初始化评论系统，即使读者从未打算留言。有了懒加载，这个开销只在实际需要时才会发生。</p>
+<h2>样式考量</h2>
+<p>实现使用 CSS 变量（<code>--border-color</code>、<code>--text-muted</code>、<code>--link-color</code>）来匹配 Chirpy 的主题。这确保切换按钮在浅色和深色模式下都保持一致的外观，不需要为每种模式编写单独的样式。如果 Chirpy 在未来更新其配色方案，Twikoo UI 会自动适应。</p>
+<p>宽度限制为 <code>max-width: 800px</code>，与内容区域对齐。这种对齐让评论部分在视觉上与上方的文章相连。边距设置为 <code>0.5rem auto 2rem auto</code>，顶部留出呼吸空间，底部提供更充分的分隔，因为那里是 footer 的开始位置。</p>
+<h2>配置</h2>
+<p>由于 Chirpy 主题原生不支持 Twikoo，官方只支持 Giscus、Disqus 和 Utterances。因此，如果你只想使用 Twikoo，不要填写 <code>provider</code> 字段，否则主题会尝试渲染不支持的评论系统导致报错。Twikoo 的注入是通过 footer.html 和插件完成的，不需要依赖 Chirpy 的评论配置。</p>
+<p>只需要确保在 <code>_config.yml</code> 中添加 <code>plugins_dir</code>：</p>
+<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">plugins_dir</span><span class="token punctuation">:</span> _plugins</code></pre>
+<p>这确保 Jekyll 从 <code>_plugins</code> 目录加载插件。没有这一行，Jekyll 可能找不到你的自定义插件，具体取决于它的调用方式。</p>
+<p>如果你想同时使用 Giscus 和 Twikoo（像我的博客这样），可以将 <code>provider</code> 保留为 <code>giscus</code>，这样主题会渲染 Giscus，而 Twikoo 通过我们的自定义注入显示。</p>
+<h2>设置本地构建工作流程</h2>
+<p>我的做法是这样的：源代码仓库和 <code>_site</code> 目录在同一个仓库中，源码仓库包含完整的博客源码和构建后的 <code>_site</code> 文件夹。本地构建完成后，通过 GitHub Actions 将 <code>_site</code> 目录推送到 GitHub Pages 进行托管。对于 Cloudflare Pages 和 Netlify，则将构建产物推送到它们的 Pages 仓库，并设置它们不进行构建，只负责托管静态文件。</p>
+<h3>步骤 1：启用 GitHub Pages</h3>
+<p>在 GitHub 仓库设置中启用 GitHub Pages，选择 &quot;GitHub Actions&quot; 作为构建源。这样 GitHub 会自动运行我们配置的 Actions 工作流。</p>
+<h3>步骤 2：配置 Cloudflare Pages</h3>
+<p>在 Cloudflare 控制台中创建 Pages 项目，连接到你的 GitHub 仓库。然后在设置中做两件事：第一，关闭&quot;构建&quot;选项，只保留&quot;部署&quot;功能；第二，将部署目录设置为 <code>_site</code>。这样 Cloudflare 只会读取我们推送的 <code>_site</code> 目录中的静态文件，而不会推送整个仓库。</p>
+<h3>步骤 3：配置 Netlify</h3>
+<p>同样在 Netlify 中创建站点，连接到 GitHub 仓库。在站点设置中做两件事：第一，关闭&quot;构建&quot;命令，不执行任何构建脚本；第二，将发布目录设置为 <code>_site</code>。这样 Netlify 只会托管 <code>_site</code> 中的静态文件。同时还有个额外好处：Netlify 免费版每月有 300 分钟的构建时间限制，跳过构建步骤可以节省这些额度，留给其他项目使用。</p>
+<h3>步骤 4：本地构建和推送</h3>
+<p>当你想部署时，在本地运行以下命令：</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># 构建站点</span>
+bundle <span class="token builtin class-name">exec</span> jekyll build
+
+<span class="token comment"># 切换到 deploy 仓库的文件夹</span>
+<span class="token builtin class-name">cd</span> _site
+
+<span class="token comment"># 如果需要则初始化 git，然后提交和推送</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Deploy site"</span>
+<span class="token function">git</span> push deploy main</code></pre>
+<h3>步骤 5：用脚本自动化</h3>
+<p>为了使部署更方便，创建一个部署脚本：</p>
+<pre class="language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<span class="token builtin class-name">set</span> <span class="token parameter variable">-e</span>
+
+<span class="token builtin class-name">echo</span> <span class="token string">"Building Jekyll site..."</span>
+bundle <span class="token builtin class-name">exec</span> jekyll build
+
+<span class="token builtin class-name">cd</span> _site
+
+<span class="token builtin class-name">echo</span> <span class="token string">"Committing to deploy repository..."</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Deploy <span class="token variable"><span class="token variable">$(</span><span class="token function">date</span><span class="token variable">)</span></span>"</span>
+
+<span class="token builtin class-name">echo</span> <span class="token string">"Pushing to deploy repository..."</span>
+<span class="token function">git</span> push deploy main
+
+<span class="token builtin class-name">echo</span> <span class="token string">"Done!"</span></code></pre>
+<p>用 <code>chmod +x deploy.sh</code> 使其可执行，然后每当你想部署时运行 <code>./deploy.sh</code>。</p>
+<h2>平台兼容性</h2>
+<p>使用本地构建工作流程，平台兼容性不再是问题。由于你在本地构建并只推送输出，托管平台只需提供静态文件。这适用于任何可以提供 HTML 文件的平台：</p>
+<table>
+<thead>
+<tr>
+<th>托管平台</th>
+<th>本地构建可用？</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Pages</td>
+<td>是</td>
+<td>推送到 yourusername.github.io</td>
+</tr>
+<tr>
+<td>Cloudflare Pages</td>
+<td>是</td>
+<td>连接部署仓库</td>
+</tr>
+<tr>
+<td>Netlify</td>
+<td>是</td>
+<td>连接部署仓库</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>是</td>
+<td>连接部署仓库</td>
+</tr>
+<tr>
+<td>任何静态主机</td>
+<td>是</td>
+<td>上传 _site 内容</td>
+</tr>
+</tbody>
+</table>
+<p>关键优势是你不需要在托管平台上配置构建命令或 Ruby 版本。你不是在要求平台构建任何东西——你给它的是准备好的文件。</p>
+<h2>为什么这种方法更好</h2>
+<p>在本地构建然后推送输出解决了困扰基于平台的构建的几个问题。</p>
+<p>首先，一致性得到保证。当你在本地构建时，每次都使用相同的 Ruby 版本、相同的 Jekyll 版本和相同的 gem 版本。输出是确定性的。你推送到部署仓库的文件正是你在本地运行 <code>jekyll build</code> 时看到的文件。</p>
+<p>其次，调试变得更容易。如果生产环境中出现问题，你可以将本地构建输出与已部署的内容进行比较。由于两者来自相同的构建过程，任何差异必定是由于托管平台的配置，而不是构建本身。</p>
+<p>第三，部署速度更快。基于平台的构建可能需要几分钟，特别是如果 Jekyll 需要重建整个站点时。有了本地构建，你已经准备好了输出。推送到 git 仓库只需几秒钟，大多数托管平台在几秒或几分钟内检测到新提交。</p>
+<p>第四，你获得了对构建环境的完全控制。平台的构建环境可能会在未经通知的情况下发生变化——平台可能会升级 Ruby 或 Jekyll，或更改其配置构建运行器的方式。当你在本地构建时，你决定何时升级，并且可以在部署前进行充分测试。</p>
+<h2>最终效果</h2>
+<p>现在每篇文章都有两个评论选项，而且无论你托管在哪里，它们的工作方式都完全一致。Giscus 默认显示，集成在主题的设计中。Twikoo 默认隐藏，通过每篇文章底部的切换按钮访问。读者可以选择自己偏好的评论系统，或者如果只是浏览的话，忽略两者。</p>
+<p>实现干净且非侵入式。它不需要 fork 主题，不会使部署过程复杂化，尊重 Chirpy 的设计语言。当主题更新时，Twikoo 集成继续工作，不需要任何更改。</p>
+<p>本地构建工作流程为部署增加了一个额外的步骤——你在本地构建而不是让平台为你构建——但这个权衡是值得的。你获得了一致的结果、更快的部署，以及对构建过程的完全控制。</p>
+<h2>获取源代码</h2>
+<p>如果你有兴趣在自己的 Chirpy 博客上实现这个功能，完整的源代码可以在我的 <a href="https://github.com/exyone-labs/exyone-labs.github.io">GitHub 仓库</a>中找到。你需要：</p>
+<ol>
+<li><code>_includes/footer.html</code> - 通过模板的 Twikoo 集成</li>
+<li><code>_plugins/twikoo-inject.rb</code> - 插件注入（在兼容的平台上工作）</li>
+<li><code>_config.yml</code> - Twikoo 配置</li>
+</ol>
+<h2>更新日志</h2>
+<table>
+<thead>
+<tr>
+<th>日期</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-25</td>
+<td>初始版本，包含切换 UI、懒加载、CSS 变量支持</td>
+</tr>
+<tr>
+<td>2026-04-25</td>
+<td>将钩子从 <code>:site, :post_render</code> 改为 <code>:documents, :post_render</code> 以提高兼容性</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>添加显式文章集合检查，确保可靠定位</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>添加 <code>plugins_dir</code> 配置要求</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>添加构建环境对比及 Cloudflare Pages 推荐说明</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>更新 GitHub Actions 工作流，添加详细构建输出用于调试</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>修复自我排除 Bug，使用独特的 data 属性作为标记</td>
+</tr>
+<tr>
+<td>2026-05-02</td>
+<td>删除冗余代码示例以防止自我排除</td>
+</tr>
+<tr>
+<td>2026-05-07</td>
+<td>尝试使用 footer.html 模板注入作为插件的替代方案</td>
+</tr>
+<tr>
+<td>2026-05-07</td>
+<td>发现 footer.html 在 GitHub Actions 上也不一致</td>
+</tr>
+<tr>
+<td>2026-05-08</td>
+<td>实现本地构建后推送工作流程以确保一致性</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  Article Footer (Tags)                                        -->
+    <!-- ============================================================ -->
+    <footer class="post-detail__footer">
+      
+        <div class="post-detail__footer-tags">
+          
+            <a href="/tags/jekyll/" class="tag-badge">#jekyll</a>
+          
+            <a href="/tags/twikoo/" class="tag-badge">#twikoo</a>
+          
+            <a href="/tags/plugin/" class="tag-badge">#插件</a>
+          
+        </div>
+      
+    </footer>
+  </article>
+
+  <!-- ============================================================ -->
+  <!--  Prev / Next Post Navigation — Same Line                     -->
+  <!-- ============================================================ -->
+  
+  
+  
+  <nav class="post-nav">
+    
+      <a href="/posts/jekyll-chirpy-trial-and-error/" class="post-nav-link post-nav-link--prev">
+        <span class="post-nav-direction">
+          <span class="post-nav-arrow">←</span>
+          上一篇
+        </span>
+        <span class="post-nav-title">Jekyll 与 Chirpy：一段试错之旅</span>
+      </a>
+    
+    
+      <div class="post-nav-link post-nav-link--next post-nav-link--disabled">
+        <span class="post-nav-direction">
+          下一篇
+          <span class="post-nav-arrow">→</span>
+        </span>
+        <span class="post-nav-title">暂无更多文章</span>
+      </div>
+    
+  </nav>
+
+  <!-- ============================================================ -->
+  <!--  Related Posts                                                -->
+  <!-- ============================================================ -->
+  
+  <section class="related-posts">
+    <h2 class="related-posts__title">相关文章</h2>
+    <div class="related-posts__grid">
+      
+      
+      <a href="/posts/jekyll-chirpy-trial-and-error/" class="related-post-card">
+        <h3 class="related-post-card__title">Jekyll 与 Chirpy：一段试错之旅</h3>
+        <div class="related-post-card__meta">
+          <span>2026-04-26</span>
+          <span>·</span>
+          <span>2 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/copilot-data-policy-open-source/" class="related-post-card">
+        <h3 class="related-post-card__title">Copilot的数据政策变更：AI时代的开源思考</h3>
+        <div class="related-post-card__meta">
+          <span>2026-03-28</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/sheaffer-imperial-ii-review/" class="related-post-card">
+        <h3 class="related-post-card__title">犀飞利 帝国二：可能是最适合我的钢笔</h3>
+        <div class="related-post-card__meta">
+          <span>2025-03-30</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+    </div>
+  </section>
+  
+
+  <!-- ============================================================ -->
+  <!--  Comments Section (Giscus)                                   -->
+  <!-- ============================================================ -->
+  
+  <section class="comments-section" id="comments">
+    <h2 class="comments-section__title">评论</h2>
+    <div id="twikoo-comments"></div>
+    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+    <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+  </section>
+  
+</main>
+
+
+<aside class="right-sidebar">
+  <!-- Table of Contents -->
+  <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
+    <h3 class="sidebar-card__title">
+      <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
+      目录
+    </h3>
+    <nav class="toc" id="toc"></nav>
+  </div>
+
+  <!-- Site Stats -->
+  <div class="sidebar-card site-info-card">
+    <h3 class="sidebar-card__title">
+      <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
+      站点统计
+    </h3>
+    <div class="site-info-card__stats">
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">25</span>
+        <span class="site-info-card__stat-label">文章</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">3</span>
+        <span class="site-info-card__stat-label">分类</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">40</span>
+        <span class="site-info-card__stat-label">标签</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">丙午马年</span>
+        <span class="site-info-card__stat-label">建站</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  
+  <div class="sidebar-card categories-card">
+    <h3 class="sidebar-card__title">
+      <i class="fas fa-folder-open" style="margin-right:4px;font-size:0.85em;"></i>
+      分类
+    </h3>
+    <ul class="categories-list">
+      
+        <li class="categories-list__item">
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/life-snippets/">闲情杂记<span class="categories-list__count">6</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
+        </li>
+      
+    </ul>
+  </div>
+  
+
+  <!-- Tag Cloud -->
+  
+  <div class="sidebar-card tags-card">
+    <h3 class="sidebar-card__title">
+      <i class="fas fa-tags" style="margin-right:4px;font-size:0.85em;"></i>
+      标签
+    </h3>
+    <div class="tag-cloud">
+      
+        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
+      
+        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
+      
+        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
+      
+        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
+      
+        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
+      
+        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+      
+        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+      
+        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+      
+        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+      
+        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+      
+        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+      
+        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
+      
+        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
+      
+        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
+      
+        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
+      
+        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
+      
+        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
+      
+        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
+      
+        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
+      
+        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
+      
+        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
+      
+        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
+      
+        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
+      
+        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
+      
+        <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
+      
+        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
+      
+        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
+      
+        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
+      
+        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
+      
+        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
+      
+        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
+      
+        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
+      
+        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
+      
+        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
+      
+        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
+      
+        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
+      
+        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
+      
+        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
+      
+        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
+      
+        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
+      
+    </div>
+  </div>
+  
+</aside>
+
+
+  </div>
+
+  
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+  </div>
+</footer>
+
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="/assets/js/main.js"></script>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
+    <div class="search-modal__overlay" id="searchOverlay"></div>
+    <div class="search-modal__content">
+      <div class="search-modal__header">
+        <i class="fas fa-search search-modal__icon"></i>
+        <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
+        <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-modal__results" id="searchResults">
+        <div class="search-modal__empty">输入关键词开始搜索</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA: Service Worker Registration -->
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  
+</body>
+</html>

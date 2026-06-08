@@ -2,7 +2,7 @@
  * Base Styles (Presentation Layer)
  *
  * CSS reset, global defaults, and typography foundation.
- * Builds on variables.css design tokens.
+ * MacOS-style code blocks with blue-green accents.
  */
 
 /* ================================================================ */
@@ -27,7 +27,7 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-relaxed);
   color: var(--text-primary);
-  background: var(--bg-page-gradient);
+  background: var(--bg-page);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,16 +60,18 @@ p {
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color var(--transition-fast), text-shadow var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--accent-light);
-  text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.15);
+  color: var(--accent-dark);
 }
 
-strong, b {
-  font-weight: 600;
+strong, b { font-weight: 600; }
+
+::selection {
+  background: rgba(var(--accent-rgb), 0.18);
+  color: var(--accent-darker);
 }
 
 /* ================================================================ */
@@ -81,9 +83,7 @@ img {
   display: block;
 }
 
-figure {
-  margin: 1.5rem 0;
-}
+figure { margin: 1.5rem 0; }
 
 figcaption {
   font-size: var(--text-sm);
@@ -106,26 +106,49 @@ li {
 }
 
 /* ================================================================ */
-/*  Code                                                             */
+/*  Code — MacOS Window Style                                       */
 /* ================================================================ */
 code {
   font-family: var(--font-mono);
   font-size: 0.875em;
   padding: 0.15em 0.45em;
   border-radius: var(--radius-sm);
-  background: var(--tag-bg);
-  color: var(--tag-text);
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--accent-darker);
 }
 
+/* MacOS-style code block */
 pre {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   overflow-x: auto;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-  background: var(--bg-card) !important;
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  background:
+    linear-gradient(180deg, rgba(var(--accent-alt-rgb), 0.04) 0%, rgba(var(--accent-rgb), 0.02) 100%),
+    var(--bg-card-solid) !important;
+  backdrop-filter: blur(10px);
+  padding: 1.25rem 1.125rem 1rem;
+  margin: 1.5rem 0;
+  position: relative;
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* MacOS window title bar */
+pre::before {
+  content: '';
+  display: block;
+  height: 12px;
+  margin-bottom: 0.75rem;
+  background:
+    radial-gradient(circle 5px, #ff5f57 100%, transparent 100%) 0 center,
+    radial-gradient(circle 5px, #febc2e 100%, transparent 100%) 16px center,
+    radial-gradient(circle 5px, #28c840 100%, transparent 100%) 32px center;
+  background-repeat: no-repeat;
+  opacity: 0.75;
 }
 
 pre code {
@@ -149,17 +172,15 @@ kbd {
 /* ================================================================ */
 blockquote {
   margin: 2rem 0;
-  padding: 1rem 1.5rem;
-  border-left: 3px solid var(--accent);
-  background: var(--tag-bg);
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--accent-light);
+  background: rgba(var(--accent-rgb), 0.04);
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   color: var(--text-secondary);
   font-style: italic;
 }
 
-blockquote p:last-child {
-  margin-bottom: 0;
-}
+blockquote p:last-child { margin-bottom: 0; }
 
 /* ================================================================ */
 /*  Horizontal Rule                                                  */
@@ -168,12 +189,7 @@ hr {
   margin: 2.5rem 0;
   border: 0;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--border),
-    transparent
-  );
+  background: var(--border);
 }
 
 /* ================================================================ */
@@ -198,244 +214,10 @@ th {
   color: var(--text-primary);
 }
 
-tr:last-child td {
-  border-bottom: none;
-}
-
-/* ================================================================ */
-/*  Selection                                                        */
-/* ================================================================ */
-::selection {
-  background: rgba(var(--accent-alt-rgb), 0.20);
-  color: var(--text-primary);
-}
-
 /* ================================================================ */
 /*  Scrollbar                                                        */
 /* ================================================================ */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* ================================================================ */
-/*  Utility Classes                                                  */
-/* ================================================================ */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border: 1px solid var(--glass-border);
-}
-
-/* ================================================================ */
-/*  Bootstrap Component Overrides                                    */
-/* ================================================================ */
-
-/* Card — borderless, soft shadow, hover lift */
-.card {
-  --bs-card-bg: #FFF8F0;
-  --bs-card-border-color: transparent;
-  --bs-card-border-width: 0;
-  --bs-card-border-radius: 1rem;
-  --bs-card-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-  --bs-card-cap-bg: transparent;
-  --bs-card-cap-padding-x: 1.5rem;
-  --bs-card-cap-padding-y: 1.25rem;
-  --bs-card-spacer-x: 1.5rem;
-  --bs-card-spacer-y: 1.25rem;
-  border: none;
-  border-radius: var(--bs-card-border-radius);
-  box-shadow: var(--bs-card-box-shadow);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  background-color: var(--bs-card-bg);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-/* Badge — green-tinted tags */
-.badge {
-  --bs-badge-font-weight: 500;
-  --bs-badge-padding-x: 0.65em;
-  --bs-badge-padding-y: 0.25em;
-  font-size: 0.75rem;
-  letter-spacing: 0.01em;
-}
-
-.badge.bg-primary,
-.badge.bg-success {
-  background-color: rgba(76, 175, 80, 0.12) !important;
-  color: #2E7D32 !important;
-}
-
-.badge.bg-secondary {
-  background-color: rgba(108, 117, 125, 0.10) !important;
-  color: #495057 !important;
-}
-
-/* Button — clean, shadowless */
-.btn {
-  --bs-btn-border-radius: 0.75rem;
-  --bs-btn-font-weight: 500;
-  --bs-btn-padding-x: 1.25rem;
-  --bs-btn-padding-y: 0.5rem;
-  transition: all 0.2s ease;
-  box-shadow: none !important;
-}
-
-.btn-primary {
-  --bs-btn-bg: #4CAF50;
-  --bs-btn-border-color: #4CAF50;
-  --bs-btn-hover-bg: #43A047;
-  --bs-btn-hover-border-color: #43A047;
-  --bs-btn-active-bg: #388E3C;
-  --bs-btn-active-border-color: #388E3C;
-  --bs-btn-disabled-bg: #a5d6a7;
-  --bs-btn-disabled-border-color: #a5d6a7;
-}
-
-.btn-outline-primary {
-  --bs-btn-color: #4CAF50;
-  --bs-btn-border-color: #4CAF50;
-  --bs-btn-hover-bg: #4CAF50;
-  --bs-btn-hover-border-color: #4CAF50;
-  --bs-btn-active-bg: #388E3C;
-  --bs-btn-active-border-color: #388E3C;
-}
-
-/* Nav link — green accent on hover/active */
-.nav-link {
-  color: #495057;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link:focus {
-  color: #4CAF50;
-  background-color: rgba(76, 175, 80, 0.06);
-}
-
-.nav-link.active {
-  color: #4CAF50;
-  background-color: rgba(76, 175, 80, 0.10);
-}
-
-/* List group — subtle hover */
-.list-group {
-  --bs-list-group-bg: transparent;
-  --bs-list-group-border-color: rgba(0, 0, 0, 0.04);
-  --bs-list-group-border-radius: 0.75rem;
-  --bs-list-group-item-padding-x: 1.25rem;
-  --bs-list-group-item-padding-y: 0.75rem;
-}
-
-.list-group-item {
-  border-left: none;
-  border-right: none;
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.list-group-item:first-child { border-top: none; }
-.list-group-item:last-child { border-bottom: none; }
-
-.list-group-item:hover {
-  background-color: rgba(76, 175, 80, 0.04);
-  color: #4CAF50;
-}
-
-/* Form control — green focus ring */
-.form-control {
-  --bs-form-control-border-color: rgba(0, 0, 0, 0.08);
-  border-radius: 0.75rem;
-  padding: 0.6rem 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: none !important;
-}
-
-.form-control:focus {
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12) !important;
-}
-
-/* Alert — subtle */
-.alert {
-  --bs-alert-border-radius: 0.75rem;
-  border: none;
-}
-
-.alert-primary {
-  --bs-alert-bg: rgba(76, 175, 80, 0.08);
-  --bs-alert-color: #2E7D32;
-  --bs-alert-border-color: transparent;
-}
-
-/* Progress bar */
-.progress {
-  --bs-progress-height: 0.5rem;
-  --bs-progress-border-radius: 1rem;
-  --bs-progress-bg: rgba(0, 0, 0, 0.04);
-}
-
-.progress-bar {
-  --bs-progress-bar-bg: #4CAF50;
-}
-
-/* Container width override */
-.container {
-  max-width: 1200px;
-}
-
-@media (max-width: 1400px) {
-  .container { max-width: 1140px; }
-}
-
-@media (max-width: 1200px) {
-  .container { max-width: 960px; }
-}
-
-/* Utility: spacing helpers */
-.section-gap {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.section-gap-sm {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }

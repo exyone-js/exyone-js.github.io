@@ -1,12 +1,12 @@
 ---
 layout: base.njk
 title: 首页
-permalink: /
+permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1 }}/{% else %}/{% endif %}"
 pagination:
   data: collections.posts
   size: 8
   alias: posts
-  reverse: true
+  reverse: false
 ---
 {# ================================================================
    Home Page (Template Layer)
@@ -23,31 +23,45 @@ pagination:
 
   {% if pagination.hrefs.length > 1 %}
   <nav class="pagination" aria-label="分页导航">
-    {% if pagination.previousPageLink %}
-      <a href="{{ pagination.previousPageLink }}" class="pagination__item pagination__item--prev">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-        上一页
-      </a>
-    {% endif %}
+    <a href="{{ pagination.href.first or pagination.hrefs[0] }}"
+       class="pagination__item pagination__item--prev"
+       {% if pagination.currentPage == 0 %}disabled{% endif %}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="18 17 13 12 18 7"/>
+        <polyline points="12 17 7 12 12 7"/>
+      </svg>
+    </a>
+    <a href="{{ pagination.href.previous or pagination.hrefs[0] }}"
+       class="pagination__item pagination__item--prev"
+       {% if not pagination.href.previous %}disabled{% endif %}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </a>
 
     {% for href in pagination.hrefs %}
-      {% if loop.index == pagination.currentPage %}
+      {% if href == page.url or (href == '/' and page.url == '') %}
         <span class="pagination__item pagination__item--active">{{ loop.index }}</span>
       {% else %}
         <a href="{{ href }}" class="pagination__item">{{ loop.index }}</a>
       {% endif %}
     {% endfor %}
 
-    {% if pagination.nextPageLink %}
-      <a href="{{ pagination.nextPageLink }}" class="pagination__item pagination__item--next">
-        下一页
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </a>
-    {% endif %}
+    <a href="{{ pagination.href.next or pagination.href.last }}"
+       class="pagination__item pagination__item--next"
+       {% if not pagination.href.next %}disabled{% endif %}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </a>
+    <a href="{{ pagination.href.last or pagination.hrefs[pagination.hrefs.length - 1] }}"
+       class="pagination__item pagination__item--next"
+       {% if pagination.currentPage == pagination.hrefs.length - 1 %}disabled{% endif %}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 17 11 12 6 7"/>
+        <polyline points="12 17 17 12 12 7"/>
+      </svg>
+    </a>
   </nav>
   {% endif %}
 </main>
