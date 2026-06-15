@@ -9,14 +9,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Eleventy v3">
 
-<title>NDS与PSP：掌机黄金时代 - EXYONE@BLOG:~$</title>
+<title>NDS 与 PSP：掌机黄金时代的一场经典对决 - EXYONE@BLOG:~$</title>
 <meta name="description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="author" content="Exyone.dev">
 
 <!-- ========================================================== -->
 <!--  Open Graph / Social Preview                                -->
 <!-- ========================================================== -->
-<meta property="og:title" content="NDS与PSP：掌机黄金时代 - EXYONE@BLOG:~$">
+<meta property="og:title" content="NDS 与 PSP：掌机黄金时代的一场经典对决 - EXYONE@BLOG:~$">
 <meta property="og:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://exyon.ee/posts/nds-psp-handheld-golden-age/">
@@ -29,7 +29,7 @@
 <!-- ========================================================== -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@exyone_frosty">
-<meta name="twitter:title" content="NDS与PSP：掌机黄金时代 - EXYONE@BLOG:~$">
+<meta name="twitter:title" content="NDS 与 PSP：掌机黄金时代的一场经典对决 - EXYONE@BLOG:~$">
 <meta name="twitter:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="twitter:image" content="https://exyon.ee/assets/images/avatar.png">
 
@@ -41,22 +41,9 @@
 
 
 <!-- ========================================================== -->
-<!--  Font Awesome 6 (Free)                                      -->
-<!-- ========================================================== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- ========================================================== -->
 <!--  Stylesheets                                                -->
 <!-- ========================================================== -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/css/main.css">
-
-<!-- ========================================================== -->
-<!--  Google Fonts (via loli.net mirror)                          -->
-<!-- ========================================================== -->
-<link rel="preconnect" href="https://fonts.loli.net">
-<link rel="preconnect" href="https://gfonts.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <!-- RSS Feed -->
 <link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
@@ -78,14 +65,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "NDS与PSP：掌机黄金时代",
+  "headline": "NDS 与 PSP：掌机黄金时代的一场经典对决",
   "description": "NDS和PSP，大概是掌机史上最势均力敌的一对对手。在2004到2005年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的3A大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。",
   "datePublished": "2024-09-09T00:00:00Z",
   "dateModified": "2024-09-09T00:00:00Z",
   "author": {
     "@type": "Person",
     "name": "Exyone.dev",
-    "url": "https://github.com/exyone-labs"
+    "url": "https://github.com/eiraud-fishball"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -103,7 +90,7 @@
 
   <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#7c6faa">
+  <meta name="theme-color" content="#f2efe8">
 
   <!-- Analytics: Umami -->
   
@@ -115,12 +102,6 @@
   
 </head>
 <body>
-  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
-  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
-
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
 
@@ -146,18 +127,30 @@
     <div class="header-tools">
       <!-- Search -->
       <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
-        <i class="fas fa-search"></i>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
       </button>
 
       <!-- Theme Toggle -->
       <div class="header-tools__btn header-theme-toggle" id="themeToggle">
-        <i class="fas fa-moon theme-icon-dark"></i>
-        <i class="fas fa-sun theme-icon-light"></i>
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+        </svg>
       </div>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
-      <i class="fas fa-bars"></i>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
@@ -167,29 +160,28 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author Card -->
+  <!-- Author Card — Text Only -->
   <div class="left-nav__author">
-    <div class="left-nav__avatar">
-      <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
-    </div>
     <h2 class="left-nav__author-name">Exyone.dev</h2>
     <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
     <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
     <p class="left-nav__author-desc">将好奇心转化为代码</p>
     <div class="left-nav__social">
       
-        <a href="https://github.com/exyone-labs" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/eiraud-fishball" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.61 8.21 11.16.6.11.82-.25.82-.57 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.57-2.67-.3-5.47-1.31-5.47-5.84 0-1.29.47-2.34 1.24-3.17-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 6 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.66.25 2.88.12 3.18.77.83 1.24 1.88 1.24 3.17 0 4.54-2.81 5.54-5.49 5.83.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.69.83.57A12.04 12.04 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
         </a>
       
       
         <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
-          <i class="fab fa-twitter"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
         </a>
       
       
         <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
-          <i class="fas fa-envelope"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
         </a>
       
     </div>
@@ -200,28 +192,28 @@
     
       <a href="/" class="left-nav__item">
         
-          <i class="fas fa-house"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/></svg>
         
         <span>首页</span>
       </a>
     
       <a href="/categories/" class="left-nav__item">
         
-          <i class="fas fa-layer-group"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         
         <span>分类</span>
       </a>
     
       <a href="/tags/" class="left-nav__item">
         
-          <i class="fas fa-tags"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         
         <span>标签</span>
       </a>
     
       <a href="/archive/" class="left-nav__item">
         
-          <i class="fas fa-box-archive"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="4"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
         
         <span>归档</span>
       </a>
@@ -265,7 +257,7 @@
     <header class="post-detail__header">
       <!-- Title row: categories + title on the same line -->
       <div class="post-detail__title-row">
-        <h1 class="post-detail__title">NDS与PSP：掌机黄金时代</h1>
+        <h1 class="post-detail__title">NDS 与 PSP：掌机黄金时代的一场经典对决</h1>
         
           <div class="post-detail__categories">
             
@@ -279,11 +271,9 @@
       
         <div class="post-detail__tags mb-3">
           
-            <a href="/tags/gaming/" class="tag-badge">#gaming</a>
+            <a href="/tags/gaming/" class="tag-badge">#游戏</a>
           
-            <a href="/tags/retro/" class="tag-badge">#retro</a>
-          
-            <a href="/tags/life/" class="tag-badge">#生活</a>
+            <a href="/tags/history/" class="tag-badge">#历史</a>
           
         </div>
       
@@ -314,7 +304,7 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
           </svg>
-          33 字
+          58 字
         </span>
         
       </div>
@@ -331,9 +321,8 @@
     <!--  Article Content                                              -->
     <!-- ============================================================ -->
     <div class="post-detail__content">
-      <h2>NDS与PSP：掌机黄金时代</h2>
-<p>NDS和PSP，大概是掌机史上最势均力敌的一对对手。在2004到2005年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的3A大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。</p>
-<p>先说硬件。NDS使用了双3寸屏（下屏可触控），分辨率为256×192，触控笔藏在机身里，电池续航15小时以上，待机时相当省电。PSP则是4.3寸大屏，480×272分辨率，比NDS细腻得多，能放MP3、看视频、浏览网页。处理器也比NDS强不少，333MHz与67MHz相比较，可以说完全不是一个级别的产物。</p>
+      <p>NDS 和 PSP，大概是掌机史上最势均力敌的一对对手。在 2004 到 2005 年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的 3A 大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。</p>
+<p>先说硬件。NDS 使用了双 3 寸屏（下屏可触控），分辨率为 256×192，触控笔藏在机身里，电池续航 15 小时以上，待机时相当省电。PSP 则是 4.3 寸大屏，480×272 分辨率，比 NDS 细腻得多，能放 MP3、看视频、浏览网页。处理器也比 NDS 强不少，333MHz 与 67MHz 相比较，可以说完全不是一个级别的产物。</p>
 <p>但这可不代表NDS在市场上的表现弱于PSP，NDS卖了<strong>1.54亿台</strong>，是史上销量最高的掌机（但不是最畅销的游戏机，主机平台的PS2是销量最高的游戏机，总共卖出了约1.7亿台），游戏卖了9亿多套。双屏是最大亮点，下屏触控加麦克风，游戏的玩法一也丰富了许多。画个画（《触控卡比》、《节奏天国》等）、吹口气（《任天狗》、《逆转裁判4》等）就能互动，在当时是非常先进的交互理念。游戏阵容也全，从<strong>马里奥</strong>到<strong>宝可梦</strong>，老少皆宜。</p>
 <p>几个主要版本里，原版NDS被玩家叫&quot;饭盒机&quot;，块头大、屏幕暗，特点是兼容了GBA卡带。2006年的<strong>NDS Lite</strong>最经典，薄了不少，屏幕亮了很多，续航能到15小时以上，销量占了整个系列的六成。值得一提的是尽管同样兼容GBA卡带，但由于机身变薄，插入GBA卡带后会露出一大截。<strong>DSi</strong>加了摄像头和SD卡槽，砍了GBA兼容，机身更薄，屏幕也大了一圈。而<strong>DSi XL</strong>，屏幕更大，4.2寸，看书玩游戏不那么累眼了，就是便携性差点，重了差不多100克。不过值得注意的是，尽管屏幕尺寸更大了，分辨率完全没提升，尽管不累眼，但是游戏画面的锯齿会显著增多，任天堂或许是出于节省生产成本考虑吧。</p>
 <p>PSP走另一条路。卖了<strong>8000多万台</strong>，特点是画面接近PS2，能看电影、听音乐，UMD光盘当时看着特酷。定位像&quot;能装进口袋的PlayStation&quot;，吸引的是硬核玩家，当然，由于PSP的多媒体功能很强大，也是当时市面上比较便宜的影音设备，许多音乐发烧友也会买个PSP用来听歌、看视频，当作MP3播放器使用。关于PSP便宜的原因，是因为当时任天堂在索尼发售PSP之前抢先发售了NDS初代机，且价格只有PSP预售价格的3/1，索尼也不得不为了增强竞争力，压低了正式发售时PSP的售价。</p>
@@ -362,11 +351,9 @@
       
         <div class="post-detail__footer-tags">
           
-            <a href="/tags/gaming/" class="tag-badge">#gaming</a>
+            <a href="/tags/gaming/" class="tag-badge">#游戏</a>
           
-            <a href="/tags/retro/" class="tag-badge">#retro</a>
-          
-            <a href="/tags/life/" class="tag-badge">#生活</a>
+            <a href="/tags/history/" class="tag-badge">#历史</a>
           
         </div>
       
@@ -381,21 +368,21 @@
   
   <nav class="post-nav">
     
-      <a href="/posts/yongsheng-601a-triumph-nib/" class="post-nav-link post-nav-link--prev">
+      <a href="/posts/how-to-choose-email-service/" class="post-nav-link post-nav-link--prev">
         <span class="post-nav-direction">
           <span class="post-nav-arrow">←</span>
           上一篇
         </span>
-        <span class="post-nav-title">永生601A：现产唯一的胜利尖钢笔</span>
+        <span class="post-nav-title">怎么选邮箱？来看看我的选择历程和建议吧</span>
       </a>
     
     
-      <a href="/posts/docker-tinkering-lessons-learned/" class="post-nav-link post-nav-link--next">
+      <a href="/posts/protonmail-review-not-worth-it/" class="post-nav-link post-nav-link--next">
         <span class="post-nav-direction">
           下一篇
           <span class="post-nav-arrow">→</span>
         </span>
-        <span class="post-nav-title">折腾Docker和面板之后，我决定不折腾了</span>
+        <span class="post-nav-title">ProtonMail 为什么不值得买：一个隐私邮箱的真相</span>
       </a>
     
   </nav>
@@ -409,17 +396,17 @@
     <div class="related-posts__grid">
       
       
-      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
-        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
+      <a href="/posts/building-eleventy-blog-system/" class="related-post-card">
+        <h3 class="related-post-card__title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</h3>
         <div class="related-post-card__meta">
-          <span>2026-04-26</span>
+          <span>2026-06-15</span>
           <span>·</span>
-          <span>3 分钟阅读</span>
+          <span>1 分钟阅读</span>
         </div>
       </a>
       
-      <a href="/posts/jekyll-chirpy-trial-and-error/" class="related-post-card">
-        <h3 class="related-post-card__title">Jekyll 与 Chirpy：一段试错之旅</h3>
+      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
+        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
         <div class="related-post-card__meta">
           <span>2026-04-26</span>
           <span>·</span>
@@ -436,21 +423,28 @@
         </div>
       </a>
       
+      <a href="/posts/docker-tinkering-lessons-learned/" class="related-post-card">
+        <h3 class="related-post-card__title">折腾 Docker 和面板之后，我决定不折腾了</h3>
+        <div class="related-post-card__meta">
+          <span>2026-03-25</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
     </div>
   </section>
   
 
-  <!-- ============================================================ -->
-  <!--  Comments Section (Giscus)                                   -->
-  <!-- ============================================================ -->
   
-  <section class="comments-section" id="comments">
-    <h2 class="comments-section__title">评论</h2>
-    <div id="twikoo-comments"></div>
-    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
-    <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
-  </section>
-  
+
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+</section>
+
+
 </main>
 
 
@@ -458,7 +452,7 @@
   <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       目录
     </h3>
     <nav class="toc" id="toc"></nav>
@@ -467,12 +461,12 @@
   <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       站点统计
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">25</span>
+        <span class="site-info-card__stat-value">20</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
@@ -480,7 +474,7 @@
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">40</span>
+        <span class="site-info-card__stat-value">19</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
@@ -494,13 +488,13 @@
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-folder-open" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg>
       分类
     </h3>
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">10</span></a>
         </li>
       
         <li class="categories-list__item">
@@ -508,101 +502,45 @@
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">4</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- Tag Cloud -->
+  <!-- Sidebar Tags -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-tags" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       标签
     </h3>
-    <div class="tag-cloud">
+    <div class="sidebar-tags">
       
-        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
+        <a href="/tags/tutorial/" class="sidebar-tags__item" data-count="8">教程</a>
       
-        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
+        <a href="/tags/fountain-pen/" class="sidebar-tags__item" data-count="5">钢笔</a>
       
-        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
+        <a href="/tags/history/" class="sidebar-tags__item" data-count="4">历史</a>
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
+        <a href="/tags/programming/" class="sidebar-tags__item" data-count="4">编程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
+        <a href="/tags/blog/" class="sidebar-tags__item" data-count="3">博客</a>
       
-        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+        <a href="/tags/review/" class="sidebar-tags__item" data-count="3">评测</a>
       
-        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+        <a href="/tags/open-source/" class="sidebar-tags__item" data-count="3">开源</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+        <a href="/tags/deployment/" class="sidebar-tags__item" data-count="3">部署</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+        <a href="/tags/productivity/" class="sidebar-tags__item" data-count="2">效率</a>
       
-        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+        <a href="/tags/email/" class="sidebar-tags__item" data-count="2">邮件</a>
       
-        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+        <a href="/tags/privacy/" class="sidebar-tags__item" data-count="2">隐私</a>
       
-        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
-      
-        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
-      
-        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
-      
-        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
-      
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
-      
-        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
-      
-        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
-      
-        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
-      
-        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
-      
-        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
-      
-        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
-      
-        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
-      
-        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
-      
-        <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
-      
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
-      
-        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
-      
-        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
-      
-        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
-      
-        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
-      
-        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
-      
-        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
-      
-        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
-      
-        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
-      
-        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
-      
-        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
-      
-        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
-      
-        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
-      
-        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
-      
-        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
+        <a href="/tags/input-method/" class="sidebar-tags__item" data-count="1">输入法</a>
       
     </div>
   </div>
@@ -615,27 +553,47 @@
   
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+    <nav class="site-footer__links">
+      
+        <a href="/">首页</a>
+      
+        <a href="/categories/">分类</a>
+      
+        <a href="/tags/">标签</a>
+      
+        <a href="/archive/">归档</a>
+      
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      
+        <a href="https://github.com/eiraud-fishball" target="_blank" rel="noopener">GitHub</a>
+      
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
 
   <!-- Back to Top -->
   <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
-    <i class="fas fa-chevron-up"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
   </button>
-
-  <script src="/assets/js/main.js"></script>
 
   <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
       <div class="search-modal__header">
-        <i class="fas fa-search search-modal__icon"></i>
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
         <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
-          <i class="fas fa-times"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
       <div class="search-modal__results" id="searchResults">
@@ -644,10 +602,15 @@
     </div>
   </div>
 
-  <!-- PWA: Service Worker Registration -->
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
   
   <script>
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js');
       });

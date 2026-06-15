@@ -5,22 +5,18 @@
  * Each partial is a self-contained layer of the design system.
  *
  * Order:
- *   1. Bootstrap
- *   2. variables.css     — Design tokens (incl. Bootstrap var overrides)
- *   3. base.css          — Reset, typography, utilities, Bootstrap component overrides
- *   4. layout.css        — Grid, header, footer, navigation
- *   5. components.css    — Cards, badges, pagination, TOC, sidebar
- *   6. theme.css         — Glass effects, noise, glow, animations
- *   7. responsive.css    — Media queries
+ *   1. variables.css     — Design tokens
+ *   2. base.css          — Reset, typography, utilities
+ *   3. layout.css        — Grid, header, footer, navigation
+ *   4. components.css    — Cards, badges, pagination, TOC, sidebar
+ *   5. theme.css         — Decorative effects, animations
+ *   6. responsive.css    — Media queries
  */
 
-/* Bootstrap (vendored) */
-@import "bootstrap.min.css";
-
-/* Design tokens (includes --bs-* overrides) */
+/* Design tokens */
 @import "variables.css";
 
-/* Base layer (includes Bootstrap component overrides) */
+/* Base layer (reset, typography, utility classes) */
 @import "base.css";
 
 /* Layout layer */

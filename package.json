@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@11ty/eleventy-plugin-rss": "^3.0.0",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
-    "bootstrap": "^5.3.8"
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2"
   }
 }

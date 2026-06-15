@@ -4,8 +4,8 @@
   "description": "Technical blog about .NET, front-end development, and web technologies.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f8fa",
-  "theme_color": "#2dd4a8",
+  "background_color": "#f2efe8",
+  "theme_color": "#5a8fb4",
   "orientation": "portrait-primary",
   "lang": "en",
   "icons": [

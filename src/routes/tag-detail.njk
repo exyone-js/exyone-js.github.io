@@ -1,0 +1,23 @@
+---
+layout: base.njk
+pagination:
+  data: collections.tagList
+  size: 1
+  alias: tag
+permalink: "/tags/{{ tag.slug }}/"
+---
+{# ================================================================
+   Tag Detail Page (Template Layer)
+   Displays all posts belonging to a specific tag.
+   ================================================================ #}
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <section class="post-list">
+    {% for post in tag.posts %}
+      {% include "post-card.njk" %}
+    {% endfor %}
+  </section>
+</main>
+
+{% include "sidebar-right.njk" %}

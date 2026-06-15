@@ -1,0 +1,25 @@
+---
+layout: base.njk
+title: 标签
+permalink: /tags/
+---
+{# ================================================================
+   Tags Overview Page (Template Layer)
+   Top tags displayed, remaining shown as a count.
+   ================================================================ #}
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <h1 class="page-title">标签</h1>
+  <p class="page-subtitle">共 {{ collections.tagList.length }} 个标签</p>
+
+  <section class="tags-showcase">
+    {% for tag in collections.tagList %}
+      <a href="/tags/{{ tag.slug }}/" class="tags-showcase__item">
+        {{ tag.name }} <span class="tags-showcase__count">{{ tag.posts.length }}</span>
+      </a>
+    {% endfor %}
+  </section>
+</main>
+
+{% include "sidebar-right.njk" %}

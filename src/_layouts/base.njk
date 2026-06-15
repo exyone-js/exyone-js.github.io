@@ -10,7 +10,7 @@
 
   <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#7c6faa">
+  <meta name="theme-color" content="#f2efe8">
 
   <!-- Analytics: Umami -->
   {% if analytics.umami.id and analytics.umami.domain %}
@@ -29,12 +29,6 @@
   {% endif %}
 </head>
 <body>
-  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
-  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
-
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
 
@@ -48,20 +42,24 @@
 
   <!-- Back to Top -->
   <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
-    <i class="fas fa-chevron-up"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
   </button>
-
-  <script src="/assets/js/main.js"></script>
 
   <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
       <div class="search-modal__header">
-        <i class="fas fa-search search-modal__icon"></i>
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
         <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
-          <i class="fas fa-times"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
       <div class="search-modal__results" id="searchResults">
@@ -70,10 +68,15 @@
     </div>
   </div>
 
-  <!-- PWA: Service Worker Registration -->
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
   {% if pwa.enabled %}
   <script>
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js');
       });

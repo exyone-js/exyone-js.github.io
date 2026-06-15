@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: 留言
+permalink: /guestbook/
+---
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <h1 class="page-title">留言</h1>
+  <p class="page-subtitle">欢迎留言交流</p>
+
+  <article class="post-content">
+    <p>欢迎留言！无论是打个招呼、技术问题，还是随便聊聊——这里都欢迎你。</p>
+
+    <h3>留言须知</h3>
+
+    <ul>
+    <li>保持友善与尊重</li>
+    <li>欢迎提问和建议</li>
+    <li>技术问题请尽量描述详细</li>
+    </ul>
+  </article>
+
+  {% include "comments.njk" %}
+</main>
+
+{% include "sidebar-right.njk" %}

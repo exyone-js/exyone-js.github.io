@@ -1,9 +1,19 @@
 {# ================================================================
    Site Footer (Template Layer - Component)
-   Centered minimal footer.
+   Two-line minimal footer.
    ================================================================ #}
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>&copy; {{ "now" | year }} {{ author.name }} &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+    <nav class="site-footer__links">
+      {% for item in nav %}
+        <a href="{{ item.url }}">{{ item.label }}</a>
+      {% endfor %}
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      {% if author.social.github %}
+        <a href="{{ author.social.github }}" target="_blank" rel="noopener">GitHub</a>
+      {% endif %}
+    </nav>
+    <p class="site-footer__copy">&copy; {{ "now" | year }} {{ author.name }} &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>

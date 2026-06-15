@@ -9,14 +9,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Eleventy v3">
 
-<title>日本钢笔御三家：百乐、白金、写乐的墨香传承 - EXYONE@BLOG:~$</title>
+<title>日本钢笔御三家：百乐、白金、写乐的百年匠心 - EXYONE@BLOG:~$</title>
 <meta name="description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="author" content="Exyone.dev">
 
 <!-- ========================================================== -->
 <!--  Open Graph / Social Preview                                -->
 <!-- ========================================================== -->
-<meta property="og:title" content="日本钢笔御三家：百乐、白金、写乐的墨香传承 - EXYONE@BLOG:~$">
+<meta property="og:title" content="日本钢笔御三家：百乐、白金、写乐的百年匠心 - EXYONE@BLOG:~$">
 <meta property="og:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://exyon.ee/posts/japanese-fountain-pen-trinity/">
@@ -29,7 +29,7 @@
 <!-- ========================================================== -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@exyone_frosty">
-<meta name="twitter:title" content="日本钢笔御三家：百乐、白金、写乐的墨香传承 - EXYONE@BLOG:~$">
+<meta name="twitter:title" content="日本钢笔御三家：百乐、白金、写乐的百年匠心 - EXYONE@BLOG:~$">
 <meta name="twitter:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="twitter:image" content="https://exyon.ee/assets/images/avatar.png">
 
@@ -41,22 +41,9 @@
 
 
 <!-- ========================================================== -->
-<!--  Font Awesome 6 (Free)                                      -->
-<!-- ========================================================== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- ========================================================== -->
 <!--  Stylesheets                                                -->
 <!-- ========================================================== -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/css/main.css">
-
-<!-- ========================================================== -->
-<!--  Google Fonts (via loli.net mirror)                          -->
-<!-- ========================================================== -->
-<link rel="preconnect" href="https://fonts.loli.net">
-<link rel="preconnect" href="https://gfonts.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <!-- RSS Feed -->
 <link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
@@ -78,14 +65,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "日本钢笔御三家：百乐、白金、写乐的墨香传承",
+  "headline": "日本钢笔御三家：百乐、白金、写乐的百年匠心",
   "description": "日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。本文续前尘，借可靠史料，铺陈其上世纪（1901-2000年）往事、关键节...",
-  "datePublished": "2023-04-16T00:00:00Z",
-  "dateModified": "2023-04-16T00:00:00Z",
+  "datePublished": "2024-04-16T00:00:00Z",
+  "dateModified": "2024-04-16T00:00:00Z",
   "author": {
     "@type": "Person",
     "name": "Exyone.dev",
-    "url": "https://github.com/exyone-labs"
+    "url": "https://github.com/eiraud-fishball"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -103,7 +90,7 @@
 
   <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#7c6faa">
+  <meta name="theme-color" content="#f2efe8">
 
   <!-- Analytics: Umami -->
   
@@ -115,12 +102,6 @@
   
 </head>
 <body>
-  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
-  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
-
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
 
@@ -146,18 +127,30 @@
     <div class="header-tools">
       <!-- Search -->
       <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
-        <i class="fas fa-search"></i>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
       </button>
 
       <!-- Theme Toggle -->
       <div class="header-tools__btn header-theme-toggle" id="themeToggle">
-        <i class="fas fa-moon theme-icon-dark"></i>
-        <i class="fas fa-sun theme-icon-light"></i>
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+        </svg>
       </div>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
-      <i class="fas fa-bars"></i>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
@@ -167,29 +160,28 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author Card -->
+  <!-- Author Card — Text Only -->
   <div class="left-nav__author">
-    <div class="left-nav__avatar">
-      <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
-    </div>
     <h2 class="left-nav__author-name">Exyone.dev</h2>
     <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
     <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
     <p class="left-nav__author-desc">将好奇心转化为代码</p>
     <div class="left-nav__social">
       
-        <a href="https://github.com/exyone-labs" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/eiraud-fishball" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.61 8.21 11.16.6.11.82-.25.82-.57 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.57-2.67-.3-5.47-1.31-5.47-5.84 0-1.29.47-2.34 1.24-3.17-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 6 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.66.25 2.88.12 3.18.77.83 1.24 1.88 1.24 3.17 0 4.54-2.81 5.54-5.49 5.83.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.69.83.57A12.04 12.04 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
         </a>
       
       
         <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
-          <i class="fab fa-twitter"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
         </a>
       
       
         <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
-          <i class="fas fa-envelope"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
         </a>
       
     </div>
@@ -200,28 +192,28 @@
     
       <a href="/" class="left-nav__item">
         
-          <i class="fas fa-house"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/></svg>
         
         <span>首页</span>
       </a>
     
       <a href="/categories/" class="left-nav__item">
         
-          <i class="fas fa-layer-group"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         
         <span>分类</span>
       </a>
     
       <a href="/tags/" class="left-nav__item">
         
-          <i class="fas fa-tags"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         
         <span>标签</span>
       </a>
     
       <a href="/archive/" class="left-nav__item">
         
-          <i class="fas fa-box-archive"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="4"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
         
         <span>归档</span>
       </a>
@@ -265,7 +257,7 @@
     <header class="post-detail__header">
       <!-- Title row: categories + title on the same line -->
       <div class="post-detail__title-row">
-        <h1 class="post-detail__title">日本钢笔御三家：百乐、白金、写乐的墨香传承</h1>
+        <h1 class="post-detail__title">日本钢笔御三家：百乐、白金、写乐的百年匠心</h1>
         
           <div class="post-detail__categories">
             
@@ -279,11 +271,9 @@
       
         <div class="post-detail__tags mb-3">
           
-            <a href="/tags/fountain-pen/" class="tag-badge">#fountain-pen</a>
+            <a href="/tags/fountain-pen/" class="tag-badge">#钢笔</a>
           
-            <a href="/tags/history/" class="tag-badge">#history</a>
-          
-            <a href="/tags/fountain-pen-collection/" class="tag-badge">#收藏</a>
+            <a href="/tags/history/" class="tag-badge">#历史</a>
           
         </div>
       
@@ -296,7 +286,7 @@
             <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
             <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          发布于 2023-04-16
+          发布于 2024-04-16
         </span>
         
         
@@ -314,7 +304,7 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
           </svg>
-          51 字
+          61 字
         </span>
         
       </div>
@@ -331,39 +321,12 @@
     <!--  Article Content                                              -->
     <!-- ============================================================ -->
     <div class="post-detail__content">
-      <p>日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。本文续前尘，借可靠史料，铺陈其上世纪（1901-2000年）往事、关键节点与经典笔型，愿如一缕晨风，拂去尘埃，唤醒那份对墨迹的眷恋。</p>
-<h2>百乐：创新之泉，百折不挠的东方之笔</h2>
-<p>百乐的前身，可溯至1915年，工程教授Ryosuke Namiki与Masao Wada的携手，初衷仅为铸就不锈钢笔尖，打破西方垄断。1918年，正式创厂于东京，名为&quot;Namiki Manufacturing Company&quot;，后更名Pilot，寓意&quot;领航者&quot;。早年产品以金笔尖为主，出口欧美，奠定国际声誉。二战期间，工厂转产军需，却在战后迅速复苏，1950年代推出批量不锈钢笔尖，推动本土工业腾飞。</p>
-<p>重大事件如星辰闪耀：1963年，百乐首创Capless可伸缩钢笔，旋钮一转，笔尖隐现，无需笔帽，获巴黎国际礼品展&quot;最推荐产品奖&quot;，革新书写便利。这支笔最初是为经常需要在旅途中签字的商务人士设计的——不用拧开笔帽、旋紧笔帽，单手就能完成书写，尤其适合医生、快递员、税务员等需要频繁用笔的职业。1970-1990年间，Capless系列迭代，从蚀刻款到多面体设计，技术跃进，彰显日本精密之美。1980年代，Custom系列问世，传承百年工艺，定位高端定制。这些节点，不仅是技术里程，更是匠人对自由书写的诗意追求。</p>
-<p>重要笔型，宛若百乐的墨中精灵：</p>
-<ul>
-<li><strong>Capless（1963年）</strong>：首款可伸缩钢笔，旋钮机制，笔身纤细，书写如行云流水，至今仍是旅行者的挚友。</li>
-<li><strong>Custom 74（1970年代）</strong>：入门金笔，14k笔尖柔韧，树脂笔身轻盈，平衡感佳，深受学生与文人青睐。</li>
-<li><strong>Custom 823（1980年代）</strong>：真空吸墨设计，21k金尖，笔身优雅，墨量充沛，适合长篇书写。</li>
-</ul>
-<p>百乐的优点，自是那份创新的灵动，先于时代一步；若论不足，或是早期出口依赖，稍显本土根基浅薄，却在时光中悄然补足。</p>
-<h2>白金：纯净之光，静谧中的永恒追求</h2>
-<p>白金的起源，似一阕清幽小调，1919年，创始人Shunichi Nakata于东京启业，初售进口笔，后自制&quot;Champion&quot;&quot;Piiton&quot;等款，出口海外。1924年，建立&quot;中屋制作所&quot;，专注笔尖锻造，战时转产军工，1950年代复苏，强调&quot;纯净书写&quot;。</p>
-<p>关键事件，点亮其百年轨迹：1956年，推出全球首款卡匣式钢笔，摒弃吸墨瓶，书写更卫生便捷。1965年，发明&quot;敲击式&quot;可点击钢笔，1967年&quot;Platinum Platinum&quot;问世，首用铂金涂层笔尖，抗腐蚀耐久。1993年，限量款与&quot;Hayakawa&quot;机械铅笔同步上市，1994年&quot;President&quot;系列登场，标志中高端转型。这些创新，如山间清泉，润物无声，却奠定白金的品质声名。</p>
-<p>重要笔型，宛若富士雪峰，宁静而高洁：</p>
-<ul>
-<li><strong>Honest 60（1950年代）</strong>：首款卡匣笔，简约金属身，书写诚挚，象征白金的初心。</li>
-<li><strong>3776 Century（1970年代）</strong>：14k金尖，活塞上墨，笔身优雅，&quot;3776&quot;寓意富士山高度，经典之作。</li>
-<li><strong>President（1994年）</strong>：高端商务笔，18k金尖，树脂笔身，平衡舒适，彰显身份。</li>
-</ul>
-<p>白金的长处，在于那份纯净的坚守，品质如雪峰般恒久；若论不足，或是营销低调，国际声名稍逊，却在匠心深处赢得忠实拥趸。</p>
-<h2>写乐：匠心之刃，锐意进取的墨海先锋</h2>
-<p>写乐的故事，始于1911年，创始人Kyogoro Sakata于大阪启业，初名&quot;Sailor Pen&quot;，寓意&quot;航海者&quot;，灵感源自一位英国水手赠送的钢笔。早年产品以金属笔尖为主，出口东南亚，奠定海外根基。二战期间，工厂转产军需，战后复苏，1950年代推出不锈钢笔尖，技术革新。</p>
-<p>关键节点，如刀锋般锐利：1960年代，写乐推出&quot;Profit&quot;系列，21k金尖，书写流畅，定位高端。1970年代，&quot;Naginata Togi&quot;（长刀研）笔尖问世，独特打磨方式使笔尖正面呈弧形切削状，侧面则保留了传统刀刃般的锐角。这种形状使得书写时笔尖会随着运笔方向自然变形——横画细、竖画粗，转折处还能写出类似毛笔的“锋”，尤其适合写汉字时追求笔画粗细变化的书法爱好者。写乐因此被国内的钢笔收藏家称为“书法笔之王”。1980年代，&quot;Professional Gear&quot;系列登场，21k金尖，笔身坚固，深受收藏家青睐。1990年代，&quot;King of Pen&quot;限量款推出，巨型笔身，极致工艺，彰显写乐的巅峰追求。</p>
-<p>重要笔型，如墨海中的利刃：</p>
-<ul>
-<li><strong>Profit（1960年代）</strong>：21k金尖，活塞上墨，书写流畅，经典高端款。</li>
-<li><strong>Naginata Togi（1970年代）</strong>：长刀研笔尖，独特打磨，书写如书法，适合汉字书写。</li>
-<li><strong>Professional Gear（1980年代）</strong>：21k金尖，树脂笔身，坚固耐用，收藏家挚爱。</li>
-</ul>
-<p>写乐的优点，在于那份锐意的匠心，笔尖打磨独步天下；若论不足，或是款式相对保守，设计创新稍显迟缓，却在传统深处赢得文人敬意。</p>
-<h2>结语：御三家的墨香交响</h2>
-<p>百乐的创新、白金的纯净、写乐的匠心，共同绘就了日本钢笔的百年华章。它们从舶来之风中崛起，历经战火与革新，铸就了书写永恒的传奇。愿这份墨香，如晨风般轻柔，唤醒我们对笔尖的温柔怀念。</p>
+      <p>日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。</p>
+<p>百乐的前身可溯至1915年，工程教授 Ryosuke Namiki 与 Masao Wada 的携手，初衷仅为铸就不锈钢笔尖，打破西方垄断。1918年正式创厂于东京，名为 Namiki Manufacturing Company，后更名 Pilot，寓意&quot;领航者&quot;。早年产品以金笔尖为主，出口欧美，奠定国际声誉。二战期间，工厂转产军需，却在战后迅速复苏，1950年代推出批量不锈钢笔尖，推动本土工业腾飞。</p>
+<p>1963年，百乐首创 Capless 可伸缩钢笔，旋钮一转，笔尖隐现，无需笔帽，获巴黎国际礼品展&quot;最推荐产品奖&quot;，革新书写便利。这支笔最初是为经常需要在旅途中签字的商务人士设计的——不用拧开笔帽、旋紧笔帽，单手就能完成书写，尤其适合医生、快递员、税务员等需要频繁用笔的职业。1970至1990年间，Capless 系列迭代，从蚀刻款到多面体设计，技术跃进，彰显日本精密之美。1980年代，Custom 系列问世，传承百年工艺，定位高端定制。重要笔型包括 Capless（1963年，旋钮机制，笔身纤细，至今仍是旅行者的挚友）、Custom 74（1970年代，入门金笔，14K 笔尖柔韧，树脂笔身轻盈）和 Custom 823（1980年代，真空吸墨设计，21K 金尖，墨量充沛，适合长篇书写）。</p>
+<p>白金的起源似一阕清幽小调，1919年创始人 Shunichi Nakata 于东京启业，初售进口笔，后自制 Champion、Piiton 等款，出口海外。1924年建立中屋制作所，专注笔尖锻造，战时转产军工，1950年代复苏，强调&quot;纯净书写&quot;。1956年推出全球首款卡匣式钢笔，摒弃吸墨瓶，书写更卫生便捷。1965年发明&quot;敲击式&quot;可点击钢笔，1967年 Platinum Platinum 问世，首用铂金涂层笔尖，抗腐蚀耐久。1993年限量款与 Hayakawa 机械铅笔同步上市，1994年 President 系列登场，标志中高端转型。重要笔型包括 Honest 60（1950年代，首款卡匣笔，简约金属身）、3776 Century（1970年代，14K 金尖，活塞上墨，&quot;3776&quot;寓意富士山高度）和 President（1994年，高端商务笔，18K 金尖，平衡舒适）。</p>
+<p>写乐的故事始于1911年，创始人 Kyogoro Sakata 于大阪启业，初名 Sailor Pen，寓意&quot;航海者&quot;，灵感源自一位英国水手赠送的钢笔。早年产品以金属笔尖为主，出口东南亚，奠定海外根基。二战期间工厂转产军需，战后复苏，1950年代推出不锈钢笔尖，技术革新。1960年代，写乐推出 Profit 系列，21K 金尖，书写流畅，定位高端。1970年代，长刀研笔尖（Naginata Togi）问世，独特打磨方式使笔尖正面呈弧形切削状，侧面则保留了传统刀刃般的锐角。这种形状使得书写时笔尖会随着运笔方向自然变形——横画细、竖画粗，转折处还能写出类似毛笔的&quot;锋&quot;，尤其适合写汉字时追求笔画粗细变化的书法爱好者。写乐因此被国内的钢笔收藏家称为&quot;书法笔之王&quot;。1980年代，Professional Gear 系列登场，21K 金尖，笔身坚固。重要笔型包括 Profit（1960年代，21K 金尖，活塞上墨）、长刀研（1970年代，独特打磨，书写如书法）和 Professional Gear（1980年代，21K 金尖，树脂笔身，坚固耐用）。</p>
+<p>百乐的创新、白金的纯净、写乐的匠心，共同绘就了日本钢笔的百年华章。它们从舶来之风中崛起，历经战火与革新，铸就了书写永恒的传奇。如今在日本的文具店里，这三家的产品依然并肩陈列——从几百日元的平价钢笔到数十万日元的高级莳绘，各自占据着不同的货架，继续书写着下一个百年。</p>
 
     </div>
 
@@ -374,11 +337,9 @@
       
         <div class="post-detail__footer-tags">
           
-            <a href="/tags/fountain-pen/" class="tag-badge">#fountain-pen</a>
+            <a href="/tags/fountain-pen/" class="tag-badge">#钢笔</a>
           
-            <a href="/tags/history/" class="tag-badge">#history</a>
-          
-            <a href="/tags/fountain-pen-collection/" class="tag-badge">#收藏</a>
+            <a href="/tags/history/" class="tag-badge">#历史</a>
           
         </div>
       
@@ -393,12 +354,12 @@
   
   <nav class="post-nav">
     
-      <a href="/posts/chinese-vintage-pen-history/" class="post-nav-link post-nav-link--prev">
+      <a href="/posts/jekyll-chirpy-trial-and-error/" class="post-nav-link post-nav-link--prev">
         <span class="post-nav-direction">
           <span class="post-nav-arrow">←</span>
           上一篇
         </span>
-        <span class="post-nav-title">中国古董钢笔厂商的上世纪印记：英雄、永生、金星与鸵鸟墨水的时代故事</span>
+        <span class="post-nav-title">Jekyll 与 Chirpy 主题：一位新手博客的试错史</span>
       </a>
     
     
@@ -407,7 +368,7 @@
           下一篇
           <span class="post-nav-arrow">→</span>
         </span>
-        <span class="post-nav-title">欧美钢笔厂商的故事：万宝龙、百利金、水人、派克、犀飞利</span>
+        <span class="post-nav-title">欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利</span>
       </a>
     
   </nav>
@@ -421,17 +382,17 @@
     <div class="related-posts__grid">
       
       
-      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
-        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
+      <a href="/posts/building-eleventy-blog-system/" class="related-post-card">
+        <h3 class="related-post-card__title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</h3>
         <div class="related-post-card__meta">
-          <span>2026-04-26</span>
+          <span>2026-06-15</span>
           <span>·</span>
-          <span>3 分钟阅读</span>
+          <span>1 分钟阅读</span>
         </div>
       </a>
       
-      <a href="/posts/jekyll-chirpy-trial-and-error/" class="related-post-card">
-        <h3 class="related-post-card__title">Jekyll 与 Chirpy：一段试错之旅</h3>
+      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
+        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
         <div class="related-post-card__meta">
           <span>2026-04-26</span>
           <span>·</span>
@@ -448,21 +409,28 @@
         </div>
       </a>
       
+      <a href="/posts/docker-tinkering-lessons-learned/" class="related-post-card">
+        <h3 class="related-post-card__title">折腾 Docker 和面板之后，我决定不折腾了</h3>
+        <div class="related-post-card__meta">
+          <span>2026-03-25</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
     </div>
   </section>
   
 
-  <!-- ============================================================ -->
-  <!--  Comments Section (Giscus)                                   -->
-  <!-- ============================================================ -->
   
-  <section class="comments-section" id="comments">
-    <h2 class="comments-section__title">评论</h2>
-    <div id="twikoo-comments"></div>
-    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
-    <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
-  </section>
-  
+
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+</section>
+
+
 </main>
 
 
@@ -470,7 +438,7 @@
   <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       目录
     </h3>
     <nav class="toc" id="toc"></nav>
@@ -479,12 +447,12 @@
   <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       站点统计
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">25</span>
+        <span class="site-info-card__stat-value">20</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
@@ -492,7 +460,7 @@
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">40</span>
+        <span class="site-info-card__stat-value">19</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
@@ -506,13 +474,13 @@
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-folder-open" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg>
       分类
     </h3>
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">10</span></a>
         </li>
       
         <li class="categories-list__item">
@@ -520,101 +488,45 @@
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">4</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- Tag Cloud -->
+  <!-- Sidebar Tags -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-tags" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       标签
     </h3>
-    <div class="tag-cloud">
+    <div class="sidebar-tags">
       
-        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
+        <a href="/tags/tutorial/" class="sidebar-tags__item" data-count="8">教程</a>
       
-        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
+        <a href="/tags/fountain-pen/" class="sidebar-tags__item" data-count="5">钢笔</a>
       
-        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
+        <a href="/tags/history/" class="sidebar-tags__item" data-count="4">历史</a>
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
+        <a href="/tags/programming/" class="sidebar-tags__item" data-count="4">编程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
+        <a href="/tags/blog/" class="sidebar-tags__item" data-count="3">博客</a>
       
-        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+        <a href="/tags/review/" class="sidebar-tags__item" data-count="3">评测</a>
       
-        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+        <a href="/tags/open-source/" class="sidebar-tags__item" data-count="3">开源</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+        <a href="/tags/deployment/" class="sidebar-tags__item" data-count="3">部署</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+        <a href="/tags/productivity/" class="sidebar-tags__item" data-count="2">效率</a>
       
-        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+        <a href="/tags/email/" class="sidebar-tags__item" data-count="2">邮件</a>
       
-        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+        <a href="/tags/privacy/" class="sidebar-tags__item" data-count="2">隐私</a>
       
-        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
-      
-        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
-      
-        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
-      
-        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
-      
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
-      
-        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
-      
-        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
-      
-        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
-      
-        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
-      
-        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
-      
-        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
-      
-        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
-      
-        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
-      
-        <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
-      
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
-      
-        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
-      
-        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
-      
-        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
-      
-        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
-      
-        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
-      
-        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
-      
-        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
-      
-        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
-      
-        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
-      
-        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
-      
-        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
-      
-        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
-      
-        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
-      
-        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
+        <a href="/tags/input-method/" class="sidebar-tags__item" data-count="1">输入法</a>
       
     </div>
   </div>
@@ -627,27 +539,47 @@
   
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+    <nav class="site-footer__links">
+      
+        <a href="/">首页</a>
+      
+        <a href="/categories/">分类</a>
+      
+        <a href="/tags/">标签</a>
+      
+        <a href="/archive/">归档</a>
+      
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      
+        <a href="https://github.com/eiraud-fishball" target="_blank" rel="noopener">GitHub</a>
+      
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
 
   <!-- Back to Top -->
   <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
-    <i class="fas fa-chevron-up"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
   </button>
-
-  <script src="/assets/js/main.js"></script>
 
   <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
       <div class="search-modal__header">
-        <i class="fas fa-search search-modal__icon"></i>
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
         <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
-          <i class="fas fa-times"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
       <div class="search-modal__results" id="searchResults">
@@ -656,10 +588,15 @@
     </div>
   </div>
 
-  <!-- PWA: Service Worker Registration -->
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
   
   <script>
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js');
       });

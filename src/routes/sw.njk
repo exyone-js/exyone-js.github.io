@@ -1,0 +1,115 @@
+---
+permalink: /sw.js
+eleventyExcludeFromCollections: true
+---
+// Service Worker for Exyone Blog
+//
+// Strategies:
+//   - Static assets (CSS/JS/images) → Stale-while-revalidate
+//     Serve cached version immediately, fetch fresh copy in background.
+//   - HTML pages → Network-first
+//     Always try network first so content is never stale.
+//     Fall back to cache only when offline.
+//   - Other requests (CDN, analytics, etc.) → Pass through
+
+const CACHE_NAME = 'exyone-v5';
+
+const STATIC_ASSETS = [
+  '/assets/css/main.css',
+  '/assets/js/main.js',
+  '/assets/js/vendor/fuse.basic.min.js'
+];
+
+// ── Install ────────────────────────────────────────────────────
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function (cache) { return cache.addAll(STATIC_ASSETS); })
+      .then(function () { return self.skipWaiting(); })
+  );
+});
+
+// ── Activate ───────────────────────────────────────────────────
+self.addEventListener('activate', function (event) {
+  event.waitUntil(
+    caches.keys()
+      .then(function (keys) {
+        return Promise.all(
+          keys
+            .filter(function (k) { return k !== CACHE_NAME; })
+            .map(function (k) { return caches.delete(k); })
+        );
+      })
+      .then(function () { return self.clients.claim(); })
+  );
+});
+
+// ── Fetch ──────────────────────────────────────────────────────
+self.addEventListener('fetch', function (event) {
+  if (event.request.method !== 'GET') return;
+
+  var url = new URL(event.request.url);
+
+  // Only handle same-origin — let CDN / external requests pass through
+  if (url.origin !== self.location.origin) return;
+
+  // HTML → network-first (always fresh, offline fallback)
+  if (isHTMLRequest(event.request)) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  // Static assets (CSS/JS/images/fonts) → stale-while-revalidate
+  if (isStaticAsset(url.pathname)) {
+    event.respondWith(staleWhileRevalidate(event.request));
+    return;
+  }
+});
+
+// ── Strategies ─────────────────────────────────────────────────
+
+/** Network-first: try network, fall back to cache. Ideal for HTML. */
+function networkFirst(request) {
+  return fetch(request)
+    .then(function (response) {
+      if (response && response.status === 200) {
+        var clone = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(request, clone);
+        });
+      }
+      return response;
+    })
+    .catch(function () {
+      return caches.match(request);
+    });
+}
+
+/** Stale-while-revalidate: serve cached, update in background. Ideal for assets. */
+function staleWhileRevalidate(request) {
+  return caches.match(request).then(function (cached) {
+    var fetchPromise = fetch(request).then(function (response) {
+      if (response && response.status === 200) {
+        var clone = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(request, clone);
+        });
+      }
+      return response;
+    });
+
+    return cached || fetchPromise;
+  });
+}
+
+// ── Helpers ────────────────────────────────────────────────────
+
+function isHTMLRequest(request) {
+  var accept = request.headers.get('accept') || '';
+  return accept.indexOf('text/html') !== -1;
+}
+
+function isStaticAsset(pathname) {
+  return /\.(css|js|woff2?|ttf|eot|svg|png|jpe?g|gif|webp|ico)$/.test(pathname)
+    || /^\/assets\//.test(pathname);
+}

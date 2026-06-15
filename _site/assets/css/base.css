@@ -2,7 +2,6 @@
  * Base Styles (Presentation Layer)
  *
  * CSS reset, global defaults, and typography foundation.
- * MacOS-style code blocks with blue-green accents.
  */
 
 /* ================================================================ */
@@ -28,7 +27,6 @@ body {
   line-height: var(--leading-relaxed);
   color: var(--text-primary);
   background: var(--bg-page);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -106,63 +104,130 @@ li {
 }
 
 /* ================================================================ */
-/*  Code — MacOS Window Style                                       */
+/*  Code — Flat minimal style                                        */
 /* ================================================================ */
 code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  padding: 0.15em 0.45em;
-  border-radius: var(--radius-sm);
-  background: rgba(var(--accent-rgb), 0.08);
+  padding: 0.15em 0.4em;
+  background: var(--bg-muted);
   color: var(--accent-darker);
 }
 
-/* MacOS-style code block */
 pre {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   overflow-x: auto;
-  border-radius: var(--radius-xl);
-  border: 1px solid rgba(var(--accent-rgb), 0.12);
-  background:
-    linear-gradient(180deg, rgba(var(--accent-alt-rgb), 0.04) 0%, rgba(var(--accent-rgb), 0.02) 100%),
-    var(--bg-card-solid) !important;
-  backdrop-filter: blur(10px);
-  padding: 1.25rem 1.125rem 1rem;
+  background: var(--bg-card-solid) !important;
+  border: 1px solid var(--border);
+  padding: 1.25rem 1rem;
   margin: 1.5rem 0;
-  position: relative;
-  box-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-/* MacOS window title bar */
-pre::before {
-  content: '';
-  display: block;
-  height: 12px;
-  margin-bottom: 0.75rem;
-  background:
-    radial-gradient(circle 5px, #ff5f57 100%, transparent 100%) 0 center,
-    radial-gradient(circle 5px, #febc2e 100%, transparent 100%) 16px center,
-    radial-gradient(circle 5px, #28c840 100%, transparent 100%) 32px center;
-  background-repeat: no-repeat;
-  opacity: 0.75;
 }
 
 pre code {
   background: none;
   padding: 0;
-  border-radius: 0;
   color: var(--text-primary);
 }
+
+/* ── PrismJS syntax tokens ── */
+pre .token.comment,
+pre .token.prolog,
+pre .token.doctype,
+pre .token.cdata { color: var(--text-muted); font-style: italic; }
+pre .token.punctuation { color: var(--text-secondary); }
+pre .token.property,
+pre .token.tag,
+pre .token.boolean,
+pre .token.number,
+pre .token.constant,
+pre .token.symbol { color: #b07070; }
+pre .token.selector,
+pre .token.attr-name,
+pre .token.string,
+pre .token.char,
+pre .token.builtin { color: #6a9a70; }
+pre .token.operator,
+pre .token.entity,
+pre .token.url { color: var(--accent); }
+pre .token.atrule,
+pre .token.attr-value,
+pre .token.keyword { color: #8a82a8; }
+pre .token.function,
+pre .token.class-name { color: #5a8fb4; }
+pre .token.regex,
+pre .token.important,
+pre .token.variable { color: #c49a6c; }
+pre .token.deleted { color: #b07070; }
+pre .token.inserted { color: #6a9a70; }
+
+@media (prefers-color-scheme: dark) {
+  pre .token.comment,
+  pre .token.prolog,
+  pre .token.doctype,
+  pre .token.cdata { color: var(--text-muted); }
+  pre .token.punctuation { color: var(--text-tertiary); }
+  pre .token.property,
+  pre .token.tag,
+  pre .token.boolean,
+  pre .token.number,
+  pre .token.constant,
+  pre .token.symbol { color: #e09868; }
+  pre .token.selector,
+  pre .token.attr-name,
+  pre .token.string,
+  pre .token.char,
+  pre .token.builtin { color: #a8c878; }
+  pre .token.operator,
+  pre .token.entity,
+  pre .token.url { color: var(--accent); }
+  pre .token.atrule,
+  pre .token.attr-value,
+  pre .token.keyword { color: #c8a0e0; }
+  pre .token.function,
+  pre .token.class-name { color: #80c0e0; }
+  pre .token.regex,
+  pre .token.important,
+  pre .token.variable { color: #e0b060; }
+  pre .token.deleted { color: #e09868; }
+  pre .token.inserted { color: #a8c878; }
+}
+
+[data-theme="dark"] pre .token.comment,
+[data-theme="dark"] pre .token.prolog,
+[data-theme="dark"] pre .token.doctype,
+[data-theme="dark"] pre .token.cdata { color: var(--text-muted); }
+[data-theme="dark"] pre .token.punctuation { color: var(--text-tertiary); }
+[data-theme="dark"] pre .token.property,
+[data-theme="dark"] pre .token.tag,
+[data-theme="dark"] pre .token.boolean,
+[data-theme="dark"] pre .token.number,
+[data-theme="dark"] pre .token.constant,
+[data-theme="dark"] pre .token.symbol { color: #e09868; }
+[data-theme="dark"] pre .token.selector,
+[data-theme="dark"] pre .token.attr-name,
+[data-theme="dark"] pre .token.string,
+[data-theme="dark"] pre .token.char,
+[data-theme="dark"] pre .token.builtin { color: #a8c878; }
+[data-theme="dark"] pre .token.operator,
+[data-theme="dark"] pre .token.entity,
+[data-theme="dark"] pre .token.url { color: var(--accent); }
+[data-theme="dark"] pre .token.atrule,
+[data-theme="dark"] pre .token.attr-value,
+[data-theme="dark"] pre .token.keyword { color: #c8a0e0; }
+[data-theme="dark"] pre .token.function,
+[data-theme="dark"] pre .token.class-name { color: #80c0e0; }
+[data-theme="dark"] pre .token.regex,
+[data-theme="dark"] pre .token.important,
+[data-theme="dark"] pre .token.variable { color: #e0b060; }
+[data-theme="dark"] pre .token.deleted { color: #e09868; }
+[data-theme="dark"] pre .token.inserted { color: #a8c878; }
 
 kbd {
   font-family: var(--font-mono);
   font-size: 0.8em;
   padding: 0.15em 0.4em;
-  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--bg-muted);
 }
@@ -173,9 +238,8 @@ kbd {
 blockquote {
   margin: 2rem 0;
   padding: 1rem 1.25rem;
-  border-left: 3px solid var(--accent-light);
+  border-left: 3px solid var(--accent);
   background: rgba(var(--accent-rgb), 0.04);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   color: var(--text-secondary);
   font-style: italic;
 }
@@ -219,5 +283,70 @@ th {
 /* ================================================================ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--text-muted); }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
+}
+
+/* ================================================================ */
+/*  Utility Classes                                                  */
+/* ================================================================ */
+
+/* — Spacing — */
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.me-1 { margin-right: 0.25rem; }
+.me-2 { margin-right: 0.5rem; }
+.ms-1 { margin-left: 0.25rem; }
+.ms-2 { margin-left: 0.5rem; }
+
+/* — Padding — */
+.p-0  { padding: 0; }
+.px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.px-3 { padding-left: 1rem; padding-right: 1rem; }
+.px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+.pt-0 { padding-top: 0; }
+.pt-4 { padding-top: 1.5rem; }
+.pb-3 { padding-bottom: 1rem; }
+
+/* — Display & Flexbox — */
+.d-block           { display: block; }
+.d-none            { display: none; }
+.d-flex            { display: flex; }
+.d-inline-flex     { display: inline-flex; }
+.flex-column       { flex-direction: column; }
+.justify-content-center   { justify-content: center; }
+.justify-content-between  { justify-content: space-between; }
+.justify-content-end      { justify-content: flex-end; }
+.align-items-center { align-items: center; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 1rem; }
+
+/* — Typography & color helpers — */
+.fw-normal   { font-weight: 400; }
+.fw-medium   { font-weight: 500; }
+.fw-semibold { font-weight: 600; }
+.fw-bold     { font-weight: 700; }
+.small       { font-size: var(--text-sm); }
+.text-center { text-align: center; }
+.text-muted  { color: var(--text-muted) !important; }
+.text-decoration-none { text-decoration: none; }
+
+/* — Surfaces & borders — */
+.bg-transparent { background: transparent; }
+.border-0       { border: 0 !important; }
+.rounded        { border-radius: var(--radius-md); }
+.list-unstyled  { list-style: none; padding-left: 0; }

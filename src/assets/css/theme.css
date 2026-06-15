@@ -1,12 +1,11 @@
 /**
  * Theme & Decorative Styles (Presentation Layer)
  *
- * Acrylic glass, jelly animations, glow effects, floating orbs.
- * Linear grid background. Blue-green jelly palette.
+ * Grain overlay, hover effects, fade-in animations, back-to-top button.
  */
 
 /* ================================================================ */
-/*  Noise Texture (Subtle grain overlay)                             */
+/*  Subtle Grain Overlay (very light)                                */
 /* ================================================================ */
 body::after {
   content: '';
@@ -14,251 +13,63 @@ body::after {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.018;
+  opacity: 0.012;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
 @media (prefers-color-scheme: dark) {
-  body::after { opacity: 0.028; }
+  body::after { opacity: 0.02; }
 }
+
+[data-theme="dark"] body::after { opacity: 0.02; }
+[data-theme="light"] body::after { opacity: 0.012; }
 
 /* ================================================================ */
-/*  Linear Grid Background                                           */
+/*  Flat Surface                                                     */
 /* ================================================================ */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(var(--accent-rgb), 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--accent-rgb), 0.05) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-@media (prefers-color-scheme: dark) {
-  body::before {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 28px 28px;
-  }
-}
-
-/* ================================================================ */
-/*  Floating Glow Orbs — Blue-green dreamlike atmosphere             */
-/* ================================================================ */
-@keyframes float-orb-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(30px, -20px) scale(1.05); }
-  50%  { transform: translate(-15px, -40px) scale(0.95); }
-  75%  { transform: translate(-25px, -10px) scale(1.03); }
-}
-
-@keyframes float-orb-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(-25px, -30px) scale(0.96); }
-  50%  { transform: translate(20px, -15px) scale(1.04); }
-  75%  { transform: translate(15px, -35px) scale(0.98); }
-}
-
-@keyframes float-orb-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(-20px, -25px) scale(1.06); }
-  66%  { transform: translate(25px, -20px) scale(0.94); }
-}
-
-@keyframes float-orb-4 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(35px, -10px) scale(1.02); }
-  50%  { transform: translate(-30px, -35px) scale(0.97); }
-  75%  { transform: translate(10px, -30px) scale(1.04); }
-}
-
-.glow-orb {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -3;
-  will-change: transform;
-}
-
-.glow-orb--teal {
-  width: 420px;
-  height: 420px;
-  top: -120px;
-  right: -100px;
-  background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.12) 0%, transparent 70%);
-  filter: blur(60px);
-  animation: float-orb-1 18s ease-in-out infinite;
-}
-
-.glow-orb--sky {
-  width: 340px;
-  height: 340px;
-  bottom: -80px;
-  left: -80px;
-  background: radial-gradient(circle at center, rgba(var(--accent-alt-rgb), 0.10) 0%, transparent 70%);
-  filter: blur(55px);
-  animation: float-orb-2 20s ease-in-out infinite;
-}
-
-.glow-orb--coral {
-  width: 300px;
-  height: 300px;
-  top: 35%;
-  left: 50%;
-  background: radial-gradient(circle at center, rgba(var(--accent-warm-rgb), 0.08) 0%, transparent 70%);
-  filter: blur(65px);
-  animation: float-orb-3 22s ease-in-out infinite;
-}
-
-.glow-orb--mint {
-  width: 280px;
-  height: 280px;
-  top: 55%;
-  right: 25%;
-  background: radial-gradient(circle at center, rgba(var(--accent-cool-rgb), 0.08) 0%, transparent 70%);
-  filter: blur(60px);
-  animation: float-orb-4 24s ease-in-out infinite;
-}
-
-/* ================================================================ */
-/*  Jelly / Acrylic Glass Effects                                    */
-/* ================================================================ */
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  border: 1px solid var(--glass-border);
-}
-
+.glass,
 .glass-strong {
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-  border: 1px solid var(--glass-border-strong);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
 }
 
+/* ================================================================ */
+/*  Hover Effects                                                    */
+/* ================================================================ */
 .jelly-hover {
-  transition: transform var(--transition-jelly), box-shadow var(--transition-base);
-}
-
-.jelly-hover:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-md), 0 0 24px var(--accent-glow);
-}
-
-.jelly-press {
-  transition: transform var(--transition-fast) cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.jelly-press:active { transform: scale(0.96); }
-
-/* ================================================================ */
-/*  Glow Effects                                                     */
-/* ================================================================ */
-.glow-text {
-  transition: text-shadow var(--transition-base);
-}
-
-.glow-text:hover {
-  text-shadow:
-    0 0 10px rgba(var(--accent-rgb), 0.25),
-    0 0 20px rgba(var(--accent-rgb), 0.12);
-}
-
-.glow-card {
   transition: box-shadow var(--transition-base);
 }
 
-.glow-card:hover {
-  box-shadow:
-    0 0 0 1px rgba(var(--accent-rgb), 0.12),
-    0 8px 32px rgba(30, 41, 59, 0.08),
-    0 0 40px rgba(var(--accent-rgb), 0.08);
+.jelly-hover:hover {
+  box-shadow: var(--shadow-md);
 }
 
-/* ================================================================ */
-/*  Liquid Ripple (hover fill effect)                                */
-/* ================================================================ */
-.liquid-fill {
-  position: relative;
-  overflow: hidden;
+.jelly-press {
+  transition: transform var(--transition-fast);
 }
 
-.liquid-fill::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.08), transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s cubic-bezier(0.68, -0.15, 0.27, 1.15),
-              height 0.6s cubic-bezier(0.68, -0.15, 0.27, 1.15);
-  pointer-events: none;
-}
-
-.liquid-fill:hover::after { width: 300%; height: 300%; }
-
-/* ================================================================ */
-/*  Jelly Morph                                                      */
-/* ================================================================ */
-@keyframes jelly-morph {
-  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-  25%  { border-radius: 40% 60% 55% 45% / 45% 55% 45% 55%; }
-  50%  { border-radius: 35% 65% 45% 55% / 55% 40% 60% 45%; }
-  75%  { border-radius: 50% 50% 40% 60% / 50% 60% 40% 50%; }
-  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-}
-
-.jelly-morph { animation: jelly-morph 14s ease-in-out infinite; }
-
-/* ================================================================ */
-/*  Shimmer Border                                                   */
-/* ================================================================ */
-.shimmer-border { position: relative; }
-
-.shimmer-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  box-shadow:
-    inset 0 0 0 1px rgba(var(--accent-rgb), 0.15),
-    inset 0 0 0 1px rgba(var(--accent-alt-rgb), 0.08);
-  z-index: -1;
-}
-
-.shimmer-border:hover::before { opacity: 1; }
+.jelly-press:active { transform: scale(0.98); }
 
 /* ================================================================ */
 /*  Fade-in Animation for Cards                                      */
 /* ================================================================ */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.fade-up { animation: fade-up 0.5s ease forwards; }
+.fade-up { animation: fade-up 0.4s ease forwards; }
 
 .post-card:nth-child(1) { animation-delay: 0ms; }
-.post-card:nth-child(2) { animation-delay: 80ms; }
-.post-card:nth-child(3) { animation-delay: 160ms; }
-.post-card:nth-child(4) { animation-delay: 240ms; }
-.post-card:nth-child(5) { animation-delay: 320ms; }
-.post-card:nth-child(6) { animation-delay: 400ms; }
-.post-card:nth-child(7) { animation-delay: 480ms; }
-.post-card:nth-child(8) { animation-delay: 560ms; }
+.post-card:nth-child(2) { animation-delay: 60ms; }
+.post-card:nth-child(3) { animation-delay: 120ms; }
+.post-card:nth-child(4) { animation-delay: 180ms; }
+.post-card:nth-child(5) { animation-delay: 240ms; }
+.post-card:nth-child(6) { animation-delay: 300ms; }
+.post-card:nth-child(7) { animation-delay: 360ms; }
+.post-card:nth-child(8) { animation-delay: 420ms; }
 
 /* ================================================================ */
 /*  Back to Top Button                                               */
@@ -268,22 +79,19 @@ body::before {
   bottom: 1.75rem;
   right: 1.75rem;
   z-index: 40;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
-  transform: translateY(16px);
-  transition: all var(--transition-jelly);
-  box-shadow: var(--glass-shadow);
+  transform: translateY(12px);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
   font-size: var(--text-sm);
 }
 
@@ -291,12 +99,8 @@ body::before {
 
 .back-to-top:hover {
   color: var(--accent);
-  border-color: rgba(var(--accent-rgb), 0.3);
-  box-shadow: var(--glass-shadow), 0 0 20px var(--accent-glow);
-  transform: translateY(-3px);
+  border-color: var(--accent);
 }
-
-.back-to-top:active { transform: scale(0.92); }
 
 /* ================================================================ */
 /*  Reduced Motion                                                   */
@@ -308,5 +112,4 @@ body::before {
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
-  .glow-orb { display: none; }
 }

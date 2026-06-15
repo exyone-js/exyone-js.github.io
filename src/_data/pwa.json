@@ -1,4 +1,27 @@
 {
   "enabled": true,
+  "name": "Exyone Blog",
+  "short_name": "Exyone",
+  "description": "Technical blog about .NET, front-end development, and web technologies.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2efe8",
+  "theme_color": "#5a8fb4",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/assets/images/avatar.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/avatar.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
   "cache": { "enabled": true }
 }

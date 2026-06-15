@@ -4,213 +4,357 @@
   <subtitle>一个专注于技术与思考的博客空间，记录开发实践、学习笔记与生活感悟。</subtitle>
   <link href="https://example.com/feed.xml" rel="self" />
   <link href="https://example.com/" />
-  <updated>2026-04-26T00:00:00Z</updated>
+  <updated>2026-06-15T00:00:00Z</updated>
   <id>https://example.com/</id>
   <author>
     <name>Exyone</name>
     <email>hello@example.com</email>
   </author>
   <entry>
+    <title>用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</title>
+    <link href="https://example.com/posts/building-eleventy-blog-system/" />
+    <updated>2026-06-15T00:00:00Z</updated>
+    <id>https://example.com/posts/building-eleventy-blog-system/</id>
+    <content type="html">&lt;p&gt;之前我的个人博客用的是 Jekyll + Chirpy 主题，走了本地构建再推送的路，省去了平台构建不一致的麻烦。但那套方案有个绕不过去的限制：Chirpy 主题打包在 Ruby gem 里，能改的只有配置文件和有限的几个 include。如果你想动布局、改色调、换字体——这些在 Chirpy 的体系里都不是&amp;quot;改一行配置&amp;quot;能解决的事。Jekyll 本身又绑定在 Ruby 生态里，插件写起来说实话也不算顺手。&lt;/p&gt;
+&lt;p&gt;搬到 Eleventy 的理由很简单：它不绑定任何模板语言，不绑定任何 CSS 方法论，连输出格式都不绑定。你想要什么自己搭。副作用是，一切都要自己搭。但正是这种&amp;quot;自己搭&amp;quot;的模式，让 11ty 成了最接近裸写 HTML 的静态站点生成器。你在模板里写什么标签，它就输出什么——不会在你不知情的时候往页面里塞多余的 div、inline script 或 CSS class。这对于一个想精确控制每一行输出的开发者来说，是无可替代的体验。我希望这种对输出的克制，也能通过最终的页面传达给读者。&lt;/p&gt;
+&lt;h2&gt;结构三层：数据、逻辑、表现&lt;/h2&gt;
+&lt;p&gt;我把整个项目划分成三个层次。最底层是数据层，&lt;code&gt;src/_data/&lt;/code&gt; 目录下放着一堆 JSON 和 JS 文件。site.json 定义站点名称、时区、每页文章数等全局参数；author.json 存个人信息和社交链接；comments.json 保存 Giscus 和 Twikoo 的配置；taxonomy.js 做中文字段到 URL-safe slug 的映射。还有两个计算数据文件，sidebarCategories.js 和 sidebarTags.js，它们在构建时扫描所有文章，统计分类和标签的频率，输出给右侧栏使用。&lt;/p&gt;
+&lt;p&gt;中间是逻辑层，一个 .eleventy.js 文件处理所有构建逻辑。包括插件的注册（RSS 生成、代码高亮）、过滤器（日期格式化、阅读时间估算、HTML 剥离、分页导航的 prev/next 计算）、集合的定义（文章按日期排序、分类聚合、标签聚合），以及最重要的搜索索引生成。&lt;/p&gt;
+&lt;p&gt;搜索索引是一个特殊的集合——searchIndex。它不在模板中渲染成页面，而是在构建时遍历所有文章，读取每个 Markdown 文件，剥离掉 YAML frontmatter，再清除 HTML 标签和 Markdown 标记，截取前 1500 个字符，最后输出成一个 search.json 供客户端使用。这样做的好处是搜索索引在构建时就确定了，用户打开搜索时只需要下载一个预先生成的 JSON 文件，不需要在服务端跑任何查询。&lt;/p&gt;
+&lt;p&gt;最上层是表现层。布局模板在 &lt;code&gt;src/_layouts/&lt;/code&gt; 下，页面路由在 &lt;code&gt;src/routes/&lt;/code&gt; 下，组件在 &lt;code&gt;src/_includes/&lt;/code&gt; 下。CSS 全部分散在 &lt;code&gt;src/assets/css/&lt;/code&gt; 下的五个文件里：variables.css 存放所有设计变量（颜色、字体、间距、阴影、圆角）、base.css 做 CSS reset 和排版基调、layout.css 定义三栏网格和页面结构、components.css 覆盖所有组件样式（卡片、徽章、分页、侧边栏、搜索弹窗、文章导航、TOC 等）、theme.css 做表面装饰（噪点纹理、悬浮效果、入场动画、回到顶部按钮）。responsive.css 专门处理响应式断点。&lt;/p&gt;
+&lt;p&gt;没有用任何 CSS 框架。Bootstrap、Tailwind、Bulma——都没有。每一个像素都是手写的 CSS 自定义属性。&lt;/p&gt;
+&lt;h2&gt;三栏的取舍&lt;/h2&gt;
+&lt;p&gt;左侧栏是固定的 240 像素，包含作者卡片、导航菜单、一个每秒更新的数字时钟，还有一个 JavaScript 生成的当月日历。右侧栏是固定的 260 像素，包含自动生成的目录、站点统计、分类列表和标签云。中间的主内容区自适应填满剩余空间。&lt;/p&gt;
+&lt;p&gt;这个布局在桌面端表现不错，但在平板上我切成了两栏：隐藏右侧栏，左侧栏保持固定。手机上则完全放弃侧栏，左侧栏变成一个从左侧滑出的抽屉式菜单，由汉堡按钮控制开关。响应的断点选在 1200px 和 768px——前者是常见笔记本屏幕的宽度下限，后者是 iPad 竖屏和手机的分界线。&lt;/p&gt;
+&lt;p&gt;颜色的设计上，浅色模式以柔钢蓝为主色调（#5a8fb4），配以暖灰色背景（#e0e8f0）和白色卡片（#ffffff）；暗色模式则切换到暖琥珀色（#e8915a），背景用深灰（#18181b），卡片用略浅的深灰（#222225）。四个辅助色分布在不同的 UI 元素上——分类标签用墨绿系，标签云用暖棕系，侧栏装饰用薰衣草系，代码块用土橘系。用户切换一次主题后，选择会被存进 localStorage，下次打开页面直接复用，不依赖系统偏好。&lt;/p&gt;
+&lt;p&gt;细节上，所有圆角都设成了 0。这是有意的选择——直角在中文排版里比圆角更接近传统印刷的质感，尤其是配合衬线字体做标题时，直角边框和规整的网格更能呼应纸媒的气质。&lt;/p&gt;
+&lt;h2&gt;搜索和脚本&lt;/h2&gt;
+&lt;p&gt;搜索功能用了 Fuse.js 做客户端模糊匹配。构建时先生成一个 search.json，结构是一个数组，每篇文章包含标题、URL、日期、摘要、标签、分类，以及截取过的正文前 1500 个字符。用户在搜索弹窗里输入关键词后，Fuse.js 在浏览器端做模糊匹配，权重分配是标题 50%、摘要 25%、正文 15%、标签和分类各 5%。阈值为 0.35，允许单字符匹配——这对中文搜索很重要，因为中文不像英文那样有天然的空格分词。&lt;/p&gt;
+&lt;p&gt;用户的搜索偏好历史记录存进来了，每次按 Ctrl+K 或点击搜索图标，弹窗显示的输入框自动获得焦点，搜索结果实时刷新。&lt;/p&gt;
+&lt;p&gt;JavaScript 文件全部手写，没有用 jQuery 或其他框架。主要功能包括：左侧栏移动端抽屉的开闭、返回顶部按钮的显隐（滚动超过 300px 时出现）、阅读进度条（根据 scrollY 与可滚动总高度的比值更新宽度）、标题锚点链接（为文章内容中每个标题生成一个可点击的链式图标，点击后复制完整 URL 到剪贴板）、目录生成（从 h2/h3 提取标题文本构建 TOC 列表，滚动时自动高亮当前章节）、主题切换、数字时钟（每秒更新）、当月日历（JavaScript 渲染，支持前后翻月）、以及搜索弹窗的全部交互逻辑。&lt;/p&gt;
+&lt;p&gt;Service Worker 在生产环境下注册，用来预缓存站点资源，实现离线访问能力。manifest.json 中定义了 PWA 的基本配置，包括启动画面、主题色和应用名称。&lt;/p&gt;
+&lt;h2&gt;部署和 CI/CD&lt;/h2&gt;
+&lt;p&gt;代码推送到 GitHub 后，GitHub Actions 自动执行部署流程。先把 &lt;code&gt;_site&lt;/code&gt; 目录上传为 GitHub Pages 的 artifact，然后调用官方的 deploy-pages action 部署到 GitHub Pages。同时我配置了两个额外的推送目标：一个是推送到 GitLab 做镜像仓库，另一个是克隆 Codeberg Pages 仓库，把 &lt;code&gt;_site&lt;/code&gt; 内容复制进去，写入自定义域名文件，再推送回 Codeberg。三个平台共用同一份构建产物，确保输出完全一致。&lt;/p&gt;
+&lt;p&gt;Build.ps1 是 Windows 下的构建脚本，逻辑很简单：删除旧的 &lt;code&gt;_site&lt;/code&gt; 目录，然后执行 &lt;code&gt;npx @11ty/eleventy&lt;/code&gt;。&lt;/p&gt;
+&lt;h2&gt;模板和数据流&lt;/h2&gt;
+&lt;p&gt;所有的文章使用同一个 frontmatter 结构。&lt;code&gt;_posts.json&lt;/code&gt; 为 &lt;code&gt;_posts/&lt;/code&gt; 目录下的所有 Markdown 文件设置默认值：布局为 post.njk，永久链接格式为 &lt;code&gt;/posts/building-eleventy-blog-system/&lt;/code&gt;。每篇文章的 frontmatter 至少包含标题、日期、分类和标签。摘要是可选的，如果不填，首页卡片上会显示正文的前几行。&lt;/p&gt;
+&lt;p&gt;评论系统同时支持 Giscus 和 Twikoo。comments.json 中配置了两个 provider 的参数，post 布局底部的 comments.njk 组件根据 provider 字段选择渲染 Giscus 的 client.js 脚本还是 Twikoo 的初始化脚本。两个评论系统可以同时启用，读者自由选择。&lt;/p&gt;
+&lt;p&gt;路由方面，除了文章详情页，系统还生成了首页分页列表、分类索引页、分类详情页、标签索引页、标签详情页、归档页、关于页、友链页、留言页和分享页。这些页面共用 base.njk 布局，各自独立渲染内容区。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;从 Jekyll 到 Eleventy，最大的感受不是某个具体功能的好坏，而是控制权的转移。在 Chirpy 主题下，你只能做主题允许你做的事；在 Eleventy 上，你做的每一个决定——CSS 变量命名、布局如何分层、搜索索引的权重分配——都是你自己的决定。当然代价是每件事都要自己动手。如果你喜欢开箱即用，Chirpy 仍然是更好的选择。但如果你想完全掌控博客的每一层，Eleventy 值得花时间。&lt;/p&gt;
+&lt;p&gt;项目代码完全开源，在 GitHub 上可以找到。你可以直接 fork 使用，也可以只参考某个模块的实现——比如 Fuse.js 搜索的集成方式、三栏布局的 CSS 实现、或者 GitHub Actions 多平台部署的 workflow 配置。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
     <title>为 Chirpy 添加 Twikoo 评论：一次插件开发记录</title>
     <link href="https://example.com/posts/chirpy-twikoo-comment-plugin/" />
     <updated>2026-04-26T00:00:00Z</updated>
     <id>https://example.com/posts/chirpy-twikoo-comment-plugin/</id>
     <content type="html">&lt;p&gt;Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。&lt;/p&gt;
-&lt;h2&gt;为什么选择 Twikoo？&lt;/h2&gt;
-&lt;p&gt;Giscus 很好——免费、无广告、评论存储在 GitHub Discussions 中。但有个问题：读者需要 GitHub 账号才能评论。对于一些朋友，尤其是网络受限地区的用户，或者单纯没有 GitHub 账号的人，这造成了不必要的障碍。比如一位来自中国的读者，可能能稳定访问你的博客，却难以加载 GitHub 的认证页面。另一位读者可能只是想留个言，不想为此再注册一个在线账号。&lt;/p&gt;
-&lt;p&gt;Twikoo 提供了更简单的替代方案。它支持匿名评论，无需第三方账号，提供轻量级的评论体验。代价是你需要自己托管一个 Twikoo 后端（可以使用腾讯云 CloudBase、Vercel 或自建方案），但对于很多博主来说，为了给读者提供灵活性，这个代价是值得的。通过同时提供 Giscus 和 Twikoo，读者可以根据自己的情况选择最合适的方式。&lt;/p&gt;
-&lt;h2&gt;问题所在&lt;/h2&gt;
-&lt;p&gt;Chirpy 使用 Giscus 作为评论系统，通过 &lt;code&gt;_config.yml&lt;/code&gt; 配置。主题的模板被打包在 Ruby gem 里，这意味着你不能直接在项目目录中编辑它们。你可以 fork 主题然后修改，但这会带来维护负担——每次主题更新，你都需要把更新合并到你的 fork 中。&lt;/p&gt;
-&lt;p&gt;我想要一个能在主题更新后继续工作的方案，不需要维护单独的 fork。目标是在不触碰主题核心文件的情况下，将 Twikoo 注入到文章页面中。&lt;/p&gt;
-&lt;h2&gt;解决方案：多次迭代的历程&lt;/h2&gt;
-&lt;p&gt;我的实现经过几个阶段的迭代才找到正确的方法。每种方法都有其局限性，促使我转向下一个方法。&lt;/p&gt;
-&lt;h3&gt;第一次尝试：后渲染钩子&lt;/h3&gt;
-&lt;p&gt;我最初创建了一个 Jekyll 插件，使用后渲染钩子在构建完成后将 Twikoo 的 HTML 和 JavaScript 注入到每篇文章页面中。这个钩子在 Jekyll 完成每个文档渲染后运行。它检查输出是否为 HTML，验证文档是否为文章，然后将 Twikoo 容器注入到 &lt;code&gt;&amp;lt;/body&amp;gt;&lt;/code&gt; 标签之前。&lt;/p&gt;
-&lt;p&gt;这种方法在本地和某些托管平台上有效，但我发现 GitHub Actions 的构建环境处理 Jekyll 插件的方式不同。插件在 GitHub Pages 构建上根本不会执行，尽管它在 Cloudflare Pages 和本地运行良好。经过数周的调试——更改钩子类型、添加错误处理、清理缓存、尝试各种配置——我意识到问题根本在于 GitHub Pages 加载自定义插件的方式。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;完整源码可在我的 &lt;a href=&quot;https://github.com/exyone-labs/exyone-labs.github.io&quot;&gt;GitHub 仓库&lt;/a&gt;中找到，文件位置是 &lt;code&gt;_plugins/twikoo-inject.rb&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3&gt;第二次尝试：footer.html 模板&lt;/h3&gt;
-&lt;p&gt;插件方法在 GitHub Pages 上失败后，我尝试使用 Liquid 模板将 Twikoo 直接嵌入到 &lt;code&gt;_includes/footer.html&lt;/code&gt; 中。这种方法完全绕过了插件系统——由于 footer.html 是站点模板文件的一部分，Jekyll 在正常构建周期中会处理它，无论插件加载行为如何。&lt;/p&gt;
-&lt;p&gt;这个想法是合理的，但结果不一致。GitHub Actions 的构建环境处理模板 includes 的方式与其他平台不同。footer include 在不同部署场景中没有一致地处理，这意味着评论系统在一些构建上会出现，但在另一些上不会。&lt;/p&gt;
-&lt;h3&gt;第三次尝试：本地构建工作流程&lt;/h3&gt;
-&lt;p&gt;经过两次失败的尝试，我意识到核心问题：不同的构建环境会产生不同的结果。即使使用相同的源代码和相同的 Jekyll 版本，平台配置其构建运行器的细微差异也可能导致输出不一致。&lt;/p&gt;
-&lt;p&gt;我最终采用的解决方案是本地构建后推送工作流程。不再依赖托管平台构建站点，而是先在本地构建，然后将预生成的 &lt;code&gt;_site&lt;/code&gt; 文件夹推送到部署仓库。这确保了无论在哪个平台托管，输出都完全一致——由于站点是预构建的，主机只需要提供静态文件，而不需要运行 Jekyll。&lt;/p&gt;
-&lt;h2&gt;实现细节&lt;/h2&gt;
-&lt;h3&gt;插件注入（第一次尝试）&lt;/h3&gt;
-&lt;p&gt;最初的插件方法使用多个检查来确保可靠的注入。它检查输出是否为 HTML，验证文档是否为文章，并通过查找现有标记来防止重复注入。&lt;/p&gt;
-&lt;h3&gt;防止重复注入&lt;/h3&gt;
-&lt;p&gt;使用独特的数据属性作为标记，可以避免文章本身包含提及注入目标的代码示例时出现误判。这是撰写关于自己插件的技术文档时常见的陷阱。&lt;/p&gt;
-&lt;h3&gt;切换 UI 设计&lt;/h3&gt;
-&lt;p&gt;由于 Giscus 无法隐藏（由主题渲染），我创建了一个切换按钮来显示/隐藏 Twikoo 区域。设计采用了水平分隔线配居中文字的方式——这是出版中常见的模式，用于分隔内容的不同部分。&lt;/p&gt;
-&lt;p&gt;切换按钮有实际用途：它为不想评论的读者保持页面整洁，同时为想评论的读者提供选项。按钮文字从&amp;quot;展开 Twikoo 评论&amp;quot;变为&amp;quot;收起 Twikoo 评论&amp;quot;，清楚地指示当前状态。&lt;/p&gt;
-&lt;h3&gt;懒加载&lt;/h3&gt;
-&lt;p&gt;Twikoo 只在用户点击切换按钮时才初始化，节省资源。没有懒加载的话，每次页面加载都会获取 Twikoo JavaScript 库并初始化评论系统，即使读者从未打算留言。有了懒加载，这个开销只在实际需要时才会发生。&lt;/p&gt;
-&lt;h2&gt;样式考量&lt;/h2&gt;
-&lt;p&gt;实现使用 CSS 变量（&lt;code&gt;--border-color&lt;/code&gt;、&lt;code&gt;--text-muted&lt;/code&gt;、&lt;code&gt;--link-color&lt;/code&gt;）来匹配 Chirpy 的主题。这确保切换按钮在浅色和深色模式下都保持一致的外观，不需要为每种模式编写单独的样式。如果 Chirpy 在未来更新其配色方案，Twikoo UI 会自动适应。&lt;/p&gt;
-&lt;p&gt;宽度限制为 &lt;code&gt;max-width: 800px&lt;/code&gt;，与内容区域对齐。这种对齐让评论部分在视觉上与上方的文章相连。边距设置为 &lt;code&gt;0.5rem auto 2rem auto&lt;/code&gt;，顶部留出呼吸空间，底部提供更充分的分隔，因为那里是 footer 的开始位置。&lt;/p&gt;
-&lt;h2&gt;配置&lt;/h2&gt;
-&lt;p&gt;由于 Chirpy 主题原生不支持 Twikoo，官方只支持 Giscus、Disqus 和 Utterances。因此，如果你只想使用 Twikoo，不要填写 &lt;code&gt;provider&lt;/code&gt; 字段，否则主题会尝试渲染不支持的评论系统导致报错。Twikoo 的注入是通过 footer.html 和插件完成的，不需要依赖 Chirpy 的评论配置。&lt;/p&gt;
-&lt;p&gt;只需要确保在 &lt;code&gt;_config.yml&lt;/code&gt; 中添加 &lt;code&gt;plugins_dir&lt;/code&gt;：&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;为什么要在 Giscus 之外再加一套评论系统？Giscus 本身很好——免费、无广告、评论数据存储在 GitHub Discussions 里，跟项目代码在同一个屋檐下。但它有一个门槛：读者必须拥有 GitHub 账号才能发言。这听起来不算什么，直到你真的遇到那些场景。一位来自中国的读者也许能稳定访问你的博客，却怎么也打不开 GitHub 的认证页面；另一位读者可能只是想说一句&amp;quot;好文章&amp;quot;，却要为此注册一个他并不需要的账号。这种摩擦会直接损失评论——很多人看到登录页面就关掉了标签页。&lt;/p&gt;
+&lt;p&gt;Twikoo 提供了另一种路。它支持匿名评论，不需要任何第三方账号，读者打开页面就能打字。代价是你需要自己维护一个后端，可以是腾讯云 CloudBase、Vercel，或者自建服务器。对我来说，这个代价完全值得：同时提供 Giscus 和 Twikoo，就等于同时照顾了两类读者——那些愿意用 GitHub 身份发声的，和那些只想留下只言片语的。&lt;/p&gt;
+&lt;p&gt;但 Chirpy 主题的模板打包在 Ruby gem 里，你不能直接在项目目录中修改它们。官方只内置了 Giscus、Disqus 和 Utterances 三种评论系统。如果你想加 Twikoo，绕过 gem 的束缚，就得动主题的源文件。最直接的办法是 fork 主题，改完再用自己的 fork。但这引入了长期的维护成本：每次 Chirpy 发布更新，你都得把变动合并到自己的 fork 里，而评论功能本身并不会因为主题升级而有什么变化。我希望的方案是能跟上游主题保持同步的，不需要维护一个独立的 fork。&lt;/p&gt;
+&lt;p&gt;于是我开始寻找一种不触碰主题核心文件，就能把 Twikoo 注入到每篇文章中的方法。这个过程经历了三次尝试。&lt;/p&gt;
+&lt;p&gt;第一次尝试是写一个 Jekyll 插件。我创建了一个后渲染钩子（post-render hook），在 Jekyll 构建完每个文档之后运行。它检查输出是不是 HTML，验证当前文档是不是一篇文章，确认无误后，把 Twikoo 所需的容器和脚本注入到结束标签之前。这个方案在本地跑得很好，在 Cloudflare Pages 上也正常。但推上 GitHub Pages 后，评论模块消失了。问题出在 GitHub Pages 的构建环境对自定义 Jekyll 插件的处理方式上——它在构建过程中根本不会执行第三方插件。我开始以为是自己钩子类型选错了，于是换了钩子类型，加了错误日志，清了缓存，反复调整配置。折腾了几周之后才确认，这不是代码的问题，是平台本身不支持。完整的插件源码现在还在我的仓库里，路径是 _plugins/twikoo-inject.rb，供那些使用兼容平台的读者参考。&lt;/p&gt;
+&lt;p&gt;第二次尝试换了个思路，绕开插件系统。我用 Liquid 模板把 Twikoo 直接嵌入到 _includes/footer.html 里。footer.html 是站点模板的一部分，Jekyll 在正常构建周期中会处理它，不管插件有没有被加载。这个想法本身是成立的，但实际效果依然不稳定。GitHub Actions 的构建环境在处理模板 include 的细节上与其他平台存在差异，导致 footer include 在某些构建中触发了，在某些构建中没有。这时候我意识到，真正的问题不是用什么方式注入 Twikoo，而是不同的构建环境对同一份源码的解释并不一致。&lt;/p&gt;
+&lt;p&gt;第三次尝试彻底改变了思路。既然构建环境不可控，那就不让它们构建。我在本地先跑 &lt;code&gt;bundle exec jekyll build&lt;/code&gt;，把生成的 _site 文件夹推送到部署仓库。托管平台只负责提供静态文件，不执行任何构建命令。这种方式下，不管你把 _site 部署到 GitHub Pages、Cloudflare Pages 还是 Netlify，输出都是你在本地看到的那一份。它不是用哪一个平台的标准去构建，而是你自己决定了标准的版本。&lt;/p&gt;
+&lt;p&gt;具体的注入方式仍然是利用了 _includes/footer.html 模板。区别在于，之前是让平台去渲染这个模板，现在是在本地渲染好再推送。为了防止重复注入，我在 Twikoo 容器上加了独特的数据属性作为标记，这样即使文章本身包含关于 Twikoo 的代码示例，注入逻辑也不会误判。这是一个自己写插件时很容易踩的坑——你的文章内容恰好提到了注入目标，结果把自己排除在外了。&lt;/p&gt;
+&lt;p&gt;UI 上我做了一个切换按钮。因为 Giscus 是由 Chirpy 主题自身渲染的，没办法隐藏，所以 Twikoo 默认不显示。读者点击&amp;quot;展开 Twikoo 评论&amp;quot;之后才会出现输入框，按钮文字会同步切换成&amp;quot;收起&amp;quot;。这样做的另一个好处是实现了懒加载：Twikoo 的 JavaScript 库只在第一次点击按钮时才加载并初始化。如果读者没有评论的意图，他们的浏览器就不会多下载一个库。&lt;/p&gt;
+&lt;p&gt;样式方面我用了 Chirpy 定义的 CSS 变量——&lt;code&gt;--border-color&lt;/code&gt;、&lt;code&gt;--text-muted&lt;/code&gt;、&lt;code&gt;--link-color&lt;/code&gt; 这几个。切换按钮和分隔线在浅色和深色模式下自动适配，不需要为每种模式写两套样式。宽度对齐到 &lt;code&gt;max-width: 800px&lt;/code&gt;，与文章正文保持一致。边距设成 &lt;code&gt;0.5rem auto 2rem auto&lt;/code&gt;——顶部给一点呼吸空间，底部留出更充分的分隔，因为下面是 footer 的开始位置。&lt;/p&gt;
+&lt;p&gt;配置很简单。如果你只想用 Twikoo，不要在 theme 的评论 provider 字段里填任何值，否则 Chirpy 会因为不认识的 provider 报错。如果你想同时使用 Giscus 和 Twikoo（像我的博客这样），就把 provider 保留为 giscus，主题会正常渲染 Giscus，Twikoo 则通过我们注入的方式独立显示。另外需要在 _config.yml 里加上一行：&lt;/p&gt;
 &lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;plugins_dir&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; _plugins&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;这确保 Jekyll 从 &lt;code&gt;_plugins&lt;/code&gt; 目录加载插件。没有这一行，Jekyll 可能找不到你的自定义插件，具体取决于它的调用方式。&lt;/p&gt;
-&lt;p&gt;如果你想同时使用 Giscus 和 Twikoo（像我的博客这样），可以将 &lt;code&gt;provider&lt;/code&gt; 保留为 &lt;code&gt;giscus&lt;/code&gt;，这样主题会渲染 Giscus，而 Twikoo 通过我们的自定义注入显示。&lt;/p&gt;
-&lt;h2&gt;设置本地构建工作流程&lt;/h2&gt;
-&lt;p&gt;我的做法是这样的：源代码仓库和 &lt;code&gt;_site&lt;/code&gt; 目录在同一个仓库中，源码仓库包含完整的博客源码和构建后的 &lt;code&gt;_site&lt;/code&gt; 文件夹。本地构建完成后，通过 GitHub Actions 将 &lt;code&gt;_site&lt;/code&gt; 目录推送到 GitHub Pages 进行托管。对于 Cloudflare Pages 和 Netlify，则将构建产物推送到它们的 Pages 仓库，并设置它们不进行构建，只负责托管静态文件。&lt;/p&gt;
-&lt;h3&gt;步骤 1：启用 GitHub Pages&lt;/h3&gt;
-&lt;p&gt;在 GitHub 仓库设置中启用 GitHub Pages，选择 &amp;quot;GitHub Actions&amp;quot; 作为构建源。这样 GitHub 会自动运行我们配置的 Actions 工作流。&lt;/p&gt;
-&lt;h3&gt;步骤 2：配置 Cloudflare Pages&lt;/h3&gt;
-&lt;p&gt;在 Cloudflare 控制台中创建 Pages 项目，连接到你的 GitHub 仓库。然后在设置中做两件事：第一，关闭&amp;quot;构建&amp;quot;选项，只保留&amp;quot;部署&amp;quot;功能；第二，将部署目录设置为 &lt;code&gt;_site&lt;/code&gt;。这样 Cloudflare 只会读取我们推送的 &lt;code&gt;_site&lt;/code&gt; 目录中的静态文件，而不会推送整个仓库。&lt;/p&gt;
-&lt;h3&gt;步骤 3：配置 Netlify&lt;/h3&gt;
-&lt;p&gt;同样在 Netlify 中创建站点，连接到 GitHub 仓库。在站点设置中做两件事：第一，关闭&amp;quot;构建&amp;quot;命令，不执行任何构建脚本；第二，将发布目录设置为 &lt;code&gt;_site&lt;/code&gt;。这样 Netlify 只会托管 &lt;code&gt;_site&lt;/code&gt; 中的静态文件。同时还有个额外好处：Netlify 免费版每月有 300 分钟的构建时间限制，跳过构建步骤可以节省这些额度，留给其他项目使用。&lt;/p&gt;
-&lt;h3&gt;步骤 4：本地构建和推送&lt;/h3&gt;
-&lt;p&gt;当你想部署时，在本地运行以下命令：&lt;/p&gt;
-&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# 构建站点&lt;/span&gt;
-bundle &lt;span class=&quot;token builtin class-name&quot;&gt;exec&lt;/span&gt; jekyll build
-
-&lt;span class=&quot;token comment&quot;&gt;# 切换到 deploy 仓库的文件夹&lt;/span&gt;
-&lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; _site
-
-&lt;span class=&quot;token comment&quot;&gt;# 如果需要则初始化 git，然后提交和推送&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Deploy site&quot;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push deploy main&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;步骤 5：用脚本自动化&lt;/h3&gt;
-&lt;p&gt;为了使部署更方便，创建一个部署脚本：&lt;/p&gt;
+&lt;p&gt;这行配置告诉 Jekyll 从 _plugins 目录加载自定义插件。如果缺少这行，Jekyll 可能找不到你放在那里的脚本，具体表现因调用方式而异。&lt;/p&gt;
+&lt;p&gt;部署方面，我现在的流程是这样的。源码和 _site 在同一个仓库里。本地构建完成后，通过 GitHub Actions 把 _site 目录推送到 GitHub Pages。对于 Cloudflare Pages 和 Netlify，同样推送 _site 目录，但在它们的控制台中关闭构建功能，只保留部署和托管静态文件的能力。Netlify 的免费版每月有 300 分钟的构建时间限制，跳过构建步骤还能省下这些额度给其他项目用。&lt;/p&gt;
+&lt;p&gt;如果你想自己配置一遍，各平台的设置要点是：GitHub 仓库设置中启用 Pages，选择 GitHub Actions 作为构建源；Cloudflare 创建 Pages 项目时关闭构建选项，部署目录设为 _site；Netlify 创建站点时同样关闭构建命令，发布目录设为 _site。然后写一个简短的部署脚本来自动化整个过程，每次需要发布时在本地先 &lt;code&gt;bundle exec jekyll build&lt;/code&gt;，然后提交 _site 的变更并推送。你可以参考这个骨架：&lt;/p&gt;
 &lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token shebang important&quot;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&quot;token builtin class-name&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt;
-
-&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Building Jekyll site...&quot;&lt;/span&gt;
 bundle &lt;span class=&quot;token builtin class-name&quot;&gt;exec&lt;/span&gt; jekyll build
-
 &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; _site
-
-&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Committing to deploy repository...&quot;&lt;/span&gt;
 &lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;token builtin class-name&quot;&gt;.&lt;/span&gt;
 &lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; commit &lt;span class=&quot;token parameter variable&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Deploy &lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Pushing to deploy repository...&quot;&lt;/span&gt;
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push deploy main
-
-&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Done!&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;用 &lt;code&gt;chmod +x deploy.sh&lt;/code&gt; 使其可执行，然后每当你想部署时运行 &lt;code&gt;./deploy.sh&lt;/code&gt;。&lt;/p&gt;
-&lt;h2&gt;平台兼容性&lt;/h2&gt;
-&lt;p&gt;使用本地构建工作流程，平台兼容性不再是问题。由于你在本地构建并只推送输出，托管平台只需提供静态文件。这适用于任何可以提供 HTML 文件的平台：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;托管平台&lt;/th&gt;
-&lt;th&gt;本地构建可用？&lt;/th&gt;
-&lt;th&gt;备注&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;GitHub Pages&lt;/td&gt;
-&lt;td&gt;是&lt;/td&gt;
-&lt;td&gt;推送到 yourusername.github.io&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Cloudflare Pages&lt;/td&gt;
-&lt;td&gt;是&lt;/td&gt;
-&lt;td&gt;连接部署仓库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Netlify&lt;/td&gt;
-&lt;td&gt;是&lt;/td&gt;
-&lt;td&gt;连接部署仓库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Vercel&lt;/td&gt;
-&lt;td&gt;是&lt;/td&gt;
-&lt;td&gt;连接部署仓库&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;任何静态主机&lt;/td&gt;
-&lt;td&gt;是&lt;/td&gt;
-&lt;td&gt;上传 _site 内容&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;关键优势是你不需要在托管平台上配置构建命令或 Ruby 版本。你不是在要求平台构建任何东西——你给它的是准备好的文件。&lt;/p&gt;
-&lt;h2&gt;为什么这种方法更好&lt;/h2&gt;
-&lt;p&gt;在本地构建然后推送输出解决了困扰基于平台的构建的几个问题。&lt;/p&gt;
-&lt;p&gt;首先，一致性得到保证。当你在本地构建时，每次都使用相同的 Ruby 版本、相同的 Jekyll 版本和相同的 gem 版本。输出是确定性的。你推送到部署仓库的文件正是你在本地运行 &lt;code&gt;jekyll build&lt;/code&gt; 时看到的文件。&lt;/p&gt;
-&lt;p&gt;其次，调试变得更容易。如果生产环境中出现问题，你可以将本地构建输出与已部署的内容进行比较。由于两者来自相同的构建过程，任何差异必定是由于托管平台的配置，而不是构建本身。&lt;/p&gt;
-&lt;p&gt;第三，部署速度更快。基于平台的构建可能需要几分钟，特别是如果 Jekyll 需要重建整个站点时。有了本地构建，你已经准备好了输出。推送到 git 仓库只需几秒钟，大多数托管平台在几秒或几分钟内检测到新提交。&lt;/p&gt;
-&lt;p&gt;第四，你获得了对构建环境的完全控制。平台的构建环境可能会在未经通知的情况下发生变化——平台可能会升级 Ruby 或 Jekyll，或更改其配置构建运行器的方式。当你在本地构建时，你决定何时升级，并且可以在部署前进行充分测试。&lt;/p&gt;
-&lt;h2&gt;最终效果&lt;/h2&gt;
-&lt;p&gt;现在每篇文章都有两个评论选项，而且无论你托管在哪里，它们的工作方式都完全一致。Giscus 默认显示，集成在主题的设计中。Twikoo 默认隐藏，通过每篇文章底部的切换按钮访问。读者可以选择自己偏好的评论系统，或者如果只是浏览的话，忽略两者。&lt;/p&gt;
-&lt;p&gt;实现干净且非侵入式。它不需要 fork 主题，不会使部署过程复杂化，尊重 Chirpy 的设计语言。当主题更新时，Twikoo 集成继续工作，不需要任何更改。&lt;/p&gt;
-&lt;p&gt;本地构建工作流程为部署增加了一个额外的步骤——你在本地构建而不是让平台为你构建——但这个权衡是值得的。你获得了一致的结果、更快的部署，以及对构建过程的完全控制。&lt;/p&gt;
-&lt;h2&gt;获取源代码&lt;/h2&gt;
-&lt;p&gt;如果你有兴趣在自己的 Chirpy 博客上实现这个功能，完整的源代码可以在我的 &lt;a href=&quot;https://github.com/exyone-labs/exyone-labs.github.io&quot;&gt;GitHub 仓库&lt;/a&gt;中找到。你需要：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;_includes/footer.html&lt;/code&gt; - 通过模板的 Twikoo 集成&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;_plugins/twikoo-inject.rb&lt;/code&gt; - 插件注入（在兼容的平台上工作）&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;_config.yml&lt;/code&gt; - Twikoo 配置&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2&gt;更新日志&lt;/h2&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;日期&lt;/th&gt;
-&lt;th&gt;更新内容&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-04-25&lt;/td&gt;
-&lt;td&gt;初始版本，包含切换 UI、懒加载、CSS 变量支持&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-04-25&lt;/td&gt;
-&lt;td&gt;将钩子从 &lt;code&gt;:site, :post_render&lt;/code&gt; 改为 &lt;code&gt;:documents, :post_render&lt;/code&gt; 以提高兼容性&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;添加显式文章集合检查，确保可靠定位&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;添加 &lt;code&gt;plugins_dir&lt;/code&gt; 配置要求&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;添加构建环境对比及 Cloudflare Pages 推荐说明&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;更新 GitHub Actions 工作流，添加详细构建输出用于调试&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;修复自我排除 Bug，使用独特的 data 属性作为标记&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-02&lt;/td&gt;
-&lt;td&gt;删除冗余代码示例以防止自我排除&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-07&lt;/td&gt;
-&lt;td&gt;尝试使用 footer.html 模板注入作为插件的替代方案&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-07&lt;/td&gt;
-&lt;td&gt;发现 footer.html 在 GitHub Actions 上也不一致&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;2026-05-08&lt;/td&gt;
-&lt;td&gt;实现本地构建后推送工作流程以确保一致性&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; push deploy main&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;本地构建工作流程有几个实实在在的好处。一致性是最重要的一条——你本地是什么样，线上就是什么样，因为用的是同一台机器、同一套 Ruby 版本和 gem 版本构建出来的。调试也变得更简单：如果线上页面出了问题，你把本地 _site 里对应的 HTML 打开，和线上的比较，差异一目了然。部署速度更快，推送 git 提交只需要几秒钟，不需要等平台慢慢跑构建。最后，你掌握了控制权——平台可能会在某个星期二悄悄升级 Ruby 版本，但你的构建环境只会在你主动升级时才会变化。&lt;/p&gt;
+&lt;p&gt;现在每篇文章底部都有两个评论系统。Giscus 默认可见，与主题风格融为一体。Twikoo 默认隐藏，通过切换按钮访问。它们各自独立工作，读者按自己的情况选。如果你只是在浏览内容，两个都可以忽略，页面不会因为你没评论就加载多余的脚本。&lt;/p&gt;
+&lt;p&gt;完整的源代码在我的 GitHub 仓库里。你需要关注三个文件：_includes/footer.html（模板注入的逻辑）、_plugins/twikoo-inject.rb（插件注入版本，供兼容平台使用）、以及 _config.yml 中与 Twikoo 相关的配置项。这些文件可以直接复制到你的项目中使用。&lt;/p&gt;
+&lt;p&gt;最后记录一下这个方案在迭代过程中的关键节点：4 月 25 日完成初始版本，包含切换 UI 和懒加载；同一天将钩子从 site:post_render 改为 documents:post_render，提升了兼容性；5 月 2 日修复了自我排除的 bug——使用独特 data 属性做标记后，文章内容不再影响注入结果；5 月 7 日尝试 footer.html 模板注入作为纯插件方案的替代；5 月 8 日最终转向本地构建工作流程。到这一步，我在不同平台上看到的终于不再是三种不同的结果。&lt;/p&gt;
 </content>
   </entry>
   <entry>
-    <title>Jekyll 与 Chirpy：一段试错之旅</title>
+    <title>Copilot的数据政策变更：AI时代的开源思考</title>
+    <link href="https://example.com/posts/copilot-data-policy-open-source/" />
+    <updated>2026-03-28T00:00:00Z</updated>
+    <id>https://example.com/posts/copilot-data-policy-open-source/</id>
+    <content type="html">&lt;p&gt;近日，GitHub 宣布更新 Copilot 隐私政策：从 2026 年 4 月 24 日起，将默认使用 Copilot Free、Pro 和 Pro+ 用户的交互数据（包括输入提示、输出建议、代码片段及相关上下文）来训练和改进 AI 模型。除非用户主动在设置中 opt-out——关闭&amp;quot;允许 GitHub 使用我的数据进行 AI 模型训练&amp;quot;选项——否则数据将被用于模型训练。Copilot Business 和 Enterprise 企业用户则不受此次变更影响。这一政策调整迅速引发开发者社区讨论，许多人担忧自己的代码交互数据在不知情下成为微软 AI 的&amp;quot;免费燃料&amp;quot;。&lt;/p&gt;
+&lt;p&gt;在当前法律和许可证框架下，AI 模型在训练时可以较为自由地爬取和学习 MIT、BSD 等宽松许可证的项目，因为这些协议对使用、修改和衍生几乎无额外限制，仅需保留基本版权声明即可。对于 Apache 2.0 许可证的项目，AI 应至少在生成的代码注释中保留原始署名和来源提及，以尊重其&amp;quot;保留 NOTICE 文件和修改说明&amp;quot;的要求。比如，你用了一段来自 Apache 项目的代码，AI 生成的新代码里应该加一行注释说明原始来源。&lt;/p&gt;
+&lt;p&gt;对于 GPL 系列（强 Copyleft 协议），情况更复杂——如果训练导致生成实质性衍生代码，可能需要考虑开源义务。但这里有个实际操作中的困境：GPL 的&amp;quot;传染性&amp;quot;条款要求衍生作品必须以相同许可证开源，这在传统软件开发中容易界定，但 AI 模型的训练过程本身不产生&amp;quot;可见代码&amp;quot;，所以 GPL 条款的适用存在争议。这更多依赖 AI 提供商的合规自律。现实中，大多数开发者在复用开源代码时往往忽略完整标注，何况是 AI 模型？但正因为 AI 是规模化&amp;quot;学习&amp;quot;工具，我们更有理由从训练源头强化版权尊重机制。例如，通过提示工程或后处理，让 AI 在输出时自动添加来源注释。这不仅能减少潜在纠纷，还能培养整个生态的版权意识。&lt;/p&gt;
+&lt;p&gt;我自己的大部分项目采用 BSD-2-Clause 许可证（而非 BSD-3-Clause），其高度包容性让我欢迎 AI 爬取和学习——BSD 协议的海纳百川精神，本就鼓励广泛使用与创新。对于我使用 Apache 2.0 的项目，我的态度则更谨慎：AI 至少应在注释中浅浅提及原始来源和许可证，这既是基本尊重，也能避免后期合规风险。&lt;/p&gt;
+&lt;p&gt;目前看来，现有的开源许可证对 AI 训练这一新场景准备不足。MIT/BSD 等宽松协议在 AI 时代显得&amp;quot;过于友好&amp;quot;，而 Apache 和 GPL 则缺乏针对机器学习的明确条款。我认为，在不久的未来，各大开源基金会和社区很可能针对 AI 训练进行一次系统性更新，例如新增&amp;quot;AI 训练授权&amp;quot;子条款、要求模型输出时强制保留归属信息，或引入&amp;quot;训练时脱敏+溯源&amp;quot;机制。&lt;/p&gt;
+&lt;p&gt;更让我不满的是：微软一方面使用（包括免费用户在内的）大量开发者交互数据来训练 Copilot，提升模型能力；另一方面，Copilot 免费额度和功能限制依然较为吝啬。Copilot Free 每月仅 2000 次代码补全请求，而 Copilot Pro 定价为每月 10 美元。这相当于让普通开发者在不知情或默认同意下成为&amp;quot;免费劳工&amp;quot;，却未获得对等的回报。这样的商业模式是否公平，值得开发者深思。微软历史上确实多次&amp;quot;毁灭&amp;quot;过优秀产品——从诺基亚、Windows Phone，到如今的 GitHub 生态。但历史也告诉我们，技术变革往往伴随阵痛。未来尚未定型，我们不必一味悲观否定。&lt;/p&gt;
+&lt;p&gt;开发者可以积极行动起来：立即检查并 opt-out Copilot 数据训练设置——在 VS Code 中打开 Settings，搜索 Copilot，找到&amp;quot;Allow GitHub to use my data for AI model training&amp;quot;并取消勾选；在开源项目中明确添加&amp;quot;禁止用于 AI 训练&amp;quot;的声明（尽管法律效力待验证）；支持更注重隐私和版权的替代 AI 编码工具；参与开源许可证的更新讨论，推动社区制定 AI 友好规则。开源精神的本质是共享与互惠，而非单向索取。希望 GitHub 和微软在追求 AI 进步的同时，能更多倾听开发者声音，让生态真正实现共赢。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>折腾 Docker 和面板之后，我决定不折腾了</title>
+    <link href="https://example.com/posts/docker-tinkering-lessons-learned/" />
+    <updated>2026-03-25T00:00:00Z</updated>
+    <id>https://example.com/posts/docker-tinkering-lessons-learned/</id>
+    <content type="html">&lt;p&gt;最近为了更省心地部署一些软件，我重新拾起了 Docker，顺便装了一个叫 DPanel 的面板来管理容器，和一直在用的 aaPanel 搭配着用。本以为能一劳永逸，结果走了一圈，发现大部分服务还是老老实实地跑在裸机上。&lt;/p&gt;
+&lt;p&gt;一开始我的想法挺大的：把大部分服务都迁到 Docker 里，比如我的 Halo 博客。想象中，拉个镜像、配个端口，一切干净清爽。但实际操作时，第一个坎儿就卡在了数据库上。我的系统里已经有现成的 MariaDB 在跑，而 Halo 容器需要连这个数据库。容器和宿主机之间的网络、权限、配置折腾了半天——容器里连宿主机 IP 要手动指定，端口要暴露，数据库还得允许远程连接。搞了一圈还是别扭，最后放弃了。&lt;/p&gt;
+&lt;p&gt;于是我退了一步，只在 Docker 里跑一些相对独立的应用，比如那些不需要跟宿主机数据库或文件系统深度绑定的项目。剩下的软件，比如 Halo 博客系统、OneDev 代码仓库等，继续裸机部署。一个混合的方案，虽然没那么&amp;quot;潮&amp;quot;，但胜在稳定、省心。&lt;/p&gt;
+&lt;p&gt;其实我也想过把 Halo 换成更轻量的 Typecho，把 OneDev 换成 Gitea。Typecho 的 SQLite 模式连数据库都省了，Gitea 也是出了名的轻。但是一算账：现有数据要导，主题要换，插件要重新配，使用习惯也得改。折腾下来至少一两天，而且最近还有其他正事要忙。算了，凑合用吧。我做的唯一优化是：把 JVM 的内存参数调了调——Halo 默认的堆内存给得比较大，我根据实际访问量降到了合理范围；同时把 Docker 里一些不再用的镜像和容器清理掉，腾出了大概 700 来 MB 的内存空间。勉强能用，也就没再动。&lt;/p&gt;
+&lt;p&gt;写了这么多，其实想劝一句：别在博客系统上反复纠结。选一个顺手的（比如 Halo、Typecho、Hugo 都行），把重心放到写文章上。今天想换这个，明天想换那个，最后发现文章一篇没写，日志倒是写了一堆迁移笔记。有那工夫，不如老老实实坐下来，认真写一篇有内容的文章。系统只是工具，内容才是根本。用顺手了就别瞎折腾——这话也是对我自己说的。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>小米兰亭：更适合中文长文阅读的博客字体</title>
+    <link href="https://example.com/posts/misans-font-for-long-reading/" />
+    <updated>2025-07-26T00:00:00Z</updated>
+    <id>https://example.com/posts/misans-font-for-long-reading/</id>
+    <content type="html">&lt;p&gt;最近调整博客字体，发现小米兰亭在正文阅读上，可能比更纱黑体更适合一些。&lt;/p&gt;
+&lt;p&gt;更纱黑体是我之前一直在用的字体——它融合了思源黑体和Iosevka，现代感强，字符也全。但阅读的体验感始终感觉没有系统默认字体一样好。直到换到小米兰亭，对比才明显：小米兰亭的字母更粗、更圆润，整体观感更舒适，长时间阅读不容易累。&lt;/p&gt;
+&lt;p&gt;小米兰亭在设计之初就考虑了阅读感受，笔画清晰、灰度均匀，用在博客正文里，字与字的呼吸感刚刚好。&lt;/p&gt;
+&lt;p&gt;不过，字体效果很大程度上取决于操作系统。Windows的字体渲染一直是个大问题——ClearType再怎么调，和macOS的原生渲染比起来，总像隔着一层纱。换什么字体都难有质的改善。而iOS这边，无论什么字体，渲染出来都线条清晰、边缘平滑，赏心悦目。&lt;/p&gt;
+&lt;p&gt;Linux方面，至少KDE Plasma的渲染效果不错，开箱即用就有舒适的字形和间距。其他桌面环境我没深入用过，暂时不作评价。&lt;/p&gt;
+&lt;p&gt;其实字体选择真的不能只看个人偏好：博客的文章标题之前一直是繁体，我感觉标题用繁体有古风质感，正文用简体便于阅读，但经常被各位朋友们吐槽说看不懂标题。我只好换个字体，但是始终没有华英明朝体的感觉，折腾半天才发现，ZSFT默认提供的华英明朝体本来就有简体版本——它默认调用了T字符集的繁体版本，而不是Classic简体字体。修改之后，标题终于回归简体，质感稍微差了点，但可读性大大增强。&lt;/p&gt;
+&lt;p&gt;说到底，字体这件事，没有绝对的好坏，只有适合不适合。如果博客以正文为主，想在Windows和macOS之间找个平衡，不妨试试小米兰亭。至少目前，这是我感到最让我舒适的阅读字体。&lt;/p&gt;
+&lt;p&gt;至于霞鹜文楷这款人气相当高的字体，我个人的看法是，它更像是手写的楷体，而非标准的印刷楷体——在计算机字体分类中，它更接近艺术字的范畴。诚然，许多人青睐它，因为它比常见的印刷体多了几分手写的温度与活力。但对我而言，艺术字用于正文阅读并不理想，且其风格与我的博客调性也不太契合。&lt;/p&gt;
+&lt;p&gt;Linux的默认字体大多从文泉驿系列转向了思源系列。思源黑体总的来说是一款中规中矩、平衡稳定的字体，相较于略显稚气的文泉驿微米黑，设计上更为成熟。或许是因为以前缺乏优秀的开源字体，大多数Linux发行版才更倾向于选用文泉驿系列；而如今，大多数发行版和桌面环境都已内置了思源宋体和思源黑体。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>GitHub 之外的选择：七个代码托管平台的真实体验</title>
+    <link href="https://example.com/posts/github-alternatives-code-hosting/" />
+    <updated>2025-05-21T00:00:00Z</updated>
+    <id>https://example.com/posts/github-alternatives-code-hosting/</id>
+    <content type="html">&lt;p&gt;老实说，2025到2026年，GitHub已经不是&amp;quot;偶尔抽风&amp;quot;，而是常态化拉胯了：免费Actions分钟数被成群的机器人挖矿账号薅到秃，正常用户排队等到天荒地老；安全漏洞修得比乌龟爬还慢，供应链攻击年年有；国内访问时好时坏，CI/CD 一跑就卡，部署个东西像抽奖。最气人的是，微软继续在那儿装没事人，卖企业版赚得盆满钵满，免费用户当韭菜割。&lt;/p&gt;
+&lt;p&gt;很多人忍无可忍，开始四处找备胎。国内平台、海外平台、自建方案，全部扒一遍。&lt;/p&gt;
+&lt;h2&gt;国内平台&lt;/h2&gt;
+&lt;p&gt;强制实名和手机号绑定是绕不过去的门槛，国内平台通病。&lt;/p&gt;
+&lt;p&gt;Gitee（码云）是目前国内最不恶心的选择。国内访问速度最快、稳定性最高，功能基本齐全：Pages、Wiki、Issues、PR、Release、Actions（虽然弱但能用）。可以外链项目卡片到自己网站，免费私有仓库多，社区中文支持完善。但 Actions 算力垃圾，免费额度用完就 GG，敏感内容随时可能被要求整改。如果人在国内、要日常开发、要快，Gitee 是目前唯一靠谱的国产主力平台。&lt;/p&gt;
+&lt;p&gt;GitLink 由 CCF 和中科院背书，完全开源，支持 Pages、Wiki、Issue 等基本功能。但名字容易和 GitLab 混淆，社区活跃度低，Issue 响应慢，国内访问速度一般。学术圈可以考虑，日常开发还是 Gitee 更稳。&lt;/p&gt;
+&lt;p&gt;Coding（腾讯云）有大厂背书，企业级服务稳定，支持 CI/CD、项目管理、代码托管一体化。但免费额度少，付费门槛高，界面臃肿，操作繁琐，数据隐私存疑。企业用户可以考虑，个人开发者不建议。&lt;/p&gt;
+&lt;h2&gt;海外平台&lt;/h2&gt;
+&lt;p&gt;CodeBerg 由德国非营利组织运营，完全开源，数据受 GDPR 保护。Pages 功能强大，支持 Hugo/Jekyll 等静态生成器。社区友好，真人客服响应快。国内访问需要代理，社区规模小。追求开源精神和隐私保护的话，这是首选。&lt;/p&gt;
+&lt;p&gt;GitLab 功能齐全，CI/CD、项目管理、代码托管一体化，自托管版本免费。但商业化严重，免费版功能受限，国内访问慢。企业用户可以考虑。&lt;/p&gt;
+&lt;p&gt;SourceHut 极简设计，无广告、无追踪，完全开源。界面简陋，新手不友好，国内访问需要代理。极简主义者的选择，不适合大众。&lt;/p&gt;
+&lt;h2&gt;自建方案&lt;/h2&gt;
+&lt;p&gt;Gitea 轻量级，资源占用低，完全开源，支持 Pages、Wiki、Issue 等功能。需要自己维护服务器和备份。有服务器资源的开发者首选。&lt;/p&gt;
+&lt;p&gt;OneDev 实现 DevOps 一体化，代码托管加 CI/CD 加项目管理，轻量级，完全开源。同样需要自行维护服务器。&lt;/p&gt;
+&lt;p&gt;GitHub 不再是唯一选择。国内用户可选 Gitee 作为主力，海外用户可选 CodeBerg 追求开源精神，有服务器资源可自建 Gitea 或 OneDev。重要的是找到适合自己的平台，而不是被一个平台绑架。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>犀飞利帝国二：花三百块买到最适合我的钢笔</title>
+    <link href="https://example.com/posts/sheaffer-imperial-ii-review/" />
+    <updated>2025-03-30T00:00:00Z</updated>
+    <id>https://example.com/posts/sheaffer-imperial-ii-review/</id>
+    <content type="html">&lt;p&gt;怎么说呢，这支笔价格相对便宜些，因为是小胜利尖、TD上墨加钯银材质笔尖，所以在犀飞利的产品线里算是低端货，我花300买到的。&lt;/p&gt;
+&lt;p&gt;玩笔的应该都知道胜利尖和TD上墨这些，不多废话。这支笔对我来说真的是完美日用笔：拔插式笔帽、硬笔尖、上墨干净快速……颜值也很高。我不太喜欢帝国一或者塔格那种笔身设计，感觉直接穿越回文艺复兴时代了。我玩复古钢笔是体验上世纪的玩意，不是体验文艺复兴的设计风格……是吧？&lt;/p&gt;
+&lt;p&gt;这支笔其实可以比作低配版的犀飞利潜艇主编，都是钢帽，区别在于笔尖由大胜利尖降配为小型，潜艇上墨降级为TD上墨。&lt;/p&gt;
+&lt;p&gt;好了，就这么多。图片可以搜索别的博主拍摄的，我只讲我的使用体验，真没啥更多好说的了。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>CSS 实现正文首行缩进：一次排版美学的实践</title>
+    <link href="https://example.com/posts/css-paragraph-text-indent/" />
+    <updated>2025-02-28T00:00:00Z</updated>
+    <id>https://example.com/posts/css-paragraph-text-indent/</id>
+    <content type="html">&lt;p&gt;&lt;em&gt;更新：由于显示 Bug 较多，目前本站已放弃正文段落首行缩进。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;在搭建这个博客时，我始终觉得，文字的呈现方式本身就是内容的一部分。最近在微调博客样式时，我花了不少时间去雕琢一个看似微不足道，实则关乎阅读气质的细节——中文正文的首行缩进。&lt;/p&gt;
+&lt;p&gt;起初，我的做法很粗暴，仅仅是给所有的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;标签加上了 &lt;code&gt;text-indent: 4em;&lt;/code&gt;的声明。在纯粹的视觉层面，这确实奏效了：文章段落整齐地向右挪了四格，透出一种传统印刷品般的秩序感。然而，这种「一刀切」的快感很快就被打破了。当我滚动到列表或引用区块时，问题暴露了出来——那些本该紧凑排列的列表项，因为外层包裹着 &lt;code&gt;&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;&lt;/code&gt;的结构，竟然也跟着缩进了进去。这种错位在视觉上显得极不协调，原本灵动的排版瞬间变得有些「神经质」。&lt;/p&gt;
+&lt;p&gt;这让我意识到，真正的「优雅」，不在于强制统一，而在于懂得克制。&lt;/p&gt;
+&lt;p&gt;于是，我开始重新审视 CSS 选择器的边界。问题的本质其实很简单：Halo 主题（以及大多数现代 CMS）为了语义化和样式可控，常常会将列表项内的文本包裹在一个额外的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;标签中。如果我们直接攻击 &lt;code&gt;p&lt;/code&gt;，就必然会误伤无辜。解决之道，在于划定清晰的「势力范围」。&lt;/p&gt;
+&lt;p&gt;我放弃了全局的 &lt;code&gt;p&lt;/code&gt;选择器，转而将目标锁定为 &lt;code&gt;.post-content &amp;gt; p&lt;/code&gt;。这意味着我只关心那些直接挂载在文章内容容器下的段落，而不去干涉嵌套在其他元素内部的文本。紧接着，我用了一组「豁免条款」来修复那些被误伤的区域：&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;p:not(li p):not(blockquote p)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;text-indent&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 2em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;margin-top&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.8em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;margin-bottom&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.8em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这几行代码就像是交通协管员，把跑错道的列表段落拉回了原位。至此，排版终于恢复了它应有的逻辑：列表归列表，引用归引用，而正文段落则保持着它端庄的缩进。&lt;/p&gt;
+&lt;p&gt;在这个过程中，我还确立了几条不成文的「排版洁癖」准则：&lt;/p&gt;
+&lt;p&gt;首先是单位的抉择。我坚持使用 &lt;code&gt;em&lt;/code&gt;而非 &lt;code&gt;px&lt;/code&gt;。在响应式设计大行其道的今天，固定的像素值就像刻舟求剑，无法适应不同屏幕尺寸下的字号变化。而 &lt;code&gt;em&lt;/code&gt;是相对单位，它会随着父级字号的变化而自动伸缩，确保在手机端和桌面端，缩进的比例始终是和谐的。&lt;/p&gt;
+&lt;p&gt;其次是移动端的微调。在手机屏幕上，过宽的缩进反而会挤压宝贵的阅读空间。因此，我引入了一条媒体查询规则：当屏幕宽度小于 480px 时，将缩进从 4 格缩减为 2 格。这是一种对阅读场景的尊重，也是技术服务于人的体现。&lt;/p&gt;
+&lt;p&gt;最终，这一切都收敛成了一段干净、纯粹且不依赖 JavaScript 的 CSS 代码。它没有破坏原有的 HTML 结构，也没有引入复杂的脚本逻辑，仅仅是站在 CSS 的肩膀上，完成了一次对视觉秩序的温柔校正。&lt;/p&gt;
+&lt;p&gt;这种「只动样式，不动结构」的思路，不仅适用于 Halo，我想对于 Typecho、WordPress 乃至静态博客生成器来说，都是通用的。毕竟，好的排版不该是代码的堆砌，而是一种在方寸之间寻找呼吸感的平衡艺术。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>告别 GitHub，拥抱 CodeBerg：一个开发者寻找温暖家园的故事</title>
+    <link href="https://example.com/posts/goodbye-github-hello-codeberg/" />
+    <updated>2025-02-18T00:00:00Z</updated>
+    <id>https://example.com/posts/goodbye-github-hello-codeberg/</id>
+    <content type="html">&lt;p&gt;我们曾拥有一个有温度的数字家园。深夜有人耐心帮你 debug，Issue 区能吵起代码哲学，客服甚至会因为你一句&amp;quot;这个用户名对我意义重大&amp;quot;而手动解锁。那是 2013 到 2018 年的 GitHub。&lt;/p&gt;
+&lt;p&gt;然后微软来了。带着收购合同、Excel 表格和&amp;quot;协同效应&amp;quot;的 PPT，把一切贴上价签。从此，GitHub 从一个开发者社区逐渐变成一个商业平台。&lt;/p&gt;
+&lt;p&gt;如今打开首页，满眼 AI 垃圾 PR、低质爬虫项目、永不回复的机器人，以及 2025 年接连爆出的 Copilot 系列漏洞——EchoLeak 零点击泄露、CamoLeak 提示注入、已删仓库数据仍在被访问。供应链攻击频发，秘密像筛子一样漏。安全团队在忙什么？忙着把我们的代码喂给 Copilot，再高价卖回来。&lt;/p&gt;
+&lt;p&gt;我愿意付钱。真的愿意每个月掏钱，只求换回那个有血有肉的社区，换回深夜回复的三页分析，换回尊重用户身份的真人支持。但微软连让我付费赎回温暖的资格都不给。它只要免费的代码、免费的信任、免费的情感，最后再把这一切变成 Azure 账单和股东回报。&lt;/p&gt;
+&lt;p&gt;我们失去的，远不止一个平台。失去真人客服，取而代之的是全球铁板政策和&amp;quot;风险控制&amp;quot;优先；失去休眠用户名解锁的同理心，取而代之的是法务胜利；失去纯粹互助，取而代之的是 KPI、流量变现和 AI 水军淹没真问题。更残酷的是，它用我们的代码训练模型，却在漏洞里让无数人的秘密暴露。这不是 bug，这是商业模式本身。&lt;/p&gt;
+&lt;p&gt;这些感受不是空穴来风。你可以在网上搜到大量开发者在 2025 年的吐槽帖——从 Copilot 的隐私政策到 Actions 的免费额度缩水，再到客服形同虚设。如果你也在用 GitHub，去看看你的 Developer settings &amp;gt; Copilot 页面，默认情况下，你的数据已经被勾选为&amp;quot;可用于模型训练&amp;quot;了。&lt;/p&gt;
+&lt;h2&gt;CodeBerg：开源精神没有死，它只是换了地址&lt;/h2&gt;
+&lt;p&gt;温暖从未灭绝，它只是回到了更小、更纯粹的地方——CodeBerg。由德国非营利组织 CodeBerg e.V. 运营，基于 Forgejo（一个开源的 Git 托管软件），完全社区驱动。数据放在欧盟，受 GDPR 严格保护。没有广告、没有数据贩卖、没有隐藏监控。免费，无任何商业变现压力。这里像早年的 GitHub：Issue/PR 流程干净利落，有人认真回复你的问题（是真的有人，不是机器人），Pages 功能简单好用——新建仓库、推送到 pages 分支、自动 HTTPS、自定义域名，推送即更新，支持 Hugo/Jekyll 等主流生成器。社区小而友好，开发者真正被听见。不是规模最大，但足够安全、足够透明、足够有温度。&lt;/p&gt;
+&lt;p&gt;想试试吗？哪怕只是把个人博客或项目文档先迁过来，体验一下推送即发布的纯粹感。CodeBerg.org 里有最清晰的 Pages 教程。微软用贪婪玷污了广场，但广场的精神没有死。它在 CodeBerg 安静地活着，等着每一个厌倦了冰冷算法的人回家。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>在 Zfile 和 OpenList 上挂载天翼云盘：一个设备锁问题的解决记录</title>
+    <link href="https://example.com/posts/openlist-zfile-cloud-drive-tools/" />
+    <updated>2025-01-19T00:00:00Z</updated>
+    <id>https://example.com/posts/openlist-zfile-cloud-drive-tools/</id>
+    <content type="html">&lt;p&gt;用 OpenList 或 Zfile 这类网盘聚合工具，蓝奏云基本输个密码就行，可天翼云盘总卡在设备锁这一步。网上教程大多让去 e.dlife.cn 扫码关，问题是那页面老转圈圈，二维码根本刷不出来。&lt;/p&gt;
+&lt;p&gt;问客服才知道，真正能关设备锁的地方是 &lt;a href=&quot;https://e.189.cn/user/index.do&quot;&gt;e.189.cn/user/index.do&lt;/a&gt;。但得先在浏览器里登录天翼云盘。没登的话，先去 &lt;a href=&quot;https://cloud.189.cn&quot;&gt;cloud.189.cn&lt;/a&gt; 正常登录，再开上面那个链接，就能直接进个人中心。&lt;/p&gt;
+&lt;p&gt;进去后在账号安全或设备管理里找设备锁开关，关掉就行，可能要短信验证。完成之后回到 OpenList 或 Zfile 重新加天翼云盘，一般就能正常挂载。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观</title>
+    <link href="https://example.com/posts/only-bsd2-and-apache2-licenses/" />
+    <updated>2025-01-16T00:00:00Z</updated>
+    <id>https://example.com/posts/only-bsd2-and-apache2-licenses/</id>
+    <content type="html">&lt;p&gt;大多数开源项目在用 GPL 或 MIT。这两个我都不喜欢。这些年，我不再盲目追主流。GPL 的&amp;quot;父爱式管制&amp;quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&amp;quot;毫无节制的宽容&amp;quot;也不对味——说&amp;quot;随便用&amp;quot;等于放弃所有责任。我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 BSD，尤其是 BSD-2-Clause。&lt;/p&gt;
+&lt;p&gt;许可证从限制性到宽松性，像一条光谱。GPL 和 MIT 站在两端，我都避开。GPL 认为真正的自由需要法律强制。它用法律确保代码被修改时，开源精神能一直传递。听起来高尚，可它是通过限制开发者来保护用户。这和我的&amp;quot;最大自由&amp;quot;原则冲突。我希望用户自由，但不想以牺牲开发者对代码的掌控为代价。&lt;/p&gt;
+&lt;p&gt;1983 年，Richard Stallman 在麻省理工学院的实验室里，打印机卡纸了。他想修改打印机驱动程序，但厂商拒绝提供源代码。那一刻，他决定创建一个完全自由的操作系统——GNU。GPL 就这样诞生了。Stallman 的理想是崇高的，但他的方法是通过法律强制来实现自由。这就像一个父亲，为了保护孩子制定了一整套规则，限制孩子的行为。孩子确实安全了，但也失去了探索的自由。&lt;/p&gt;
+&lt;p&gt;MIT 走向另一个极端，太天真了。把代码扔出去说&amp;quot;随便你怎么用&amp;quot;，听起来开放，实则是放弃所有作为作者的道德主张。按 MIT 的规则，别人能把你名字完全抹掉，能用你的作品干坏事，甚至能用专利攻击别人——MIT 根本没专利保护条款，而且完全没有回馈义务。这不是自由，是放弃责任。&lt;/p&gt;
+&lt;p&gt;BSD-2-Clause 找到了中间地带。它又叫简化 BSD 或 FreeBSD 许可证，就两个要求：保留版权声明，加个免责声明。就这么多，没有更多法律条款要读。它给的自由很惊人。你可以把代码用在任何地方：商业、个人、教育。随便改。可以闭源分发，不用开源自己的修改。可以整合到完全不同许可证的项目里。没有专利报复条款的麻烦。不像 GPL，没有&amp;quot;传染性&amp;quot;要求逼你把自己的代码也开源。但 BSD-2-Clause 仍保留基本标准：用户必须通过署名承认你的工作，不能假装是他们写的；你也受责任保护，有人用你代码出问题，那是他们的事，不是你的。&lt;/p&gt;
+&lt;p&gt;为什么不用 BSD-3-Clause？第三条款说未经许可不能用作者名字为产品背书。理论上合理，实际中却很少被违反。它给大多数小项目添了不必要的法律复杂性，而且真想滥用你代码的人总会找到办法绕开。BSD-2 更干净，更贴合&amp;quot;最小约束&amp;quot;的原则。&lt;/p&gt;
+&lt;p&gt;我根据不同场景用不同许可证。个人项目——脚本、小库、实验代码——一律 BSD-2-Clause，简单，鼓励使用和分享。大项目，尤其是框架或涉及专利的代码，我用 Apache 2.0。现代软件里专利保护很重要，Apache 在这方面处理得好，同时还保持宽松。文档和创意作品用 CC BY 4.0，署名要求清楚。&lt;/p&gt;
+&lt;p&gt;刻意避开的许可证：GPL 和&amp;quot;最大自由&amp;quot;原则冲突。MIT 太宽松，放弃太多。SSPL、BSL 之类的&amp;quot;源码可用&amp;quot;许可证不是真正的开源——就算源代码可见，它们也限制你怎么用代码。&lt;/p&gt;
+&lt;p&gt;给刚起步的开发者建议：从 BSD-2 开始。它直截了当，不会用一堆条款把你搞晕。在 README 开头用白话把许可证说清楚。项目里保持一致。想清楚你的受众：要广泛传播就用 BSD 或 Apache 这样的宽松许可证；做社区项目可以考虑 MPL 这样的弱 copyleft。有强烈的道德立场？去研究研究 Hippocratic License 这类变体。&lt;/p&gt;
+&lt;p&gt;选许可证不只是技术决定，是价值观的表达。MIT 说&amp;quot;我不管，随便用&amp;quot;。GPL 说&amp;quot;你可以用，但得听我的——我定义你的自由&amp;quot;。Apache 试图平衡：&amp;quot;自由用，但我们互相保护&amp;quot;。BSD 说&amp;quot;这是我送你的礼物。记得谁给的，然后去创造点伟大的东西&amp;quot;。&lt;/p&gt;
+&lt;p&gt;BSD-2-Clause 简洁优雅。有时候，最简单的就是最好的。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;本文采用 BSD-2-Clause 许可证发布。你可以自由使用、修改、分发，只需保留原始署名和许可证声明。&lt;/em&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>ProtonMail 为什么不值得买：一个隐私邮箱的真相</title>
+    <link href="https://example.com/posts/protonmail-review-not-worth-it/" />
+    <updated>2024-11-30T00:00:00Z</updated>
+    <id>https://example.com/posts/protonmail-review-not-worth-it/</id>
+    <content type="html">&lt;p&gt;ProtonMail 确实是开源的，但只开源前端，后端并不公开。这意味着，我们根本不知道邮件在它的服务器上经历了什么处理。当然，一旦后端也开源，隐私性可能随着代码曝光而降低；可后端不开放，又无法保证服务器不会暗中上传数据。这简直成了一个循环论证——所谓&amp;quot;完全隐私的邮箱&amp;quot;，根本就是个伪命题。&lt;/p&gt;
+&lt;p&gt;2013年，斯诺登揭露了美国国家安全局的棱镜计划。那一刻，全球用户开始意识到：他们的邮件、聊天记录、搜索历史，都在被监控。隐私，成了一个奢侈品。ProtonMail就是在这样的背景下诞生的——2014年，一群来自CERN的科学家在瑞士创立了这家公司，打着&amp;quot;端到端加密&amp;quot;的旗号，承诺给用户一个真正私密的邮箱。瑞士的法律环境确实相对宽松，数据保护法规严格。但问题是：瑞士不是天堂。2019年，ProtonMail被迫向美国当局移交了一位法国活动人士的IP地址和设备信息。所谓的&amp;quot;瑞士隐私保护&amp;quot;，在法律面前不堪一击。&lt;/p&gt;
+&lt;p&gt;如果隐私性并不绝对，那我们再来看看它的其他功能。免费版容量只有 500MB，邮件带附件的话，一百个不到就用完了。免费用户只能注册一个地址，这点还算可以接受。付费后可以解锁 &lt;code&gt;@pm.me&lt;/code&gt; 这个短域名，简洁好看。但问题在于，ProtonMail 不支持国内常用支付方式。如果你费尽周折终于付了款，那为什么不直接自己去注册一个域名呢？有了域名，你就可以轻松设置域名邮箱，国内外很多邮局（比如 QQ、Zoho）都支持。而 ProtonMail 的域名邮箱功能——同样需要付费升级。对新手来说，我之前推荐过的 Yandex 也是不错的选择，它能自动帮你购买并配置 &lt;code&gt;.ru&lt;/code&gt; 结尾的域名邮箱。如果你拥有开放 25 端口且具备原生 IP 的云服务器，甚至可以自己搭建邮件系统（比如 Pmail）。这才是真正意义上的&amp;quot;完全隐私&amp;quot;——服务器和后端都在自己手里，不必依赖任何第三方的承诺。&lt;/p&gt;
+&lt;p&gt;ProtonMail 的付费后体验相较于其他付费邮箱并不差，但免费版体验极其糟糕。隐私保护从来都不是一个技术问题，而是一个信任问题。你信任瑞士的法律，信任 ProtonMail 的承诺，信任他们不会在后台偷偷上传你的数据。但信任是最脆弱的东西，一旦被打破，就再也回不去了。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>NDS 与 PSP：掌机黄金时代的一场经典对决</title>
+    <link href="https://example.com/posts/nds-psp-handheld-golden-age/" />
+    <updated>2024-09-09T00:00:00Z</updated>
+    <id>https://example.com/posts/nds-psp-handheld-golden-age/</id>
+    <content type="html">&lt;p&gt;NDS 和 PSP，大概是掌机史上最势均力敌的一对对手。在 2004 到 2005 年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的 3A 大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。&lt;/p&gt;
+&lt;p&gt;先说硬件。NDS 使用了双 3 寸屏（下屏可触控），分辨率为 256×192，触控笔藏在机身里，电池续航 15 小时以上，待机时相当省电。PSP 则是 4.3 寸大屏，480×272 分辨率，比 NDS 细腻得多，能放 MP3、看视频、浏览网页。处理器也比 NDS 强不少，333MHz 与 67MHz 相比较，可以说完全不是一个级别的产物。&lt;/p&gt;
+&lt;p&gt;但这可不代表NDS在市场上的表现弱于PSP，NDS卖了&lt;strong&gt;1.54亿台&lt;/strong&gt;，是史上销量最高的掌机（但不是最畅销的游戏机，主机平台的PS2是销量最高的游戏机，总共卖出了约1.7亿台），游戏卖了9亿多套。双屏是最大亮点，下屏触控加麦克风，游戏的玩法一也丰富了许多。画个画（《触控卡比》、《节奏天国》等）、吹口气（《任天狗》、《逆转裁判4》等）就能互动，在当时是非常先进的交互理念。游戏阵容也全，从&lt;strong&gt;马里奥&lt;/strong&gt;到&lt;strong&gt;宝可梦&lt;/strong&gt;，老少皆宜。&lt;/p&gt;
+&lt;p&gt;几个主要版本里，原版NDS被玩家叫&amp;quot;饭盒机&amp;quot;，块头大、屏幕暗，特点是兼容了GBA卡带。2006年的&lt;strong&gt;NDS Lite&lt;/strong&gt;最经典，薄了不少，屏幕亮了很多，续航能到15小时以上，销量占了整个系列的六成。值得一提的是尽管同样兼容GBA卡带，但由于机身变薄，插入GBA卡带后会露出一大截。&lt;strong&gt;DSi&lt;/strong&gt;加了摄像头和SD卡槽，砍了GBA兼容，机身更薄，屏幕也大了一圈。而&lt;strong&gt;DSi XL&lt;/strong&gt;，屏幕更大，4.2寸，看书玩游戏不那么累眼了，就是便携性差点，重了差不多100克。不过值得注意的是，尽管屏幕尺寸更大了，分辨率完全没提升，尽管不累眼，但是游戏画面的锯齿会显著增多，任天堂或许是出于节省生产成本考虑吧。&lt;/p&gt;
+&lt;p&gt;PSP走另一条路。卖了&lt;strong&gt;8000多万台&lt;/strong&gt;，特点是画面接近PS2，能看电影、听音乐，UMD光盘当时看着特酷。定位像&amp;quot;能装进口袋的PlayStation&amp;quot;，吸引的是硬核玩家，当然，由于PSP的多媒体功能很强大，也是当时市面上比较便宜的影音设备，许多音乐发烧友也会买个PSP用来听歌、看视频，当作MP3播放器使用。关于PSP便宜的原因，是因为当时任天堂在索尼发售PSP之前抢先发售了NDS初代机，且价格只有PSP预售价格的3/1，索尼也不得不为了增强竞争力，压低了正式发售时PSP的售价。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PSP-1000&lt;/strong&gt;是首发款，最重最厚，280克，续航一般。2007年的&lt;strong&gt;PSP-2000&lt;/strong&gt;瘦了不少，189克，内存翻倍，加载快了，还能USB充电。&lt;strong&gt;PSP-3000&lt;/strong&gt;屏幕做了防眩光，颜色更好，很多玩家说这是最佳版本。&lt;strong&gt;PSP Go&lt;/strong&gt;走纯数字路线，滑盖设计前卫，158克最轻，没有UMD光驱，游戏库受限。最后的&lt;strong&gt;PSP Street&lt;/strong&gt;是廉价版，砍了WiFi，功能简化很多。&lt;/p&gt;
+&lt;p&gt;游戏方面差距就大了。NDS的顶级大作能卖几千万份：《超级马里奥兄弟DS》卖出&lt;strong&gt;3080万份&lt;/strong&gt;，《脑白金》卖出&lt;strong&gt;1900万份&lt;/strong&gt;，《口袋妖怪·黑/白》卖出&lt;strong&gt;1700万份&lt;/strong&gt;。PSP这边就相当惨淡了，两个顶梁柱《怪物猎人》和《侠盗猎车手》系列也不过才百万销量，其它作品更是惨不忍睹。&lt;/p&gt;
+&lt;p&gt;为什么差这么多？NDS吃透了休闲市场。《脑白金》、《口袋妖怪》、《马里奥》，这些游戏男女老少都能玩，当时日本就有年轻人为了放置家里老人老年痴呆，特地买了个NDS来给老人玩《脑白金》。PSP定位是&amp;quot;掌机里的PS2&amp;quot;，追求画质和沉浸感，门槛高，受众自然就窄了。同时也有相当一部分买家买来是当作MP3用的，结果就是PSP卖的不算少，但是游戏卖的相当少。&lt;/p&gt;
+&lt;p&gt;俩机器对比，NDS赢在销量和创意，触控和双屏带来新体验，续航也强。PSP赢在画面和多媒体，3D游戏和影音功能更丰富，但续航只有3到6小时，出门得带充电器。一个偏轻松有趣，一个偏沉浸硬核，各有各的粉丝，各有各的好。&lt;/p&gt;
+&lt;p&gt;回头看这场大战，智能手机才是真正的赢家。2010年后，iPhone和安卓机把掌机市场冲击得七零八落。Switch是任天堂游戏主机平台的后续篇章，却不是传统意义上的掌机。索尼干脆放弃了掌机市场，只是在PSP之后推出了个无人问津的PS Vita。&lt;/p&gt;
+&lt;p&gt;……若只从销量数字看，NDS与PSP之间是1.54亿对8000万，似乎算不上&amp;quot;势均力敌&amp;quot;。然而在游戏硬件史里，纯粹以销量定输赢往往失之偏颇。真正让NDS和PSP被并称为&amp;quot;那个年代&amp;quot;的，是它们几乎同时将掌机体验推向了两个截然不同的顶峰，并且在长达五六年的时间里，谁也无法彻底吞掉对方的地盘。&lt;/p&gt;
+&lt;p&gt;要理解这种均势，可以看看其他世代的主机对抗。&lt;/p&gt;
+&lt;p&gt;以&lt;strong&gt;Wii与PS3&lt;/strong&gt;为例。Wii全球销量约1.01亿台，PS3约8740万台，数字差距不大，但用户重叠度极低。Wii的体感操作吸引了大量非传统玩家，其软件销量高度集中于任天堂第一方（《Wii Sports》8280万套、《马里奥赛车Wii》3730万套），第三方核心向作品在Wii上几乎卖不动。PS3则依靠《最后生还者》《神秘海域》《战神》等独占大作稳住核心市场，同时兼任蓝光播放器角色。两者更像是错位竞争，而非正面交锋。更关键的是，Wii的后期销量断崖式下跌，PS3却缓慢爬升并反超——这并非&amp;quot;势均力敌的缠斗&amp;quot;，而是一场先扬后抑与后来居上的错时赛跑。&lt;/p&gt;
+&lt;p&gt;再往前看，&lt;strong&gt;Game Boy Advance vs 诺基亚N-Gage&lt;/strong&gt;则是一边倒。GBA销量8150万台，软件库超过1500款；N-Gage生命周期仅两年，销量约300万台，被玩家戏称为&amp;quot;侧握通话面包机&amp;quot;。这连对手都谈不上。&lt;/p&gt;
+&lt;p&gt;而&lt;strong&gt;任天堂3DS与PS Vita&lt;/strong&gt;的对决更接近NDS/PSP时代的余波，但结果却大不相同。3DS经历首发降价后卖出7590万台，PS Vita虽有OLED屏幕、背触板、双摇杆等超前硬件，却因索尼第一方支持薄弱、专用记忆卡昂贵、第三方纷纷撤退，最终销量估计在1000万至1600万台之间（索尼未正式公布）。这是一场明显的碾压，而非均势。&lt;/p&gt;
+&lt;p&gt;反观NDS与PSP，两者在2004–2010年间始终保持高度重合的生命周期。NDS用双屏触控打开蓝海，PSP用多媒体性能守住红海；NDS在日欧美全面开花，PSP在亚洲部分地区（尤其日本）凭借《怪物猎人携带版》系列一度反超；NDS的软件销量碾压PSP，但PSP的硬件出货量从未崩盘。更重要的是，两者在玩家群体中形成了长期的分庭抗礼——直到今天，关于&amp;quot;哪台机器更值得怀念&amp;quot;的争论依然存在。这种&amp;quot;各走极端却各有所长&amp;quot;的局面，在掌机史上绝无仅有。&lt;/p&gt;
+&lt;p&gt;另外，NDS在国内的普及离不开一个特殊角色——&lt;strong&gt;烧录卡&lt;/strong&gt;。2006年前后，以R4、DSTT、AK2为代表的烧录卡开始大规模流通。它们本质上是一张插槽1（Slot-1）的卡带，内置TF卡插槽，通过硬件或固件欺骗NDS的验证机制，直接从存储卡加载游戏ROM。一张烧录卡售价约50–150元，配合一张1–2GB的TF卡，就能装下20–30个NDS游戏。对于当时国内普遍缺乏正版购买渠道的学生玩家来说，烧录卡几乎是唯一可行的选择。&lt;/p&gt;
+&lt;p&gt;烧录卡对NDS生态的影响相当复杂。积极的一面是，它极大降低了体验门槛，让NDS在国内的保有量迅速膨胀，甚至超过PSP（PSP同样有自制系统，但破解流程更复杂，需要特定漏洞游戏或潘多拉电池）。消极的一面是，NDS的正版软件销量因此受到严重冲击——全球1.54亿台硬件对应9.4亿套软件，软硬比仅为6.1，远低于GBA（约8.5）或3DS（约6.5但含大量数字版）。大量第三方厂商在NDS后期放弃了原创中轻度游戏，因为&amp;quot;ROM上线即被盗&amp;quot;。&lt;/p&gt;
+&lt;p&gt;关于烧录卡的具体工作原理、各品牌的兴衰时间线、与PSP自制系统（M33、PRO、ARK）的对比，以及任天堂后续通过系统更新、卡带加密等手段的反制措施，将在下一篇中详细展开。&lt;/p&gt;
+&lt;p&gt;（待续）&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>怎么选邮箱？来看看我的选择历程和建议吧</title>
+    <link href="https://example.com/posts/how-to-choose-email-service/" />
+    <updated>2024-09-07T00:00:00Z</updated>
+    <id>https://example.com/posts/how-to-choose-email-service/</id>
+    <content type="html">&lt;p&gt;先聊 Outlook。国际邮箱，国内能直接登，不用折腾。光这一点，就比 Gmail 强。&lt;/p&gt;
+&lt;p&gt;它有个好处：某宝能买到五位甚至更短的靓号，不贵。买了第一件事，改密码，绑手机和辅助邮箱，开两步验证（2FA）。不然无良卖家可能收回，风险大。Outlook 能加十个别名，够用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;提醒：Outlook 有过严重漏洞，账号容易被盗。闲鱼上不少低价 Minecraft 正版号，就是用被盗的 Outlook 注册的。买 Minecraft 号，别用 Outlook 邮箱的微软账号。这漏洞至今没完全修复，一定要开两步验证。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;缺点也明显：垃圾邮件过滤太神经质。我连微软官方通知都被扔进垃圾箱过，哭笑不得。解决办法简单：常去垃圾箱看看，把正常邮件标记&amp;quot;不是垃圾&amp;quot;，系统会学乖。&lt;/p&gt;
+&lt;p&gt;好名字早被注册光了。两条路：要么买短号当主账号，加别名用；要么玩点花的——注册其他国家域名的 Outlook。方法很简单：把微软账户国家/地区改成法国，再添新邮箱，就有 @outlook.fr 可选。我搞了个 .fr 的，像&amp;quot;friend&amp;quot;缩写，有意思。德国 .de、意大利 .it、印尼 .id 之类的，选择不少。&lt;/p&gt;
+&lt;p&gt;再聊 Foxmail。不得不提 QQ 邮箱，很多人瞧不上，其实功能强。一个 QQ 号能挂三个邮箱：数字 @qq.com、英文 @qq.com，还有重点——Foxmail 邮箱。在 QQ 箱设置里申请 @foxmail.com 地址就行。&lt;/p&gt;
+&lt;p&gt;这个域名国际上接受度不错，关键是发的邮件几乎能 100% 过 Outlook 的垃圾邮件过滤。所以说，Outlook + Foxmail 是国内收发邮件的黄金搭档。&lt;/p&gt;
+&lt;p&gt;再说说 iCloud 邮箱。我现在主用这个。收信速度没传说中慢，界面干净，和苹果设备无缝衔接。免费版给 3 个&amp;quot;替身邮箱&amp;quot;，能保护真实地址。&lt;/p&gt;
+&lt;p&gt;但没苹果设备的话，用起来是灾难，网页版体验太局限。基本是把你绑在苹果生态里。另外，国内版 iCloud+ 是阉割版，想要自定义域名这些完整功能，得用外区 Apple ID。&lt;/p&gt;
+&lt;p&gt;Gmail 在国内？访问是问题，不稳定。我都是用其他客户端代收，当备胎。&lt;/p&gt;
+&lt;p&gt;国内老牌邮箱，163、126、yeah、sina、sohu，还有国外的雅虎，能用，但没非用不可的理由。不跟主流平台捆绑，当纯备胎也行。&lt;/p&gt;
+&lt;p&gt;最后说小众选择。这次重点看了它们的域名邮箱功能，发现不少门道。&lt;/p&gt;
+&lt;p&gt;Yandex Mail，俄罗斯的。邮箱服务国内访问一般没问题，网盘不能裸连。VIP 账号能弄域名邮箱，不过不是买域名给你用，只是代理转发。服务器在莫斯科，东欧地区投递成功率高。用了动态 IP 池，对发营销邮件（EDM）有帮助。免费版每日发信限 200 封，没中文界面。内置邮件翻译是亮点，但对中文支持远不如谷歌和 QQ。&lt;/p&gt;
+&lt;p&gt;Zoho Mail，主业是企业邮箱，个人免费版体验不错。以前短 @zoho.com 难注册，现在常见 @zohomail.com。&lt;/p&gt;
+&lt;p&gt;最硬核的是：免费版就能绑自己的域名，变成真正的 you@yourcompany.com。免费套餐支持最多 5 个账户和 5GB 存储。小团队或个人品牌，零成本建立专业形象，神器。&lt;/p&gt;
+&lt;p&gt;后台功能丰富，端到端加密、分布式存储保证海外访问速度，但设置 MX 记录、SPF/DKIM 对新手有门槛。还有个优势：和 Zoho 自家 CRM、项目管理工具无缝集成。比如，直接把客户邮件转成 CRM 线索或项目任务，自动化程度高。付费高级版安全和协作功能更完善。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>永生 601A：现产唯一的胜利尖钢笔</title>
+    <link href="https://example.com/posts/yongsheng-601a-triumph-nib/" />
+    <updated>2024-08-16T00:00:00Z</updated>
+    <id>https://example.com/posts/yongsheng-601a-triumph-nib/</id>
+    <content type="html">&lt;p&gt;说是&amp;quot;现产&amp;quot;，其实上海君来只是把老永生的胜利尖库存，重新装到 601A 的笔杆上。真正的胜利尖工艺，早跟上世纪末永生制笔厂的变迁一起散了。现在能买到的这些，笔尖还是铱金的，靠的是仅剩的老库存撑着。&lt;/p&gt;
+&lt;p&gt;胜利尖的源头要说到1942年，犀飞利出的&lt;strong&gt;Triumph&lt;/strong&gt;系列。那时候圆珠笔开始蚕食钢笔市场，各大厂商都在想办法突围。犀飞利给出的方案是一种全新的笔尖形态：不再是传统的开放尖，而是将整块金属片弯折成圆锥形套筒，把笔舌完全包裹进去，笔尖与笔握之间形成一个流畅的连续曲面。这种设计的初衷，一方面是为了让笔尖更坚固，犀飞利在广告中宣称它&amp;quot;可以带到任何地方&amp;quot;，甚至能垫多层复写纸一次写出三份清晰的拷贝——硬度可见一斑；另一方面，锥形结构让笔尖与笔舌的接触面积大幅增加，墨槽延伸至笔握，供墨比传统设计更加稳定可靠。&lt;/p&gt;
+&lt;p&gt;胜利尖还有一个容易被忽视的细节：笔尖微微上翘。这个&amp;quot;塌鼻子&amp;quot;造型不是装饰，而是犀飞利工程师反复推敲的结果。上翘的锥形在复写纸上用力书写时不会戳破纸张，同时允许笔尖反面书写细字。早期胜利尖的翘起幅度更大，笔尖也更短更宽，后来随着工艺成熟逐渐收敛，但始终保留了这一独特的结构特征。&lt;/p&gt;
+&lt;p&gt;在长达五十多年的生产周期里，胜利尖经历了多次演变。最早是14K金片弯曲成形后焊接，接缝处由技工手工打磨抛光。1948年改用无缝管材加工，生产效率大幅提升。1952年犀飞利又推出了钯银材质的胜利尖，用于定位较低端的型号。材质不同，手感也各异——钯银尖极硬，几乎没有弹性；14K金尖同样偏硬，但笔尖厚度摆在那里，写起来有种&amp;quot;硬朗而不失韧性&amp;quot;的独特体验。犀飞利甚至用这种笔尖做过音乐尖，专供书法使用，在收藏市场上动辄拍到数百美元。&lt;/p&gt;
+&lt;p&gt;胜利尖从1942年一直生产到1998年才正式停产。将近六十年的生命周期，放到整个钢笔史上都是罕见的。但对于大多数国内玩家来说，真正接触胜利尖的途径并不是犀飞利的古董笔，而是永生和幸福厂仿制的&amp;quot;大包尖&amp;quot;。新中国成立后，上海制笔工业通过学习苏联和借鉴欧美技术逐步发展起来，永生笔厂的前身是民国时期创立的商务自来水笔厂，经过多次改组才定型为后来的国营新华金笔厂。据钢笔论坛上的老玩家回忆，幸福厂最早开始仿制犀飞利的胜利尖结构，后来两厂合并，永生系列也就顺理成章地延续了这种笔尖形态。&lt;/p&gt;
+&lt;p&gt;但仿制不意味着粗糙。有笔友评价70年代的永生233&amp;quot;感觉那可不是一种粗糙的仿制品，甚至是一种超越，用了接近40年了笔还能用，而且笔帽笔身做工精致&amp;quot;。更有意思的是，永生的大包尖还保留了一个&amp;quot;遗迹&amp;quot;——笔舌上那个小小的圆孔和内部的细管。这个结构在老笔友看来是个&amp;quot;莫名其妙的摆设&amp;quot;，但了解犀飞利历史的人一眼就能认出：那是潜艇上墨的呼吸管设计。1952年犀飞利推出的潜艇上墨，通过一根可以伸缩的金属管直接从墨水瓶底部吸墨，笔尖全程不沾墨水，被称为&amp;quot;钢笔史上最复杂的上墨系统&amp;quot;。永生当年连这个结构也一并仿制了，尽管在实际生产中并没有保留潜艇上墨的全部功能，但这个细节足以说明当年的仿制有多么&amp;quot;完整&amp;quot;——甚至连犀飞利广告里那个笔尖微微上翘的&amp;quot;朝天鼻&amp;quot;特征，在永生的大包尖上也被忠实复刻了。&lt;/p&gt;
+&lt;p&gt;讲回这支601A。永生的大包尖钢笔在历史上出过不少经典型号，最常见的是233、235、236、237等铱金笔，以及永生300、幸福270等14K金笔。这些老笔在二手市场上依然流通，但品相参差，上墨系统也多半年久失修。君来采用库存的老笔尖搭配现代活塞上墨系统，算是用一种&amp;quot;折中方案&amp;quot;让胜利尖重新回到了市场上。笔尖批次不同，出水、弹性、声音可能有点差别。活塞系统容量大，可靠，第一次用建议多吸几次墨水，把空气排干净。笔杆工业感强，重量刚好，握久了不累，就是外观朴实，少了老永生那种温润朴素的工业设计风格。&lt;/p&gt;
+&lt;p&gt;说到手感，胜利尖的书写体验在整个钢笔谱系里独树一帜。它不像暗尖那样将笔尖深藏，只露出小小一点，也不像明尖那样舒展外露。胜利尖处于两者之间——笔尖完全暴露在外，书写视野开阔，但圆锥形的结构又赋予了它接近暗尖的硬朗支撑。有笔友形容永生300的胜利尖&amp;quot;写字的视野好，进而手感好&amp;quot;，而且&amp;quot;略有弹性&amp;quot;。而犀飞利原版的大号胜利尖，光笔尖重量就接近1克，厚度可见一斑。&lt;/p&gt;
+&lt;p&gt;我特别喜欢这手感。不是中性笔那种滑到底，也不是软金尖那种细腻回弹，而是中间那点&amp;quot;阻力和反馈&amp;quot;。落笔有实感，行笔有质感，写长笔记或随手画时，笔不会&amp;quot;跑&amp;quot;，像个老朋友陪着你，一笔一划都踏实。用钢笔论坛一位老玩家的话说，&amp;quot;这种硬朗的写感简直算得上写字带风&amp;quot;。放在今天，在动辄追求&amp;quot;滑顺如丝&amp;quot;的书写工具潮流里，这种略带阻尼、需要一点力度的反馈反而成了一种奢侈——它提醒你，写字这件事本身，是可以被感知的。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>从五笔到双拼：一场不得不作的告别</title>
+    <link href="https://example.com/posts/from-wubi-to-shuangpin/" />
+    <updated>2024-06-21T00:00:00Z</updated>
+    <id>https://example.com/posts/from-wubi-to-shuangpin/</id>
+    <content type="html">&lt;p&gt;五笔字型的源头，要追溯到1978年。王永民在南阳开始研究汉字输入技术，历经五年实验，最终将汉字拆分为130多个基本字根，分布在标准英文键盘的25个字母键上（Z键用作学习键）。1983年8月28日，这个方案通过鉴定，之后又经过两年改进，于1986年定稿并正式推广，史称&amp;quot;86版五笔&amp;quot;。严格说来，1986年秋推出的原始版本叫&amp;quot;86-4.5版&amp;quot;，后来还有个取码规范化的改进版WB-18030（2000年推出），不过用的人寥寥无几。1998年王永民又推出了第二代98版五笔，增补了甫、未、甘、母等整字字根，2008年第三代新世纪版问世，建立新的字根键位体系，可处理27533个简繁汉字，号称五笔的&amp;quot;终极版本&amp;quot;。&lt;/p&gt;
+&lt;p&gt;五笔输入法的用户总数约2000万至3000万量级，分布极不平衡——86版凭借先发优势占据了绝对主导地位，98版和新世纪版始终未能撼动，五笔社区内部的&amp;quot;版本之争&amp;quot;倒成为一个长期话题。&lt;/p&gt;
+&lt;p&gt;后来试了仓颉。仓颉由朱邦复于1976年创制，原名&amp;quot;形意检字法&amp;quot;，本意是解决电脑处理汉字的问题——当时英文科技垄断计算机世界，朱邦复试图打破这一局面。1978年，蒋纬国为纪念上古仓颉造字的精神，将其重新定名为&amp;quot;仓颉输入法&amp;quot;。朱邦复深入研究中文字的结构和构成原理，结合电脑逻辑处理的需要，整理出24个仓颉字母，每个字母又关联多个辅助字形，重码率很低。但它的拆字逻辑是为繁体设计的，简体字拆起来总显得支离破碎。1982年，朱邦复登报公开放弃仓颉输入法专利权，推动电脑中文化，这种&amp;quot;开放精神&amp;quot;在输入法史上堪称独一份，但开放归开放，简体用户用它始终隔了一层。&lt;/p&gt;
+&lt;p&gt;转机出现在百度贴吧。一个老帖子里，有人说了这么一段话：&amp;quot;形码输入法原创写作时，效率其实不如声码。它真正的优势是抄稿子——看着纸稿盲打，几乎不用选字。创作时，大脑要把&#39;心里的声音&#39;翻译成字根，反而拖慢思路。&amp;quot;这话像当头一棒，把我从五笔的执念里敲了出来。有心理学研究也佐证了这一点——有研究利用眼动技术考察中小学生的输入过程，发现形码输入的整体速度虽然快于音码，但选字框的信息量是影响速度的主要因素。换句话说，形码的&amp;quot;快&amp;quot;更多体现在选字少、无需中断视觉焦点上，而在思考与输出同步的场景中，形码多了一道&amp;quot;字形翻译&amp;quot;环节，优势并不明显。&lt;/p&gt;
+&lt;p&gt;于是我开始正视拼音。全拼按键太多，一个&amp;quot;装&amp;quot;字要按六个键，平均每个字四到六下。脑子想完三句，手还在打第一句。双拼就成了自然之选。&lt;/p&gt;
+&lt;p&gt;双拼的核心很简单：把声母和韵母各压到一个键，两个键一个音节。但同一原理落实到不同方案上，键位分布的差异带来截然不同的手感和跨平台体验。最初我用拼音加加双拼，这个方案规律性强，声韵母按拼音表对称排列，学习门槛很低，来源可以追溯到四通打字机的双拼设计。但我很快发现有些组合指法不顺，比如&amp;quot;追&amp;quot;字的&amp;quot;v+ui&amp;quot;两个键都在左手，打快了左手忙不过来。更致命的是跨平台支持差——搜狗输入法、微软拼音等主流输入法虽然大多预置了拼音加加方案，但手机端支持参差不齐，换台设备就得重新配置。&lt;/p&gt;
+&lt;p&gt;后来换微软双拼。Windows 原生支持是其最大优势，键位设计来自自然码的改版，最大的争议是把ing放在分号键上，右手小指一压就出来，左右手分工很舒服。分号键的争议一直不小——右手小指频繁伸向分号，有人觉得这样的分布不符合键盘规范，另一些人则觉得多一个键位反而拓宽了韵母分布空间。微软方案的另一特点是跨平台覆盖极好，Windows、macOS、iOS、Android 的主流输入法几乎都内置了这一布局，换任何设备都不用重新学习。&lt;/p&gt;
+&lt;p&gt;小鹤双拼是很多人的&amp;quot;退烧方案&amp;quot;。它的键位设计比较均衡，左右手负荷分配合理，且支持进阶的&amp;quot;小鹤音形&amp;quot;方案——在双拼基础上附加形码辅助，打字上限更高。但可能是我个人习惯问题，用着总觉得右手小指被架空，节奏上有点拖。&lt;/p&gt;
+&lt;p&gt;在双拼方案的历史上，还有一个名字绕不过去——自然码。它韵母分配比较合理，左右手相对平衡，由周志农开发，一度非常流行。可惜自然码的作者把大量精力花在防破解上，商业策略失误，最终没能成为各大操作系统的标配。目前市面上大多数双拼方案（包括微软双拼、搜狗双拼）其实都是自然码的改版。&lt;/p&gt;
+&lt;p&gt;从实践来看，双拼方案之间的迁移成本并不高，挑一个顺手的坚持下去即可。我的最终选择是微软双拼——谈不上最好，但跨平台最省心。&lt;/p&gt;
+&lt;p&gt;至于五笔在当下的处境，&lt;strong&gt;RIME（中州韵输入法引擎）&lt;/strong&gt; 几乎是唯一在Windows上延续五笔体验的出路。RIME开源免费，高度可定制，Windows版叫&amp;quot;小狼毫&amp;quot;，macOS版叫&amp;quot;鼠须管&amp;quot;，Android叫&amp;quot;同文&amp;quot;，iOS叫&amp;quot;仓输入法&amp;quot;。它支持五笔、双拼、仓颉、注音等几乎所有中文输入方案，理论上可以打磨成完全符合个人习惯的形状。RIME 支持自定义短语和扩展词库——你可以把常用句子设定为短码，也可以导入搜狗词库扩充词汇量。但要做好这些，得熟悉 YAML 格式和 RIME 的配置逻辑。比如要调整候选词个数或中英文切换键，需要新建一个 .custom.yaml 文件，修改后还要重新部署才能生效。有用户调侃：&amp;quot;RIME 用一周配置，用一辈子打字。&amp;quot;我不想花这个精力。&lt;/p&gt;
+&lt;p&gt;从五笔到双拼，更像一场从形到声的妥协与和解。我牺牲了极致的单字盲打精度，换来了更贴思考节奏的流畅——心里默念一句话，手指跟着音节走，不用再经过&amp;quot;字形→字根&amp;quot;的翻译。五笔在创作场景中多一道翻译工序，而在照稿录入时效率最高，这一点贴吧那番话确实说到了根上。也换来了不用总折腾软件的安心：系统更新不怕，换电脑不怕，手机电脑无缝切换。&lt;/p&gt;
+&lt;p&gt;适合自己的，才是最好的输入法。我偶尔还会怀念五笔那种&amp;quot;打字如写字&amp;quot;的精确度，但回不去了。也不打算回去。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利</title>
+    <link href="https://example.com/posts/western-fountain-pen-history/" />
+    <updated>2024-05-17T00:00:00Z</updated>
+    <id>https://example.com/posts/western-fountain-pen-history/</id>
+    <content type="html">&lt;p&gt;汉堡的冬天。1906年。银行家 Claus-Johannes Voss 和工程师 August Eberstein 坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。&lt;/p&gt;
+&lt;p&gt;在墨迹斑斓的西方文坛，这些欧美钢笔厂商如古老城堡般屹立，守望着上世纪的荣光与风雨。它们从创新的火种中诞生，伴随两次世界大战与经济风云，铸就了书写永恒的传奇。万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，各有千秋，却共同谱写了一曲墨香交响。&lt;/p&gt;
+&lt;p&gt;万宝龙1906年于德国汉堡启幕，由银行家与工程师联手，首创内置墨囊的安全笔，奠定奢华基调。其优点在于那份精致工艺，宛若艺术品般优雅耐久；早年价格高企，或让寻常文人稍感遥远，却正因稀贵，更添尊荣。1919年，其笔签署《凡尔赛条约》，见证和平曙光；1924年推出 Meisterstück，意为&amp;quot;大师之作&amp;quot;，从此成为全球最畅销的高端钢笔之一。这支笔之所以成为经典，在于它解决了钢笔的两个核心痛点：一是采用活塞上墨，墨水容量比同时代其他笔大得多；二是笔尖采用 14K 金、经过手工打磨，每一支的书写手感都有细微差别。至今万宝龙仍在生产 Meisterstück，笔尖的形状和尺寸几乎没变——这在日新月异的工业社会里近乎奇迹。重要笔型包括 1909 年首款安全笔 Rouge et Noir（红黑双色，防漏设计）和 1924 年的 Meisterstück 149——巨型金笔，18K 笔尖，雪峰星徽，高端典范。&lt;/p&gt;
+&lt;p&gt;百利金1838年源于德国墨汁厂，1929年首推活塞填充钢笔，开启文具新纪元。其长处是可靠墨量与耐用身躯，如老友般陪伴不倦；早年专注欧洲，或在美洲稍显低调，却因此更显匠心纯真。1958年 P1 系列革新，引入塑料注塑，助力大众书写；战后复苏，出口全球，奠定&amp;quot;绿鹈鹕&amp;quot;传奇。重要笔型包括 1929 年的 100N（首款活塞笔，绿色条纹，墨水充盈）和 1950 至 1960 年代的 M400/M800——Souverän 系列，14K 金尖，平衡优雅。&lt;/p&gt;
+&lt;p&gt;水人1883年由 Lewis Edson Waterman 在美国纽约创立，发明&amp;quot;三裂喂墨&amp;quot;系统，首创可靠钢笔。优点显于那份流畅优雅，书写如江河般自然；早期硬橡胶易褪色，或需细心呵护，却正合其古典韵味。20世纪初转向杠杆填充，革新墨水注入；1950年代推出卡匣笔，适应现代节奏。重要笔型包括 1920 年代的 Patrician（奢华硬橡胶笔，金饰华丽）和 1990 年代的 Expert（现代树脂笔身，书写流畅，日常伴侣）。&lt;/p&gt;
+&lt;p&gt;派克1888年由 George Safford Parker 在美国威斯康星创立，首创&amp;quot;Lucky Curve&amp;quot;喂墨系统，解决漏墨痛点。其优点是可靠耐用，如盾牌般守护书写；早年价格亲民，普及大众，却在高端领域稍显不足，后以 Duofold 系列补足。1921年推出 Duofold，橙色大笔，轰动市场；1940年代&amp;quot;51&amp;quot;系列问世，包尖设计，书写如丝，成为二战后最畅销笔型。关键笔型包括 1921 年的 Duofold（巨型笔，橙色笔身，金尖华丽）和 1941 年的 51（包尖设计，墨水流畅，书写如丝，战后畅销传奇）。&lt;/p&gt;
+&lt;p&gt;犀飞利1912年由 Walter A. Sheaffer 在美国爱荷华创立，首创&amp;quot;Touchdown&amp;quot;活塞填充系统——用户只需按压笔尾的金属杆，墨水就会被吸入笔身内部的活塞舱。这个设计比当时的杠杆填充更可靠，漏墨概率更低，迅速成为其标志性技术。其优点是灵动创新，设计如翼般轻盈；早年价格中高，受众稍窄，却在收藏家心中赢得独特地位。1920年代推出 Lifetime 系列，终身保修，树立品质信心；1940年代 Triumph 笔尖问世，包尖设计，书写沙沙作响，成为犀飞利标志性创新。重要笔型包括 1920 年代的 Lifetime（终身保修笔，金尖耐用）和 1940 年代的 Triumph（包尖设计，书写沙沙，手感独特）。&lt;/p&gt;
+&lt;p&gt;万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，共同谱写了上世纪的墨香交响。这些品牌至今仍在生产，虽然市场份额早已被中性笔和键盘蚕食，但每一支老笔背后，都藏着一个时代对书写这件事的认真。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>日本钢笔御三家：百乐、白金、写乐的百年匠心</title>
+    <link href="https://example.com/posts/japanese-fountain-pen-trinity/" />
+    <updated>2024-04-16T00:00:00Z</updated>
+    <id>https://example.com/posts/japanese-fountain-pen-trinity/</id>
+    <content type="html">&lt;p&gt;日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。&lt;/p&gt;
+&lt;p&gt;百乐的前身可溯至1915年，工程教授 Ryosuke Namiki 与 Masao Wada 的携手，初衷仅为铸就不锈钢笔尖，打破西方垄断。1918年正式创厂于东京，名为 Namiki Manufacturing Company，后更名 Pilot，寓意&amp;quot;领航者&amp;quot;。早年产品以金笔尖为主，出口欧美，奠定国际声誉。二战期间，工厂转产军需，却在战后迅速复苏，1950年代推出批量不锈钢笔尖，推动本土工业腾飞。&lt;/p&gt;
+&lt;p&gt;1963年，百乐首创 Capless 可伸缩钢笔，旋钮一转，笔尖隐现，无需笔帽，获巴黎国际礼品展&amp;quot;最推荐产品奖&amp;quot;，革新书写便利。这支笔最初是为经常需要在旅途中签字的商务人士设计的——不用拧开笔帽、旋紧笔帽，单手就能完成书写，尤其适合医生、快递员、税务员等需要频繁用笔的职业。1970至1990年间，Capless 系列迭代，从蚀刻款到多面体设计，技术跃进，彰显日本精密之美。1980年代，Custom 系列问世，传承百年工艺，定位高端定制。重要笔型包括 Capless（1963年，旋钮机制，笔身纤细，至今仍是旅行者的挚友）、Custom 74（1970年代，入门金笔，14K 笔尖柔韧，树脂笔身轻盈）和 Custom 823（1980年代，真空吸墨设计，21K 金尖，墨量充沛，适合长篇书写）。&lt;/p&gt;
+&lt;p&gt;白金的起源似一阕清幽小调，1919年创始人 Shunichi Nakata 于东京启业，初售进口笔，后自制 Champion、Piiton 等款，出口海外。1924年建立中屋制作所，专注笔尖锻造，战时转产军工，1950年代复苏，强调&amp;quot;纯净书写&amp;quot;。1956年推出全球首款卡匣式钢笔，摒弃吸墨瓶，书写更卫生便捷。1965年发明&amp;quot;敲击式&amp;quot;可点击钢笔，1967年 Platinum Platinum 问世，首用铂金涂层笔尖，抗腐蚀耐久。1993年限量款与 Hayakawa 机械铅笔同步上市，1994年 President 系列登场，标志中高端转型。重要笔型包括 Honest 60（1950年代，首款卡匣笔，简约金属身）、3776 Century（1970年代，14K 金尖，活塞上墨，&amp;quot;3776&amp;quot;寓意富士山高度）和 President（1994年，高端商务笔，18K 金尖，平衡舒适）。&lt;/p&gt;
+&lt;p&gt;写乐的故事始于1911年，创始人 Kyogoro Sakata 于大阪启业，初名 Sailor Pen，寓意&amp;quot;航海者&amp;quot;，灵感源自一位英国水手赠送的钢笔。早年产品以金属笔尖为主，出口东南亚，奠定海外根基。二战期间工厂转产军需，战后复苏，1950年代推出不锈钢笔尖，技术革新。1960年代，写乐推出 Profit 系列，21K 金尖，书写流畅，定位高端。1970年代，长刀研笔尖（Naginata Togi）问世，独特打磨方式使笔尖正面呈弧形切削状，侧面则保留了传统刀刃般的锐角。这种形状使得书写时笔尖会随着运笔方向自然变形——横画细、竖画粗，转折处还能写出类似毛笔的&amp;quot;锋&amp;quot;，尤其适合写汉字时追求笔画粗细变化的书法爱好者。写乐因此被国内的钢笔收藏家称为&amp;quot;书法笔之王&amp;quot;。1980年代，Professional Gear 系列登场，21K 金尖，笔身坚固。重要笔型包括 Profit（1960年代，21K 金尖，活塞上墨）、长刀研（1970年代，独特打磨，书写如书法）和 Professional Gear（1980年代，21K 金尖，树脂笔身，坚固耐用）。&lt;/p&gt;
+&lt;p&gt;百乐的创新、白金的纯净、写乐的匠心，共同绘就了日本钢笔的百年华章。它们从舶来之风中崛起，历经战火与革新，铸就了书写永恒的传奇。如今在日本的文具店里，这三家的产品依然并肩陈列——从几百日元的平价钢笔到数十万日元的高级莳绘，各自占据着不同的货架，继续书写着下一个百年。&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Jekyll 与 Chirpy 主题：一位新手博客的试错史</title>
     <link href="https://example.com/posts/jekyll-chirpy-trial-and-error/" />
-    <updated>2026-04-26T00:00:00Z</updated>
+    <updated>2024-02-03T00:00:00Z</updated>
     <id>https://example.com/posts/jekyll-chirpy-trial-and-error/</id>
     <content type="html">&lt;p&gt;事实上，我最初使用的 Jekyll 主题是 &lt;a href=&quot;https://wangjunjie-ai.github.io/posts/2025/06/academic-pages-guide/&quot;&gt;Academic Pages&lt;/a&gt;。（搭建过程中参考了这篇文章，不过这位大佬似乎有两个 GitHub 账号，今年年初我曾问过他，他的项目大多在 &lt;a href=&quot;https://github.com/wanng-ide&quot;&gt;wanng-ide&lt;/a&gt; 中，而 wangjunjie-ai 则是用来搭建 Pages 的。）&lt;/p&gt;
 &lt;p&gt;为何选择这个主题？因为它预设的配置相当全面，我只管写文章便是。毕竟这是一个&amp;quot;学术&amp;quot;个人主页，设计初衷便是减少折腾、直奔主题。&lt;/p&gt;
@@ -259,775 +403,26 @@ Jekyll&lt;span class=&quot;token double-colon punctuation&quot;&gt;::&lt;/span&g
     &lt;span class=&quot;token property&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;Source Han Sans VF&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;Microsoft YaHei&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;PingFang SC&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;MiSans&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; sans-serif &lt;span class=&quot;token important&quot;&gt;!important&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;style&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;a href=&quot;https://hanzi.itedev.com&quot;&gt;hanzi 千字网 CDN&lt;/a&gt; 是我自己构建的字体 CDN，大家可以去网站首页或从我的 Halo 博客了解这个项目。我采用的是直接在 head 文件覆盖的方案，你们也可以根据自己的需求定制。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://hanzi.itedev.com&quot;&gt;hanzi 千字网 CDN&lt;/a&gt; 是我自己构建的字体 CDN，大家可以去网站首页或从我的 Codeberg 仓库了解这个项目。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;第三个问题是隐藏文章。最初 MiniMax 告诉我直接在 &lt;code&gt;tags&lt;/code&gt; 里添加 &lt;code&gt;hidden&lt;/code&gt; 就行，然后我发现没用。我的想法是开发一个插件，但无论怎么修改 Ruby 代码，最后的结果永远是无法从直链访问文章——文章被直接删除了，而非隐藏。&lt;/p&gt;
 &lt;p&gt;后来我发现，实际上 Chirpy 内置了在首页隐藏文章的功能。不是在 &lt;code&gt;tags&lt;/code&gt; 里添加，而是在 front matter 中添加 &lt;code&gt;hidden: true&lt;/code&gt; 就行。害得我绕了个大弯——根本不用改配置，Chirpy 本来就有这个功能。&lt;/p&gt;
 </content>
   </entry>
   <entry>
-    <title>Copilot的数据政策变更：AI时代的开源思考</title>
-    <link href="https://example.com/posts/copilot-data-policy-open-source/" />
-    <updated>2026-03-28T00:00:00Z</updated>
-    <id>https://example.com/posts/copilot-data-policy-open-source/</id>
-    <content type="html">&lt;p&gt;深夜。邮件通知。GitHub发来一封邮件，标题是&amp;quot;Copilot隐私政策更新&amp;quot;。我点开，读完，关掉。心里想着：又来了。&lt;/p&gt;
-&lt;p&gt;近日，GitHub宣布更新Copilot隐私政策：从2026年4月24日起，将默认使用Copilot Free、Pro和Pro+用户的交互数据（包括输入提示、输出建议、代码片段及相关上下文）来训练和改进AI模型。除非用户主动在设置中opt-out（关闭&amp;quot;允许GitHub使用我的数据进行AI模型训练&amp;quot;选项），否则数据将被用于模型训练。Copilot Business和Enterprise企业用户则不受此次变更影响。&lt;/p&gt;
-&lt;p&gt;这一政策调整迅速引发开发者社区讨论，许多人担忧自己的代码交互数据在不知情下成为微软AI的&amp;quot;免费燃料&amp;quot;。&lt;/p&gt;
-&lt;h2&gt;我的观点：AI训练应如何尊重开源许可证？&lt;/h2&gt;
-&lt;p&gt;先下结论：在当前法律和许可证框架下，AI模型（如Copilot）在训练时可以较为自由地爬取和学习MIT、BSD等宽松许可证的项目，因为这些协议对使用、修改和衍生几乎无额外限制，仅需保留基本版权声明即可。&lt;/p&gt;
-&lt;p&gt;对于Apache 2.0许可证的项目，AI应至少在生成的代码注释中保留原始署名和来源提及，以尊重其&amp;quot;保留NOTICE文件和修改说明&amp;quot;的要求。比如，你用了一段来自Apache项目的代码，AI生成的新代码里应该加一行注释说明原始来源。&lt;/p&gt;
-&lt;p&gt;对于GPL系列（强Copyleft协议），情况更复杂——如果训练导致生成实质性衍生代码，可能需要考虑开源义务。但这里有个实际操作中的困境：GPL的&amp;quot;传染性&amp;quot;条款要求衍生作品必须以相同许可证开源，这在传统软件开发中容易界定，但AI模型的训练过程本身不产生&amp;quot;可见代码&amp;quot;，所以GPL条款的适用存在争议。这更多依赖AI提供商的合规自律。&lt;/p&gt;
-&lt;p&gt;现实中，大多数开发者在复用开源代码时往往忽略完整标注，何况是AI模型？但正因为AI是规模化&amp;quot;学习&amp;quot;工具，我们更有理由从训练源头强化版权尊重机制。例如，通过提示工程或后处理，让AI在输出时自动添加来源注释。这不仅能减少潜在纠纷，还能培养整个生态的版权意识。&lt;/p&gt;
-&lt;p&gt;我自己的大部分项目采用BSD-2-Clause许可证（而非BSD-3-Clause），其高度包容性让我欢迎AI爬取和学习——BSD协议的海纳百川精神，本就鼓励广泛使用与创新。对于我使用Apache 2.0的项目，我的态度则更谨慎：AI至少应在注释中浅浅提及原始来源和许可证，这既是基本尊重，也能避免后期合规风险。&lt;/p&gt;
-&lt;p&gt;目前看来，现有的开源许可证（包括法律文件）对AI训练这一新场景准备不足。MIT/BSD等宽松协议在AI时代显得&amp;quot;过于友好&amp;quot;，而Apache和GPL则缺乏针对机器学习的明确条款。我认为，在不久的未来，各大开源基金会和社区很可能针对AI训练进行一次系统性更新，例如新增&amp;quot;AI训练授权&amp;quot;子条款、要求模型输出时强制保留归属信息，或引入&amp;quot;训练时脱敏+溯源&amp;quot;机制。&lt;/p&gt;
-&lt;h2&gt;对Copilot政策的额外不满与思考&lt;/h2&gt;
-&lt;p&gt;更让我不满的是：微软一方面使用（包括免费用户在内的）大量开发者交互数据来训练Copilot，提升模型能力；另一方面，Copilot免费额度和功能限制依然较为吝啬。Copilot Free每月仅2000次代码补全请求，而Copilot Pro定价为每月10美元。这相当于让普通开发者在不知情或默认同意下成为&amp;quot;免费劳工&amp;quot;，却未获得对等的回报。这样的商业模式是否公平，值得开发者深思。&lt;/p&gt;
-&lt;p&gt;微软历史上确实多次&amp;quot;毁灭&amp;quot;过优秀产品——从诺基亚、Windows Phone，到如今的GitHub生态。但历史也告诉我们，技术变革往往伴随阵痛。未来尚未定型，我们不必一味悲观否定。&lt;/p&gt;
-&lt;p&gt;开发者可以积极行动起来：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;立即检查并opt-out Copilot数据训练设置：在VS Code中打开Settings → 搜索&amp;quot;Copilot&amp;quot; → 找到&amp;quot;Allow GitHub to use my data for AI model training&amp;quot;并取消勾选。&lt;/li&gt;
-&lt;li&gt;在开源项目中明确添加&amp;quot;禁止用于AI训练&amp;quot;的声明（尽管法律效力待验证）。&lt;/li&gt;
-&lt;li&gt;支持更注重隐私和版权的替代AI编码工具。&lt;/li&gt;
-&lt;li&gt;参与开源许可证的更新讨论，推动社区制定AI友好规则。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;开源精神的本质是共享与互惠，而非单向索取。希望GitHub和微软在追求AI进步的同时，能更多倾听开发者声音，让生态真正实现共赢。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>犀飞利 帝国二：可能是最适合我的钢笔</title>
-    <link href="https://example.com/posts/sheaffer-imperial-ii-review/" />
-    <updated>2025-03-30T00:00:00Z</updated>
-    <id>https://example.com/posts/sheaffer-imperial-ii-review/</id>
-    <content type="html">&lt;p&gt;午后。阳光透过窗帘，落在书桌上。我手里握着犀飞利帝国二，笔尖在纸上滑动。墨水渗入纸张，留下黑色的痕迹。这支笔，花了300块。&lt;/p&gt;
-&lt;p&gt;怎么说呢，这支笔价格相对便宜些，因为是小胜利尖、TD上墨加钯银材质笔尖，所以在犀飞利的产品线里算是低端货，我花300买到的。&lt;/p&gt;
-&lt;p&gt;玩笔的应该都知道胜利尖和TD上墨这些，不多废话。这支笔对我来说真的是完美日用笔：拔插式笔帽、硬笔尖、上墨干净快速……颜值也很高。我不太喜欢帝国一或者塔格那种笔身设计，感觉直接穿越回文艺复兴时代了。我玩复古钢笔是体验上世纪的玩意，不是体验文艺复兴的设计风格……是吧？&lt;/p&gt;
-&lt;p&gt;这支笔其实可以比作低配版的犀飞利潜艇主编，都是钢帽，区别在于笔尖由大胜利尖降配为小型，潜艇上墨降级为TD上墨。&lt;/p&gt;
-&lt;p&gt;好了，就这么多。图片可以搜索别的博主拍摄的，我只讲我的使用体验，真没啥更多好说的了。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>CSS 实现正文段落首行缩进的最佳实践</title>
-    <link href="https://example.com/posts/css-paragraph-text-indent/" />
-    <updated>2025-02-28T00:00:00Z</updated>
-    <id>https://example.com/posts/css-paragraph-text-indent/</id>
-    <content type="html">&lt;h2&gt;代码间的呼吸感：关于正文段落首行缩进的一次美学修正&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;更新 - 由于显示 Bug 较多，目前本站已放弃正文段落首行缩进&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;在搭建这个自托管的数字书房时，我始终觉得，文字的呈现方式本身就是内容的一部分。最近在微调博客样式时，我花了不少时间去雕琢一个看似微不足道，实则关乎阅读气质的细节——&lt;strong&gt;中文正文的首行缩进&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;起初，我的做法很粗暴，仅仅是给所有的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;标签加上了 &lt;code&gt;text-indent: 4em;&lt;/code&gt;的声明。在纯粹的视觉层面，这确实奏效了：文章段落整齐地向右挪了四格，透出一种传统印刷品般的秩序感。然而，这种「一刀切」的快感很快就被打破了。当我滚动到列表或引用区块时，问题暴露了出来——那些本该紧凑排列的列表项，因为外层包裹着 &lt;code&gt;&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;&lt;/code&gt;的结构，竟然也跟着缩进了进去。这种错位在视觉上显得极不协调，原本灵动的排版瞬间变得有些「神经质」。&lt;/p&gt;
-&lt;p&gt;这让我意识到，真正的「优雅」，不在于强制统一，而在于懂得克制。&lt;/p&gt;
-&lt;p&gt;于是，我开始重新审视 CSS 选择器的边界。问题的本质其实很简单：Halo 主题（以及大多数现代 CMS）为了语义化和样式可控，常常会将列表项内的文本包裹在一个额外的 &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt;标签中。如果我们直接攻击 &lt;code&gt;p&lt;/code&gt;，就必然会误伤无辜。解决之道，在于划定清晰的「势力范围」。&lt;/p&gt;
-&lt;p&gt;我放弃了全局的 &lt;code&gt;p&lt;/code&gt;选择器，转而将目标锁定为 &lt;code&gt;.post-content &amp;gt; p&lt;/code&gt;。这意味着我只关心那些直接挂载在文章内容容器下的段落，而不去干涉嵌套在其他元素内部的文本。紧接着，我用了一组「豁免条款」来修复那些被误伤的区域：&lt;/p&gt;
-&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;p:not(li p):not(blockquote p)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;text-indent&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 2em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;margin-top&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.8em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;token property&quot;&gt;margin-bottom&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.8em&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;这几行代码就像是交通协管员，把跑错道的列表段落拉回了原位。至此，排版终于恢复了它应有的逻辑：列表归列表，引用归引用，而正文段落则保持着它端庄的缩进。&lt;/p&gt;
-&lt;p&gt;在这个过程中，我还确立了几条不成文的「排版洁癖」准则：&lt;/p&gt;
-&lt;p&gt;首先是单位的抉择。我坚持使用 &lt;code&gt;em&lt;/code&gt;而非 &lt;code&gt;px&lt;/code&gt;。在响应式设计大行其道的今天，固定的像素值就像刻舟求剑，无法适应不同屏幕尺寸下的字号变化。而 &lt;code&gt;em&lt;/code&gt;是相对单位，它会随着父级字号的变化而自动伸缩，确保在手机端和桌面端，缩进的比例始终是和谐的。&lt;/p&gt;
-&lt;p&gt;其次是移动端的微调。在手机屏幕上，过宽的缩进反而会挤压宝贵的阅读空间。因此，我引入了一条媒体查询规则：当屏幕宽度小于 480px 时，将缩进从 4 格缩减为 2 格。这是一种对阅读场景的尊重，也是技术服务于人的体现。&lt;/p&gt;
-&lt;p&gt;最终，这一切都收敛成了一段干净、纯粹且不依赖 JavaScript 的 CSS 代码。它没有破坏原有的 HTML 结构，也没有引入复杂的脚本逻辑，仅仅是站在 CSS 的肩膀上，完成了一次对视觉秩序的温柔校正。&lt;/p&gt;
-&lt;p&gt;这种「只动样式，不动结构」的思路，不仅适用于 Halo，我想对于 Typecho、WordPress 乃至静态博客生成器来说，都是通用的。毕竟，好的排版不该是代码的堆砌，而是一种在方寸之间寻找呼吸感的平衡艺术。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>在 Zfile / OpenList 上挂载天翼云盘的实用方法</title>
-    <link href="https://example.com/posts/openlist-zfile-cloud-drive-tools/" />
-    <updated>2025-01-19T00:00:00Z</updated>
-    <id>https://example.com/posts/openlist-zfile-cloud-drive-tools/</id>
-    <content type="html">&lt;p&gt;用 &lt;strong&gt;OpenList&lt;/strong&gt; 或 &lt;strong&gt;Zfile&lt;/strong&gt; 这类网盘聚合工具，蓝奏云基本输个密码就行，可天翼云盘总卡在设备锁这一步。网上教程大多让去 e.dlife.cn 扫码关，问题是那页面老转圈圈，二维码根本刷不出来。&lt;/p&gt;
-&lt;p&gt;问客服才知道，真正能关设备锁的地方是 &lt;a href=&quot;https://e.189.cn/user/index.do&quot;&gt;e.189.cn/user/index.do&lt;/a&gt;。但得先在浏览器里登录天翼云盘。没登的话，先去 &lt;a href=&quot;https://cloud.189.cn&quot;&gt;cloud.189.cn&lt;/a&gt; 正常登录，再开上面那个链接，就能直接进个人中心。&lt;/p&gt;
-&lt;p&gt;进去后在账号安全或设备管理里找设备锁开关，关掉就行，可能要短信验证。完成之后回到 &lt;strong&gt;OpenList&lt;/strong&gt; 或 &lt;strong&gt;Zfile&lt;/strong&gt; 重新加天翼云盘，一般就能正常挂载。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>折腾笔记：从 Misskey 到 Rhex，再到 Discourse，最后我放弃了……但我又回来了</title>
-    <link href="https://example.com/posts/forum-software-tinkering-journey/" />
-    <updated>2024-12-28T00:00:00Z</updated>
-    <id>https://example.com/posts/forum-software-tinkering-journey/</id>
-    <content type="html">&lt;p&gt;最近手头有一台配置不算高的 VPS，2G 内存。想着既然闲置也是闲置，不如搭个属于自己的社交平台或者论坛。初衷很简单：能发帖、能互动、别太占资源。结果这一折腾，就是半个多月，中间几度想摔键盘。&lt;/p&gt;
-&lt;p&gt;故事是从 &lt;strong&gt;Misskey&lt;/strong&gt; 开始的。那种类似微博的卡片式交互，还有联邦宇宙（Fediverse）的概念，看介绍特别心动。但现实很快给了我一闷棍。Misskey 是 Node.js 写的，大家都知道，Node 应用最怕的就是构建。我在服务器上跑 &lt;code&gt;pnpm install&lt;/code&gt;和 &lt;code&gt;npm run build&lt;/code&gt;，看着日志刷了好几屏，然后进程就没了。查了一下，是被系统的 OOM Killer 干掉了——内存爆了。&lt;/p&gt;
-&lt;p&gt;我不信邪，开始给系统加 Swap。从 2G 加到 4G，甚至试过 8G。确实，Swap 加上后，构建能跑完了，但慢得像蜗牛。而且 Misskey 依赖 Redis 和 PostgreSQL，Docker 一启动，服务器 CPU 就开始疯狂报警。那一刻我觉得，为了一个玩具项目把服务器搞得这么累，不值当。&lt;/p&gt;
-&lt;p&gt;于是我转向了 &lt;strong&gt;Rhex&lt;/strong&gt;。这是一个基于 Next.js 的论坛程序，看起来清爽现代。但噩梦换了个马甲又来了。Next.js 的 &lt;code&gt;next build&lt;/code&gt;简直是内存吞噬兽。在我的 2G 机器上，它直接报 &lt;code&gt;Bus error (core dumped)&lt;/code&gt;。我查遍了 GitHub Issue，降 Node 版本，关 Turbopack，我试了个遍。结果就是：数据库初始化成功了，但前端死活构建不出来。每次 Docker 重启，日志就在那里无限循环：&amp;quot;找不到 &lt;code&gt;.next&lt;/code&gt;目录&amp;quot;。我知道，又是内存不够惹的祸。&lt;/p&gt;
-&lt;p&gt;既然 Node.js 这么重，我想起了传说中&amp;quot;重剑无锋&amp;quot;的 &lt;strong&gt;Discourse&lt;/strong&gt;。它是 Ruby on Rails 写的，尽管也沉，但是运行前不用编译。1Panel 的应用商店里也有一键安装，我心想这下总该省心了吧？装是装上了，确实比 Node 系列稳，但它实在是太沉了。作为一个全栈式论坛，它自带 PostgreSQL、Redis、Sidekiq 等等一堆东西。我的小机器跑起来，CPU 常年 90% 以上。这种&amp;quot;为了跑软件而跑软件&amp;quot;的状态，让我觉得很空虚。&lt;/p&gt;
-&lt;p&gt;中间我还去翻了 &lt;strong&gt;Flarum&lt;/strong&gt;，结果 PHP 的老毛病，依赖复杂，而且我总觉得它太老了，界面也不太符合我对&amp;quot;社交平台&amp;quot;的想象。我还动了自己用 ASP.NET 写一个的念头，理智告诉我那是另一个无底洞。&lt;/p&gt;
-&lt;p&gt;最后，我又头铁了一次，决定再给 Misskey 一次机会。我认真配置了 4G 的 Swap，改了 Redis 的内存限制，甚至换了国内镜像源。看着日志一点点滚动，我以为这次终于要成功了。结果还是卡在了某个我也不知道是什么的地方。&lt;/p&gt;
-&lt;p&gt;那一刻，我坐在电脑前，看着满屏幕的 &lt;code&gt;docker compose logs&lt;/code&gt;，突然就不想折腾了。&lt;/p&gt;
-&lt;p&gt;我意识到，我并不是真的需要一个多么完美的社交平台，我只是想要一个能安安静静写字、偶尔有人回两句的地方。为了追求所谓的&amp;quot;功能强大&amp;quot;和&amp;quot;技术时髦&amp;quot;，我把自己困在了 Docker、Swap、OOM 和 Node 依赖的泥潭里。&lt;/p&gt;
-&lt;p&gt;所以，我决定放弃。&lt;/p&gt;
-&lt;h2&gt;峰回路转：遇见 bbs-go&lt;/h2&gt;
-&lt;p&gt;就在我准备彻底躺平时，我鬼使神差地在 GitHub 上搜到了 &lt;strong&gt;bbs-go&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;看了一眼简介：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;✅ &lt;strong&gt;Go 语言编写&lt;/strong&gt;（编译型，运行起来不吃内存）&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;自带轻量级全文搜索&lt;/strong&gt;（不用再折腾 ElasticSearch）&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;支持 Docker 一键部署&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;界面清爽，有论坛也有问答&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;关键是，它不像 Misskey 那样臃肿，也不像 Discourse 那样全家桶。它就是一个纯粹的、为小服务器设计的社区系统。&lt;/p&gt;
-&lt;p&gt;抱着&amp;quot;最后一次，不行就真的睡觉&amp;quot;的心态，我开始了新的尝试。&lt;/p&gt;
-&lt;h3&gt;见证奇迹的时刻&lt;/h3&gt;
-&lt;p&gt;在 &lt;code&gt;/opt/bbs-go&lt;/code&gt;目录下，我深吸一口气，使用 1Panel 的 Go 运行时镜像运行：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;docker compose up -d
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;然后，我盯着 &lt;code&gt;docker logs bbs-go&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;没有疯狂刷屏的内存报错，没有卡死的构建过程，也没有 CPU 100% 的警报。大概过了十几秒，日志停了。&lt;/p&gt;
-&lt;p&gt;我颤抖着手指，在浏览器输入了地址：&lt;code&gt;http://服务器IP:8082&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;页面加载出来了。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;速度快得惊人。我试着注册了一个账号，发了第一篇帖子，编辑了个人资料。一切都顺滑得不像话。&lt;/p&gt;
-&lt;p&gt;我又打开了服务器监控，内存占用稳稳地停在 &lt;strong&gt;50MB&lt;/strong&gt; 左右，CPU 安静得像睡着了。&lt;/p&gt;
-&lt;h2&gt;结语&lt;/h2&gt;
-&lt;p&gt;这次经历教会了我一件事：&lt;strong&gt;合适比强大更重要，完成比完美更让人安心。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Node.js 的世界虽然绚丽，但对于小内存 VPS 来说，就像是让一辆 F1 赛车去乡间土路拉货。而 Go 语言编写的程序，就像是一辆皮实耐造的拖拉机，看着不花哨，但活儿是真能干。&lt;/p&gt;
-&lt;p&gt;从 Misskey 到 Rhex，再到 Discourse，我走了很多弯路。但最终找到 bbs-go，让我觉得这一切折腾都值了。&lt;/p&gt;
-&lt;p&gt;不再追求联邦宇宙的宏大叙事，也不再纠结于前端框架的时髦与否。一个能让我安静写字的角落，才是我真正需要的。&lt;/p&gt;
-&lt;p&gt;就这样吧，这次是真的收工了。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;晚安，服务器。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;(如果你也想试试 bbs-go，可以去它的 GitHub 主页看看，真的很适合&amp;quot;贫民窟&amp;quot;服务器。)&lt;/em&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>2025 年还在纠结建站用啥？不同技术栈最值得部署的开源神器合集</title>
-    <link href="https://example.com/posts/self-hosted-awesome-tools-2025/" />
-    <updated>2024-11-27T00:00:00Z</updated>
-    <id>https://example.com/posts/self-hosted-awesome-tools-2025/</id>
-    <content type="html">&lt;p&gt;互联网这么多年，建站早就不是写代码大神的专属游戏了。想搞个博客？私人网盘？内部代码仓库？还是团队资源导航？开源社区早就把轮子造好了，敲一下 &lt;code&gt;docker-compose up -d&lt;/code&gt;就能部署软件。&lt;/p&gt;
-&lt;p&gt;下面按后端语言分门别类，挑出目前（2025 年）依然活跃、部署友好、社区没凉的代表性建站软件。&lt;/p&gt;
-&lt;h2&gt;PHP 生态：仍旧是建站一哥的地位&lt;/h2&gt;
-&lt;p&gt;PHP 仍然是&amp;quot;低配服务器救星&amp;quot;和&amp;quot;共享主机亲爹&amp;quot;。部署简单到离谱，各种面板一键部署，基本零学习成本。&lt;/p&gt;
-&lt;h3&gt;WordPress&lt;/h3&gt;
-&lt;p&gt;全球霸主，没啥好说的。插件生态 ≈ 无限可能（SEO、会员、商城、论坛啥都能变），主题随便挑。&lt;/p&gt;
-&lt;p&gt;缺点：臃肿、历史包袱多、安全补丁永远赶不上黑客的攻击速度。&lt;/p&gt;
-&lt;p&gt;适合：个人博客、企业官网、内容站、甚至小型电商。&lt;/p&gt;
-&lt;h3&gt;Typecho&lt;/h3&gt;
-&lt;p&gt;WordPress 的&amp;quot;极致精简版&amp;quot;。体积小、加载快、后台干净得像一张白纸，专心写字就完事。主题和插件同样丰富。&lt;/p&gt;
-&lt;p&gt;适合：真正只想写文章、不想被后台功能淹没的写作者。&lt;/p&gt;
-&lt;h3&gt;Nextcloud&lt;/h3&gt;
-&lt;p&gt;不是传统 CMS，而是&amp;quot;自托管 Dropbox + Office + 日历 + Teams&amp;quot;。PHP 写出来的私有云天花板，支持端到端加密、OnlyOffice 协作、视频会议。&lt;/p&gt;
-&lt;p&gt;适合：远程办公小团队、需要文件同步的打工仔。&lt;/p&gt;
-&lt;h2&gt;Java 生态：虽然常用于企业，但私有部署生态越来越丰富&lt;/h2&gt;
-&lt;p&gt;Java 系通常更稳、更能抗并发，适合有一定服务器资源的玩家。Spring Boot 时代后，部署也比以前友好太多了。&lt;/p&gt;
-&lt;h3&gt;Halo&lt;/h3&gt;
-&lt;p&gt;目前 Java 阵营里最现代、最好看的博客/CMS 系统。富文本支持、响应式主题、插件机制完善、API 友好。一个 Jar 包搞定，Docker 部署方便。&lt;/p&gt;
-&lt;p&gt;适合：想要 WordPress 体验但又嫌它老旧、喜欢 Java 生态的同学。&lt;/p&gt;
-&lt;h3&gt;OneDev&lt;/h3&gt;
-&lt;p&gt;&amp;quot;穷人版 GitLab&amp;quot; 的天花板。代码托管 + Issue + PR + CI/CD + Wiki + Pages 全家桶，轻量到离谱。资源占用低，单机跑个小团队完全没压力。&lt;/p&gt;
-&lt;p&gt;适合：不想被 GitHub/GitLab 收费、又想要完整 DevOps 链路的个人/小团队。&lt;/p&gt;
-&lt;h3&gt;ZFile&lt;/h3&gt;
-&lt;p&gt;极简 Java 网盘，界面清爽。支持本地目录 + 各种 OSS 挂载、视频在线预览、文件夹密码。&lt;/p&gt;
-&lt;p&gt;适合：快速搭个文件分享站、团队内部资料库，不想搞 Cloudreve 么复杂。&lt;/p&gt;
-&lt;h2&gt;Go 生态：性能强大 + 单文件部署&lt;/h2&gt;
-&lt;p&gt;Go 的软件基本都是&amp;quot;下载一个二进制 → chmod +x → ./app&amp;quot; 就跑起来了。&lt;/p&gt;
-&lt;h3&gt;Gitea&lt;/h3&gt;
-&lt;p&gt;轻量级代码托管，功能齐全，资源占用极低。适合个人或小团队自建代码仓库。&lt;/p&gt;
-&lt;h3&gt;Cloudreve&lt;/h3&gt;
-&lt;p&gt;国产网盘天花板，支持本地存储 + 多种云存储挂载，界面美观，功能强大。&lt;/p&gt;
-&lt;p&gt;适合：需要私有网盘、团队文件共享的用户。&lt;/p&gt;
-&lt;h2&gt;Node.js 生态：灵活多变&lt;/h2&gt;
-&lt;h3&gt;Ghost&lt;/h3&gt;
-&lt;p&gt;专业博客平台，专注写作体验，主题现代，API 强大。&lt;/p&gt;
-&lt;p&gt;适合：专业写作者、内容创作者。&lt;/p&gt;
-&lt;h3&gt;Hexo&lt;/h3&gt;
-&lt;p&gt;静态博客生成器，主题丰富，部署简单。&lt;/p&gt;
-&lt;p&gt;适合：喜欢静态博客、追求速度的用户。&lt;/p&gt;
-&lt;h2&gt;结语&lt;/h2&gt;
-&lt;p&gt;选择建站软件时，关键在于：服务器资源、技术栈偏好、功能需求。PHP 系适合低配服务器，Java 系适合稳定需求，Go 系适合性能追求，Node.js 系适合灵活定制。愿每个建站者都能找到适合自己的开源神器。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>从一次Minecraft服务器卡顿排查，看容器化部署的正确性</title>
-    <link href="https://example.com/posts/minecraft-server-lag-debug/" />
-    <updated>2024-10-26T00:00:00Z</updated>
-    <id>https://example.com/posts/minecraft-server-lag-debug/</id>
-    <content type="html">&lt;h2&gt;引言&lt;/h2&gt;
-&lt;p&gt;最近我给服务器安装了杀毒软件ClamAV，随后Minecraft服务器出现了一个奇怪的症状：每隔几分钟就会出现一次明显的卡顿，有时会直接崩溃。作为一名服务器管理员，这种破问题可以说烦得要死。当然Linux经验丰富的我直接锁定了&amp;quot;元凶&amp;quot;——系统安全软件ClamAV。这次问题的解决过程让我深刻体会到了&lt;strong&gt;1Panel选择容器化部署的技术路线是多么明智的决定&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2&gt;问题现象与排查过程&lt;/h2&gt;
-&lt;h3&gt;症状描述&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;周期性卡顿&lt;/strong&gt;：大约每5-10分钟出现一次，持续10-30秒&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;TPS下降&lt;/strong&gt;：从稳定的20TPS骤降到5以下&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;无错误日志&lt;/strong&gt;：服务器日志中没有明显的错误信息&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;资源占用正常&lt;/strong&gt;：CPU和内存使用率都在合理范围内（已在MCSManager后端限制内存开销并指定使用的CPU核心）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;排查之旅&lt;/h3&gt;
-&lt;h4&gt;第一阶段：从MC服务器内部排查&lt;/h4&gt;
-&lt;p&gt;正如同上面说的那样，我限制了性能开销，但问题没有解决。&lt;/p&gt;
-&lt;h4&gt;第二阶段：直接锁定&amp;quot;元凶&amp;quot;！&lt;/h4&gt;
-&lt;p&gt;当MC容器内部排查无果后，我立刻联想到最近用1Panel脚本安装的两个杀毒软件，即ClamAV和FreshClam，其中FreshClam是手动查杀软件，不必排查。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;关键证据&lt;/strong&gt;：ClamAV的实时扫描进程&lt;code&gt;clamd&lt;/code&gt;与Minecraft服务器的自动保存操作（每5分钟一次）完全同步！&lt;/p&gt;
-&lt;h2&gt;解决方案：停用ClamAV（或添加为Minecraft文件夹白名单）&lt;/h2&gt;
-&lt;p&gt;在日志中明显可以看到ClamAV查杀了Minecraft的存档文件夹，然而，Minecraft玩家都明白，Minecraft在运行时会频繁地读写这些存档文件，这意味着ClamAV会查验Minecraft对存档文件夹的每一次读写操作，占用了大量的系统资源，这就是病因所在。&lt;/p&gt;
-&lt;h2&gt;1Panel部署MCSManager的另一个重要细节&lt;/h2&gt;
-&lt;p&gt;在分享这次经验的同时，我想补充一个在1Panel中部署MCSManager时容易踩的坑。&lt;/p&gt;
-&lt;h3&gt;问题：面板无法正确识别容器内的服务状态&lt;/h3&gt;
-&lt;p&gt;MCSManager部署在Docker容器中，而1Panel的监控机制默认无法直接穿透容器边界获取内部服务的真实运行状态。这可能导致：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;面板显示服务&amp;quot;运行中&amp;quot;，但实际容器内进程已崩溃&lt;/li&gt;
-&lt;li&gt;无法准确获取容器内服务的CPU/内存占用&lt;/li&gt;
-&lt;li&gt;日志查看受限，需要手动进入容器排查&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3&gt;解决方案&lt;/h3&gt;
-&lt;p&gt;建议在部署MCSManager时，额外配置一个简单的健康检查脚本，定期检测容器内服务状态，并通过容器暴露的API或日志文件向宿主机反馈。&lt;/p&gt;
-&lt;h2&gt;结语&lt;/h2&gt;
-&lt;p&gt;这次排查让我深刻体会到容器化部署的优势：隔离性让问题定位更精准，不会因为宿主机上的某个软件（如ClamAV）而影响容器内的服务。同时，也提醒我们在部署时要充分考虑容器与宿主机之间的交互细节，避免踩坑。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>折腾Docker和面板之后，我决定不折腾了</title>
-    <link href="https://example.com/posts/docker-tinkering-lessons-learned/" />
-    <updated>2024-09-25T00:00:00Z</updated>
-    <id>https://example.com/posts/docker-tinkering-lessons-learned/</id>
-    <content type="html">&lt;p&gt;深夜。服务器机箱的风扇嗡嗡作响。屏幕上，Docker容器的状态一栏显示着&amp;quot;running&amp;quot;。我盯着这些绿色的状态灯，想着：折腾了这么多，最后还是回到了裸机部署。&lt;/p&gt;
-&lt;p&gt;最近为了更省心地部署一些软件，我重新拾起了Docker，顺便装了一个叫DPanel的面板来管理容器，和一直在用的aaPanel搭配着用。本以为能一劳永逸，结果走了一圈，发现大部分服务还是老老实实地跑在裸机上。&lt;/p&gt;
-&lt;h2&gt;理想很丰满：全上Docker&lt;/h2&gt;
-&lt;p&gt;一开始我的想法挺大的：把大部分服务都迁到Docker里，比如我的Halo博客。想象中，拉个镜像、配个端口，一切干净清爽。但实际操作时，第一个坎儿就卡在了数据库上。我的系统里已经有现成的MariaDB在跑，而Halo容器需要连这个数据库。容器和宿主机之间的网络、权限、配置，折腾了半天——容器里连宿主机IP要手动指定，端口要暴露，数据库还得允许远程连接。搞了一圈还是别扭，最后放弃了。&lt;/p&gt;
-&lt;p&gt;于是我退了一步，只在Docker里跑一些相对独立的应用，比如那些不需要跟宿主机数据库或文件系统深度绑定的项目。剩下的软件，比如Halo博客系统、OneDev代码仓库等，继续裸机部署。一个混合的方案，虽然没那么&amp;quot;潮&amp;quot;，但胜在稳定、省心。&lt;/p&gt;
-&lt;h2&gt;纠结迁移：最后还是懒了&lt;/h2&gt;
-&lt;p&gt;其实我也想过把Halo换成更轻量的Typecho，把OneDev换成Gitea。Typecho的SQLite模式连数据库都省了，Gitea也是出了名的轻。但是一算账：现有数据要导，主题要换，插件要重新配，使用习惯也得改。折腾下来至少一两天，而且最近还有其他正事要忙。算了，凑合用吧。&lt;/p&gt;
-&lt;p&gt;我做的唯一优化是：把JVM的内存参数调了调——Halo默认的堆内存给得比较大，我根据实际访问量降到了合理范围；同时把Docker里一些不再用的镜像和容器清理掉，腾出了大概700来MB的内存空间。勉强能用，也就没再动。&lt;/p&gt;
-&lt;h2&gt;给纠结党一句实话&lt;/h2&gt;
-&lt;p&gt;写了这么多，其实想劝一句：别在博客系统上反复纠结。选一个顺手的（比如Halo、Typecho、Hugo都行），把重心放到写文章上。今天想换这个，明天想换那个，最后发现文章一篇没写，日志倒是写了一堆迁移笔记。有那工夫，不如老老实实坐下来，认真写一篇有内容的文章。&lt;/p&gt;
-&lt;p&gt;系统只是工具，内容才是根本。用顺手了就别瞎折腾——这话也是对我自己说的。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>NDS与PSP：掌机黄金时代</title>
-    <link href="https://example.com/posts/nds-psp-handheld-golden-age/" />
-    <updated>2024-09-09T00:00:00Z</updated>
-    <id>https://example.com/posts/nds-psp-handheld-golden-age/</id>
-    <content type="html">&lt;h2&gt;NDS与PSP：掌机黄金时代&lt;/h2&gt;
-&lt;p&gt;NDS和PSP，大概是掌机史上最势均力敌的一对对手。在2004到2005年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的3A大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。&lt;/p&gt;
-&lt;p&gt;先说硬件。NDS使用了双3寸屏（下屏可触控），分辨率为256×192，触控笔藏在机身里，电池续航15小时以上，待机时相当省电。PSP则是4.3寸大屏，480×272分辨率，比NDS细腻得多，能放MP3、看视频、浏览网页。处理器也比NDS强不少，333MHz与67MHz相比较，可以说完全不是一个级别的产物。&lt;/p&gt;
-&lt;p&gt;但这可不代表NDS在市场上的表现弱于PSP，NDS卖了&lt;strong&gt;1.54亿台&lt;/strong&gt;，是史上销量最高的掌机（但不是最畅销的游戏机，主机平台的PS2是销量最高的游戏机，总共卖出了约1.7亿台），游戏卖了9亿多套。双屏是最大亮点，下屏触控加麦克风，游戏的玩法一也丰富了许多。画个画（《触控卡比》、《节奏天国》等）、吹口气（《任天狗》、《逆转裁判4》等）就能互动，在当时是非常先进的交互理念。游戏阵容也全，从&lt;strong&gt;马里奥&lt;/strong&gt;到&lt;strong&gt;宝可梦&lt;/strong&gt;，老少皆宜。&lt;/p&gt;
-&lt;p&gt;几个主要版本里，原版NDS被玩家叫&amp;quot;饭盒机&amp;quot;，块头大、屏幕暗，特点是兼容了GBA卡带。2006年的&lt;strong&gt;NDS Lite&lt;/strong&gt;最经典，薄了不少，屏幕亮了很多，续航能到15小时以上，销量占了整个系列的六成。值得一提的是尽管同样兼容GBA卡带，但由于机身变薄，插入GBA卡带后会露出一大截。&lt;strong&gt;DSi&lt;/strong&gt;加了摄像头和SD卡槽，砍了GBA兼容，机身更薄，屏幕也大了一圈。而&lt;strong&gt;DSi XL&lt;/strong&gt;，屏幕更大，4.2寸，看书玩游戏不那么累眼了，就是便携性差点，重了差不多100克。不过值得注意的是，尽管屏幕尺寸更大了，分辨率完全没提升，尽管不累眼，但是游戏画面的锯齿会显著增多，任天堂或许是出于节省生产成本考虑吧。&lt;/p&gt;
-&lt;p&gt;PSP走另一条路。卖了&lt;strong&gt;8000多万台&lt;/strong&gt;，特点是画面接近PS2，能看电影、听音乐，UMD光盘当时看着特酷。定位像&amp;quot;能装进口袋的PlayStation&amp;quot;，吸引的是硬核玩家，当然，由于PSP的多媒体功能很强大，也是当时市面上比较便宜的影音设备，许多音乐发烧友也会买个PSP用来听歌、看视频，当作MP3播放器使用。关于PSP便宜的原因，是因为当时任天堂在索尼发售PSP之前抢先发售了NDS初代机，且价格只有PSP预售价格的3/1，索尼也不得不为了增强竞争力，压低了正式发售时PSP的售价。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;PSP-1000&lt;/strong&gt;是首发款，最重最厚，280克，续航一般。2007年的&lt;strong&gt;PSP-2000&lt;/strong&gt;瘦了不少，189克，内存翻倍，加载快了，还能USB充电。&lt;strong&gt;PSP-3000&lt;/strong&gt;屏幕做了防眩光，颜色更好，很多玩家说这是最佳版本。&lt;strong&gt;PSP Go&lt;/strong&gt;走纯数字路线，滑盖设计前卫，158克最轻，没有UMD光驱，游戏库受限。最后的&lt;strong&gt;PSP Street&lt;/strong&gt;是廉价版，砍了WiFi，功能简化很多。&lt;/p&gt;
-&lt;p&gt;游戏方面差距就大了。NDS的顶级大作能卖几千万份：《超级马里奥兄弟DS》卖出&lt;strong&gt;3080万份&lt;/strong&gt;，《脑白金》卖出&lt;strong&gt;1900万份&lt;/strong&gt;，《口袋妖怪·黑/白》卖出&lt;strong&gt;1700万份&lt;/strong&gt;。PSP这边就相当惨淡了，两个顶梁柱《怪物猎人》和《侠盗猎车手》系列也不过才百万销量，其它作品更是惨不忍睹。&lt;/p&gt;
-&lt;p&gt;为什么差这么多？NDS吃透了休闲市场。《脑白金》、《口袋妖怪》、《马里奥》，这些游戏男女老少都能玩，当时日本就有年轻人为了放置家里老人老年痴呆，特地买了个NDS来给老人玩《脑白金》。PSP定位是&amp;quot;掌机里的PS2&amp;quot;，追求画质和沉浸感，门槛高，受众自然就窄了。同时也有相当一部分买家买来是当作MP3用的，结果就是PSP卖的不算少，但是游戏卖的相当少。&lt;/p&gt;
-&lt;p&gt;俩机器对比，NDS赢在销量和创意，触控和双屏带来新体验，续航也强。PSP赢在画面和多媒体，3D游戏和影音功能更丰富，但续航只有3到6小时，出门得带充电器。一个偏轻松有趣，一个偏沉浸硬核，各有各的粉丝，各有各的好。&lt;/p&gt;
-&lt;p&gt;回头看这场大战，智能手机才是真正的赢家。2010年后，iPhone和安卓机把掌机市场冲击得七零八落。Switch是任天堂游戏主机平台的后续篇章，却不是传统意义上的掌机。索尼干脆放弃了掌机市场，只是在PSP之后推出了个无人问津的PS Vita。&lt;/p&gt;
-&lt;p&gt;……若只从销量数字看，NDS与PSP之间是1.54亿对8000万，似乎算不上&amp;quot;势均力敌&amp;quot;。然而在游戏硬件史里，纯粹以销量定输赢往往失之偏颇。真正让NDS和PSP被并称为&amp;quot;那个年代&amp;quot;的，是它们几乎同时将掌机体验推向了两个截然不同的顶峰，并且在长达五六年的时间里，谁也无法彻底吞掉对方的地盘。&lt;/p&gt;
-&lt;p&gt;要理解这种均势，可以看看其他世代的主机对抗。&lt;/p&gt;
-&lt;p&gt;以&lt;strong&gt;Wii与PS3&lt;/strong&gt;为例。Wii全球销量约1.01亿台，PS3约8740万台，数字差距不大，但用户重叠度极低。Wii的体感操作吸引了大量非传统玩家，其软件销量高度集中于任天堂第一方（《Wii Sports》8280万套、《马里奥赛车Wii》3730万套），第三方核心向作品在Wii上几乎卖不动。PS3则依靠《最后生还者》《神秘海域》《战神》等独占大作稳住核心市场，同时兼任蓝光播放器角色。两者更像是错位竞争，而非正面交锋。更关键的是，Wii的后期销量断崖式下跌，PS3却缓慢爬升并反超——这并非&amp;quot;势均力敌的缠斗&amp;quot;，而是一场先扬后抑与后来居上的错时赛跑。&lt;/p&gt;
-&lt;p&gt;再往前看，&lt;strong&gt;Game Boy Advance vs 诺基亚N-Gage&lt;/strong&gt;则是一边倒。GBA销量8150万台，软件库超过1500款；N-Gage生命周期仅两年，销量约300万台，被玩家戏称为&amp;quot;侧握通话面包机&amp;quot;。这连对手都谈不上。&lt;/p&gt;
-&lt;p&gt;而&lt;strong&gt;任天堂3DS与PS Vita&lt;/strong&gt;的对决更接近NDS/PSP时代的余波，但结果却大不相同。3DS经历首发降价后卖出7590万台，PS Vita虽有OLED屏幕、背触板、双摇杆等超前硬件，却因索尼第一方支持薄弱、专用记忆卡昂贵、第三方纷纷撤退，最终销量估计在1000万至1600万台之间（索尼未正式公布）。这是一场明显的碾压，而非均势。&lt;/p&gt;
-&lt;p&gt;反观NDS与PSP，两者在2004–2010年间始终保持高度重合的生命周期。NDS用双屏触控打开蓝海，PSP用多媒体性能守住红海；NDS在日欧美全面开花，PSP在亚洲部分地区（尤其日本）凭借《怪物猎人携带版》系列一度反超；NDS的软件销量碾压PSP，但PSP的硬件出货量从未崩盘。更重要的是，两者在玩家群体中形成了长期的分庭抗礼——直到今天，关于&amp;quot;哪台机器更值得怀念&amp;quot;的争论依然存在。这种&amp;quot;各走极端却各有所长&amp;quot;的局面，在掌机史上绝无仅有。&lt;/p&gt;
-&lt;p&gt;另外，NDS在国内的普及离不开一个特殊角色——&lt;strong&gt;烧录卡&lt;/strong&gt;。2006年前后，以R4、DSTT、AK2为代表的烧录卡开始大规模流通。它们本质上是一张插槽1（Slot-1）的卡带，内置TF卡插槽，通过硬件或固件欺骗NDS的验证机制，直接从存储卡加载游戏ROM。一张烧录卡售价约50–150元，配合一张1–2GB的TF卡，就能装下20–30个NDS游戏。对于当时国内普遍缺乏正版购买渠道的学生玩家来说，烧录卡几乎是唯一可行的选择。&lt;/p&gt;
-&lt;p&gt;烧录卡对NDS生态的影响相当复杂。积极的一面是，它极大降低了体验门槛，让NDS在国内的保有量迅速膨胀，甚至超过PSP（PSP同样有自制系统，但破解流程更复杂，需要特定漏洞游戏或潘多拉电池）。消极的一面是，NDS的正版软件销量因此受到严重冲击——全球1.54亿台硬件对应9.4亿套软件，软硬比仅为6.1，远低于GBA（约8.5）或3DS（约6.5但含大量数字版）。大量第三方厂商在NDS后期放弃了原创中轻度游戏，因为&amp;quot;ROM上线即被盗&amp;quot;。&lt;/p&gt;
-&lt;p&gt;关于烧录卡的具体工作原理、各品牌的兴衰时间线、与PSP自制系统（M33、PRO、ARK）的对比，以及任天堂后续通过系统更新、卡带加密等手段的反制措施，将在下一篇中详细展开。&lt;/p&gt;
-&lt;p&gt;（待续）&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>永生601A：现产唯一的胜利尖钢笔</title>
-    <link href="https://example.com/posts/yongsheng-601a-triumph-nib/" />
-    <updated>2024-08-16T00:00:00Z</updated>
-    <id>https://example.com/posts/yongsheng-601a-triumph-nib/</id>
-    <content type="html">&lt;h2&gt;抽屉里翻出的永生601A——现产唯一的胜利尖钢笔&lt;/h2&gt;
-&lt;p&gt;说是&amp;quot;现产&amp;quot;，其实上海君来只是把老永生的胜利尖库存，重新装到&lt;strong&gt;601A&lt;/strong&gt;的笔杆上。真正的胜利尖工艺，早跟上世纪末永生制笔厂的变迁一起散了。现在能买到的这些，笔尖还是铱金的，靠的是仅剩的老库存撑着。&lt;/p&gt;
-&lt;p&gt;胜利尖的源头要说到1942年，犀飞利出的&lt;strong&gt;Triumph&lt;/strong&gt;系列。那时候圆珠笔开始蚕食钢笔市场，各大厂商都在想办法突围。犀飞利给出的方案是一种全新的笔尖形态：不再是传统的开放尖，而是将整块金属片弯折成圆锥形套筒，把笔舌完全包裹进去，笔尖与笔握之间形成一个流畅的连续曲面。这种设计的初衷，一方面是为了让笔尖更坚固，犀飞利在广告中宣称它&amp;quot;可以带到任何地方&amp;quot;，甚至能垫多层复写纸一次写出三份清晰的拷贝——硬度可见一斑；另一方面，锥形结构让笔尖与笔舌的接触面积大幅增加，墨槽延伸至笔握，供墨比传统设计更加稳定可靠。&lt;/p&gt;
-&lt;p&gt;胜利尖还有一个容易被忽视的细节：笔尖微微上翘。这个&amp;quot;塌鼻子&amp;quot;造型不是装饰，而是犀飞利工程师反复推敲的结果。上翘的锥形在复写纸上用力书写时不会戳破纸张，同时允许笔尖反面书写细字。早期胜利尖的翘起幅度更大，笔尖也更短更宽，后来随着工艺成熟逐渐收敛，但始终保留了这一独特的结构特征。&lt;/p&gt;
-&lt;p&gt;在长达五十多年的生产周期里，胜利尖经历了多次演变。最早是14K金片弯曲成形后焊接，接缝处由技工手工打磨抛光。1948年改用无缝管材加工，生产效率大幅提升。1952年犀飞利又推出了钯银材质的胜利尖，用于定位较低端的型号。材质不同，手感也各异——钯银尖极硬，几乎没有弹性；14K金尖同样偏硬，但笔尖厚度摆在那里，写起来有种&amp;quot;硬朗而不失韧性&amp;quot;的独特体验。犀飞利甚至用这种笔尖做过音乐尖，专供书法使用，在收藏市场上动辄拍到数百美元。&lt;/p&gt;
-&lt;p&gt;胜利尖从1942年一直生产到1998年才正式停产。将近六十年的生命周期，放到整个钢笔史上都是罕见的。但对于大多数国内玩家来说，真正接触胜利尖的途径并不是犀飞利的古董笔，而是永生和幸福厂仿制的&amp;quot;大包尖&amp;quot;。新中国成立后，上海制笔工业通过学习苏联和借鉴欧美技术逐步发展起来，永生笔厂的前身是民国时期创立的商务自来水笔厂，经过多次改组才定型为后来的国营新华金笔厂。据钢笔论坛上的老玩家回忆，幸福厂最早开始仿制犀飞利的胜利尖结构，后来两厂合并，永生系列也就顺理成章地延续了这种笔尖形态。&lt;/p&gt;
-&lt;p&gt;但仿制不意味着粗糙。有笔友评价70年代的永生233&amp;quot;感觉那可不是一种粗糙的仿制品，甚至是一种超越，用了接近40年了笔还能用，而且笔帽笔身做工精致&amp;quot;。更有意思的是，永生的大包尖还保留了一个&amp;quot;遗迹&amp;quot;——笔舌上那个小小的圆孔和内部的细管。这个结构在老笔友看来是个&amp;quot;莫名其妙的摆设&amp;quot;，但了解犀飞利历史的人一眼就能认出：那是潜艇上墨的呼吸管设计。1952年犀飞利推出的潜艇上墨，通过一根可以伸缩的金属管直接从墨水瓶底部吸墨，笔尖全程不沾墨水，被称为&amp;quot;钢笔史上最复杂的上墨系统&amp;quot;。永生当年连这个结构也一并仿制了，尽管在实际生产中并没有保留潜艇上墨的全部功能，但这个细节足以说明当年的仿制有多么&amp;quot;完整&amp;quot;——甚至连犀飞利广告里那个笔尖微微上翘的&amp;quot;朝天鼻&amp;quot;特征，在永生的大包尖上也被忠实复刻了。&lt;/p&gt;
-&lt;p&gt;讲回这支601A。永生的大包尖钢笔在历史上出过不少经典型号，最常见的是233、235、236、237等铱金笔，以及永生300、幸福270等14K金笔。这些老笔在二手市场上依然流通，但品相参差，上墨系统也多半年久失修。君来采用库存的老笔尖搭配现代活塞上墨系统，算是用一种&amp;quot;折中方案&amp;quot;让胜利尖重新回到了市场上。笔尖批次不同，出水、弹性、声音可能有点差别。活塞系统容量大，可靠，第一次用建议多吸几次墨水，把空气排干净。笔杆工业感强，重量刚好，握久了不累，就是外观朴实，少了老永生那种温润朴素的工业设计风格。&lt;/p&gt;
-&lt;p&gt;说到手感，胜利尖的书写体验在整个钢笔谱系里独树一帜。它不像暗尖那样将笔尖深藏，只露出小小一点，也不像明尖那样舒展外露。胜利尖处于两者之间——笔尖完全暴露在外，书写视野开阔，但圆锥形的结构又赋予了它接近暗尖的硬朗支撑。有笔友形容永生300的胜利尖&amp;quot;写字的视野好，进而手感好&amp;quot;，而且&amp;quot;略有弹性&amp;quot;。而犀飞利原版的大号胜利尖，光笔尖重量就接近1克，厚度可见一斑。&lt;/p&gt;
-&lt;p&gt;我特别喜欢这手感。不是中性笔那种滑到底，也不是软金尖那种细腻回弹，而是中间那点&amp;quot;阻力和反馈&amp;quot;。落笔有实感，行笔有质感，写长笔记或随手画时，笔不会&amp;quot;跑&amp;quot;，像个老朋友陪着你，一笔一划都踏实。用钢笔论坛一位老玩家的话说，&amp;quot;这种硬朗的写感简直算得上写字带风&amp;quot;。放在今天，在动辄追求&amp;quot;滑顺如丝&amp;quot;的书写工具潮流里，这种略带阻尼、需要一点力度的反馈反而成了一种奢侈——它提醒你，写字这件事本身，是可以被感知的。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>从Eleventy迁移到Hugo，顺便聊聊我为什么要搬家</title>
-    <link href="https://example.com/posts/migrating-eleventy-to-hugo/" />
-    <updated>2024-07-23T00:00:00Z</updated>
-    <id>https://example.com/posts/migrating-eleventy-to-hugo/</id>
-    <content type="html">&lt;p&gt;前阵子，我把备用小站（&lt;a href=&quot;https://blog.exyone.me&quot;&gt;https://blog.exyone.me&lt;/a&gt;）从Eleventy换成了Hugo，现在已经安安稳稳上线了。欢迎随时来逛逛，踩踩新地板～&lt;/p&gt;
-&lt;p&gt;这次搬，并不是忽然觉得Hugo天下无敌。真正原因，是我之前钟爱的那个Eleventy主题——Eleventy-Notes-Wintergreen——它依赖的核心项目Eleventy-Notes，还在热火朝天地开发中，正式版遥遥无期。&lt;/p&gt;
-&lt;p&gt;缺的东西其实不少：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;没有主题切换（冬天想看暖色调也只能干瞪眼）&lt;/li&gt;
-&lt;li&gt;没有上一篇/下一篇的导航链（翻页总得靠浏览器后退，有点别扭）&lt;/li&gt;
-&lt;li&gt;RSS订阅文件要自己手动折腾（自动生成？不存在的）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;用着用着就觉得磕磕绊绊。我也跟着原作者的脚步改了不少代码，但总归是&amp;quot;在建的房子&amp;quot;，住着不踏实。&lt;/p&gt;
-&lt;p&gt;于是就先搬到Hugo这儿来喘口气。Hugo快、生态稳、主题现成一大把，应急过渡再合适不过。&lt;/p&gt;
-&lt;p&gt;不过话说回来——Eleventy依然是我心里最香的那一盏灯。它的灵活、Node全家桶的亲切感、零配置也能跑起来的轻盈……这些Hugo给不了的温柔，我还是放不下。等Eleventy-Notes真的成熟、功能齐全、文档也跟得上那天，我大概率还是会欢欢喜喜搬回去。&lt;/p&gt;
-&lt;p&gt;如果你也对这个主题好奇，或者正寻觅一个极简又可深度定制的Eleventy起点，不妨去这里蹲一蹲进度：&lt;a href=&quot;https://eleventy-notes.sandroroth.com/&quot;&gt;https://eleventy-notes.sandroroth.com/&lt;/a&gt; 说不定哪天我们就在issue区偶遇，一起debug呢。&lt;/p&gt;
-&lt;p&gt;篝火还亮着，欢迎路过的人坐一会儿。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>Halo主题大评测：一次看完最值得选用的主题！</title>
-    <link href="https://example.com/posts/halo-theme-comprehensive-review/" />
-    <updated>2024-06-22T00:00:00Z</updated>
-    <id>https://example.com/posts/halo-theme-comprehensive-review/</id>
-    <content type="html">&lt;p&gt;最近一直忙于各种事务，更新文章的时间也少了。虽然本站建于2025年，但近期一直在整理、迁移以往在其他平台发布的旧文，重新编辑上传，因而挤占了原本就不多的写新文章的时间。转眼已进入2026年，是时候更新一波内容了。今天就来和大家聊聊关于 Halo 主题的选择，希望能为大家提供一些参考。&lt;/p&gt;
-&lt;h2&gt;前言&lt;/h2&gt;
-&lt;p&gt;Halo 前不久发布了 2.22.4 版本，我也第一时间进行了更新。这一版主要针对文章编辑界面做了一些小优化，不过说实话，我个人还不太习惯。&lt;/p&gt;
-&lt;p&gt;我始终认为，博客应当以内容为核心，因此不太倾向使用过于花哨的主题。但既然是主题评测，本文将尽量涵盖多个风格，供大家全面参考。&lt;/p&gt;
-&lt;p&gt;其实我也曾考虑过搭建静态博客，最初选用的是 Jekyll 的 &lt;strong&gt;Chirpy&lt;/strong&gt; 主题，看中的正是其简洁大气的设计。后来因为平台适配问题，转而使用 Hexo，并采用了双栏式的 &lt;strong&gt;NexT-Pisces&lt;/strong&gt; 主题，样式虽简洁，但配置过程较为繁琐。&lt;/p&gt;
-&lt;p&gt;原本想通过静态博客实现内容长期备份，但实际操作起来发现维护成本较高，不如集中精力经营好动态博客。于是，便有了今天这篇更新。&lt;/p&gt;
-&lt;h2&gt;正文&lt;/h2&gt;
-&lt;p&gt;闲话不多说，我们直接进入正题：&lt;/p&gt;
-&lt;h3&gt;（一）简洁大气类&lt;/h3&gt;
-&lt;h4&gt;Terminal-EZ&lt;/h4&gt;
-&lt;p&gt;无需过多介绍，这正是本站目前使用的主题。设计干净利落，支持暗色、亮色及绿色等多种配色方案，强调内容本身，视觉干扰极少。&lt;/p&gt;
-&lt;p&gt;示例链接：&lt;a href=&quot;https://erzbir.com/&quot;&gt;https://erzbir.com/&lt;/a&gt;&lt;/p&gt;
-&lt;h4&gt;Go&lt;/h4&gt;
-&lt;p&gt;这是本站此前使用的主题，简约双栏设计，配色清新，适合技术博客。&lt;/p&gt;
-&lt;h4&gt;Earth&lt;/h4&gt;
-&lt;p&gt;极简单栏设计，强调阅读体验，适合文字为主的博客。&lt;/p&gt;
-&lt;h3&gt;（二）功能丰富类&lt;/h3&gt;
-&lt;h4&gt;Theme Joe&lt;/h4&gt;
-&lt;p&gt;功能丰富，支持多种布局和配色，适合内容多样的博客。&lt;/p&gt;
-&lt;h4&gt;Dream&lt;/h4&gt;
-&lt;p&gt;梦幻风格，支持多种动画效果，适合追求视觉冲击的博客。&lt;/p&gt;
-&lt;h3&gt;（三）特殊风格类&lt;/h3&gt;
-&lt;h4&gt;Hacker&lt;/h4&gt;
-&lt;p&gt;黑客风格，绿色字符界面，适合技术极客。&lt;/p&gt;
-&lt;h4&gt;Resume&lt;/h4&gt;
-&lt;p&gt;简历风格，适合个人展示和求职。&lt;/p&gt;
-&lt;h2&gt;结语&lt;/h2&gt;
-&lt;p&gt;主题选择因人而异，关键在于找到适合自己的风格。简洁主题强调内容，功能主题强调体验，特殊主题强调个性。愿每个博主都能找到属于自己的主题风格。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>从五笔到双拼：一场不得不作的告别</title>
-    <link href="https://example.com/posts/from-wubi-to-shuangpin/" />
-    <updated>2024-06-21T00:00:00Z</updated>
-    <id>https://example.com/posts/from-wubi-to-shuangpin/</id>
-    <content type="html">&lt;p&gt;深夜。键盘敲击声。屏幕上的汉字一个个出现。我曾是&lt;strong&gt;86版五笔&lt;/strong&gt;的死忠。五笔加加、小鸭五笔、极点五笔……这些名字像老朋友。敲键盘的节奏，熟悉得像呼吸。&lt;/p&gt;
-&lt;p&gt;五笔字型的源头，要追溯到1978年。王永民在南阳开始研究汉字输入技术，历经五年实验，最终将汉字拆分为130多个基本字根，分布在标准英文键盘的25个字母键上（Z键用作学习键）。1983年8月28日，这个方案通过鉴定，之后又经过两年改进，于1986年定稿并正式推广，史称&amp;quot;86版五笔&amp;quot;。严格说来，1986年秋推出的原始版本叫&amp;quot;86-4.5版&amp;quot;，后来还有个取码规范化的改进版WB-18030（2000年推出），不过用的人寥寥无几。1998年王永民又推出了第二代98版五笔，增补了甫、未、甘、母等整字字根，2008年第三代新世纪版问世，建立新的字根键位体系，可处理27533个简繁汉字，号称五笔的&amp;quot;终极版本&amp;quot;。&lt;/p&gt;
-&lt;p&gt;五笔输入法的用户总数约2000万至3000万量级，分布极不平衡——86版凭借先发优势占据了绝对主导地位，98版和新世纪版始终未能撼动，五笔社区内部的&amp;quot;版本之争&amp;quot;倒成为一个长期话题。&lt;/p&gt;
-&lt;p&gt;后来试了&lt;strong&gt;仓颉&lt;/strong&gt;。仓颉由朱邦复于1976年创制，原名&amp;quot;形意检字法&amp;quot;，本意是解决电脑处理汉字的问题——当时英文科技垄断计算机世界，朱邦复试图打破这一局面。1978年，蒋纬国为纪念上古仓颉造字的精神，将其重新定名为&amp;quot;仓颉输入法&amp;quot;。朱邦复深入研究中文字的结构和构成原理，结合电脑逻辑处理的需要，整理出24个仓颉字母，每个字母又关联多个辅助字形，重码率很低。但它的拆字逻辑是为繁体设计的，简体字拆起来总显得支离破碎。1982年，朱邦复登报公开放弃仓颉输入法专利权，推动电脑中文化，这种&amp;quot;开放精神&amp;quot;在输入法史上堪称独一份，但开放归开放，简体用户用它始终隔了一层。&lt;/p&gt;
-&lt;p&gt;转机出现在百度贴吧。一个老帖子里，有人说了这么一段话：&amp;quot;形码输入法原创写作时，效率其实不如声码。它真正的优势是抄稿子——看着纸稿盲打，几乎不用选字。创作时，大脑要把&#39;心里的声音&#39;翻译成字根，反而拖慢思路。&amp;quot;这话像当头一棒，把我从五笔的执念里敲了出来。有心理学研究也佐证了这一点——有研究利用眼动技术考察中小学生的输入过程，发现形码输入的整体速度虽然快于音码，但选字框的信息量是影响速度的主要因素。换句话说，形码的&amp;quot;快&amp;quot;更多体现在选字少、无需中断视觉焦点上，而在思考与输出同步的场景中，形码多了一道&amp;quot;字形翻译&amp;quot;环节，优势并不明显。&lt;/p&gt;
-&lt;p&gt;于是我开始正视拼音。全拼按键太多，一个&amp;quot;装&amp;quot;字要按六个键，平均每个字四到六下。脑子想完三句，手还在打第一句。&lt;strong&gt;双拼&lt;/strong&gt;就成了自然之选。&lt;/p&gt;
-&lt;p&gt;双拼的核心很简单：把声母和韵母各压到一个键，两个键一个音节。但同一原理落实到不同方案上，键位分布的差异带来截然不同的手感和跨平台体验。最初我用&lt;strong&gt;拼音加加双拼&lt;/strong&gt;，这个方案规律性强，声韵母按拼音表对称排列，学习门槛很低，来源可以追溯到四通打字机的双拼设计。但我很快发现有些组合指法不顺，比如&amp;quot;追&amp;quot;字的&amp;quot;v+ui&amp;quot;两个键都在左手，打快了左手忙不过来。更致命的是跨平台支持差——搜狗输入法、微软拼音等主流输入法虽然大多预置了拼音加加方案，但手机端支持参差不齐，换台设备就得重新配置。&lt;/p&gt;
-&lt;p&gt;后来换&lt;strong&gt;微软双拼&lt;/strong&gt;。Windows 原生支持是其最大优势，键位设计来自自然码的改版，最大的争议是把ing放在分号键上，右手小指一压就出来，左右手分工很舒服。分号键的争议一直不小——右手小指频繁伸向分号，有人觉得这样的分布不符合键盘规范，另一些人则觉得多一个键位反而拓宽了韵母分布空间。微软方案的另一特点是跨平台覆盖极好，Windows、macOS、iOS、Android 的主流输入法几乎都内置了这一布局，换任何设备都不用重新学习。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;小鹤双拼&lt;/strong&gt;是很多人的&amp;quot;退烧方案&amp;quot;。它的键位设计比较均衡，左右手负荷分配合理，且支持进阶的&amp;quot;小鹤音形&amp;quot;方案——在双拼基础上附加形码辅助，打字上限更高。但可能是我个人习惯问题，用着总觉得右手小指被架空，节奏上有点拖。&lt;/p&gt;
-&lt;p&gt;在双拼方案的历史上，还有一个名字绕不过去——&lt;strong&gt;自然码&lt;/strong&gt;。它韵母分配比较合理，左右手相对平衡，由周志农开发，一度非常流行。可惜自然码的作者把大量精力花在防破解上，商业策略失误，最终没能成为各大操作系统的标配。目前市面上大多数双拼方案（包括微软双拼、搜狗双拼）其实都是自然码的改版。&lt;/p&gt;
-&lt;p&gt;从实践来看，双拼方案之间的迁移成本并不高，挑一个顺手的坚持下去即可。我的最终选择是微软双拼——谈不上最好，但跨平台最省心。&lt;/p&gt;
-&lt;p&gt;至于五笔在当下的处境，&lt;strong&gt;RIME（中州韵输入法引擎）&lt;/strong&gt; 几乎是唯一在Windows上延续五笔体验的出路。RIME开源免费，高度可定制，Windows版叫&amp;quot;小狼毫&amp;quot;，macOS版叫&amp;quot;鼠须管&amp;quot;，Android叫&amp;quot;同文&amp;quot;，iOS叫&amp;quot;仓输入法&amp;quot;。它支持五笔、双拼、仓颉、注音等几乎所有中文输入方案，理论上可以打磨成完全符合个人习惯的形状。RIME的词库配置、YAML配置文件编写、皮肤自定义，每一步都有不小的门槛。RIME支持自定义短语和扩展词库——你可以把常用句子设定为短码，也可以导入搜狗词库扩充词汇量。但要做好这些，得熟悉YAML格式和RIME的配置逻辑。比如要调整候选词个数或中英文切换键，需要新建一个&lt;code&gt;.custom.yaml&lt;/code&gt;文件，修改后还要重新部署才能生效。有用户调侃：&amp;quot;RIME 用一周配置，用一辈子打字。&amp;quot;我不想花这个精力。&lt;/p&gt;
-&lt;p&gt;从五笔到双拼，更像一场从形到声的妥协与和解。我牺牲了极致的单字盲打精度，换来了更贴思考节奏的流畅——心里默念一句话，手指跟着音节走，不用再经过&amp;quot;字形→字根&amp;quot;的翻译。五笔在创作场景中多一道翻译工序，而在照稿录入时效率最高，这一点贴吧那番话确实说到了根上。也换来了不用总折腾软件的安心：系统更新不怕，换电脑不怕，手机电脑无缝切换。&lt;/p&gt;
-&lt;p&gt;适合自己的，才是最好的输入法。我偶尔还会怀念五笔那种&amp;quot;打字如写字&amp;quot;的精确度，但回不去了。也不打算回去。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>不想用GitHub？快来看看这些代码托管平台吧！</title>
-    <link href="https://example.com/posts/github-alternatives-code-hosting/" />
-    <updated>2024-05-21T00:00:00Z</updated>
-    <id>https://example.com/posts/github-alternatives-code-hosting/</id>
-    <content type="html">&lt;h2&gt;前言：GitHub到底有多烂了？&lt;/h2&gt;
-&lt;p&gt;老实说，2025到2026年，GitHub已经不是&amp;quot;偶尔抽风&amp;quot;，而是常态化拉胯了：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;免费Actions分钟数？被成群的机器人挖矿账号薅到秃，正常用户排队等到天荒地老。&lt;/li&gt;
-&lt;li&gt;安全漏洞修得比乌龟爬还慢，供应链攻击年年有。&lt;/li&gt;
-&lt;li&gt;国内访问？时好时坏，CI/CD一跑就卡，部署个东西像抽奖。&lt;/li&gt;
-&lt;li&gt;最气人的是：微软还继续在那儿装没事人，卖企业版赚得盆满钵满，免费用户当韭菜割。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;很多人忍无可忍，开始四处找备胎。本文就来一波&lt;strong&gt;超狠、超长、超真实的盘点&lt;/strong&gt;，国内的、海外的、自建的，全给你扒一遍。尤其是某些&amp;quot;国产大厂出品&amp;quot;的垃圾玩意儿，我会直接开喷——用过就知道有多恶心。&lt;/p&gt;
-&lt;h2&gt;一、国内平台（实名+手机号是基本盘，绕不过去）&lt;/h2&gt;
-&lt;h3&gt;1. Gitee（码云）——目前国内最不恶心的选择&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://gitee.com&quot;&gt;https://gitee.com&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点（真心话）&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;国内访问速度最快、稳定性最高，没得黑。&lt;/li&gt;
-&lt;li&gt;功能基本齐全：Pages、Wiki、Issues、PR、Release、Actions（虽然弱鸡但能用）。&lt;/li&gt;
-&lt;li&gt;可以外链项目卡片到自己网站，挺好看。&lt;/li&gt;
-&lt;li&gt;免费私有仓库多，社区中文支持完善，开源项目活跃度高。&lt;/li&gt;
-&lt;li&gt;比起其他国产，审查虽然有，但至少没那么神经病。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点（必须说）&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;强制实名+手机号，国内平台通病。&lt;/li&gt;
-&lt;li&gt;Actions算力垃圾，免费额度用完就GG。&lt;/li&gt;
-&lt;li&gt;敏感内容（政治、某些关键词）随时可能被干掉或要求整改。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：如果人在国内、要日常开发、要快，&lt;strong&gt;Gitee是目前唯一靠谱的国产主力平台&lt;/strong&gt;。其他的基本都是备胎中的备胎。&lt;/p&gt;
-&lt;h3&gt;2. GitLink（确实开源）——CCF中科院背书，但名字劝退&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://gitlink.cn&quot;&gt;https://gitlink.cn&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;CCF（中国计算机学会）和中科院背书，学术圈认可度高。&lt;/li&gt;
-&lt;li&gt;完全开源，基于Trustie平台，代码透明。&lt;/li&gt;
-&lt;li&gt;支持Pages、Wiki、Issue等基本功能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;名字&amp;quot;GitLink&amp;quot;容易和GitLab混淆，搜索困难。&lt;/li&gt;
-&lt;li&gt;社区活跃度低，Issue响应慢。&lt;/li&gt;
-&lt;li&gt;国内访问速度一般，偶尔抽风。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：学术圈可以考虑，日常开发还是Gitee更稳。&lt;/p&gt;
-&lt;h3&gt;3. Coding（腾讯云）——大厂出品，但体验拉胯&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://coding.net&quot;&gt;https://coding.net&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;腾讯云背书，企业级服务稳定。&lt;/li&gt;
-&lt;li&gt;支持CI/CD、项目管理、代码托管一体化。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;免费额度少，付费门槛高。&lt;/li&gt;
-&lt;li&gt;界面臃肿，操作繁琐，体验不如Gitee。&lt;/li&gt;
-&lt;li&gt;腾讯系产品，数据隐私存疑。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：企业用户可以考虑，个人开发者不建议。&lt;/p&gt;
-&lt;h2&gt;二、海外平台（隐私好、速度快、但国内访问需折腾）&lt;/h2&gt;
-&lt;h3&gt;1. CodeBerg——真正开源的家园&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://codeberg.org&quot;&gt;https://codeberg.org&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;德国非营利组织运营，完全开源，基于Forgejo。&lt;/li&gt;
-&lt;li&gt;数据受GDPR保护，隐私安全。&lt;/li&gt;
-&lt;li&gt;Pages功能强大，支持Hugo/Jekyll等静态生成器。&lt;/li&gt;
-&lt;li&gt;社区友好，真人客服响应快。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;国内访问需代理或CDN加速。&lt;/li&gt;
-&lt;li&gt;社区规模小，项目数量有限。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：追求开源精神和隐私保护的首选。&lt;/p&gt;
-&lt;h3&gt;2. GitLab——功能强大，但商业化严重&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://gitlab.com&quot;&gt;https://gitlab.com&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;功能齐全：CI/CD、项目管理、代码托管一体化。&lt;/li&gt;
-&lt;li&gt;自托管版本免费，企业级功能强大。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;商业化严重，免费版功能受限。&lt;/li&gt;
-&lt;li&gt;国内访问速度慢，需代理。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：企业用户可以考虑，个人开发者建议CodeBerg。&lt;/p&gt;
-&lt;h3&gt;3. SourceHut——极简主义者的天堂&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://sr.ht&quot;&gt;https://sr.ht&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;极简设计，无广告、无追踪。&lt;/li&gt;
-&lt;li&gt;完全开源，基于GPL协议。&lt;/li&gt;
-&lt;li&gt;支持邮件列表、Issue、Wiki等功能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;界面简陋，新手不友好。&lt;/li&gt;
-&lt;li&gt;国内访问需代理。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：极简主义者的选择，不适合大众。&lt;/p&gt;
-&lt;h2&gt;三、自建方案（完全掌控，但维护成本高）&lt;/h2&gt;
-&lt;h3&gt;1. Gitea——轻量级自建首选&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://gitea.io&quot;&gt;https://gitea.io&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;轻量级，资源占用低。&lt;/li&gt;
-&lt;li&gt;完全开源，基于Go语言。&lt;/li&gt;
-&lt;li&gt;支持Pages、Wiki、Issue等功能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;需自行维护服务器和备份。&lt;/li&gt;
-&lt;li&gt;国内访问需配置CDN或代理。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：有服务器资源的开发者首选。&lt;/p&gt;
-&lt;h3&gt;2. OneDev——DevOps一体化&lt;/h3&gt;
-&lt;p&gt;官网：&lt;a href=&quot;https://onedev.io&quot;&gt;https://onedev.io&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;DevOps一体化：代码托管+CI/CD+项目管理。&lt;/li&gt;
-&lt;li&gt;轻量级，资源占用低。&lt;/li&gt;
-&lt;li&gt;完全开源，基于Java。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;需自行维护服务器和备份。&lt;/li&gt;
-&lt;li&gt;国内访问需配置CDN或代理。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;一句话结论&lt;/strong&gt;：需要完整DevOps链路的团队首选。&lt;/p&gt;
-&lt;h2&gt;结语：选择适合自己的平台&lt;/h2&gt;
-&lt;p&gt;GitHub不再是唯一选择。国内用户可选Gitee作为主力，海外用户可选CodeBerg追求开源精神，有服务器资源的开发者可自建Gitea或OneDev。愿每个开发者都能找到属于自己的代码家园。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>浅谈：折腾了这么多博客，为何最后还是回归Halo？</title>
-    <link href="https://example.com/posts/why-return-to-halo-blog/" />
-    <updated>2024-03-19T00:00:00Z</updated>
-    <id>https://example.com/posts/why-return-to-halo-blog/</id>
-    <content type="html">&lt;p&gt;深夜。屏幕上的光标闪烁。我在浏览器里打开Halo后台，点击&amp;quot;新建文章&amp;quot;。键盘敲击声在安静的房间里响起。为了折腾博客，我尝试了很多方案。&lt;/p&gt;
-&lt;p&gt;最初就试了 Halo，为什么呢？因为我先买了一台云服务器，装了 1Panel 运维面板，很自然地就选用 Halo 作为我的第一个博客。&lt;/p&gt;
-&lt;p&gt;我也没少折腾 Halo，各种主题换了个遍——跟着本站一起走过来的小伙伴应该都知道，这三个月不到的时间我换了多少主题。当然，常驻主题一直是这个从 Hugo 移植来的仿终端样式主题。&lt;/p&gt;
-&lt;p&gt;但我始终按捺不住折腾的心，怎么办？于是去 GitHub 上玩了 Jekyll。Jekyll 确实好玩，各种配置和我的开发习惯几乎一致，看起来它才是最合适我的。不过后来的故事大家也知道了，我彻底离开了 GitHub，Jekyll 用起来就不方便了。那怎么办呢？继续折腾吧。&lt;/p&gt;
-&lt;p&gt;Hexo 的名气很大，至少在国内技术圈里，它绝对是最著名的博客系统，没有之一。也因此，Hexo 的主题本土适配相当不错。但对我来说，我更喜欢简洁实在的风格，同时那些本土化插件我也确实用不上。Hexo 和我的调性不太合，只玩了两天就放弃了。&lt;/p&gt;
-&lt;p&gt;Hugo 自然是下一个选择。但可气的是，微软阉割了 LTSC 系统的 WinGet 包管理器，导致我之前一直没能装上 Hugo。我也不是 Go 程序员，直到后来某天又想折腾 Hugo 时，才让 AI 给了一套解决方案：用其他包管理器装上了。&lt;/p&gt;
-&lt;p&gt;Eleventy 也是个不错的选择。和 Hexo 一样，它属于 Node.js 系，但本质上是个静态网站生成器，并不是完整的博客系统。当然，可以通过安装插件或直接使用博客模板来让它支持博客功能。我就基于 Eleventy Notes 这个模板，开发出了一套叫 Eleventy Notes Wintergreen Theme 的主题。至此，11ty（也就是 Eleventy）成了本站的副站。&lt;/p&gt;
-&lt;p&gt;后来我开通了 GitLink 平台的部署权限，分别尝试了 Jekyll 和 Hugo，最后还是觉得 Jekyll 更合口味。不过 GitLink 平台的构建问题实在太多，连自定义主题都不支持，自然就荒废了。当然，我在本地搭好了 Ruby 环境，继续在本地构建 Jekyll。&lt;/p&gt;
-&lt;p&gt;折腾 Jekyll 的时候，又想起 Hugo 的好，于是就有了上文那一段——我重新装上了 Hugo，目前还在调整 FixIt 主题，站点还没上线。&lt;/p&gt;
-&lt;p&gt;我甚至在这期间尝试过用 ASP.NET 或 Node.js 自己写一套博客。当然，我的代码水平大伙也知道，在群里吹完牛就被自己打脸了。不过话说回来，正是因为当时尝试开发完整的前后端博客，我做的那套前端样式后来移植到了 Eleventy Notes 上，变成了自己开发的那套主题。尽管后端水平被群嘲，但至少确实衍生出了一件作品，不算太丢人，毕竟真做出了东西。&lt;/p&gt;
-&lt;p&gt;哦对了，差点忘了说，这期间我还不断尝试用传统前端三件套手搓博客：什么黑客风格、NoStyle 风格、仿各种官网的风格……最走火入魔的时候，我甚至用 HTML 2.0 + CSS 1.0 手搓了一套，现在还挂在 GitHub Pages 上。之前程序员圈子里流行一个梗图，说编程大赛有位选手（华教授）的博客兼容 HTML 2.0，我看了真的笑不出来——因为为了尝试各种可能性，我还真搓了一个 HTML 2.0 的博客。当然，我的资历肯定比不上教授。&lt;/p&gt;
-&lt;p&gt;回到最初的问题：为什么最后还是回到了 Halo？答案很真实：折腾了那么多博客，真想写点文章时，转一圈发现还是 Halo 方便——网页上直接写，手机上也能写，很自然地东西就全发在 Halo 上了。顺带一提，Halo 换主题也是最省事的，毕竟是动态博客，不像静态博客需要改配置。而且现在用的这个简约主题，也挺好看的。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>告别微软霸权的GitHub，拥抱真正开源的家园CodeBerg</title>
-    <link href="https://example.com/posts/goodbye-github-hello-codeberg/" />
-    <updated>2024-02-18T00:00:00Z</updated>
-    <id>https://example.com/posts/goodbye-github-hello-codeberg/</id>
-    <content type="html">&lt;p&gt;&lt;strong&gt;致那个曾经温柔、如今只剩冰冷算法的旧广场：&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;我们曾拥有一个有温度的数字家园。深夜有人耐心帮你debug，Issue区能吵起代码哲学，客服甚至会因为你一句&amp;quot;这个用户名对我意义重大&amp;quot;而手动解锁。那是2013–2018年的GitHub。&lt;/p&gt;
-&lt;p&gt;然后微软来了。带着收购合同、Excel表格和&amp;quot;协同效应&amp;quot;的PPT，把一切贴上价签。从此，GitHub从一个开发者社区逐渐变成一个商业平台。&lt;/p&gt;
-&lt;p&gt;如今打开首页，满眼AI垃圾PR、低质爬虫项目、永不回复的机器人，以及2025年接连爆出的Copilot系列漏洞——EchoLeak零点击泄露、CamoLeak提示注入、已删仓库数据仍在被访问……供应链攻击频发，秘密像筛子一样漏。安全团队在忙什么？忙着把我们的代码喂给Copilot，再高价卖回来。&lt;/p&gt;
-&lt;p&gt;我愿意付钱。真的愿意每个月掏钱，只求换回那个有血有肉的社区，换回深夜回复的三页分析，换回尊重用户身份的真人支持。但微软连让我付费赎回温暖的资格都不给。它只要免费的代码、免费的信任、免费的情感，最后再把这一切变成Azure账单和股东回报。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;我们失去的，远不止一个平台&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;失去真人客服，取而代之的是全球铁板政策和&amp;quot;风险控制&amp;quot;优先&lt;/li&gt;
-&lt;li&gt;失去休眠用户名解锁的同理心，取而代之的是法务胜利&lt;/li&gt;
-&lt;li&gt;失去纯粹互助，取而代之的是KPI、流量变现和AI水军淹没真问题&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;更残酷的是：它用我们的代码训练模型，却在漏洞里让无数人的秘密暴露。这不是bug，这是商业模式本身。&lt;/p&gt;
-&lt;h2&gt;CodeBerg：开源精神没有死，它只是换了地址&lt;/h2&gt;
-&lt;p&gt;温暖从未灭绝，它只是回到了更小、更纯粹的地方——&lt;strong&gt;CodeBerg&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;由德国非营利组织 CodeBerg e.V. 运营，基于Forgejo（一个开源的Git托管软件），完全社区驱动。数据放在欧盟，受GDPR严格保护。没有广告、没有数据贩卖、没有隐藏监控。免费，无任何商业变现压力。&lt;/p&gt;
-&lt;p&gt;这里像早年的GitHub：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Issue/PR流程干净利落&lt;/li&gt;
-&lt;li&gt;有人认真回复你的问题（是真的有人，不是机器人）&lt;/li&gt;
-&lt;li&gt;Pages功能简单好用：新建仓库 → 推送到pages分支 → 自动HTTPS、自定义域名，推送即更新，支持Hugo/Jekyll等主流生成器&lt;/li&gt;
-&lt;li&gt;社区小而友好，开发者真正被听见&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;不是规模最大，但足够安全、足够透明、足够有温度。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;想试试吗？&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;哪怕只是把个人博客/项目文档先迁过来，体验一下推送即发布的纯粹感。&lt;a href=&quot;https://codeberg.org&quot;&gt;https://codeberg.org&lt;/a&gt; &lt;a href=&quot;https://docs.codeberg.org&quot;&gt;https://docs.codeberg.org&lt;/a&gt; 里有最清晰的Pages教程。&lt;/p&gt;
-&lt;p&gt;微软用贪婪玷污了广场，但广场的精神没有死。它在CodeBerg安静地活着，等着每一个厌倦了冰冷算法的人回家。&lt;/p&gt;
-&lt;p&gt;愿我们都能找回一点久违的、属于代码的温暖。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>为什么我只用 BSD-2-Clause 和 Apache 2.0</title>
-    <link href="https://example.com/posts/only-bsd2-and-apache2-licenses/" />
-    <updated>2024-01-16T00:00:00Z</updated>
-    <id>https://example.com/posts/only-bsd2-and-apache2-licenses/</id>
-    <content type="html">&lt;h2&gt;为什么我只用 BSD-2-Clause 和 Apache 2.0&lt;/h2&gt;
-&lt;p&gt;深夜。屏幕上的光标闪烁。我在 GitHub 上创建新仓库，鼠标停在&amp;quot;Choose a license&amp;quot;下拉菜单上。GPL、MIT、Apache、BSD——每个选项背后都是一场哲学辩论。&lt;/p&gt;
-&lt;p&gt;大多数开源项目都在用 &lt;strong&gt;GPL&lt;/strong&gt; 或 &lt;strong&gt;MIT&lt;/strong&gt;。这两个我都不喜欢。说说是为什么。&lt;/p&gt;
-&lt;p&gt;这些年，我不再盲目追主流。GPL 的&amp;quot;父爱式管制&amp;quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&amp;quot;毫无节制的宽容&amp;quot;也不对味——说&amp;quot;随便用&amp;quot;等于放弃所有责任。&lt;/p&gt;
-&lt;p&gt;我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 &lt;strong&gt;BSD&lt;/strong&gt;，尤其是 &lt;strong&gt;BSD-2-Clause&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;许可证从限制性到宽松性，像一条光谱。GPL 和 MIT 站在两端，我都避开。&lt;/p&gt;
-&lt;p&gt;GPL 认为真正的自由需要法律强制。它用法律确保代码被修改时，开源精神能一直传递。听起来高尚，可它是通过限制开发者来保护用户。这和我的&amp;quot;最大自由&amp;quot;原则冲突。我希望用户自由，但不想以牺牲开发者对代码的掌控为代价。&lt;/p&gt;
-&lt;p&gt;1983年，Richard Stallman 在麻省理工学院的实验室里，打印机卡纸了。他想修改打印机驱动程序，但厂商拒绝提供源代码。那一刻，他决定创建一个完全自由的操作系统——GNU。GPL 就这样诞生了。Stallman 的理想是崇高的，但他的方法是通过法律强制来实现自由。这就像一个父亲，为了保护孩子，制定了一整套规则，限制孩子的行为。孩子确实安全了，但也失去了探索的自由。&lt;/p&gt;
-&lt;p&gt;MIT 走向另一个极端，太天真了。把代码扔出去说&amp;quot;随便你怎么用&amp;quot;，听起来开放，实则是放弃所有作为作者的道德主张。按 MIT 的规则，别人能把你名字完全抹掉，能用你的作品干坏事，甚至能用专利攻击别人——MIT 根本没专利保护条款，而且完全没回馈义务。这不是自由，是放弃责任。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BSD-2-Clause&lt;/strong&gt; 找到了中间地带。又叫简化 BSD 或 FreeBSD 许可证，就两个要求：保留版权声明，加个免责声明。就这么多——没更多法律条款要读。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BSD-2-Clause&lt;/strong&gt; 给的自由很惊人。你可以把代码用在任何地方：商业、个人、教育。随便改。可以闭源分发，不用开源自己的修改。可以整合到完全不同许可证的项目里。没专利报复条款的麻烦。不像 GPL，没有&amp;quot;传染性&amp;quot;要求逼你把自己的代码也开源。&lt;/p&gt;
-&lt;p&gt;但 &lt;strong&gt;BSD-2-Clause&lt;/strong&gt; 仍保留基本标准。用户必须通过署名承认你的工作——不能假装是他们写的。你也受责任保护：有人用你代码出问题，那是他们的事，不是你的。&lt;/p&gt;
-&lt;p&gt;为什么不用 &lt;strong&gt;BSD-3-Clause&lt;/strong&gt;？第三条款说未经许可不能用作者名字为产品背书。理论上合理，实际中却很少被违反。它给大多数小项目添了不必要的法律复杂性，而且真想滥用你代码的人总会找到办法绕开。BSD-2 更干净，更贴合&amp;quot;最小约束&amp;quot;的原则。&lt;/p&gt;
-&lt;p&gt;我根据不同场景用不同许可证。个人项目——脚本、小库、实验代码——一律 &lt;strong&gt;BSD-2-Clause&lt;/strong&gt;。简单，鼓励使用和分享，不用操心法律问题，符合我的理念。大项目，尤其是框架或涉及专利的代码，我更爱 &lt;strong&gt;Apache 2.0&lt;/strong&gt;。现代软件里专利保护很重要，Apache 在这方面处理得好，同时还保持宽松。文档和创意作品用 &lt;strong&gt;CC BY 4.0&lt;/strong&gt;，专门为创意作品设计，署名要求清楚。&lt;/p&gt;
-&lt;p&gt;刻意避开的许可证：&lt;strong&gt;GPL&lt;/strong&gt; 和&amp;quot;最大自由&amp;quot;原则冲突。&lt;strong&gt;MIT&lt;/strong&gt; 太宽松，放弃太多。&lt;strong&gt;SSPL&lt;/strong&gt;、&lt;strong&gt;BSL&lt;/strong&gt; 之类的&amp;quot;源码可用&amp;quot;许可证不是真正的开源——就算源代码可见，它们也限制你怎么用代码。&lt;/p&gt;
-&lt;p&gt;给刚起步的开发者建议：从 &lt;strong&gt;BSD-2&lt;/strong&gt; 开始。它直截了当，不会用一堆条款把你搞晕。在 README 开头用白话把许可证说清楚。项目里保持一致。想清楚你的受众：要广泛传播就用 BSD 或 Apache 这样的宽松许可证；做社区项目可以考虑 MPL 这样的弱 copyleft。有强烈的道德立场？去研究研究 &lt;strong&gt;Hippocratic License&lt;/strong&gt; 这类变体。&lt;/p&gt;
-&lt;p&gt;选许可证不只是技术决定，是价值观的表达。MIT 说&amp;quot;我不管，随便用&amp;quot;。GPL 说&amp;quot;你可以用，但得听我的——我定义你的自由&amp;quot;。Apache 试图平衡：&amp;quot;自由用，但我们互相保护&amp;quot;。BSD 说&amp;quot;这是我送你的礼物。记得谁给的，然后去创造点伟大的东西&amp;quot;。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BSD-2-Clause&lt;/strong&gt; 简洁优雅。有时候，最简单的就是最好的。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;本文采用 BSD-2-Clause 许可证发布。你可以自由使用、修改、分发，只需保留原始署名和许可证声明。&lt;/em&gt;&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>深入体验ProtonMail：不值！</title>
-    <link href="https://example.com/posts/protonmail-review-not-worth-it/" />
-    <updated>2023-11-30T00:00:00Z</updated>
-    <id>https://example.com/posts/protonmail-review-not-worth-it/</id>
-    <content type="html">&lt;h2&gt;前言&lt;/h2&gt;
-&lt;p&gt;清晨。咖啡杯放在桌上。屏幕上，ProtonMail的登录界面显示着&amp;quot;Enter your password&amp;quot;。我输入密码，进入邮箱。前段时间介绍各类邮箱时，我提到过 &lt;strong&gt;ProtonMail 隐私性好&lt;/strong&gt;——这似乎是很多人的共识。但最近我仔细体验了一番，发现它其实是个&amp;quot;雷&amp;quot;。&lt;/p&gt;
-&lt;h2&gt;正文&lt;/h2&gt;
-&lt;h3&gt;隐私&amp;amp;开源？&lt;/h3&gt;
-&lt;p&gt;首先，ProtonMail 确实是开源的，但只开源前端，&lt;strong&gt;后端并不公开&lt;/strong&gt;。这意味着，我们根本不知道邮件在它的服务器上经历了什么处理。当然，一旦后端也开源，隐私性可能随着代码曝光而降低；可后端不开放，又无法保证服务器不会暗中上传数据。&lt;/p&gt;
-&lt;p&gt;这简直成了一个&lt;strong&gt;循环论证&lt;/strong&gt;——所谓&amp;quot;完全隐私的邮箱&amp;quot;，根本就是个&lt;strong&gt;伪命题&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;2013年，斯诺登揭露了美国国家安全局的棱镜计划。那一刻，全球用户开始意识到：他们的邮件、聊天记录、搜索历史，都在被监控。隐私，成了一个奢侈品。ProtonMail就是在这样的背景下诞生的——2014年，一群来自CERN（欧洲核子研究组织）的科学家在瑞士创立了这家公司，打着&amp;quot;端到端加密&amp;quot;的旗号，承诺给用户一个真正私密的邮箱。瑞士的法律环境确实相对宽松，数据保护法规严格。但问题是：瑞士不是天堂。2019年，ProtonMail被迫向美国当局移交了一位法国活动人士的IP地址和设备信息。所谓的&amp;quot;瑞士隐私保护&amp;quot;，在法律面前不堪一击。&lt;/p&gt;
-&lt;h3&gt;实力如何？&lt;/h3&gt;
-&lt;p&gt;如果隐私性并不绝对，那我们再来看看它的其他功能：&lt;/p&gt;
-&lt;p&gt;免费版容量&lt;strong&gt;只有 500MB&lt;/strong&gt;，这能装几个邮件？要是邮件带附件的话一百个件不到就用完了。免费用户只能注册一个地址，这点还算可以接受。付费后可以解锁 &lt;code&gt;*@pm.me&lt;/code&gt; 这个&amp;quot;神级域名&amp;quot;。说实话，除非你特别想要 &lt;code&gt;pm.me&lt;/code&gt; 这个域名，否则没必要升级会员。毕竟，这个域名确实简洁好看。&lt;/p&gt;
-&lt;p&gt;但问题是，ProtonMail 不支持国内常用支付方式。如果你费尽周折终于付了款，那为什么不直接自己去注册一个域名呢？有了域名，你就可以轻松设置域名邮箱，国内外很多邮局（比如 QQ、Zoho）都支持。而 ProtonMail 的域名邮箱功能——同样需要付费升级。&lt;/p&gt;
-&lt;p&gt;对新手来说，我之前推荐过的 Yandex 也是不错的选择，它能自动帮你购买并配置 &lt;code&gt;.ru&lt;/code&gt; 结尾的域名邮箱。&lt;/p&gt;
-&lt;p&gt;如果你拥有开放 25 端口且具备原生 IP 的云服务器，甚至可以自己搭建邮件系统（比如 Pmail）。这才是真正意义上的&amp;quot;完全隐私&amp;quot;——服务器和后端都在自己手里，不比那些空洞的宣传口号可靠多了？&lt;/p&gt;
-&lt;h2&gt;总结&lt;/h2&gt;
-&lt;p&gt;ProtonMail的付费后体验相较于其它付费邮箱并不差，但是免费版体验极其糟糕。隐私保护，从来都不是一个技术问题，而是一个信任问题。你信任瑞士的法律，信任ProtonMail的承诺，信任他们不会在后台偷偷上传你的数据。但信任，是最脆弱的东西。一旦被打破，就再也回不去了。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>怎么选邮箱？我试了一圈，就说点实在的</title>
-    <link href="https://example.com/posts/how-to-choose-email-service/" />
-    <updated>2023-09-07T00:00:00Z</updated>
-    <id>https://example.com/posts/how-to-choose-email-service/</id>
-    <content type="html">&lt;p&gt;凌晨三点。手机屏幕亮了。邮件通知。我盯着屏幕，想着：又是垃圾邮件。选邮箱这事，我折腾了挺久。市面上能试的，差不多都试了。现在留着 iCloud 和 QQ 邮箱。要给个通用建议，在国内，&lt;strong&gt;Outlook 配 Foxmail&lt;/strong&gt; 是黄金组合。&lt;/p&gt;
-&lt;p&gt;先聊 Outlook。国际邮箱，国内能直接登，不用折腾。光这一点，就比 Gmail 强。&lt;/p&gt;
-&lt;p&gt;它有个好处：某宝能买到五位甚至更短的靓号，不贵。买了第一件事，改密码，绑手机和辅助邮箱，开两步验证（2FA）。不然无良卖家可能收回，风险大。Outlook 能加十个别名，够用。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;提醒：&lt;/strong&gt; Outlook 有过严重漏洞，账号容易被盗。闲鱼上不少低价 Minecraft 正版号，就是用被盗的 Outlook 注册的。买 Minecraft 号，别用 Outlook 邮箱的微软账号。这漏洞至今没完全修复，一定要开两步验证。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;缺点也明显：垃圾邮件过滤太神经质。我连微软官方通知都被扔进垃圾箱过，哭笑不得。解决办法简单：常去垃圾箱看看，把正常邮件标记&amp;quot;不是垃圾&amp;quot;，系统会学乖。&lt;/p&gt;
-&lt;p&gt;好名字早被注册光了。两条路：要么买短号当主账号，加别名用；要么玩点花的——注册其他国家域名的 Outlook。方法很简单：把微软账户国家/地区改成法国，再添新邮箱，就有 @outlook.fr 可选。我搞了个 .fr 的，像&amp;quot;friend&amp;quot;缩写，有意思。德国 .de、意大利 .it、印尼 .id 之类的，选择不少。&lt;/p&gt;
-&lt;p&gt;再聊 Foxmail。不得不提 QQ 邮箱，很多人瞧不上，其实功能强。一个 QQ 号能挂三个邮箱：数字 @qq.com、英文 @qq.com，还有重点——Foxmail 邮箱。在 QQ 箱设置里申请 @foxmail.com 地址就行。&lt;/p&gt;
-&lt;p&gt;这个域名国际上接受度不错，关键是发的邮件几乎能 100% 过 Outlook 的垃圾邮件过滤。所以说，Outlook + Foxmail 是国内收发邮件的黄金搭档。&lt;/p&gt;
-&lt;p&gt;再说说 iCloud 箱。我现在主用这个。收信速度没传说中慢，界面干净，和苹果设备无缝衔接。免费版给 3 个&amp;quot;替身邮箱&amp;quot;，能保护真实地址。&lt;/p&gt;
-&lt;p&gt;但没苹果设备的话，用起来是灾难，网页版体验太局限。基本是把你绑在苹果生态里。另外，国内版 iCloud+ 是阉割版，想要自定义域名这些完整功能，得用外区 Apple ID。&lt;/p&gt;
-&lt;p&gt;Gmail 在国内？访问是问题，不稳定。我都是用其他客户端代收，当备胎。&lt;/p&gt;
-&lt;p&gt;国内老牌邮箱，163、126、yeah、sina、sohu，还有国外的雅虎，能用，但没非用不可的理由。不跟主流平台捆绑，当纯备胎也行。&lt;/p&gt;
-&lt;p&gt;最后说小众选择。这次重点看了它们的域名邮箱功能，发现不少门道。&lt;/p&gt;
-&lt;p&gt;Yandex Mail，俄罗斯的。邮箱服务国内访问一般没问题，网盘不能裸连。VIP 账号能弄域名邮箱，不过不是买域名给你用，只是代理转发。服务器在莫斯科，东欧地区投递成功率高。用了动态 IP 池，对发营销邮件（EDM）有帮助。免费版每日发信限 200 封，没中文界面。内置邮件翻译是亮点，但对中文支持远不如谷歌和 QQ。&lt;/p&gt;
-&lt;p&gt;Zoho Mail，主业是企业邮箱，个人免费版体验不错。以前短 @zoho.com 难注册，现在常见 @zohomail.com。&lt;/p&gt;
-&lt;p&gt;最硬核的是：免费版就能绑自己的域名，变成真正的 you@yourcompany.com。免费套餐支持最多 5 个账户和 5GB 存储。小团队或个人品牌，零成本建立专业形象，神器。&lt;/p&gt;
-&lt;p&gt;后台功能丰富，端到端加密、分布式存储保证海外访问速度，但设置 MX 记录、SPF/DKIM 对新手有门槛。还有个优势：和 Zoho 自家 CRM、项目管理工具无缝集成。比如，直接把客户邮件转成 CRM 线索或项目任务，自动化程度高。付费高级版安全和协作功能更完善。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>小米兰亭：更适合长文阅读的字体</title>
-    <link href="https://example.com/posts/misans-font-for-long-reading/" />
-    <updated>2023-07-26T00:00:00Z</updated>
-    <id>https://example.com/posts/misans-font-for-long-reading/</id>
-    <content type="html">&lt;p&gt;深夜。屏幕的光线刺眼。我在调整博客字体，眼睛盯着屏幕上的文字，一行一行地读。更纱黑体、思源黑体、小米兰亭——每个字体都在争夺我的注意力。&lt;/p&gt;
-&lt;p&gt;最近调整博客字体，发现小米兰亭在正文阅读上，可能比更纱黑体更适合一些。&lt;/p&gt;
-&lt;p&gt;更纱黑体是我之前一直在用的字体——它融合了思源黑体和Iosevka，现代感强，字符也全。但阅读的体验感始终感觉没有系统默认字体一样好。直到换到小米兰亭，对比才明显：小米兰亭的字母更粗、更圆润，整体观感更舒适，长时间阅读不容易累。&lt;/p&gt;
-&lt;p&gt;小米兰亭在设计之初就考虑了阅读感受，笔画清晰、灰度均匀，用在博客正文里，字与字的呼吸感刚刚好。&lt;/p&gt;
-&lt;p&gt;不过，字体效果很大程度上取决于操作系统。Windows的字体渲染一直是个大问题——ClearType再怎么调，和macOS的原生渲染比起来，总像隔着一层纱。换什么字体都难有质的改善。而iOS这边，无论什么字体，渲染出来都线条清晰、边缘平滑，赏心悦目。&lt;/p&gt;
-&lt;p&gt;Linux方面，至少KDE Plasma的渲染效果不错，开箱即用就有舒适的字形和间距。其他桌面环境我没深入用过，暂时不作评价。&lt;/p&gt;
-&lt;p&gt;其实字体选择真的不能只看个人偏好：博客的文章标题之前一直是繁体，我感觉标题用繁体有古风质感，正文用简体便于阅读，但经常被各位朋友们吐槽说看不懂标题。我只好换个字体，但是始终没有华英明朝体的感觉，折腾半天才发现，ZSFT默认提供的华英明朝体本来就有简体版本——它默认调用了T字符集的繁体版本，而不是Classic简体字体。修改之后，标题终于回归简体，质感稍微差了点，但可读性大大增强。&lt;/p&gt;
-&lt;p&gt;说到底，字体这件事，没有绝对的好坏，只有适合不适合。如果博客以正文为主，想在Windows和macOS之间找个平衡，不妨试试小米兰亭。至少目前，这是我感到最让我舒适的阅读字体。&lt;/p&gt;
-&lt;p&gt;至于霞鹜文楷这款人气相当高的字体，我个人的看法是，它更像是手写的楷体，而非标准的印刷楷体——在计算机字体分类中，它更接近艺术字的范畴。诚然，许多人青睐它，因为它比常见的印刷体多了几分手写的温度与活力。但对我而言，艺术字用于正文阅读并不理想，且其风格与我的博客调性也不太契合。&lt;/p&gt;
-&lt;p&gt;Linux的默认字体大多从文泉驿系列转向了思源系列。思源黑体总的来说是一款中规中矩、平衡稳定的字体，相较于略显稚气的文泉驿微米黑，设计上更为成熟。或许是因为以前缺乏优秀的开源字体，大多数Linux发行版才更倾向于选用文泉驿系列；而如今，大多数发行版和桌面环境都已内置了思源宋体和思源黑体。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>欧美钢笔厂商的故事：万宝龙、百利金、水人、派克、犀飞利</title>
-    <link href="https://example.com/posts/western-fountain-pen-history/" />
-    <updated>2023-05-17T00:00:00Z</updated>
-    <id>https://example.com/posts/western-fountain-pen-history/</id>
-    <content type="html">&lt;p&gt;汉堡的冬天。1906年。银行家Claus-Johannes Voss和工程师August Eberstein坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。&lt;/p&gt;
-&lt;p&gt;在墨迹斑斓的西方文坛，这些欧美钢笔厂商如古老城堡般屹立，守望着上世纪的荣光与风雨。它们从创新的火种中诞生，伴随两次世界大战与经济风云，铸就了书写永恒的传奇。万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，各有千秋，却共同谱写出一曲墨香交响。本文浅浅拂过其上世纪（1901-2000年）往事、关键节点与经典笔型，愿如一缕秋风，轻柔唤醒那份对笔尖的温柔怀念。&lt;/p&gt;
-&lt;h2&gt;万宝龙：华贵巅峰，永恒的雪峰之笔&lt;/h2&gt;
-&lt;p&gt;万宝龙1906年于德国汉堡启幕，由银行家与工程师联手，首创内置墨囊的安全笔，奠定奢华基调。其优点在于那份精致工艺，宛若艺术品般优雅耐久；早年价格高企，或让寻常文人稍感遥远，却正因稀贵，更添尊荣。&lt;/p&gt;
-&lt;p&gt;重大事件：1919年，其笔签署《凡尔赛条约》，见证和平曙光；1924年推出Meisterstück，意为“大师之作”，从此成为全球最畅销的高端钢笔之一。这支笔之所以成为经典，在于它解决了钢笔的两个核心痛点：一是采用活塞上墨，墨水容量比同时代其他笔大得多；二是笔尖采用14K金、经过手工打磨，每一支的书写手感都有细微差别。至今万宝龙仍在生产 Meisterstück，笔尖的形状和尺寸几乎没变——这在日新月异的工业社会里近乎奇迹。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Rouge et Noir（1909年）&lt;/strong&gt;：首款安全笔，红黑双色，防漏设计，书写如丝般顺滑。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Meisterstück 149（1924年）&lt;/strong&gt;：巨型金笔，18k笔尖，雪峰星徽，高端典范。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;百利金：稳健传承，绿鹈鹕的墨海之舟&lt;/h2&gt;
-&lt;p&gt;百利金1838年源于德国墨汁厂，1929年首推活塞填充钢笔，开启文具新纪。其长处是可靠墨量与耐用身躯，如老友般陪伴不倦；早年专注欧洲，或在美洲稍显低调，却因此更显匠心纯真。&lt;/p&gt;
-&lt;p&gt;重大事件：1958年P1系列革新，引入塑料注塑，助力大众书写；战后复苏，出口全球，奠定&amp;quot;绿鹈鹕&amp;quot;传奇。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;100N（1929年）&lt;/strong&gt;：首款活塞笔，绿色条纹，墨水充盈，经典耐看。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;M400/M800（1950-1960年代）&lt;/strong&gt;：Souverän系列，14k金尖，平衡优雅。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;水人：优雅起源，纽约墨流的先驱&lt;/h2&gt;
-&lt;p&gt;水人1883年由Lewis Edson Waterman在美国纽约创立，发明&amp;quot;三裂喂墨&amp;quot;系统，首创可靠钢笔。优点显于那份流畅优雅，书写如江河般自然；早期硬橡胶易褪色，或需细心呵护，却正合其古典韵味。&lt;/p&gt;
-&lt;p&gt;重大事件：20世纪初转向杠杆填充，革新墨水注入；1950年代推出卡匣笔，适应现代节奏。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Patrician（1920年代）&lt;/strong&gt;：奢华硬橡胶笔，金饰华丽，商务首选。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Expert（1990年代）&lt;/strong&gt;：现代杠杆笔，树脂笔身，书写流畅，日常伴侣。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;派克：可靠之盾，美国书写的国民之笔&lt;/h2&gt;
-&lt;p&gt;派克1888年由George Safford Parker在美国威斯康星创立，首创&amp;quot;Lucky Curve&amp;quot;喂墨系统，解决漏墨痛点。其优点是可靠耐用，如盾牌般守护书写；早年价格亲民，普及大众，却在高端领域稍显不足，后以&amp;quot;Duofold&amp;quot;系列补足。&lt;/p&gt;
-&lt;p&gt;重大事件：1921年推出Duofold，橙色大笔，轰动市场；1940年代&amp;quot;51&amp;quot;系列问世，包尖设计，书写如丝，成为二战后最畅销笔型。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Duofold（1921年）&lt;/strong&gt;：巨型笔，橙色笔身，金尖华丽，经典之作。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;51（1941年）&lt;/strong&gt;：包尖设计，墨水流畅，书写如丝，战后畅销传奇。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;犀飞利：灵动之翼，创新设计的墨海精灵&lt;/h2&gt;
-&lt;p&gt;犀飞利1912年由Walter A. Sheaffer在美国爱荷华创立，首创&amp;quot;Touchdown&amp;quot;活塞填充系统——用户只需按压笔尾的金属杆，墨水就会被吸入笔身内部的活塞舱。这个设计比当时的杠杆填充更可靠，漏墨概率更低，迅速成为其标志性技术。革新的上墨体验。其优点是灵动创新，设计如翼般轻盈；早年价格中高，受众稍窄，却在收藏家心中赢得独特地位。&lt;/p&gt;
-&lt;p&gt;重大事件：1920年代推出Lifetime系列，终身保修，树立品质信心；1940年代&amp;quot;Triumph&amp;quot;笔尖问世，包尖设计，书写沙沙作响，成为犀飞利标志性创新。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Lifetime（1920年代）&lt;/strong&gt;：终身保修笔，金尖耐用，品质象征。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Triumph（1940年代）&lt;/strong&gt;：包尖设计，书写沙沙，手感独特，经典之作。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;结语：墨香交响，永恒的书写传奇&lt;/h2&gt;
-&lt;p&gt;万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，共同谱写了上世纪的墨香交响。愿这份温柔怀念，如秋风般轻拂，唤醒我们对笔尖的眷恋。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>日本钢笔御三家：百乐、白金、写乐的墨香传承</title>
-    <link href="https://example.com/posts/japanese-fountain-pen-trinity/" />
-    <updated>2023-04-16T00:00:00Z</updated>
-    <id>https://example.com/posts/japanese-fountain-pen-trinity/</id>
-    <content type="html">&lt;p&gt;日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。本文续前尘，借可靠史料，铺陈其上世纪（1901-2000年）往事、关键节点与经典笔型，愿如一缕晨风，拂去尘埃，唤醒那份对墨迹的眷恋。&lt;/p&gt;
-&lt;h2&gt;百乐：创新之泉，百折不挠的东方之笔&lt;/h2&gt;
-&lt;p&gt;百乐的前身，可溯至1915年，工程教授Ryosuke Namiki与Masao Wada的携手，初衷仅为铸就不锈钢笔尖，打破西方垄断。1918年，正式创厂于东京，名为&amp;quot;Namiki Manufacturing Company&amp;quot;，后更名Pilot，寓意&amp;quot;领航者&amp;quot;。早年产品以金笔尖为主，出口欧美，奠定国际声誉。二战期间，工厂转产军需，却在战后迅速复苏，1950年代推出批量不锈钢笔尖，推动本土工业腾飞。&lt;/p&gt;
-&lt;p&gt;重大事件如星辰闪耀：1963年，百乐首创Capless可伸缩钢笔，旋钮一转，笔尖隐现，无需笔帽，获巴黎国际礼品展&amp;quot;最推荐产品奖&amp;quot;，革新书写便利。这支笔最初是为经常需要在旅途中签字的商务人士设计的——不用拧开笔帽、旋紧笔帽，单手就能完成书写，尤其适合医生、快递员、税务员等需要频繁用笔的职业。1970-1990年间，Capless系列迭代，从蚀刻款到多面体设计，技术跃进，彰显日本精密之美。1980年代，Custom系列问世，传承百年工艺，定位高端定制。这些节点，不仅是技术里程，更是匠人对自由书写的诗意追求。&lt;/p&gt;
-&lt;p&gt;重要笔型，宛若百乐的墨中精灵：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Capless（1963年）&lt;/strong&gt;：首款可伸缩钢笔，旋钮机制，笔身纤细，书写如行云流水，至今仍是旅行者的挚友。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Custom 74（1970年代）&lt;/strong&gt;：入门金笔，14k笔尖柔韧，树脂笔身轻盈，平衡感佳，深受学生与文人青睐。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Custom 823（1980年代）&lt;/strong&gt;：真空吸墨设计，21k金尖，笔身优雅，墨量充沛，适合长篇书写。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;百乐的优点，自是那份创新的灵动，先于时代一步；若论不足，或是早期出口依赖，稍显本土根基浅薄，却在时光中悄然补足。&lt;/p&gt;
-&lt;h2&gt;白金：纯净之光，静谧中的永恒追求&lt;/h2&gt;
-&lt;p&gt;白金的起源，似一阕清幽小调，1919年，创始人Shunichi Nakata于东京启业，初售进口笔，后自制&amp;quot;Champion&amp;quot;&amp;quot;Piiton&amp;quot;等款，出口海外。1924年，建立&amp;quot;中屋制作所&amp;quot;，专注笔尖锻造，战时转产军工，1950年代复苏，强调&amp;quot;纯净书写&amp;quot;。&lt;/p&gt;
-&lt;p&gt;关键事件，点亮其百年轨迹：1956年，推出全球首款卡匣式钢笔，摒弃吸墨瓶，书写更卫生便捷。1965年，发明&amp;quot;敲击式&amp;quot;可点击钢笔，1967年&amp;quot;Platinum Platinum&amp;quot;问世，首用铂金涂层笔尖，抗腐蚀耐久。1993年，限量款与&amp;quot;Hayakawa&amp;quot;机械铅笔同步上市，1994年&amp;quot;President&amp;quot;系列登场，标志中高端转型。这些创新，如山间清泉，润物无声，却奠定白金的品质声名。&lt;/p&gt;
-&lt;p&gt;重要笔型，宛若富士雪峰，宁静而高洁：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Honest 60（1950年代）&lt;/strong&gt;：首款卡匣笔，简约金属身，书写诚挚，象征白金的初心。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;3776 Century（1970年代）&lt;/strong&gt;：14k金尖，活塞上墨，笔身优雅，&amp;quot;3776&amp;quot;寓意富士山高度，经典之作。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;President（1994年）&lt;/strong&gt;：高端商务笔，18k金尖，树脂笔身，平衡舒适，彰显身份。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;白金的长处，在于那份纯净的坚守，品质如雪峰般恒久；若论不足，或是营销低调，国际声名稍逊，却在匠心深处赢得忠实拥趸。&lt;/p&gt;
-&lt;h2&gt;写乐：匠心之刃，锐意进取的墨海先锋&lt;/h2&gt;
-&lt;p&gt;写乐的故事，始于1911年，创始人Kyogoro Sakata于大阪启业，初名&amp;quot;Sailor Pen&amp;quot;，寓意&amp;quot;航海者&amp;quot;，灵感源自一位英国水手赠送的钢笔。早年产品以金属笔尖为主，出口东南亚，奠定海外根基。二战期间，工厂转产军需，战后复苏，1950年代推出不锈钢笔尖，技术革新。&lt;/p&gt;
-&lt;p&gt;关键节点，如刀锋般锐利：1960年代，写乐推出&amp;quot;Profit&amp;quot;系列，21k金尖，书写流畅，定位高端。1970年代，&amp;quot;Naginata Togi&amp;quot;（长刀研）笔尖问世，独特打磨方式使笔尖正面呈弧形切削状，侧面则保留了传统刀刃般的锐角。这种形状使得书写时笔尖会随着运笔方向自然变形——横画细、竖画粗，转折处还能写出类似毛笔的“锋”，尤其适合写汉字时追求笔画粗细变化的书法爱好者。写乐因此被国内的钢笔收藏家称为“书法笔之王”。1980年代，&amp;quot;Professional Gear&amp;quot;系列登场，21k金尖，笔身坚固，深受收藏家青睐。1990年代，&amp;quot;King of Pen&amp;quot;限量款推出，巨型笔身，极致工艺，彰显写乐的巅峰追求。&lt;/p&gt;
-&lt;p&gt;重要笔型，如墨海中的利刃：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Profit（1960年代）&lt;/strong&gt;：21k金尖，活塞上墨，书写流畅，经典高端款。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Naginata Togi（1970年代）&lt;/strong&gt;：长刀研笔尖，独特打磨，书写如书法，适合汉字书写。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Professional Gear（1980年代）&lt;/strong&gt;：21k金尖，树脂笔身，坚固耐用，收藏家挚爱。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;写乐的优点，在于那份锐意的匠心，笔尖打磨独步天下；若论不足，或是款式相对保守，设计创新稍显迟缓，却在传统深处赢得文人敬意。&lt;/p&gt;
-&lt;h2&gt;结语：御三家的墨香交响&lt;/h2&gt;
-&lt;p&gt;百乐的创新、白金的纯净、写乐的匠心，共同绘就了日本钢笔的百年华章。它们从舶来之风中崛起，历经战火与革新，铸就了书写永恒的传奇。愿这份墨香，如晨风般轻柔，唤醒我们对笔尖的温柔怀念。&lt;/p&gt;
-</content>
-  </entry>
-  <entry>
-    <title>中国古董钢笔厂商的上世纪印记：英雄、永生、金星与鸵鸟墨水的时代故事</title>
+    <title>中国古董钢笔厂商：英雄、永生、金星与鸵鸟墨水的时代故事</title>
     <link href="https://example.com/posts/chinese-vintage-pen-history/" />
     <updated>2023-03-15T00:00:00Z</updated>
     <id>https://example.com/posts/chinese-vintage-pen-history/</id>
     <content type="html">&lt;p&gt;上世纪。上海西藏南路的厂房里，机器轰鸣。工人穿着蓝色工装，手指沾满机油。钢笔尖在冲压机下成型，发出清脆的金属声。这是1931年的上海，华孚金笔厂刚刚起步。&lt;/p&gt;
-&lt;p&gt;中国钢笔产业从民族实业的萌芽起步，逐步成长为书写共和国历史的工具。这些厂商不仅生产了日常文具，还见证了国家从动荡到复兴的进程。英雄、永生、金星作为上海与北京的代表性钢笔厂，凭借技术创新和品质追求，填补了进口品牌的空白；天津鸵鸟墨水厂则以墨汁供应支撑了书写生态。本文基于可靠史料，梳理这些厂商在上世纪（1901-2000年）的历史脉络、重大事件及重要笔型，力求客观呈现其发展轨迹。&lt;/p&gt;
-&lt;h2&gt;英雄钢笔：从华孚起步，铸就民族骄傲&lt;/h2&gt;
-&lt;p&gt;1931年。浙江奉化人周荆庭投资1.5万银元，创办华孚金笔厂。目的只有一个：打破&amp;quot;中国人生产不了钢笔&amp;quot;的垄断局面。那时候，上海街头的知识分子手里握着的，大多是派克、犀飞利这样的洋货。一支钢笔的价格，抵得上普通工人半个月的工资。周荆庭想做一支中国人自己的笔。&lt;/p&gt;
-&lt;p&gt;厂址初设于上海西藏南路，产品以新民牌金笔为主，价格亲民，书写顺滑，主要服务中学生和知识分子。抗日战争时期，工厂迁至重庆，维持生产；1949年后，迁回上海，并在1950年代移至桃浦工业区祁连山路127号。&lt;/p&gt;
-&lt;p&gt;1958年&amp;quot;大跃进&amp;quot;期间，华孚金笔厂更名为英雄金笔厂，提出&amp;quot;英雄赶派克、为国争光&amp;quot;的口号。这是一项重大技术攻关：工厂用9个月时间研制&amp;quot;英雄100型&amp;quot;金笔，在12项指标中11项赶超美国派克51，包括笔尖毛坯7道连冲和注塑群控工艺。那时候的工人，三班倒，睡在车间里。图纸铺在地上，计算尺和算盘响个不停。九个月后，英雄100型诞生了。消息传到车间，工人们放下手中的图纸，相继鼓掌。这支笔后来被命名为“英雄100型”，其中&amp;quot;100&amp;quot;既是对派克51的致敬，也暗含“百分之一百赶超”的野心。&lt;/p&gt;
-&lt;p&gt;此后，英雄钢笔迅速扩张，1960年代中期正式定名&amp;quot;英雄&amp;quot;，并开始出口60多个国家和地区。1980年代中后期，产品结构调整向中高档倾斜，总资产超7亿元，市场份额近垄断。但1990年代初，受政府干预，与永生厂合并，并推行多元化投资，导致资金链紧张。&lt;/p&gt;
-&lt;p&gt;英雄钢笔参与多项国家大事：1984年4月13日，邓小平用英雄笔签署《中英关于香港问题的联合声明》；1997年香港回归、1999年澳门回归、上海合作组织成立、中国加入WTO等文件，也由其签署。这些事件凸显其作为&amp;quot;共和国用笔&amp;quot;的象征地位。&lt;/p&gt;
-&lt;p&gt;重要笔型包括：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;英雄100型&lt;/strong&gt;（1958年）：大包头金笔，笔帽笔尾双珠设计，书写流畅，标志赶超派克。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;英雄616型&lt;/strong&gt;（1960年代）：经典学生笔，塑料外壳，耐用经济。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;英雄800型&lt;/strong&gt;（1980年代）：中高档升级版，树脂外壳，提升外观档次。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;永生钢笔：上海本土的隐秘传承&lt;/h2&gt;
-&lt;p&gt;永生钢笔制造厂成立于1940年代初，由钮永集创办于上海，初期以组装派克公司半成品起步，产品定位中档文具。厂址位于上海罗浮路，1958年并入5家电镀厂和新明钢笔厂，扩大产能。1960年，大陆金笔厂转业，其大包头金笔生产线划归永生厂。1963年改名为地方国营新华金笔厂，1960-1970年代完成多项技术改造，如不锈钢激光焊缝机和多功位冲制，从日本、瑞士等国引进设备。这些创新提升了笔尖精度和产量，但未有大规模出口记录。&lt;/p&gt;
-&lt;p&gt;重大事件较少公开记载，主要集中在内部调整：1990年代初，与英雄厂合并，资金统一，但多元化策略导致经营压力。1999年，原厂倒闭，品牌被英雄实业（非英雄集团）收购。现今市售的“永生”钢笔与原厂已无任何技术传承关系——新生产者只是租用了一个曾经响亮的名字，而当年永生厂的技术积累、工艺标准、工匠团队，都随着倒闭风流散各地。这标志着永生作为一个独立民族品牌的终结。&lt;/p&gt;
-&lt;p&gt;重要笔型聚焦大包头系列，强调实用：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;永生233型&lt;/strong&gt;（1965年起）：金属笔身，网格状外观，书写稳定。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;永生235型&lt;/strong&gt;（1960年代）：金色网格金属身，大包头尖，文献中明确记录的经典款。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;永生727型&lt;/strong&gt;（1970年代）：暗尖设计，活塞上墨，容量大，实用性强。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;金星钢笔：北京北方的低调坚守&lt;/h2&gt;
-&lt;p&gt;金星钢笔厂成立于1930年代的北京，由民族资本家创办，初名&amp;quot;金星金笔厂&amp;quot;，厂址位于北京西城区。1950年代并入地方国营体系，成为北京文具工业的主力。其产品以实用为主，价格亲民，服务北方学生与公务员群体。1960-1970年代，技术改造有限，依赖上海技术支援，产量稳定但创新不足。1980年代后期，受市场开放冲击，经营困难，1990年代初停产，品牌淡出市场。&lt;/p&gt;
-&lt;p&gt;重要笔型：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;金星26型&lt;/strong&gt;（1950年代）：经典学生笔，塑料笔身，书写流畅。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;金星28型&lt;/strong&gt;（1960年代）：金属笔身，暗尖设计，耐用经济。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;鸵鸟墨水：天津墨汁的百年支撑&lt;/h2&gt;
-&lt;p&gt;天津鸵鸟墨水厂成立于1920年代，初为私营墨汁作坊，1950年代并入地方国营，成为北方墨水供应主力。其产品以碳素墨水为主，配合钢笔使用，书写流畅，价格低廉。1960-1980年代，技术稳定，产量持续，支撑了英雄、永生等钢笔的书写生态。1990年代后期，受圆珠笔与中性笔冲击，市场份额下降，但品牌仍存，延续传统墨水生产。&lt;/p&gt;
-&lt;p&gt;重要产品：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;鸵鸟562型墨水&lt;/strong&gt;（1960年代）：碳素墨水，书写流畅，不堵笔，经典款。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;鸵鸟高级墨水&lt;/strong&gt;（1980年代）：改进配方，色泽更深，适合档案书写。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2&gt;结语：民族品牌的荣光与落幕&lt;/h2&gt;
-&lt;p&gt;上世纪的中国钢笔厂商，从民族实业起步，历经战火与复兴，铸就了书写历史的工具。英雄赶超派克、永生坚守实用、金星低调服务、鸵鸟支撑墨水，共同构成了一个完整的文具生态。然而，1990年代的市场开放与多元化冲击，让这些品牌或衰落、或转型，辉煌不再。&lt;/p&gt;
-&lt;p&gt;如今，在文具店里偶尔还能看到英雄616——几块钱一支，笔尖依然顺滑。只是很少有人知道，这支貌不惊人的小笔身后，承载着几代工人的手艺与梦想。本文梳理其历史，愿为后人留下一份关于民族工业的记忆，也提醒我们：那些曾经理所当然的事物，往往消逝得最快。&lt;/p&gt;
+&lt;p&gt;中国钢笔产业从民族实业的萌芽起步，逐步成长为书写共和国历史的工具。这些厂商不仅生产了日常文具，还见证了国家从动荡到复兴的进程。英雄、永生、金星作为上海与北京的代表性钢笔厂，凭借技术创新和品质追求，填补了进口品牌的空白；天津鸵鸟墨水厂则以墨汁供应支撑了书写生态。&lt;/p&gt;
+&lt;p&gt;1931年，浙江奉化人周荆庭投资1.5万银元，创办华孚金笔厂。目的只有一个：打破&amp;quot;中国人生产不了钢笔&amp;quot;的垄断局面。那时候，上海街头的知识分子手里握着的，大多是派克、犀飞利这样的洋货。一支钢笔的价格抵得上普通工人半个月的工资。周荆庭想做一支中国人自己的笔。厂址初设于上海西藏南路，产品以新民牌金笔为主，价格亲民，书写顺滑，主要服务中学生和知识分子。抗日战争时期，工厂迁至重庆维持生产；1949年后迁回上海，并在1950年代移至桃浦工业区。&lt;/p&gt;
+&lt;p&gt;1958年&amp;quot;大跃进&amp;quot;期间，华孚金笔厂更名为英雄金笔厂，提出&amp;quot;英雄赶派克、为国争光&amp;quot;的口号。这是一项重大技术攻关：工厂用9个月时间研制&amp;quot;英雄100型&amp;quot;金笔，在12项指标中11项赶超美国派克51，包括笔尖毛坯7道连冲和注塑群控工艺。那时候的工人三班倒，睡在车间里。图纸铺在地上，计算尺和算盘响个不停。九个月后，英雄100型诞生了。这支笔后来被命名为&amp;quot;英雄100型&amp;quot;，其中&amp;quot;100&amp;quot;既是对派克51的致敬，也暗含&amp;quot;百分之一百赶超&amp;quot;的野心。此后，英雄钢笔迅速扩张，1960年代中期正式定名&amp;quot;英雄&amp;quot;，并开始出口60多个国家和地区。1980年代中后期，产品结构调整向中高档倾斜，总资产超7亿元，市场份额近垄断。但1990年代初，受政府干预，与永生厂合并，并推行多元化投资，导致资金链紧张。&lt;/p&gt;
+&lt;p&gt;英雄钢笔参与了多项国家大事：1984年4月13日，邓小平用英雄笔签署《中英关于香港问题的联合声明》；1997年香港回归、1999年澳门回归、上海合作组织成立、中国加入WTO等文件，也由其签署。重要笔型包括1958年的英雄100型（大包头金笔，笔帽笔尾双珠设计），1960年代的英雄616型（经典学生笔，塑料外壳，耐用经济），以及1980年代的英雄800型（中高档升级版，树脂外壳）。&lt;/p&gt;
+&lt;p&gt;永生钢笔制造厂成立于1940年代初，由钮永集创办于上海，初期以组装派克公司半成品起步，产品定位中档文具。厂址位于上海罗浮路，1958年并入5家电镀厂和新明钢笔厂，扩大产能。1960年，大陆金笔厂转业，其大包头金笔生产线划归永生厂。1963年改名为地方国营新华金笔厂，1960至1970年代完成多项技术改造，如不锈钢激光焊缝机和多功位冲制，从日本、瑞士等国引进设备。这些创新提升了笔尖精度和产量，但未有大规模出口记录。1990年代初，与英雄厂合并，资金统一，但多元化策略导致经营压力。1999年，原厂倒闭，品牌被英雄实业（非英雄集团）收购。现今市售的&amp;quot;永生&amp;quot;钢笔与原厂已无任何技术传承关系——新生产者只是租用了一个曾经响亮的名字，而当年永生厂的技术积累、工艺标准、工匠团队，都随着倒闭风流散各地。重要笔型包括永生233型（1965年起，金属笔身，网格状外观）、永生235型（1960年代，金色网格金属身，大包头尖）和永生727型（1970年代，暗尖设计，活塞上墨）。&lt;/p&gt;
+&lt;p&gt;金星钢笔厂成立于1930年代的北京，由民族资本家创办，初名&amp;quot;金星金笔厂&amp;quot;，厂址位于北京西城区。1950年代并入地方国营体系，成为北京文具工业的主力。其产品以实用为主，价格亲民，服务北方学生与公务员群体。1960至1970年代，技术改造有限，依赖上海技术支援，产量稳定但创新不足。1980年代后期，受市场开放冲击，经营困难，1990年代初停产，品牌淡出市场。重要笔型包括金星26型（1950年代，经典学生笔，塑料笔身）和金星28型（1960年代，金属笔身，暗尖设计）。&lt;/p&gt;
+&lt;p&gt;天津鸵鸟墨水厂成立于1920年代，初为私营墨汁作坊，1950年代并入地方国营，成为北方墨水供应主力。其产品以碳素墨水为主，配合钢笔使用，书写流畅，价格低廉。1960至1980年代，技术稳定，产量持续，支撑了英雄、永生等钢笔的书写生态。1990年代后期，受圆珠笔与中性笔冲击，市场份额下降，但品牌仍存，延续传统墨水生产。重要产品包括鸵鸟562型墨水（1960年代，碳素墨水，不堵笔）和鸵鸟高级墨水（1980年代，色泽更深，适合档案书写）。&lt;/p&gt;
+&lt;p&gt;上世纪的中国钢笔厂商，从民族实业起步，历经战火与复兴，铸就了书写历史的工具。英雄赶超派克、永生坚守实用、金星低调服务、鸵鸟支撑墨水，共同构成了一个完整的文具生态。如今在文具店里偶尔还能看到英雄616——几块钱一支，笔尖依然顺滑。只是很少有人知道，这支貌不惊人的小笔身后，承载着几代工人的手艺与梦想。&lt;/p&gt;
 </content>
   </entry>
 </feed>

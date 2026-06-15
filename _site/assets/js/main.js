@@ -8,9 +8,23 @@
  *   - Table of contents generation + scroll spy
  *   - Smooth anchor scrolling
  *   - Theme toggle (dark/light) with localStorage persistence
- *   - Liquid morphing background blobs
- *   - Liquid ripple effect on interactive elements
+ *   - Digital clock + mini calendar
+ *   - Client-side fuzzy search (Fuse.js, loaded via base.njk)
  */
+
+/* ================================================================ */
+/*  Scroll Lock — prevents layout shift when hiding scrollbar        */
+/* ================================================================ */
+function lockScroll() {
+  var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = "hidden";
+  if (scrollbarW > 0) document.body.style.paddingRight = scrollbarW + "px";
+}
+
+function unlockScroll() {
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = "";
+}
 
 (function () {
   "use strict";
@@ -23,24 +37,43 @@
   const navOverlay = document.getElementById("navOverlay");
 
   if (navToggle && leftNav) {
+    var isMobile = window.matchMedia("(max-width: 767px)");
+
+    function openDrawer() {
+      if (!isMobile.matches) return;
+      leftNav.classList.add("active");
+      if (navOverlay) navOverlay.classList.add("active");
+      lockScroll();
+    }
+
+    function closeDrawer() {
+      leftNav.classList.remove("active");
+      if (navOverlay) navOverlay.classList.remove("active");
+      unlockScroll();
+    }
+
     navToggle.addEventListener("click", function () {
-      leftNav.classList.toggle("active");
-      if (navOverlay) navOverlay.classList.toggle("active");
+      if (leftNav.classList.contains("active")) closeDrawer();
+      else openDrawer();
     });
 
     if (navOverlay) {
-      navOverlay.addEventListener("click", function () {
-        leftNav.classList.remove("active");
-        navOverlay.classList.remove("active");
-      });
+      navOverlay.addEventListener("click", closeDrawer);
     }
+
+    // Auto-close when clicking a nav link inside the drawer
+    leftNav.addEventListener("click", function (e) {
+      if (e.target.closest(".left-nav__item")) closeDrawer();
+    });
 
     // Auto-close nav on Escape key
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && leftNav.classList.contains("active")) {
-        leftNav.classList.remove("active");
-        if (navOverlay) navOverlay.classList.remove("active");
-      }
+      if (e.key === "Escape" && leftNav.classList.contains("active")) closeDrawer();
+    });
+
+    // Close drawer if viewport resizes past mobile breakpoint
+    isMobile.addEventListener("change", function (e) {
+      if (!e.matches) closeDrawer();
     });
   }
 
@@ -90,41 +123,134 @@
   }
 
   /* ================================================================ */
-  /*  Table of Contents (sidebar TOC from article headings)            */
+  /*  Heading Anchors + Table of Contents                              */
+  /*  - Assigns slug IDs to all content headings (h1-h6)               */
+  /*  - Injects a clickable <a> anchor that copies the heading URL     */
+  /*  - Builds the sidebar TOC from h2/h3                              */
   /* ================================================================ */
   const tocCard = document.getElementById("tocCard");
   const tocContainer = document.getElementById("toc");
   const mainContent = document.getElementById("main-content");
 
-  if (tocContainer && mainContent) {
+  /** Build a URL-safe slug from heading text (handles CJK + latin). */
+  function slugify(text) {
+    return String(text || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[\s]+/g, "-")
+      .replace(/[^\p{L}\p{N}-]/gu, "")
+      .replace(/^-+|-+$/g, "")
+      || "section";
+  }
+
+  /** Copy text to clipboard with a legacy fallback for older browsers. */
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); resolve(); }
+      catch (e) { reject(e); }
+      finally { document.body.removeChild(ta); }
+    });
+  }
+
+  if (mainContent) {
     const contentArea = mainContent.querySelector(".post-detail__content");
     if (contentArea) {
-      const headings = contentArea.querySelectorAll("h2, h3");
+      const allHeadings = contentArea.querySelectorAll("h1, h2, h3, h4, h5, h6");
+      const usedIds = {};
 
-      if (headings.length > 1) {
+      // 1. Assign slug IDs + inject clickable anchors on EVERY heading
+      allHeadings.forEach(function (heading) {
+        if (!heading.id) {
+          var base = slugify(heading.textContent);
+          var id = base;
+          var n = 2;
+          while (usedIds[id]) { id = base + "-" + n; n++; }
+          usedIds[id] = true;
+          heading.id = id;
+        } else {
+          usedIds[heading.id] = true;
+        }
+
+        // Skip if an anchor is already present (idempotent)
+        if (heading.querySelector(".heading-anchor")) return;
+
+        // Create wrapper to hold both anchor and tooltip
+        var wrapper = document.createElement("span");
+        wrapper.className = "heading-anchor-wrapper";
+
+        var anchor = document.createElement("a");
+        anchor.className = "heading-anchor";
+        anchor.href = "#" + heading.id;
+        anchor.setAttribute("aria-label", "复制此标题链接");
+        anchor.title = "复制标题链接";
+
+        var tip = document.createElement("span");
+        tip.className = "heading-anchor__copied";
+        tip.textContent = "已复制";
+
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var url = location.origin + location.pathname + "#" + heading.id;
+          copyToClipboard(url).then(
+            function () {
+              tip.classList.add("is-visible");
+              setTimeout(function () { tip.classList.remove("is-visible"); }, 1400);
+              history.replaceState(null, "", "#" + heading.id);
+            },
+            function () { /* silently ignore copy failures */ }
+          );
+        });
+
+        wrapper.appendChild(anchor);
+        wrapper.appendChild(tip);
+        heading.appendChild(wrapper);
+      });
+
+      // 2. Build the sidebar TOC from h2/h3 only
+      const tocHeadings = contentArea.querySelectorAll("h2, h3");
+
+      if (tocContainer && tocHeadings.length > 1) {
         if (tocCard) tocCard.style.display = "block";
 
         const tocList = document.createElement("ul");
         tocList.className = "toc__list";
 
-        headings.forEach(function (heading, index) {
-          if (!heading.id) {
-            heading.id = "heading-" + index;
-          }
-
-          const li = document.createElement("li");
+        tocHeadings.forEach(function (heading) {
+          var li = document.createElement("li");
           li.className = heading.tagName === "H2" ? "toc__item" : "toc__item toc__item--sub";
 
-          const a = document.createElement("a");
+          // Extract text content, excluding the anchor wrapper element
+          var text = "";
+          heading.childNodes.forEach(function (node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+              text += node.textContent;
+            } else if (node.nodeType === Node.ELEMENT_NODE && !node.classList.contains("heading-anchor-wrapper")) {
+              // Include text from other elements (like <code>, <strong>, etc.) but not the anchor wrapper
+              text += node.textContent;
+            }
+          });
+          text = text.trim();
+
+          var a = document.createElement("a");
           a.href = "#" + heading.id;
-          a.textContent = heading.textContent;
+          a.textContent = text;
 
           li.appendChild(a);
           tocList.appendChild(li);
 
           a.addEventListener("click", function (e) {
             e.preventDefault();
-            const target = document.getElementById(heading.id);
+            var target = document.getElementById(heading.id);
             if (target) {
               target.scrollIntoView({ behavior: "smooth", block: "start" });
               history.pushState(null, "", "#" + heading.id);
@@ -135,11 +261,11 @@
         tocContainer.appendChild(tocList);
 
         // Scroll spy: highlight current TOC item
-        const tocLinks = tocContainer.querySelectorAll("a");
+        var tocLinks = tocContainer.querySelectorAll("a");
         window.addEventListener("scroll", function () {
-          let current = "";
-          headings.forEach(function (heading) {
-            const rect = heading.getBoundingClientRect();
+          var current = "";
+          tocHeadings.forEach(function (heading) {
+            var rect = heading.getBoundingClientRect();
             if (rect.top <= 100) {
               current = heading.id;
             }
@@ -175,110 +301,173 @@
 })();
 
 (function () {
-    const searchBtn = document.getElementById("searchBtn");
-    const searchModal = document.getElementById("searchModal");
-    const searchOverlay = document.getElementById("searchOverlay");
-    const searchClose = document.getElementById("searchClose");
-    const searchInput = document.getElementById("searchInput");
-    const searchResults = document.getElementById("searchResults");
+    var searchBtn = document.getElementById("searchBtn");
+    var searchModal = document.getElementById("searchModal");
+    var searchOverlay = document.getElementById("searchOverlay");
+    var searchClose = document.getElementById("searchClose");
+    var searchInput = document.getElementById("searchInput");
+    var searchResults = document.getElementById("searchResults");
 
     if (!searchBtn || !searchModal) return;
 
-    let searchIndex = null;
-    let loaded = false;
+    var fuse = null;          // Fuse.js instance, lazy-built
+    var state = "idle";       // idle | loading | ready | error
+    var debounceTimer = null;
+
+    /* ---------- escape HTML to prevent injection from index ---------- */
+    function esc(str) {
+      return String(str == null ? "" : str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    /* ---------- build a snippet around the first match in content ---------- */
+    function snippet(text, query) {
+      if (!text) return "";
+      var lower = text.toLowerCase();
+      var at = lower.indexOf(query.toLowerCase());
+      if (at === -1) {
+        // fallback: no direct match (Fuse fuzzy matched) — take the excerpt head
+        return text.length > 110 ? text.slice(0, 110) + "…" : text;
+      }
+      var start = Math.max(0, at - 50);
+      var end = Math.min(text.length, at + query.length + 60);
+      return (start > 0 ? "…" : "") + text.slice(start, end) + (end < text.length ? "…" : "");
+    }
+
+    function renderEmpty(msg) {
+      if (searchResults) searchResults.innerHTML = '<div class="search-modal__empty">' + esc(msg) + "</div>";
+    }
 
     function openModal() {
       searchModal.classList.add("active");
-      document.body.style.overflow = "hidden";
-      setTimeout(function () {
-        if (searchInput) searchInput.focus();
-      }, 150);
-      if (!loaded) loadIndex();
+      lockScroll();
+      setTimeout(function () { if (searchInput) searchInput.focus(); }, 150);
+      if (state === "idle") loadIndex();
     }
 
     function closeModal() {
       searchModal.classList.remove("active");
-      document.body.style.overflow = "";
+      unlockScroll();
       if (searchInput) searchInput.value = "";
-      if (searchResults) {
-        searchResults.innerHTML = '<div class="search-modal__empty">输入关键词开始搜索</div>';
-      }
+      renderEmpty("输入关键词开始搜索");
     }
 
     function loadIndex() {
+      state = "loading";
+      renderEmpty("正在加载搜索索引…");
       fetch("/search.json")
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          searchIndex = data;
-          loaded = true;
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
         })
-        .catch(function () {
-          if (searchResults) {
-            searchResults.innerHTML = '<div class="search-modal__empty">搜索索引加载失败</div>';
+        .then(function (data) {
+          if (typeof Fuse === "undefined") {
+            throw new Error("Fuse.js 未加载");
           }
+          fuse = new Fuse(data, {
+            keys: [
+              { name: "title", weight: 0.5 },
+              { name: "excerpt", weight: 0.25 },
+              { name: "content", weight: 0.15 },
+              { name: "tags", weight: 0.05 },
+              { name: "categories", weight: 0.05 }
+            ],
+            includeScore: true,
+            includeMatches: true,
+            threshold: 0.35,          // 0 = exact, 1 = match anything
+            ignoreLocation: true,     // matches anywhere in long CJK text
+            minMatchCharLength: 1,    // allow single CJK char queries
+            distance: 1000
+          });
+          state = "ready";
+          // re-run whatever the user has typed (in case they typed during load)
+          if (searchInput && searchInput.value.trim()) doSearch(searchInput.value);
+          else renderEmpty("输入关键词开始搜索");
+        })
+        .catch(function (err) {
+          state = "error";
+          renderEmpty("搜索索引加载失败：" + (err.message || err));
         });
     }
 
     function doSearch(query) {
       if (!searchResults) return;
-      query = query.trim().toLowerCase();
-      if (!query || !searchIndex) {
-        searchResults.innerHTML = '<div class="search-modal__empty">' +
-          (!query ? "输入关键词开始搜索" : "正在加载搜索索引...") + "</div>";
+      query = query.trim();
+      if (!query) {
+        renderEmpty("输入关键词开始搜索");
+        return;
+      }
+      if (state !== "ready") {
+        renderEmpty(state === "loading" ? "正在加载搜索索引…" : "搜索索引加载失败");
         return;
       }
 
-      var results = searchIndex.filter(function (item) {
-        return (item.title && item.title.toLowerCase().indexOf(query) !== -1) ||
-               (item.excerpt && item.excerpt.toLowerCase().indexOf(query) !== -1) ||
-               (item.tags && item.tags.some(function (t) { return t.toLowerCase().indexOf(query) !== -1; })) ||
-               (item.categories && item.categories.some(function (c) { return c.toLowerCase().indexOf(query) !== -1; }));
-      });
-
-      if (results.length === 0) {
-        searchResults.innerHTML = '<div class="search-modal__empty">未找到匹配结果</div>';
+      var results = fuse.search(query).slice(0, 20);
+      if (!results.length) {
+        renderEmpty("未找到匹配结果");
         return;
       }
 
       var html = "";
-      results.slice(0, 20).forEach(function (item) {
-        var excerpt = item.excerpt || "";
-        var snippet = excerpt.length > 120 ? excerpt.substring(0, 120) + "…" : excerpt;
-        var tagsHtml = item.tags && item.tags.length
-          ? item.tags.slice(0, 3).map(function (t) { return '<span class="search-modal__tag">' + t + "</span>"; }).join("")
-          : "";
-        html += '<a href="' + item.url + '" class="search-modal__result" onclick="document.getElementById(\'searchModal\').classList.remove(\'active\');document.body.style.overflow=\'\'">' +
-          '<div class="search-modal__result-title">' + item.title + "</div>" +
-          (snippet ? '<div class="search-modal__result-snippet">' + snippet + "</div>" : "") +
-          (tagsHtml ? '<div class="search-modal__result-tags">' + tagsHtml + "</div>" : "") +
+      results.forEach(function (res) {
+        var item = res.item;
+        var matchKey = "excerpt";
+        // find the highest-priority matched field for snippet context
+        if (res.matches && res.matches.length) {
+          for (var i = 0; i < res.matches.length; i++) {
+            if (res.matches[i].key === "title")   { matchKey = "title"; break; }
+            if (res.matches[i].key === "content") { matchKey = "content"; }
+          }
+        }
+        var body = matchKey === "content" ? item.content : (item.excerpt || item.content || "");
+        var snip = snippet(body, query);
+        var tagsHtml = "";
+        if (item.tags && item.tags.length) {
+          tagsHtml = item.tags.slice(0, 3).map(function (t) {
+            return '<span class="search-result-item__tag">' + esc(t) + "</span>";
+          }).join("");
+        }
+        html += '<a href="' + esc(item.url) + '" class="search-result-item">' +
+          '<div class="search-result-item__title">' + esc(item.title) + "</div>" +
+          (snip ? '<div class="search-result-item__excerpt">' + esc(snip) + "</div>" : "") +
+          (tagsHtml ? '<div class="search-result-item__tags">' + tagsHtml + "</div>" : "") +
           "</a>";
       });
       searchResults.innerHTML = html;
     }
 
-    // Event listeners
+    /* ---------- events ---------- */
     searchBtn.addEventListener("click", openModal);
-
     if (searchOverlay) searchOverlay.addEventListener("click", closeModal);
     if (searchClose) searchClose.addEventListener("click", closeModal);
 
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && searchModal.classList.contains("active")) {
-        closeModal();
-      }
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        e.preventDefault();
-        if (searchModal.classList.contains("active")) {
-          closeModal();
-        } else {
-          openModal();
+    // close any result link without leaving the modal open
+    if (searchResults) {
+      searchResults.addEventListener("click", function (e) {
+        if (e.target.closest("a")) {
+          searchModal.classList.remove("active");
+          unlockScroll();
         }
+      });
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && searchModal.classList.contains("active")) closeModal();
+      if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) {
+        e.preventDefault();
+        if (searchModal.classList.contains("active")) closeModal();
+        else openModal();
       }
     });
 
     if (searchInput) {
       searchInput.addEventListener("input", function () {
-        doSearch(this.value);
+        clearTimeout(debounceTimer);
+        var val = this.value;
+        debounceTimer = setTimeout(function () { doSearch(val); }, 150);
       });
     }
   })();

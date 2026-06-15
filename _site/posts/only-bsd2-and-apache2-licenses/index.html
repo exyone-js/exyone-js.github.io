@@ -9,14 +9,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Eleventy v3">
 
-<title>为什么我只用 BSD-2-Clause 和 Apache 2.0 - EXYONE@BLOG:~$</title>
+<title>为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观 - EXYONE@BLOG:~$</title>
 <meta name="description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="author" content="Exyone.dev">
 
 <!-- ========================================================== -->
 <!--  Open Graph / Social Preview                                -->
 <!-- ========================================================== -->
-<meta property="og:title" content="为什么我只用 BSD-2-Clause 和 Apache 2.0 - EXYONE@BLOG:~$">
+<meta property="og:title" content="为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观 - EXYONE@BLOG:~$">
 <meta property="og:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://exyon.ee/posts/only-bsd2-and-apache2-licenses/">
@@ -29,7 +29,7 @@
 <!-- ========================================================== -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@exyone_frosty">
-<meta name="twitter:title" content="为什么我只用 BSD-2-Clause 和 Apache 2.0 - EXYONE@BLOG:~$">
+<meta name="twitter:title" content="为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观 - EXYONE@BLOG:~$">
 <meta name="twitter:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
 <meta name="twitter:image" content="https://exyon.ee/assets/images/avatar.png">
 
@@ -41,22 +41,9 @@
 
 
 <!-- ========================================================== -->
-<!--  Font Awesome 6 (Free)                                      -->
-<!-- ========================================================== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- ========================================================== -->
 <!--  Stylesheets                                                -->
 <!-- ========================================================== -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/css/main.css">
-
-<!-- ========================================================== -->
-<!--  Google Fonts (via loli.net mirror)                          -->
-<!-- ========================================================== -->
-<link rel="preconnect" href="https://fonts.loli.net">
-<link rel="preconnect" href="https://gfonts.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <!-- RSS Feed -->
 <link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
@@ -78,14 +65,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "为什么我只用 BSD-2-Clause 和 Apache 2.0",
-  "description": "深夜。屏幕上的光标闪烁。我在 GitHub 上创建新仓库，鼠标停在&quot;Choose a license&quot;下拉菜单上。GPL、MIT、Apache、BSD——每个选项背后都是一场哲学辩论。",
-  "datePublished": "2024-01-16T00:00:00Z",
-  "dateModified": "2024-01-16T00:00:00Z",
+  "headline": "为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观",
+  "description": "大多数开源项目在用 GPL 或 MIT。这两个我都不喜欢。这些年，我不再盲目追主流。GPL 的&quot;父爱式管制&quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&quot;毫无节制的宽容&quot;也不对味——说&quot;随便用&quot;等于放弃所有责任。我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 BSD，尤其是 BSD-2-Clause。",
+  "datePublished": "2025-01-16T00:00:00Z",
+  "dateModified": "2025-01-16T00:00:00Z",
   "author": {
     "@type": "Person",
     "name": "Exyone.dev",
-    "url": "https://github.com/exyone-labs"
+    "url": "https://github.com/eiraud-fishball"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -103,7 +90,7 @@
 
   <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#7c6faa">
+  <meta name="theme-color" content="#f2efe8">
 
   <!-- Analytics: Umami -->
   
@@ -115,12 +102,6 @@
   
 </head>
 <body>
-  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
-  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
-
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
 
@@ -146,18 +127,30 @@
     <div class="header-tools">
       <!-- Search -->
       <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
-        <i class="fas fa-search"></i>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
       </button>
 
       <!-- Theme Toggle -->
       <div class="header-tools__btn header-theme-toggle" id="themeToggle">
-        <i class="fas fa-moon theme-icon-dark"></i>
-        <i class="fas fa-sun theme-icon-light"></i>
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+        </svg>
       </div>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
-      <i class="fas fa-bars"></i>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
@@ -167,29 +160,28 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author Card -->
+  <!-- Author Card — Text Only -->
   <div class="left-nav__author">
-    <div class="left-nav__avatar">
-      <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
-    </div>
     <h2 class="left-nav__author-name">Exyone.dev</h2>
     <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
     <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
     <p class="left-nav__author-desc">将好奇心转化为代码</p>
     <div class="left-nav__social">
       
-        <a href="https://github.com/exyone-labs" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/eiraud-fishball" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.61 8.21 11.16.6.11.82-.25.82-.57 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.57-2.67-.3-5.47-1.31-5.47-5.84 0-1.29.47-2.34 1.24-3.17-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 6 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.66.25 2.88.12 3.18.77.83 1.24 1.88 1.24 3.17 0 4.54-2.81 5.54-5.49 5.83.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.69.83.57A12.04 12.04 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
         </a>
       
       
         <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
-          <i class="fab fa-twitter"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
         </a>
       
       
         <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
-          <i class="fas fa-envelope"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
         </a>
       
     </div>
@@ -200,28 +192,28 @@
     
       <a href="/" class="left-nav__item">
         
-          <i class="fas fa-house"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/></svg>
         
         <span>首页</span>
       </a>
     
       <a href="/categories/" class="left-nav__item">
         
-          <i class="fas fa-layer-group"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         
         <span>分类</span>
       </a>
     
       <a href="/tags/" class="left-nav__item">
         
-          <i class="fas fa-tags"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         
         <span>标签</span>
       </a>
     
       <a href="/archive/" class="left-nav__item">
         
-          <i class="fas fa-box-archive"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="4"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
         
         <span>归档</span>
       </a>
@@ -265,7 +257,7 @@
     <header class="post-detail__header">
       <!-- Title row: categories + title on the same line -->
       <div class="post-detail__title-row">
-        <h1 class="post-detail__title">为什么我只用 BSD-2-Clause 和 Apache 2.0</h1>
+        <h1 class="post-detail__title">为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观</h1>
         
           <div class="post-detail__categories">
             
@@ -279,7 +271,7 @@
       
         <div class="post-detail__tags mb-3">
           
-            <a href="/tags/open-source/" class="tag-badge">#open-source</a>
+            <a href="/tags/open-source/" class="tag-badge">#开源</a>
           
             <a href="/tags/programming/" class="tag-badge">#编程</a>
           
@@ -294,7 +286,7 @@
             <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
             <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          发布于 2024-01-16
+          发布于 2025-01-16
         </span>
         
         
@@ -312,7 +304,7 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
           </svg>
-          88 字
+          73 字
         </span>
         
       </div>
@@ -322,31 +314,24 @@
     <!--  Excerpt                                                      -->
     <!-- ============================================================ -->
     
-      <div class="post-detail__excerpt">深夜。屏幕上的光标闪烁。我在 GitHub 上创建新仓库，鼠标停在&quot;Choose a license&quot;下拉菜单上。GPL、MIT、Apache、BSD——每个选项背后都是一场哲学辩论。</div>
+      <div class="post-detail__excerpt">大多数开源项目在用 GPL 或 MIT。这两个我都不喜欢。这些年，我不再盲目追主流。GPL 的&quot;父爱式管制&quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&quot;毫无节制的宽容&quot;也不对味——说&quot;随便用&quot;等于放弃所有责任。我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 BSD，尤其是 BSD-2-Clause。</div>
     
 
     <!-- ============================================================ -->
     <!--  Article Content                                              -->
     <!-- ============================================================ -->
     <div class="post-detail__content">
-      <h2>为什么我只用 BSD-2-Clause 和 Apache 2.0</h2>
-<p>深夜。屏幕上的光标闪烁。我在 GitHub 上创建新仓库，鼠标停在&quot;Choose a license&quot;下拉菜单上。GPL、MIT、Apache、BSD——每个选项背后都是一场哲学辩论。</p>
-<p>大多数开源项目都在用 <strong>GPL</strong> 或 <strong>MIT</strong>。这两个我都不喜欢。说说是为什么。</p>
-<p>这些年，我不再盲目追主流。GPL 的&quot;父爱式管制&quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&quot;毫无节制的宽容&quot;也不对味——说&quot;随便用&quot;等于放弃所有责任。</p>
-<p>我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 <strong>BSD</strong>，尤其是 <strong>BSD-2-Clause</strong>。</p>
-<p>许可证从限制性到宽松性，像一条光谱。GPL 和 MIT 站在两端，我都避开。</p>
-<p>GPL 认为真正的自由需要法律强制。它用法律确保代码被修改时，开源精神能一直传递。听起来高尚，可它是通过限制开发者来保护用户。这和我的&quot;最大自由&quot;原则冲突。我希望用户自由，但不想以牺牲开发者对代码的掌控为代价。</p>
-<p>1983年，Richard Stallman 在麻省理工学院的实验室里，打印机卡纸了。他想修改打印机驱动程序，但厂商拒绝提供源代码。那一刻，他决定创建一个完全自由的操作系统——GNU。GPL 就这样诞生了。Stallman 的理想是崇高的，但他的方法是通过法律强制来实现自由。这就像一个父亲，为了保护孩子，制定了一整套规则，限制孩子的行为。孩子确实安全了，但也失去了探索的自由。</p>
-<p>MIT 走向另一个极端，太天真了。把代码扔出去说&quot;随便你怎么用&quot;，听起来开放，实则是放弃所有作为作者的道德主张。按 MIT 的规则，别人能把你名字完全抹掉，能用你的作品干坏事，甚至能用专利攻击别人——MIT 根本没专利保护条款，而且完全没回馈义务。这不是自由，是放弃责任。</p>
-<p><strong>BSD-2-Clause</strong> 找到了中间地带。又叫简化 BSD 或 FreeBSD 许可证，就两个要求：保留版权声明，加个免责声明。就这么多——没更多法律条款要读。</p>
-<p><strong>BSD-2-Clause</strong> 给的自由很惊人。你可以把代码用在任何地方：商业、个人、教育。随便改。可以闭源分发，不用开源自己的修改。可以整合到完全不同许可证的项目里。没专利报复条款的麻烦。不像 GPL，没有&quot;传染性&quot;要求逼你把自己的代码也开源。</p>
-<p>但 <strong>BSD-2-Clause</strong> 仍保留基本标准。用户必须通过署名承认你的工作——不能假装是他们写的。你也受责任保护：有人用你代码出问题，那是他们的事，不是你的。</p>
-<p>为什么不用 <strong>BSD-3-Clause</strong>？第三条款说未经许可不能用作者名字为产品背书。理论上合理，实际中却很少被违反。它给大多数小项目添了不必要的法律复杂性，而且真想滥用你代码的人总会找到办法绕开。BSD-2 更干净，更贴合&quot;最小约束&quot;的原则。</p>
-<p>我根据不同场景用不同许可证。个人项目——脚本、小库、实验代码——一律 <strong>BSD-2-Clause</strong>。简单，鼓励使用和分享，不用操心法律问题，符合我的理念。大项目，尤其是框架或涉及专利的代码，我更爱 <strong>Apache 2.0</strong>。现代软件里专利保护很重要，Apache 在这方面处理得好，同时还保持宽松。文档和创意作品用 <strong>CC BY 4.0</strong>，专门为创意作品设计，署名要求清楚。</p>
-<p>刻意避开的许可证：<strong>GPL</strong> 和&quot;最大自由&quot;原则冲突。<strong>MIT</strong> 太宽松，放弃太多。<strong>SSPL</strong>、<strong>BSL</strong> 之类的&quot;源码可用&quot;许可证不是真正的开源——就算源代码可见，它们也限制你怎么用代码。</p>
-<p>给刚起步的开发者建议：从 <strong>BSD-2</strong> 开始。它直截了当，不会用一堆条款把你搞晕。在 README 开头用白话把许可证说清楚。项目里保持一致。想清楚你的受众：要广泛传播就用 BSD 或 Apache 这样的宽松许可证；做社区项目可以考虑 MPL 这样的弱 copyleft。有强烈的道德立场？去研究研究 <strong>Hippocratic License</strong> 这类变体。</p>
+      <p>大多数开源项目在用 GPL 或 MIT。这两个我都不喜欢。这些年，我不再盲目追主流。GPL 的&quot;父爱式管制&quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&quot;毫无节制的宽容&quot;也不对味——说&quot;随便用&quot;等于放弃所有责任。我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 BSD，尤其是 BSD-2-Clause。</p>
+<p>许可证从限制性到宽松性，像一条光谱。GPL 和 MIT 站在两端，我都避开。GPL 认为真正的自由需要法律强制。它用法律确保代码被修改时，开源精神能一直传递。听起来高尚，可它是通过限制开发者来保护用户。这和我的&quot;最大自由&quot;原则冲突。我希望用户自由，但不想以牺牲开发者对代码的掌控为代价。</p>
+<p>1983 年，Richard Stallman 在麻省理工学院的实验室里，打印机卡纸了。他想修改打印机驱动程序，但厂商拒绝提供源代码。那一刻，他决定创建一个完全自由的操作系统——GNU。GPL 就这样诞生了。Stallman 的理想是崇高的，但他的方法是通过法律强制来实现自由。这就像一个父亲，为了保护孩子制定了一整套规则，限制孩子的行为。孩子确实安全了，但也失去了探索的自由。</p>
+<p>MIT 走向另一个极端，太天真了。把代码扔出去说&quot;随便你怎么用&quot;，听起来开放，实则是放弃所有作为作者的道德主张。按 MIT 的规则，别人能把你名字完全抹掉，能用你的作品干坏事，甚至能用专利攻击别人——MIT 根本没专利保护条款，而且完全没有回馈义务。这不是自由，是放弃责任。</p>
+<p>BSD-2-Clause 找到了中间地带。它又叫简化 BSD 或 FreeBSD 许可证，就两个要求：保留版权声明，加个免责声明。就这么多，没有更多法律条款要读。它给的自由很惊人。你可以把代码用在任何地方：商业、个人、教育。随便改。可以闭源分发，不用开源自己的修改。可以整合到完全不同许可证的项目里。没有专利报复条款的麻烦。不像 GPL，没有&quot;传染性&quot;要求逼你把自己的代码也开源。但 BSD-2-Clause 仍保留基本标准：用户必须通过署名承认你的工作，不能假装是他们写的；你也受责任保护，有人用你代码出问题，那是他们的事，不是你的。</p>
+<p>为什么不用 BSD-3-Clause？第三条款说未经许可不能用作者名字为产品背书。理论上合理，实际中却很少被违反。它给大多数小项目添了不必要的法律复杂性，而且真想滥用你代码的人总会找到办法绕开。BSD-2 更干净，更贴合&quot;最小约束&quot;的原则。</p>
+<p>我根据不同场景用不同许可证。个人项目——脚本、小库、实验代码——一律 BSD-2-Clause，简单，鼓励使用和分享。大项目，尤其是框架或涉及专利的代码，我用 Apache 2.0。现代软件里专利保护很重要，Apache 在这方面处理得好，同时还保持宽松。文档和创意作品用 CC BY 4.0，署名要求清楚。</p>
+<p>刻意避开的许可证：GPL 和&quot;最大自由&quot;原则冲突。MIT 太宽松，放弃太多。SSPL、BSL 之类的&quot;源码可用&quot;许可证不是真正的开源——就算源代码可见，它们也限制你怎么用代码。</p>
+<p>给刚起步的开发者建议：从 BSD-2 开始。它直截了当，不会用一堆条款把你搞晕。在 README 开头用白话把许可证说清楚。项目里保持一致。想清楚你的受众：要广泛传播就用 BSD 或 Apache 这样的宽松许可证；做社区项目可以考虑 MPL 这样的弱 copyleft。有强烈的道德立场？去研究研究 Hippocratic License 这类变体。</p>
 <p>选许可证不只是技术决定，是价值观的表达。MIT 说&quot;我不管，随便用&quot;。GPL 说&quot;你可以用，但得听我的——我定义你的自由&quot;。Apache 试图平衡：&quot;自由用，但我们互相保护&quot;。BSD 说&quot;这是我送你的礼物。记得谁给的，然后去创造点伟大的东西&quot;。</p>
-<p><strong>BSD-2-Clause</strong> 简洁优雅。有时候，最简单的就是最好的。</p>
+<p>BSD-2-Clause 简洁优雅。有时候，最简单的就是最好的。</p>
 <p><em>本文采用 BSD-2-Clause 许可证发布。你可以自由使用、修改、分发，只需保留原始署名和许可证声明。</em></p>
 
     </div>
@@ -358,7 +343,7 @@
       
         <div class="post-detail__footer-tags">
           
-            <a href="/tags/open-source/" class="tag-badge">#open-source</a>
+            <a href="/tags/open-source/" class="tag-badge">#开源</a>
           
             <a href="/tags/programming/" class="tag-badge">#编程</a>
           
@@ -380,16 +365,16 @@
           <span class="post-nav-arrow">←</span>
           上一篇
         </span>
-        <span class="post-nav-title">深入体验ProtonMail：不值！</span>
+        <span class="post-nav-title">ProtonMail 为什么不值得买：一个隐私邮箱的真相</span>
       </a>
     
     
-      <a href="/posts/goodbye-github-hello-codeberg/" class="post-nav-link post-nav-link--next">
+      <a href="/posts/openlist-zfile-cloud-drive-tools/" class="post-nav-link post-nav-link--next">
         <span class="post-nav-direction">
           下一篇
           <span class="post-nav-arrow">→</span>
         </span>
-        <span class="post-nav-title">告别微软霸权的GitHub，拥抱真正开源的家园CodeBerg</span>
+        <span class="post-nav-title">在 Zfile 和 OpenList 上挂载天翼云盘：一个设备锁问题的解决记录</span>
       </a>
     
   </nav>
@@ -403,17 +388,17 @@
     <div class="related-posts__grid">
       
       
-      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
-        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
+      <a href="/posts/building-eleventy-blog-system/" class="related-post-card">
+        <h3 class="related-post-card__title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</h3>
         <div class="related-post-card__meta">
-          <span>2026-04-26</span>
+          <span>2026-06-15</span>
           <span>·</span>
-          <span>3 分钟阅读</span>
+          <span>1 分钟阅读</span>
         </div>
       </a>
       
-      <a href="/posts/jekyll-chirpy-trial-and-error/" class="related-post-card">
-        <h3 class="related-post-card__title">Jekyll 与 Chirpy：一段试错之旅</h3>
+      <a href="/posts/chirpy-twikoo-comment-plugin/" class="related-post-card">
+        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
         <div class="related-post-card__meta">
           <span>2026-04-26</span>
           <span>·</span>
@@ -430,21 +415,28 @@
         </div>
       </a>
       
+      <a href="/posts/docker-tinkering-lessons-learned/" class="related-post-card">
+        <h3 class="related-post-card__title">折腾 Docker 和面板之后，我决定不折腾了</h3>
+        <div class="related-post-card__meta">
+          <span>2026-03-25</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
     </div>
   </section>
   
 
-  <!-- ============================================================ -->
-  <!--  Comments Section (Giscus)                                   -->
-  <!-- ============================================================ -->
   
-  <section class="comments-section" id="comments">
-    <h2 class="comments-section__title">评论</h2>
-    <div id="twikoo-comments"></div>
-    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
-    <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
-  </section>
-  
+
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+</section>
+
+
 </main>
 
 
@@ -452,7 +444,7 @@
   <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       目录
     </h3>
     <nav class="toc" id="toc"></nav>
@@ -461,12 +453,12 @@
   <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       站点统计
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">25</span>
+        <span class="site-info-card__stat-value">20</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
@@ -474,7 +466,7 @@
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">40</span>
+        <span class="site-info-card__stat-value">19</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
@@ -488,13 +480,13 @@
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-folder-open" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg>
       分类
     </h3>
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">10</span></a>
         </li>
       
         <li class="categories-list__item">
@@ -502,101 +494,45 @@
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">4</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- Tag Cloud -->
+  <!-- Sidebar Tags -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-tags" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       标签
     </h3>
-    <div class="tag-cloud">
+    <div class="sidebar-tags">
       
-        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
+        <a href="/tags/tutorial/" class="sidebar-tags__item" data-count="8">教程</a>
       
-        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
+        <a href="/tags/fountain-pen/" class="sidebar-tags__item" data-count="5">钢笔</a>
       
-        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
+        <a href="/tags/history/" class="sidebar-tags__item" data-count="4">历史</a>
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
+        <a href="/tags/programming/" class="sidebar-tags__item" data-count="4">编程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
+        <a href="/tags/blog/" class="sidebar-tags__item" data-count="3">博客</a>
       
-        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+        <a href="/tags/review/" class="sidebar-tags__item" data-count="3">评测</a>
       
-        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+        <a href="/tags/open-source/" class="sidebar-tags__item" data-count="3">开源</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+        <a href="/tags/deployment/" class="sidebar-tags__item" data-count="3">部署</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+        <a href="/tags/productivity/" class="sidebar-tags__item" data-count="2">效率</a>
       
-        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+        <a href="/tags/email/" class="sidebar-tags__item" data-count="2">邮件</a>
       
-        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+        <a href="/tags/privacy/" class="sidebar-tags__item" data-count="2">隐私</a>
       
-        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
-      
-        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
-      
-        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
-      
-        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
-      
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
-      
-        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
-      
-        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
-      
-        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
-      
-        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
-      
-        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
-      
-        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
-      
-        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
-      
-        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
-      
-        <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
-      
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
-      
-        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
-      
-        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
-      
-        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
-      
-        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
-      
-        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
-      
-        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
-      
-        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
-      
-        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
-      
-        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
-      
-        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
-      
-        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
-      
-        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
-      
-        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
-      
-        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
+        <a href="/tags/input-method/" class="sidebar-tags__item" data-count="1">输入法</a>
       
     </div>
   </div>
@@ -609,27 +545,47 @@
   
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+    <nav class="site-footer__links">
+      
+        <a href="/">首页</a>
+      
+        <a href="/categories/">分类</a>
+      
+        <a href="/tags/">标签</a>
+      
+        <a href="/archive/">归档</a>
+      
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      
+        <a href="https://github.com/eiraud-fishball" target="_blank" rel="noopener">GitHub</a>
+      
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
 
   <!-- Back to Top -->
   <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
-    <i class="fas fa-chevron-up"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
   </button>
-
-  <script src="/assets/js/main.js"></script>
 
   <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
       <div class="search-modal__header">
-        <i class="fas fa-search search-modal__icon"></i>
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
         <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
-          <i class="fas fa-times"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
       <div class="search-modal__results" id="searchResults">
@@ -638,10 +594,15 @@
     </div>
   </div>
 
-  <!-- PWA: Service Worker Registration -->
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
   
   <script>
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js');
       });

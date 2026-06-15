@@ -1,0 +1,26 @@
+---
+layout: base.njk
+title: 分类
+permalink: /categories/
+---
+{# ================================================================
+   Categories Overview Page (Template Layer)
+   Displays all categories in a grid layout with post counts.
+   ================================================================ #}
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <h1 class="page-title">分类</h1>
+  <p class="page-subtitle">共 {{ collections.categories.length }} 个分类</p>
+  <section class="categories-grid">
+    {% for cat in collections.categories %}
+      <a href="/categories/{{ cat.slug }}/" class="categories-grid__card">
+        <span class="categories-grid__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg></span>
+        <span class="categories-grid__name">{{ cat.name }}</span>
+        <span class="categories-grid__count">{{ cat.posts.length }} 篇文章</span>
+      </a>
+    {% endfor %}
+  </section>
+</main>
+
+{% include "sidebar-right.njk" %}

@@ -1,0 +1,26 @@
+---
+permalink: /assets/manifest.json
+permalinkExtension: json
+eleventyExcludeFromCollections: true
+---
+{
+  "name": "{{ pwa.name }}",
+  "short_name": "{{ pwa.short_name }}",
+  "description": "{{ pwa.description }}",
+  "start_url": "{{ pwa.start_url }}",
+  "display": "{{ pwa.display }}",
+  "background_color": "{{ pwa.background_color }}",
+  "theme_color": "{{ pwa.theme_color }}",
+  "orientation": "{{ pwa.orientation }}",
+  "lang": "{{ pwa.lang }}",
+  "icons": [
+    {%- for icon in pwa.icons %}
+    {
+      "src": "{{ icon.src }}",
+      "sizes": "{{ icon.sizes }}",
+      "type": "{{ icon.type }}",
+      "purpose": "{{ icon.purpose }}"
+    }{% if not loop.last %},{% endif %}
+    {%- endfor %}
+  ]
+}

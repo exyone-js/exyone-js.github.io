@@ -20,31 +20,26 @@
 Author: Exyone.dev — software developer based in China, turning curiosity into code.
 
 ## Posts
-- [中国古董钢笔厂商的上世纪印记：英雄、永生、金星与鸵鸟墨水的时代故事](/posts/chinese-vintage-pen-history/): 上世纪。上海西藏南路的厂房里，机器轰鸣。工人穿着蓝色工装，手指沾满机油。钢笔尖在冲压机下成型，发出清脆的金属声。这是1931年的上海，华孚金笔厂刚刚起步。
-- [日本钢笔御三家：百乐、白金、写乐的墨香传承](/posts/japanese-fountain-pen-trinity/): 日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。本文续前尘，借可靠史料，铺陈其上世纪（1901-2000年）往事、关键节...
-- [欧美钢笔厂商的故事：万宝龙、百利金、水人、派克、犀飞利](/posts/western-fountain-pen-history/): 汉堡的冬天。1906年。银行家Claus-Johannes Voss和工程师August Eberstein坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。
-- [小米兰亭：更适合长文阅读的字体](/posts/misans-font-for-long-reading/): 深夜。屏幕的光线刺眼。我在调整博客字体，眼睛盯着屏幕上的文字，一行一行地读。更纱黑体、思源黑体、小米兰亭——每个字体都在争夺我的注意力。
-- [怎么选邮箱？我试了一圈，就说点实在的](/posts/how-to-choose-email-service/): 凌晨三点。手机屏幕亮了。邮件通知。我盯着屏幕，想着：又是垃圾邮件。选邮箱这事，我折腾了挺久。市面上能试的，差不多都试了。现在留着 iCloud 和 QQ 邮箱。要给个通用建议，在国内，Outlook 配 Foxmail 是黄金组合。
-- [深入体验ProtonMail：不值！](/posts/protonmail-review-not-worth-it/): 清晨。咖啡杯放在桌上。屏幕上，ProtonMail的登录界面显示着&quot;Enter your password&quot;。我输入密码，进入邮箱。前段时间介绍各类邮箱时，我提到过 ProtonMail 隐私性好——这似乎是很多人的共识。但最近我仔细体验了一番，发现它其实是个&quot;雷&quot;。
-- [为什么我只用 BSD-2-Clause 和 Apache 2.0](/posts/only-bsd2-and-apache2-licenses/): 深夜。屏幕上的光标闪烁。我在 GitHub 上创建新仓库，鼠标停在&quot;Choose a license&quot;下拉菜单上。GPL、MIT、Apache、BSD——每个选项背后都是一场哲学辩论。
-- [告别微软霸权的GitHub，拥抱真正开源的家园CodeBerg](/posts/goodbye-github-hello-codeberg/): 致那个曾经温柔、如今只剩冰冷算法的旧广场：
-- [浅谈：折腾了这么多博客，为何最后还是回归Halo？](/posts/why-return-to-halo-blog/): 深夜。屏幕上的光标闪烁。我在浏览器里打开Halo后台，点击&quot;新建文章&quot;。键盘敲击声在安静的房间里响起。为了折腾博客，我尝试了很多方案。
-- [不想用GitHub？快来看看这些代码托管平台吧！](/posts/github-alternatives-code-hosting/): 老实说，2025到2026年，GitHub已经不是&quot;偶尔抽风&quot;，而是常态化拉胯了：
-- [从五笔到双拼：一场不得不作的告别](/posts/from-wubi-to-shuangpin/): 深夜。键盘敲击声。屏幕上的汉字一个个出现。我曾是86版五笔的死忠。五笔加加、小鸭五笔、极点五笔……这些名字像老朋友。敲键盘的节奏，熟悉得像呼吸。
-- [Halo主题大评测：一次看完最值得选用的主题！](/posts/halo-theme-comprehensive-review/): 最近一直忙于各种事务，更新文章的时间也少了。虽然本站建于2025年，但近期一直在整理、迁移以往在其他平台发布的旧文，重新编辑上传，因而挤占了原本就不多的写新文章的时间。转眼已进入2026年，是时候更新一波内容了。今天就来和大家聊聊关于 Halo 主题的选择，希望能为大家提供一些参考。
-- [从Eleventy迁移到Hugo，顺便聊聊我为什么要搬家](/posts/migrating-eleventy-to-hugo/): 前阵子，我把备用小站（https://blog.exyone.me）从Eleventy换成了Hugo，现在已经安安稳稳上线了。欢迎随时来逛逛，踩踩新地板～
-- [永生601A：现产唯一的胜利尖钢笔](/posts/yongsheng-601a-triumph-nib/): 说是&quot;现产&quot;，其实上海君来只是把老永生的胜利尖库存，重新装到601A的笔杆上。真正的胜利尖工艺，早跟上世纪末永生制笔厂的变迁一起散了。现在能买到的这些，笔尖还是铱金的，靠的是仅剩的老库存撑着。
-- [NDS与PSP：掌机黄金时代](/posts/nds-psp-handheld-golden-age/): NDS和PSP，大概是掌机史上最势均力敌的一对对手。在2004到2005年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的3A大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。
-- [折腾Docker和面板之后，我决定不折腾了](/posts/docker-tinkering-lessons-learned/): 深夜。服务器机箱的风扇嗡嗡作响。屏幕上，Docker容器的状态一栏显示着&quot;running&quot;。我盯着这些绿色的状态灯，想着：折腾了这么多，最后还是回到了裸机部署。
-- [从一次Minecraft服务器卡顿排查，看容器化部署的正确性](/posts/minecraft-server-lag-debug/): 最近我给服务器安装了杀毒软件ClamAV，随后Minecraft服务器出现了一个奇怪的症状：每隔几分钟就会出现一次明显的卡顿，有时会直接崩溃。作为一名服务器管理员，这种破问题可以说烦得要死。当然Linux经验丰富的我直接锁定了&quot;元凶&quot;——系统安全软件ClamAV。这次问题的解决过程让我深刻体会...
-- [2025 年还在纠结建站用啥？不同技术栈最值得部署的开源神器合集](/posts/self-hosted-awesome-tools-2025/): 互联网这么多年，建站早就不是写代码大神的专属游戏了。想搞个博客？私人网盘？内部代码仓库？还是团队资源导航？开源社区早就把轮子造好了，敲一下 docker-compose up -d就能部署软件。
-- [折腾笔记：从 Misskey 到 Rhex，再到 Discourse，最后我放弃了……但我又回来了](/posts/forum-software-tinkering-journey/): 最近手头有一台配置不算高的 VPS，2G 内存。想着既然闲置也是闲置，不如搭个属于自己的社交平台或者论坛。初衷很简单：能发帖、能互动、别太占资源。结果这一折腾，就是半个多月，中间几度想摔键盘。
-- [在 Zfile / OpenList 上挂载天翼云盘的实用方法](/posts/openlist-zfile-cloud-drive-tools/): 用 OpenList 或 Zfile 这类网盘聚合工具，蓝奏云基本输个密码就行，可天翼云盘总卡在设备锁这一步。网上教程大多让去 e.dlife.cn 扫码关，问题是那页面老转圈圈，二维码根本刷不出来。
-- [CSS 实现正文段落首行缩进的最佳实践](/posts/css-paragraph-text-indent/): 更新 - 由于显示 Bug 较多，目前本站已放弃正文段落首行缩进
-- [犀飞利 帝国二：可能是最适合我的钢笔](/posts/sheaffer-imperial-ii-review/): 午后。阳光透过窗帘，落在书桌上。我手里握着犀飞利帝国二，笔尖在纸上滑动。墨水渗入纸张，留下黑色的痕迹。这支笔，花了300块。
-- [Copilot的数据政策变更：AI时代的开源思考](/posts/copilot-data-policy-open-source/): 深夜。邮件通知。GitHub发来一封邮件，标题是&quot;Copilot隐私政策更新&quot;。我点开，读完，关掉。心里想着：又来了。
-- [Jekyll 与 Chirpy：一段试错之旅](/posts/jekyll-chirpy-trial-and-error/): 事实上，我最初使用的 Jekyll 主题是 Academic Pages。（搭建过程中参考了这篇文章，不过这位大佬似乎有两个 GitHub 账号，今年年初我曾问过他，他的项目大多在 wanng-ide 中，而 wangjunjie-ai 则是用来搭建 Pages 的。）
-- [为 Chirpy 添加 Twikoo 评论：一次插件开发记录](/posts/chirpy-twikoo-comment-plugin/): Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行...
+- [中国古董钢笔厂商：英雄、永生、金星与鸵鸟墨水的时代故事](/posts/chinese-vintage-pen-history/): 上世纪。上海西藏南路的厂房里，机器轰鸣。工人穿着蓝色工装，手指沾满机油。钢笔尖在冲压机下成型，发出清脆的金属声。这是1931年的上海，华孚金笔厂刚刚起步。
+- [Jekyll 与 Chirpy 主题：一位新手博客的试错史](/posts/jekyll-chirpy-trial-and-error/): 事实上，我最初使用的 Jekyll 主题是 Academic Pages。（搭建过程中参考了这篇文章，不过这位大佬似乎有两个 GitHub 账号，今年年初我曾问过他，他的项目大多在 wanng-ide 中，而 wangjunjie-ai 则是用来搭建 Pages 的。）
+- [日本钢笔御三家：百乐、白金、写乐的百年匠心](/posts/japanese-fountain-pen-trinity/): 日本的钢笔工艺如一曲细腻的和歌，悄然绽放百年光华。御三家——百乐、白金、写乐——犹如三位百年匠人，各自守着一隅匠心，却共同绘就了岛国文具的华章。它们从明治末年的舶来之风中崛起，历经战火洗礼与技术革新，铸就了不朽的书写传奇。本文续前尘，借可靠史料，铺陈其上世纪（1901-2000年）往事、关键节...
+- [欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利](/posts/western-fountain-pen-history/): 汉堡的冬天。1906年。银行家Claus-Johannes Voss和工程师August Eberstein坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。
+- [从五笔到双拼：一场不得不作的告别](/posts/from-wubi-to-shuangpin/): 五笔字型的源头，要追溯到1978年。王永民在南阳开始研究汉字输入技术，历经五年实验，最终将汉字拆分为130多个基本字根，分布在标准英文键盘的25个字母键上（Z键用作学习键）。1983年8月28日，这个方案通过鉴定，之后又经过两年改进，于1986年定稿并正式推广，史称&quot;86版五笔&quot;。
+- [永生 601A：现产唯一的胜利尖钢笔](/posts/yongsheng-601a-triumph-nib/): 说是&quot;现产&quot;，其实上海君来只是把老永生的胜利尖库存，重新装到601A的笔杆上。真正的胜利尖工艺，早跟上世纪末永生制笔厂的变迁一起散了。现在能买到的这些，笔尖还是铱金的，靠的是仅剩的老库存撑着。
+- [怎么选邮箱？来看看我的选择历程和建议吧](/posts/how-to-choose-email-service/): 谈谈国内外各个邮箱服务的优缺点，以及我的最终选择。Outlook、Foxmail、iCloud……先聊 Outlook。国际邮箱，国内能直接登，不用折腾。光这一点，就比 Gmail 强。再聊 Foxmail。不得不提 QQ 邮箱，很多人瞧不上，其实功能强。一个 QQ 号能挂三个邮箱：数字 @qq.com、英文 @qq.com，还有重点——Foxmail 邮箱。在 QQ 箱设置里申请 @foxmail.com 地址就行。
+- [NDS 与 PSP：掌机黄金时代的一场经典对决](/posts/nds-psp-handheld-golden-age/): NDS和PSP，大概是掌机史上最势均力敌的一对对手。在2004到2005年之间先后问世，一个是任天堂的创新与巧思的完美结合，另一个是索尼的3A大作、高性能硬件规格在移动设备上的体现，即使理念背道而驰，却都在各自的玩家群体中赢得了空前的成功。
+- [ProtonMail 为什么不值得买：一个隐私邮箱的真相](/posts/protonmail-review-not-worth-it/): ProtonMail 确实是开源的，但只开源前端，后端并不公开。这意味着，我们根本不知道邮件在它的服务器上经历了什么处理。当然，一旦后端也开源，隐私性可能随着代码曝光而降低；可后端不开放，又无法保证服务器不会暗中上传数据。这简直成了一个循环论证——所谓&quot;完全隐私的邮箱&quot;，根本就是个伪命题。
+- [为什么我只用 BSD-2-Clause 和 Apache 2.0：一个开发者的许可证观](/posts/only-bsd2-and-apache2-licenses/): 大多数开源项目在用 GPL 或 MIT。这两个我都不喜欢。这些年，我不再盲目追主流。GPL 的&quot;父爱式管制&quot;让我不舒服——它通过限制开发者来保护用户。MIT 的&quot;毫无节制的宽容&quot;也不对味——说&quot;随便用&quot;等于放弃所有责任。我的原则很简单：只留最基本的约束，把最大的自由给用户。这自然把我引向 BSD，尤其是 BSD-2-Clause。
+- [在 Zfile 和 OpenList 上挂载天翼云盘：一个设备锁问题的解决记录](/posts/openlist-zfile-cloud-drive-tools/): 用 OpenList 或 Zfile 这类网盘聚合工具，蓝奏云基本输个密码就行，可天翼云盘总卡在设备锁这一步。网上教程大多让去 e.dlife.cn 扫码关，问题是那页面老转圈圈，二维码根本刷不出来。
+- [告别 GitHub，拥抱 CodeBerg：一个开发者寻找温暖家园的故事](/posts/goodbye-github-hello-codeberg/): 我们曾拥有一个有温度的数字家园。深夜有人耐心帮你 debug，Issue 区能吵起代码哲学，客服甚至会因为你一句&quot;这个用户名对我意义重大&quot;而手动解锁。那是 2013 到 2018 年的 GitHub。
+- [CSS 实现正文首行缩进：一次排版美学的实践](/posts/css-paragraph-text-indent/): 在搭建这个博客时，我始终觉得，文字的呈现方式本身就是内容的一部分。最近在微调博客样式时，我花了不少时间去雕琢一个看似微不足道，实则关乎阅读气质的细节——中文正文的首行缩进。
+- [犀飞利帝国二：花三百块买到最适合我的钢笔](/posts/sheaffer-imperial-ii-review/): 玩笔的应该都知道胜利尖和TD上墨这些，不多废话。这支笔对我来说真的是完美日用笔：拔插式笔帽、硬笔尖、上墨干净快速……颜值也很高。我不太喜欢帝国一或者塔格那种笔身设计，感觉直接穿越回文艺复兴时代了。我玩复古钢笔是体验上世纪的玩意，不是体验文艺复兴的设计风格……是吧？
+- [GitHub 之外的选择：七个代码托管平台的真实体验](/posts/github-alternatives-code-hosting/): 老实说，2025到2026年，GitHub已经不是&quot;偶尔抽风&quot;，而是常态化拉胯了：免费Actions分钟数被成群的机器人挖矿账号薅到秃，正常用户排队等到天荒地老；安全漏洞修得比乌龟爬还慢，供应链攻击年年有；国内访问时好时坏，CI/CD 一跑就卡，部署个东西像抽奖。最气人的是，微软继续在那儿装没事人，卖企业版赚得盆满钵满，免费用户当韭菜割。
+- [小米兰亭：更适合中文长文阅读的博客字体](/posts/misans-font-for-long-reading/): 更纱黑体是我之前一直在用的字体——它融合了思源黑体和Iosevka，现代感强，字符也全。但阅读的体验感始终感觉没有系统默认字体一样好。直到换到小米兰亭，对比才明显：小米兰亭的字母更粗、更圆润，整体观感更舒适，长时间阅读不容易累。
+- [折腾 Docker 和面板之后，我决定不折腾了](/posts/docker-tinkering-lessons-learned/): 最近为了更省心地部署一些软件，我重新拾起了 Docker，顺便装了一个叫 DPanel 的面板来管理容器，和一直在用的 aaPanel 搭配着用。本以为能一劳永逸，结果走了一圈，发现大部分服务还是老老实实地跑在裸机上。
+- [Copilot的数据政策变更：AI时代的开源思考](/posts/copilot-data-policy-open-source/): 近日，GitHub 宣布更新 Copilot 隐私政策：从 2026 年 4 月 24 日起，将默认使用 Copilot Free、Pro 和 Pro+ 用户的交互数据（包括输入提示、输出建议、代码片段及相关上下文）来训练和改进 AI 模型。除非用户主动在设置中 opt-out——关闭&quot;允许 GitHub 使用我的数据进行 AI 模型训练&quot;选项——否则数据将被用于模型训练。
+- [为 Chirpy 添加 Twikoo 评论：一次插件开发记录](/posts/chirpy-twikoo-comment-plugin/): Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。
+- [用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署](/posts/building-eleventy-blog-system/): 之前我的个人博客用的是 Jekyll + Chirpy 主题，走了本地构建再推送的路。这次我换上了 Eleventy，从零搭建一套三栏布局的博客系统。没有用任何 CSS 框架，从设计变量到响应式布局全部手写。CI/CD 方面，一次推送同时部署到 GitHub Pages、Codeberg Pages 和 GitLab Pages。
 
 ## Pages
 

@@ -1,0 +1,70 @@
+---
+layout: base.njk
+title: 友链
+permalink: /links/
+---
+
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <h1 class="page-title">友链</h1>
+  <p class="page-subtitle">友情链接</p>
+
+  <article>
+    <blockquote class="post-content"><p>如需提交友链，请在评论区留言。</p></blockquote>
+
+    {% for group in links.groups %}
+    <div class="ln-group">
+      <h2 class="ln-group__title">{{ group.title }}</h2>
+
+      {% if group.type == "featured" %}
+        <ul class="ln-plain">
+        {% for item in group.items %}
+          <li class="ln-plain__item">
+            <span class="ln-plain__name">{{ item.name }}</span>
+            <span class="ln-plain__right">
+              <a href="{{ item.url }}" target="_blank" rel="noopener" class="ln-plain__url">{{ item.url | replace('https://', '') }}</a>
+              <span class="ln-plain__desc">{{ item.description }}</span>
+            </span>
+          </li>
+        {% endfor %}
+        </ul>
+
+      {% elseif group.title == "我的站点" %}
+        <ul class="ln-plain">
+        {% for item in group.items %}
+          <li class="ln-plain__item">
+            <span class="ln-plain__name">{{ item.name }}</span>
+            <span class="ln-plain__right">
+              <span class="ln-plain__multi">
+              {% for entry in item.urls %}
+                <a href="{{ entry.url }}" target="_blank" rel="noopener" class="ln-plain__url">{{ entry.label }}</a>
+              {% endfor %}
+              </span>
+              <span class="ln-plain__desc">{{ item.description }}</span>
+            </span>
+          </li>
+        {% endfor %}
+        </ul>
+
+      {% else %}
+        <ul class="ln-plain">
+        {% for item in group.items %}
+          <li class="ln-plain__item">
+            <span class="ln-plain__name">{{ item.name }}</span>
+            <span class="ln-plain__right">
+              <a href="{{ item.url }}" target="_blank" rel="noopener" class="ln-plain__url">{{ item.url | replace('https://', '') }}</a>
+              <span class="ln-plain__desc">{{ item.description }}</span>
+            </span>
+          </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </article>
+
+  {% include "comments.njk" %}
+</main>
+
+{% include "sidebar-right.njk" %}

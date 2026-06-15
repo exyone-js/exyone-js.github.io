@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: 归档
+permalink: /archive/
+---
+{# ================================================================
+   Archive Page (Template Layer)
+   Displays all posts grouped by year in chronological order.
+   ================================================================ #}
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <section class="archive-list">
+    {% set yearGroups = collections.posts | groupByYear %}
+    {% for group in yearGroups %}
+      <div class="archive-year">
+        <h2 class="archive-year__title">{{ group[0] }}</h2>
+        <ul class="archive-year__list">
+          {% for post in group[1] %}
+            <li class="archive-year__item">
+              <span class="archive-year__date">{{ post.date | readableDate }}</span>
+              <a href="{{ post.url }}" class="archive-year__link">{{ post.data.title }}</a>
+              {% if post.data.categories %}
+                <span class="archive-year__cats">
+                  {% for cat in post.data.categories %}
+                    <a href="/categories/{{ cat | slugify }}/" class="category-badge">{{ cat }}</a>
+                  {% endfor %}
+                </span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </section>
+</main>
+
+{% include "sidebar-right.njk" %}

@@ -23,7 +23,6 @@ module.exports = function (eleventyConfig) {
   /*  Passthrough Copy: Static Assets                                    */
   /* ------------------------------------------------------------------ */
   eleventyConfig.addPassthroughCopy("src/assets");
-  eleventyConfig.addPassthroughCopy({ "src/assets/js/sw.js": "sw.js" });
 
   /* ------------------------------------------------------------------ */
   /*  Filters                                                            */
@@ -97,6 +96,20 @@ module.exports = function (eleventyConfig) {
   /** Count words in text content */
   eleventyConfig.addFilter("wordCount", (text) => {
     return (text || "").trim().split(/\s+/).length;
+  });
+
+  /** Strip HTML and Markdown markup, collapse whitespace — used by search index */
+  eleventyConfig.addFilter("stripHtml", (text) => {
+    if (!text) return "";
+    return String(text)
+      .replace(/<[^>]+>/g, " ")              // strip HTML tags
+      .replace(/```[\s\S]*?```/g, " ")       // strip fenced code blocks
+      .replace(/`[^`]*`/g, " ")              // strip inline code
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // strip images
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // keep link text, drop URL
+      .replace(/[#>*_~]/g, " ")              // strip common markdown markers
+      .replace(/\s+/g, " ")
+      .trim();
   });
 
   /** Limit array to first N items */
@@ -195,16 +208,45 @@ module.exports = function (eleventyConfig) {
   /* ------------------------------------------------------------------ */
   /*  Search Index (JSON for client-side search)                         */
   /* ------------------------------------------------------------------ */
+  // NOTE: `templateContent` is NOT available inside a collection callback
+  // (templates haven't rendered yet — throws TemplateContentPrematureUseError).
+  // So we read the raw markdown body from disk here. Front-matter is already
+  // stripped by Eleventy; we then strip markdown/HTML inline.
+  const fs = require("fs");
+  const MAX_CONTENT = 1500; // cap body text to keep the index lean
+  function stripMarkdown(text) {
+    return String(text || "")
+      .replace(/<[^>]+>/g, " ")              // strip HTML tags
+      .replace(/```[\s\S]*?```/g, " ")       // strip fenced code blocks
+      .replace(/`[^`]*`/g, " ")              // strip inline code
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // strip images
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // keep link text, drop URL
+      .replace(/[#>*_~]/g, " ")              // strip common markdown markers
+      .replace(/\s+/g, " ")
+      .trim();
+  }
   eleventyConfig.addCollection("searchIndex", (collectionApi) => {
     const posts = getPosts(collectionApi);
-    return posts.map((post) => ({
-      title: post.data.title,
-      url: post.url,
-      date: post.date,
-      excerpt: post.data.excerpt || "",
-      categories: post.data.categories || [],
-      tags: post.data.tags || [],
-    }));
+    return posts.map((post) => {
+      let content = "";
+      try {
+        const raw = fs.readFileSync(post.inputPath, "utf8");
+        // Drop YAML front-matter (---\n...\n---) if present
+        const body = raw.replace(/^---[\s\S]*?---/, "");
+        content = stripMarkdown(body).slice(0, MAX_CONTENT);
+      } catch (e) {
+        content = "";
+      }
+      return {
+        title: post.data.title,
+        url: post.url,
+        date: post.date,
+        excerpt: post.data.excerpt || "",
+        content: content,
+        categories: post.data.categories || [],
+        tags: post.data.tags || [],
+      };
+    });
   });
 
   /* ------------------------------------------------------------------ */

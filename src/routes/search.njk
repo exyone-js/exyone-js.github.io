@@ -1,0 +1,14 @@
+---
+permalink: /search.json
+eleventyExcludeFromCollections: true
+---
+[{% for item in collections.searchIndex %}{
+  "title": {{ item.title | dump | safe }},
+  "url": {{ item.url | dump | safe }},
+  "date": {{ item.date | dateToRfc3339 | dump | safe }},
+  "excerpt": {{ item.excerpt | dump | safe }},
+  "content": {{ item.content | dump | safe }},
+  "categories": {{ item.categories | dump | safe }},
+  "tags": {{ item.tags | dump | safe }}
+}{% if not loop.last %},{% endif %}
+{% endfor %}]

@@ -1,0 +1,30 @@
+{# ================================================================
+   Comments Section (Template Layer - Component)
+   Reusable comments block — supports Giscus and Twikoo.
+   Usage: {% include "comments.njk" %}
+   ================================================================ #}
+{% if comments.provider == "giscus" and comments.giscus.repo %}
+<section class="comments-section" id="comments">
+  <script src="https://giscus.app/client.js"
+    data-repo="{{ comments.giscus.repo }}"
+    data-repo-id="{{ comments.giscus.repo_id }}"
+    data-category="{{ comments.giscus.category }}"
+    data-category-id="{{ comments.giscus.category_id }}"
+    data-mapping="{{ comments.giscus.mapping }}"
+    data-strict="{{ comments.giscus.strict }}"
+    data-reactions-enabled="{{ comments.giscus.reactions_enabled }}"
+    data-emit-metadata="0"
+    data-input-position="{{ comments.giscus.input_position }}"
+    data-lang="{{ site.lang }}"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+</section>
+{% elseif comments.provider == "twikoo" and comments.twikoo.env_id %}
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@{{ comments.twikoo.version }}/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: '{{ comments.twikoo.env_id }}', el: '#twikoo-comments' });</script>
+</section>
+{% endif %}

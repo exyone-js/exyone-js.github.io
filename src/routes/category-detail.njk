@@ -1,0 +1,23 @@
+---
+layout: base.njk
+pagination:
+  data: collections.categories
+  size: 1
+  alias: category
+permalink: "/categories/{{ category.slug }}/"
+---
+{# ================================================================
+   Category Detail Page (Template Layer)
+   Displays all posts belonging to a specific category.
+   ================================================================ #}
+{% include "sidebar-left.njk" %}
+
+<main class="main-content" id="main-content">
+  <section class="post-list">
+    {% for post in category.posts %}
+      {% include "post-card.njk" %}
+    {% endfor %}
+  </section>
+</main>
+
+{% include "sidebar-right.njk" %}

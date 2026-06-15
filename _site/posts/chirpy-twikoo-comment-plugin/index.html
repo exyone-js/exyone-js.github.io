@@ -41,22 +41,9 @@
 
 
 <!-- ========================================================== -->
-<!--  Font Awesome 6 (Free)                                      -->
-<!-- ========================================================== -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- ========================================================== -->
 <!--  Stylesheets                                                -->
 <!-- ========================================================== -->
-<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/assets/css/main.css">
-
-<!-- ========================================================== -->
-<!--  Google Fonts (via loli.net mirror)                          -->
-<!-- ========================================================== -->
-<link rel="preconnect" href="https://fonts.loli.net">
-<link rel="preconnect" href="https://gfonts.loli.net" crossorigin>
-<link href="https://fonts.loli.net/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <!-- RSS Feed -->
 <link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
@@ -79,13 +66,13 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "为 Chirpy 添加 Twikoo 评论：一次插件开发记录",
-  "description": "Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行...",
+  "description": "Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。",
   "datePublished": "2026-04-26T00:00:00Z",
   "dateModified": "2026-04-26T00:00:00Z",
   "author": {
     "@type": "Person",
     "name": "Exyone.dev",
-    "url": "https://github.com/exyone-labs"
+    "url": "https://github.com/eiraud-fishball"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -103,7 +90,7 @@
 
   <!-- PWA: Web App Manifest -->
   <link rel="manifest" href="/assets/manifest.json">
-  <meta name="theme-color" content="#7c6faa">
+  <meta name="theme-color" content="#f2efe8">
 
   <!-- Analytics: Umami -->
   
@@ -115,12 +102,6 @@
   
 </head>
 <body>
-  <!-- Floating Glow Orbs — blue-green dreamlike atmosphere -->
-  <div class="glow-orb glow-orb--teal" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--sky" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--coral" aria-hidden="true"></div>
-  <div class="glow-orb glow-orb--mint" aria-hidden="true"></div>
-
   <!-- Reading Progress Bar -->
   <div class="reading-progress" id="readingProgress"></div>
 
@@ -146,18 +127,30 @@
     <div class="header-tools">
       <!-- Search -->
       <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
-        <i class="fas fa-search"></i>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
       </button>
 
       <!-- Theme Toggle -->
       <div class="header-tools__btn header-theme-toggle" id="themeToggle">
-        <i class="fas fa-moon theme-icon-dark"></i>
-        <i class="fas fa-sun theme-icon-light"></i>
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+        </svg>
       </div>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
-      <i class="fas fa-bars"></i>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
     </button>
   </div>
 </header>
@@ -167,29 +160,28 @@
     
 
 <aside class="left-nav" id="leftNav">
-  <!-- Author Card -->
+  <!-- Author Card — Text Only -->
   <div class="left-nav__author">
-    <div class="left-nav__avatar">
-      <img src="/assets/images/avatar.png" alt="Exyone.dev" loading="lazy">
-    </div>
     <h2 class="left-nav__author-name">Exyone.dev</h2>
     <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
     <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
     <p class="left-nav__author-desc">将好奇心转化为代码</p>
     <div class="left-nav__social">
       
-        <a href="https://github.com/exyone-labs" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i>
+        <a href="https://github.com/eiraud-fishball" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.61 8.21 11.16.6.11.82-.25.82-.57 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.57-2.67-.3-5.47-1.31-5.47-5.84 0-1.29.47-2.34 1.24-3.17-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 6 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.66.25 2.88.12 3.18.77.83 1.24 1.88 1.24 3.17 0 4.54-2.81 5.54-5.49 5.83.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.69.83.57A12.04 12.04 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
         </a>
       
       
         <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
-          <i class="fab fa-twitter"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
         </a>
       
       
         <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
-          <i class="fas fa-envelope"></i>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
         </a>
       
     </div>
@@ -200,28 +192,28 @@
     
       <a href="/" class="left-nav__item">
         
-          <i class="fas fa-house"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/></svg>
         
         <span>首页</span>
       </a>
     
       <a href="/categories/" class="left-nav__item">
         
-          <i class="fas fa-layer-group"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         
         <span>分类</span>
       </a>
     
       <a href="/tags/" class="left-nav__item">
         
-          <i class="fas fa-tags"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         
         <span>标签</span>
       </a>
     
       <a href="/archive/" class="left-nav__item">
         
-          <i class="fas fa-box-archive"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="4"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
         
         <span>归档</span>
       </a>
@@ -281,9 +273,7 @@
           
             <a href="/tags/jekyll/" class="tag-badge">#jekyll</a>
           
-            <a href="/tags/twikoo/" class="tag-badge">#twikoo</a>
-          
-            <a href="/tags/plugin/" class="tag-badge">#插件</a>
+            <a href="/tags/blog/" class="tag-badge">#博客</a>
           
         </div>
       
@@ -304,7 +294,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
           </svg>
-          3 分钟阅读
+          2 分钟阅读
         </span>
         
         
@@ -314,7 +304,7 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
           </svg>
-          629 字
+          321 字
         </span>
         
       </div>
@@ -324,7 +314,7 @@
     <!--  Excerpt                                                      -->
     <!-- ============================================================ -->
     
-      <div class="post-detail__excerpt">Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行...</div>
+      <div class="post-detail__excerpt">Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。</div>
     
 
     <!-- ============================================================ -->
@@ -332,195 +322,33 @@
     <!-- ============================================================ -->
     <div class="post-detail__content">
       <p>Chirpy 是个出色的主题，但它原生不支持 Twikoo 评论。我想在现有的 Giscus 系统旁添加 Twikoo，又不想修改主题源码。解决方案经过多次迭代：一开始使用 Jekyll 插件，后来尝试 footer.html 模板注入，最终采用本地构建后推送的工作流程，以确保所有部署平台的行为完全一致。</p>
-<h2>为什么选择 Twikoo？</h2>
-<p>Giscus 很好——免费、无广告、评论存储在 GitHub Discussions 中。但有个问题：读者需要 GitHub 账号才能评论。对于一些朋友，尤其是网络受限地区的用户，或者单纯没有 GitHub 账号的人，这造成了不必要的障碍。比如一位来自中国的读者，可能能稳定访问你的博客，却难以加载 GitHub 的认证页面。另一位读者可能只是想留个言，不想为此再注册一个在线账号。</p>
-<p>Twikoo 提供了更简单的替代方案。它支持匿名评论，无需第三方账号，提供轻量级的评论体验。代价是你需要自己托管一个 Twikoo 后端（可以使用腾讯云 CloudBase、Vercel 或自建方案），但对于很多博主来说，为了给读者提供灵活性，这个代价是值得的。通过同时提供 Giscus 和 Twikoo，读者可以根据自己的情况选择最合适的方式。</p>
-<h2>问题所在</h2>
-<p>Chirpy 使用 Giscus 作为评论系统，通过 <code>_config.yml</code> 配置。主题的模板被打包在 Ruby gem 里，这意味着你不能直接在项目目录中编辑它们。你可以 fork 主题然后修改，但这会带来维护负担——每次主题更新，你都需要把更新合并到你的 fork 中。</p>
-<p>我想要一个能在主题更新后继续工作的方案，不需要维护单独的 fork。目标是在不触碰主题核心文件的情况下，将 Twikoo 注入到文章页面中。</p>
-<h2>解决方案：多次迭代的历程</h2>
-<p>我的实现经过几个阶段的迭代才找到正确的方法。每种方法都有其局限性，促使我转向下一个方法。</p>
-<h3>第一次尝试：后渲染钩子</h3>
-<p>我最初创建了一个 Jekyll 插件，使用后渲染钩子在构建完成后将 Twikoo 的 HTML 和 JavaScript 注入到每篇文章页面中。这个钩子在 Jekyll 完成每个文档渲染后运行。它检查输出是否为 HTML，验证文档是否为文章，然后将 Twikoo 容器注入到 <code>&lt;/body&gt;</code> 标签之前。</p>
-<p>这种方法在本地和某些托管平台上有效，但我发现 GitHub Actions 的构建环境处理 Jekyll 插件的方式不同。插件在 GitHub Pages 构建上根本不会执行，尽管它在 Cloudflare Pages 和本地运行良好。经过数周的调试——更改钩子类型、添加错误处理、清理缓存、尝试各种配置——我意识到问题根本在于 GitHub Pages 加载自定义插件的方式。</p>
-<blockquote>
-<p>完整源码可在我的 <a href="https://github.com/exyone-labs/exyone-labs.github.io">GitHub 仓库</a>中找到，文件位置是 <code>_plugins/twikoo-inject.rb</code>。</p>
-</blockquote>
-<h3>第二次尝试：footer.html 模板</h3>
-<p>插件方法在 GitHub Pages 上失败后，我尝试使用 Liquid 模板将 Twikoo 直接嵌入到 <code>_includes/footer.html</code> 中。这种方法完全绕过了插件系统——由于 footer.html 是站点模板文件的一部分，Jekyll 在正常构建周期中会处理它，无论插件加载行为如何。</p>
-<p>这个想法是合理的，但结果不一致。GitHub Actions 的构建环境处理模板 includes 的方式与其他平台不同。footer include 在不同部署场景中没有一致地处理，这意味着评论系统在一些构建上会出现，但在另一些上不会。</p>
-<h3>第三次尝试：本地构建工作流程</h3>
-<p>经过两次失败的尝试，我意识到核心问题：不同的构建环境会产生不同的结果。即使使用相同的源代码和相同的 Jekyll 版本，平台配置其构建运行器的细微差异也可能导致输出不一致。</p>
-<p>我最终采用的解决方案是本地构建后推送工作流程。不再依赖托管平台构建站点，而是先在本地构建，然后将预生成的 <code>_site</code> 文件夹推送到部署仓库。这确保了无论在哪个平台托管，输出都完全一致——由于站点是预构建的，主机只需要提供静态文件，而不需要运行 Jekyll。</p>
-<h2>实现细节</h2>
-<h3>插件注入（第一次尝试）</h3>
-<p>最初的插件方法使用多个检查来确保可靠的注入。它检查输出是否为 HTML，验证文档是否为文章，并通过查找现有标记来防止重复注入。</p>
-<h3>防止重复注入</h3>
-<p>使用独特的数据属性作为标记，可以避免文章本身包含提及注入目标的代码示例时出现误判。这是撰写关于自己插件的技术文档时常见的陷阱。</p>
-<h3>切换 UI 设计</h3>
-<p>由于 Giscus 无法隐藏（由主题渲染），我创建了一个切换按钮来显示/隐藏 Twikoo 区域。设计采用了水平分隔线配居中文字的方式——这是出版中常见的模式，用于分隔内容的不同部分。</p>
-<p>切换按钮有实际用途：它为不想评论的读者保持页面整洁，同时为想评论的读者提供选项。按钮文字从&quot;展开 Twikoo 评论&quot;变为&quot;收起 Twikoo 评论&quot;，清楚地指示当前状态。</p>
-<h3>懒加载</h3>
-<p>Twikoo 只在用户点击切换按钮时才初始化，节省资源。没有懒加载的话，每次页面加载都会获取 Twikoo JavaScript 库并初始化评论系统，即使读者从未打算留言。有了懒加载，这个开销只在实际需要时才会发生。</p>
-<h2>样式考量</h2>
-<p>实现使用 CSS 变量（<code>--border-color</code>、<code>--text-muted</code>、<code>--link-color</code>）来匹配 Chirpy 的主题。这确保切换按钮在浅色和深色模式下都保持一致的外观，不需要为每种模式编写单独的样式。如果 Chirpy 在未来更新其配色方案，Twikoo UI 会自动适应。</p>
-<p>宽度限制为 <code>max-width: 800px</code>，与内容区域对齐。这种对齐让评论部分在视觉上与上方的文章相连。边距设置为 <code>0.5rem auto 2rem auto</code>，顶部留出呼吸空间，底部提供更充分的分隔，因为那里是 footer 的开始位置。</p>
-<h2>配置</h2>
-<p>由于 Chirpy 主题原生不支持 Twikoo，官方只支持 Giscus、Disqus 和 Utterances。因此，如果你只想使用 Twikoo，不要填写 <code>provider</code> 字段，否则主题会尝试渲染不支持的评论系统导致报错。Twikoo 的注入是通过 footer.html 和插件完成的，不需要依赖 Chirpy 的评论配置。</p>
-<p>只需要确保在 <code>_config.yml</code> 中添加 <code>plugins_dir</code>：</p>
+<hr>
+<p>为什么要在 Giscus 之外再加一套评论系统？Giscus 本身很好——免费、无广告、评论数据存储在 GitHub Discussions 里，跟项目代码在同一个屋檐下。但它有一个门槛：读者必须拥有 GitHub 账号才能发言。这听起来不算什么，直到你真的遇到那些场景。一位来自中国的读者也许能稳定访问你的博客，却怎么也打不开 GitHub 的认证页面；另一位读者可能只是想说一句&quot;好文章&quot;，却要为此注册一个他并不需要的账号。这种摩擦会直接损失评论——很多人看到登录页面就关掉了标签页。</p>
+<p>Twikoo 提供了另一种路。它支持匿名评论，不需要任何第三方账号，读者打开页面就能打字。代价是你需要自己维护一个后端，可以是腾讯云 CloudBase、Vercel，或者自建服务器。对我来说，这个代价完全值得：同时提供 Giscus 和 Twikoo，就等于同时照顾了两类读者——那些愿意用 GitHub 身份发声的，和那些只想留下只言片语的。</p>
+<p>但 Chirpy 主题的模板打包在 Ruby gem 里，你不能直接在项目目录中修改它们。官方只内置了 Giscus、Disqus 和 Utterances 三种评论系统。如果你想加 Twikoo，绕过 gem 的束缚，就得动主题的源文件。最直接的办法是 fork 主题，改完再用自己的 fork。但这引入了长期的维护成本：每次 Chirpy 发布更新，你都得把变动合并到自己的 fork 里，而评论功能本身并不会因为主题升级而有什么变化。我希望的方案是能跟上游主题保持同步的，不需要维护一个独立的 fork。</p>
+<p>于是我开始寻找一种不触碰主题核心文件，就能把 Twikoo 注入到每篇文章中的方法。这个过程经历了三次尝试。</p>
+<p>第一次尝试是写一个 Jekyll 插件。我创建了一个后渲染钩子（post-render hook），在 Jekyll 构建完每个文档之后运行。它检查输出是不是 HTML，验证当前文档是不是一篇文章，确认无误后，把 Twikoo 所需的容器和脚本注入到结束标签之前。这个方案在本地跑得很好，在 Cloudflare Pages 上也正常。但推上 GitHub Pages 后，评论模块消失了。问题出在 GitHub Pages 的构建环境对自定义 Jekyll 插件的处理方式上——它在构建过程中根本不会执行第三方插件。我开始以为是自己钩子类型选错了，于是换了钩子类型，加了错误日志，清了缓存，反复调整配置。折腾了几周之后才确认，这不是代码的问题，是平台本身不支持。完整的插件源码现在还在我的仓库里，路径是 _plugins/twikoo-inject.rb，供那些使用兼容平台的读者参考。</p>
+<p>第二次尝试换了个思路，绕开插件系统。我用 Liquid 模板把 Twikoo 直接嵌入到 _includes/footer.html 里。footer.html 是站点模板的一部分，Jekyll 在正常构建周期中会处理它，不管插件有没有被加载。这个想法本身是成立的，但实际效果依然不稳定。GitHub Actions 的构建环境在处理模板 include 的细节上与其他平台存在差异，导致 footer include 在某些构建中触发了，在某些构建中没有。这时候我意识到，真正的问题不是用什么方式注入 Twikoo，而是不同的构建环境对同一份源码的解释并不一致。</p>
+<p>第三次尝试彻底改变了思路。既然构建环境不可控，那就不让它们构建。我在本地先跑 <code>bundle exec jekyll build</code>，把生成的 _site 文件夹推送到部署仓库。托管平台只负责提供静态文件，不执行任何构建命令。这种方式下，不管你把 _site 部署到 GitHub Pages、Cloudflare Pages 还是 Netlify，输出都是你在本地看到的那一份。它不是用哪一个平台的标准去构建，而是你自己决定了标准的版本。</p>
+<p>具体的注入方式仍然是利用了 _includes/footer.html 模板。区别在于，之前是让平台去渲染这个模板，现在是在本地渲染好再推送。为了防止重复注入，我在 Twikoo 容器上加了独特的数据属性作为标记，这样即使文章本身包含关于 Twikoo 的代码示例，注入逻辑也不会误判。这是一个自己写插件时很容易踩的坑——你的文章内容恰好提到了注入目标，结果把自己排除在外了。</p>
+<p>UI 上我做了一个切换按钮。因为 Giscus 是由 Chirpy 主题自身渲染的，没办法隐藏，所以 Twikoo 默认不显示。读者点击&quot;展开 Twikoo 评论&quot;之后才会出现输入框，按钮文字会同步切换成&quot;收起&quot;。这样做的另一个好处是实现了懒加载：Twikoo 的 JavaScript 库只在第一次点击按钮时才加载并初始化。如果读者没有评论的意图，他们的浏览器就不会多下载一个库。</p>
+<p>样式方面我用了 Chirpy 定义的 CSS 变量——<code>--border-color</code>、<code>--text-muted</code>、<code>--link-color</code> 这几个。切换按钮和分隔线在浅色和深色模式下自动适配，不需要为每种模式写两套样式。宽度对齐到 <code>max-width: 800px</code>，与文章正文保持一致。边距设成 <code>0.5rem auto 2rem auto</code>——顶部给一点呼吸空间，底部留出更充分的分隔，因为下面是 footer 的开始位置。</p>
+<p>配置很简单。如果你只想用 Twikoo，不要在 theme 的评论 provider 字段里填任何值，否则 Chirpy 会因为不认识的 provider 报错。如果你想同时使用 Giscus 和 Twikoo（像我的博客这样），就把 provider 保留为 giscus，主题会正常渲染 Giscus，Twikoo 则通过我们注入的方式独立显示。另外需要在 _config.yml 里加上一行：</p>
 <pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">plugins_dir</span><span class="token punctuation">:</span> _plugins</code></pre>
-<p>这确保 Jekyll 从 <code>_plugins</code> 目录加载插件。没有这一行，Jekyll 可能找不到你的自定义插件，具体取决于它的调用方式。</p>
-<p>如果你想同时使用 Giscus 和 Twikoo（像我的博客这样），可以将 <code>provider</code> 保留为 <code>giscus</code>，这样主题会渲染 Giscus，而 Twikoo 通过我们的自定义注入显示。</p>
-<h2>设置本地构建工作流程</h2>
-<p>我的做法是这样的：源代码仓库和 <code>_site</code> 目录在同一个仓库中，源码仓库包含完整的博客源码和构建后的 <code>_site</code> 文件夹。本地构建完成后，通过 GitHub Actions 将 <code>_site</code> 目录推送到 GitHub Pages 进行托管。对于 Cloudflare Pages 和 Netlify，则将构建产物推送到它们的 Pages 仓库，并设置它们不进行构建，只负责托管静态文件。</p>
-<h3>步骤 1：启用 GitHub Pages</h3>
-<p>在 GitHub 仓库设置中启用 GitHub Pages，选择 &quot;GitHub Actions&quot; 作为构建源。这样 GitHub 会自动运行我们配置的 Actions 工作流。</p>
-<h3>步骤 2：配置 Cloudflare Pages</h3>
-<p>在 Cloudflare 控制台中创建 Pages 项目，连接到你的 GitHub 仓库。然后在设置中做两件事：第一，关闭&quot;构建&quot;选项，只保留&quot;部署&quot;功能；第二，将部署目录设置为 <code>_site</code>。这样 Cloudflare 只会读取我们推送的 <code>_site</code> 目录中的静态文件，而不会推送整个仓库。</p>
-<h3>步骤 3：配置 Netlify</h3>
-<p>同样在 Netlify 中创建站点，连接到 GitHub 仓库。在站点设置中做两件事：第一，关闭&quot;构建&quot;命令，不执行任何构建脚本；第二，将发布目录设置为 <code>_site</code>。这样 Netlify 只会托管 <code>_site</code> 中的静态文件。同时还有个额外好处：Netlify 免费版每月有 300 分钟的构建时间限制，跳过构建步骤可以节省这些额度，留给其他项目使用。</p>
-<h3>步骤 4：本地构建和推送</h3>
-<p>当你想部署时，在本地运行以下命令：</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># 构建站点</span>
-bundle <span class="token builtin class-name">exec</span> jekyll build
-
-<span class="token comment"># 切换到 deploy 仓库的文件夹</span>
-<span class="token builtin class-name">cd</span> _site
-
-<span class="token comment"># 如果需要则初始化 git，然后提交和推送</span>
-<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
-<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Deploy site"</span>
-<span class="token function">git</span> push deploy main</code></pre>
-<h3>步骤 5：用脚本自动化</h3>
-<p>为了使部署更方便，创建一个部署脚本：</p>
+<p>这行配置告诉 Jekyll 从 _plugins 目录加载自定义插件。如果缺少这行，Jekyll 可能找不到你放在那里的脚本，具体表现因调用方式而异。</p>
+<p>部署方面，我现在的流程是这样的。源码和 _site 在同一个仓库里。本地构建完成后，通过 GitHub Actions 把 _site 目录推送到 GitHub Pages。对于 Cloudflare Pages 和 Netlify，同样推送 _site 目录，但在它们的控制台中关闭构建功能，只保留部署和托管静态文件的能力。Netlify 的免费版每月有 300 分钟的构建时间限制，跳过构建步骤还能省下这些额度给其他项目用。</p>
+<p>如果你想自己配置一遍，各平台的设置要点是：GitHub 仓库设置中启用 Pages，选择 GitHub Actions 作为构建源；Cloudflare 创建 Pages 项目时关闭构建选项，部署目录设为 _site；Netlify 创建站点时同样关闭构建命令，发布目录设为 _site。然后写一个简短的部署脚本来自动化整个过程，每次需要发布时在本地先 <code>bundle exec jekyll build</code>，然后提交 _site 的变更并推送。你可以参考这个骨架：</p>
 <pre class="language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
 <span class="token builtin class-name">set</span> <span class="token parameter variable">-e</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Building Jekyll site..."</span>
 bundle <span class="token builtin class-name">exec</span> jekyll build
-
 <span class="token builtin class-name">cd</span> _site
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Committing to deploy repository..."</span>
 <span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
 <span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">"Deploy <span class="token variable"><span class="token variable">$(</span><span class="token function">date</span><span class="token variable">)</span></span>"</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Pushing to deploy repository..."</span>
-<span class="token function">git</span> push deploy main
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Done!"</span></code></pre>
-<p>用 <code>chmod +x deploy.sh</code> 使其可执行，然后每当你想部署时运行 <code>./deploy.sh</code>。</p>
-<h2>平台兼容性</h2>
-<p>使用本地构建工作流程，平台兼容性不再是问题。由于你在本地构建并只推送输出，托管平台只需提供静态文件。这适用于任何可以提供 HTML 文件的平台：</p>
-<table>
-<thead>
-<tr>
-<th>托管平台</th>
-<th>本地构建可用？</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub Pages</td>
-<td>是</td>
-<td>推送到 yourusername.github.io</td>
-</tr>
-<tr>
-<td>Cloudflare Pages</td>
-<td>是</td>
-<td>连接部署仓库</td>
-</tr>
-<tr>
-<td>Netlify</td>
-<td>是</td>
-<td>连接部署仓库</td>
-</tr>
-<tr>
-<td>Vercel</td>
-<td>是</td>
-<td>连接部署仓库</td>
-</tr>
-<tr>
-<td>任何静态主机</td>
-<td>是</td>
-<td>上传 _site 内容</td>
-</tr>
-</tbody>
-</table>
-<p>关键优势是你不需要在托管平台上配置构建命令或 Ruby 版本。你不是在要求平台构建任何东西——你给它的是准备好的文件。</p>
-<h2>为什么这种方法更好</h2>
-<p>在本地构建然后推送输出解决了困扰基于平台的构建的几个问题。</p>
-<p>首先，一致性得到保证。当你在本地构建时，每次都使用相同的 Ruby 版本、相同的 Jekyll 版本和相同的 gem 版本。输出是确定性的。你推送到部署仓库的文件正是你在本地运行 <code>jekyll build</code> 时看到的文件。</p>
-<p>其次，调试变得更容易。如果生产环境中出现问题，你可以将本地构建输出与已部署的内容进行比较。由于两者来自相同的构建过程，任何差异必定是由于托管平台的配置，而不是构建本身。</p>
-<p>第三，部署速度更快。基于平台的构建可能需要几分钟，特别是如果 Jekyll 需要重建整个站点时。有了本地构建，你已经准备好了输出。推送到 git 仓库只需几秒钟，大多数托管平台在几秒或几分钟内检测到新提交。</p>
-<p>第四，你获得了对构建环境的完全控制。平台的构建环境可能会在未经通知的情况下发生变化——平台可能会升级 Ruby 或 Jekyll，或更改其配置构建运行器的方式。当你在本地构建时，你决定何时升级，并且可以在部署前进行充分测试。</p>
-<h2>最终效果</h2>
-<p>现在每篇文章都有两个评论选项，而且无论你托管在哪里，它们的工作方式都完全一致。Giscus 默认显示，集成在主题的设计中。Twikoo 默认隐藏，通过每篇文章底部的切换按钮访问。读者可以选择自己偏好的评论系统，或者如果只是浏览的话，忽略两者。</p>
-<p>实现干净且非侵入式。它不需要 fork 主题，不会使部署过程复杂化，尊重 Chirpy 的设计语言。当主题更新时，Twikoo 集成继续工作，不需要任何更改。</p>
-<p>本地构建工作流程为部署增加了一个额外的步骤——你在本地构建而不是让平台为你构建——但这个权衡是值得的。你获得了一致的结果、更快的部署，以及对构建过程的完全控制。</p>
-<h2>获取源代码</h2>
-<p>如果你有兴趣在自己的 Chirpy 博客上实现这个功能，完整的源代码可以在我的 <a href="https://github.com/exyone-labs/exyone-labs.github.io">GitHub 仓库</a>中找到。你需要：</p>
-<ol>
-<li><code>_includes/footer.html</code> - 通过模板的 Twikoo 集成</li>
-<li><code>_plugins/twikoo-inject.rb</code> - 插件注入（在兼容的平台上工作）</li>
-<li><code>_config.yml</code> - Twikoo 配置</li>
-</ol>
-<h2>更新日志</h2>
-<table>
-<thead>
-<tr>
-<th>日期</th>
-<th>更新内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2026-04-25</td>
-<td>初始版本，包含切换 UI、懒加载、CSS 变量支持</td>
-</tr>
-<tr>
-<td>2026-04-25</td>
-<td>将钩子从 <code>:site, :post_render</code> 改为 <code>:documents, :post_render</code> 以提高兼容性</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>添加显式文章集合检查，确保可靠定位</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>添加 <code>plugins_dir</code> 配置要求</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>添加构建环境对比及 Cloudflare Pages 推荐说明</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>更新 GitHub Actions 工作流，添加详细构建输出用于调试</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>修复自我排除 Bug，使用独特的 data 属性作为标记</td>
-</tr>
-<tr>
-<td>2026-05-02</td>
-<td>删除冗余代码示例以防止自我排除</td>
-</tr>
-<tr>
-<td>2026-05-07</td>
-<td>尝试使用 footer.html 模板注入作为插件的替代方案</td>
-</tr>
-<tr>
-<td>2026-05-07</td>
-<td>发现 footer.html 在 GitHub Actions 上也不一致</td>
-</tr>
-<tr>
-<td>2026-05-08</td>
-<td>实现本地构建后推送工作流程以确保一致性</td>
-</tr>
-</tbody>
-</table>
+<span class="token function">git</span> push deploy main</code></pre>
+<p>本地构建工作流程有几个实实在在的好处。一致性是最重要的一条——你本地是什么样，线上就是什么样，因为用的是同一台机器、同一套 Ruby 版本和 gem 版本构建出来的。调试也变得更简单：如果线上页面出了问题，你把本地 _site 里对应的 HTML 打开，和线上的比较，差异一目了然。部署速度更快，推送 git 提交只需要几秒钟，不需要等平台慢慢跑构建。最后，你掌握了控制权——平台可能会在某个星期二悄悄升级 Ruby 版本，但你的构建环境只会在你主动升级时才会变化。</p>
+<p>现在每篇文章底部都有两个评论系统。Giscus 默认可见，与主题风格融为一体。Twikoo 默认隐藏，通过切换按钮访问。它们各自独立工作，读者按自己的情况选。如果你只是在浏览内容，两个都可以忽略，页面不会因为你没评论就加载多余的脚本。</p>
+<p>完整的源代码在我的 GitHub 仓库里。你需要关注三个文件：_includes/footer.html（模板注入的逻辑）、_plugins/twikoo-inject.rb（插件注入版本，供兼容平台使用）、以及 _config.yml 中与 Twikoo 相关的配置项。这些文件可以直接复制到你的项目中使用。</p>
+<p>最后记录一下这个方案在迭代过程中的关键节点：4 月 25 日完成初始版本，包含切换 UI 和懒加载；同一天将钩子从 site:post_render 改为 documents:post_render，提升了兼容性；5 月 2 日修复了自我排除的 bug——使用独特 data 属性做标记后，文章内容不再影响注入结果；5 月 7 日尝试 footer.html 模板注入作为纯插件方案的替代；5 月 8 日最终转向本地构建工作流程。到这一步，我在不同平台上看到的终于不再是三种不同的结果。</p>
 
     </div>
 
@@ -533,9 +361,7 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
           
             <a href="/tags/jekyll/" class="tag-badge">#jekyll</a>
           
-            <a href="/tags/twikoo/" class="tag-badge">#twikoo</a>
-          
-            <a href="/tags/plugin/" class="tag-badge">#插件</a>
+            <a href="/tags/blog/" class="tag-badge">#博客</a>
           
         </div>
       
@@ -550,22 +376,22 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   
   <nav class="post-nav">
     
-      <a href="/posts/jekyll-chirpy-trial-and-error/" class="post-nav-link post-nav-link--prev">
+      <a href="/posts/copilot-data-policy-open-source/" class="post-nav-link post-nav-link--prev">
         <span class="post-nav-direction">
           <span class="post-nav-arrow">←</span>
           上一篇
         </span>
-        <span class="post-nav-title">Jekyll 与 Chirpy：一段试错之旅</span>
+        <span class="post-nav-title">Copilot的数据政策变更：AI时代的开源思考</span>
       </a>
     
     
-      <div class="post-nav-link post-nav-link--next post-nav-link--disabled">
+      <a href="/posts/building-eleventy-blog-system/" class="post-nav-link post-nav-link--next">
         <span class="post-nav-direction">
           下一篇
           <span class="post-nav-arrow">→</span>
         </span>
-        <span class="post-nav-title">暂无更多文章</span>
-      </div>
+        <span class="post-nav-title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</span>
+      </a>
     
   </nav>
 
@@ -578,12 +404,12 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
     <div class="related-posts__grid">
       
       
-      <a href="/posts/jekyll-chirpy-trial-and-error/" class="related-post-card">
-        <h3 class="related-post-card__title">Jekyll 与 Chirpy：一段试错之旅</h3>
+      <a href="/posts/building-eleventy-blog-system/" class="related-post-card">
+        <h3 class="related-post-card__title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</h3>
         <div class="related-post-card__meta">
-          <span>2026-04-26</span>
+          <span>2026-06-15</span>
           <span>·</span>
-          <span>2 分钟阅读</span>
+          <span>1 分钟阅读</span>
         </div>
       </a>
       
@@ -596,10 +422,19 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
         </div>
       </a>
       
-      <a href="/posts/sheaffer-imperial-ii-review/" class="related-post-card">
-        <h3 class="related-post-card__title">犀飞利 帝国二：可能是最适合我的钢笔</h3>
+      <a href="/posts/docker-tinkering-lessons-learned/" class="related-post-card">
+        <h3 class="related-post-card__title">折腾 Docker 和面板之后，我决定不折腾了</h3>
         <div class="related-post-card__meta">
-          <span>2025-03-30</span>
+          <span>2026-03-25</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/misans-font-for-long-reading/" class="related-post-card">
+        <h3 class="related-post-card__title">小米兰亭：更适合中文长文阅读的博客字体</h3>
+        <div class="related-post-card__meta">
+          <span>2025-07-26</span>
           <span>·</span>
           <span>1 分钟阅读</span>
         </div>
@@ -609,17 +444,15 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   </section>
   
 
-  <!-- ============================================================ -->
-  <!--  Comments Section (Giscus)                                   -->
-  <!-- ============================================================ -->
   
-  <section class="comments-section" id="comments">
-    <h2 class="comments-section__title">评论</h2>
-    <div id="twikoo-comments"></div>
-    <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
-    <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
-  </section>
-  
+
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+</section>
+
+
 </main>
 
 
@@ -627,7 +460,7 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   <!-- Table of Contents -->
   <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-list" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       目录
     </h3>
     <nav class="toc" id="toc"></nav>
@@ -636,12 +469,12 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   <!-- Site Stats -->
   <div class="sidebar-card site-info-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-chart-simple" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       站点统计
     </h3>
     <div class="site-info-card__stats">
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">25</span>
+        <span class="site-info-card__stat-value">20</span>
         <span class="site-info-card__stat-label">文章</span>
       </div>
       <div class="site-info-card__stat">
@@ -649,7 +482,7 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
         <span class="site-info-card__stat-label">分类</span>
       </div>
       <div class="site-info-card__stat">
-        <span class="site-info-card__stat-value">40</span>
+        <span class="site-info-card__stat-value">19</span>
         <span class="site-info-card__stat-label">标签</span>
       </div>
       <div class="site-info-card__stat">
@@ -663,13 +496,13 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   
   <div class="sidebar-card categories-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-folder-open" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg>
       分类
     </h3>
     <ul class="categories-list">
       
         <li class="categories-list__item">
-          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">13</span></a>
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">10</span></a>
         </li>
       
         <li class="categories-list__item">
@@ -677,101 +510,45 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
         </li>
       
         <li class="categories-list__item">
-          <a href="/categories/projects/">项目分享<span class="categories-list__count">6</span></a>
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">4</span></a>
         </li>
       
     </ul>
   </div>
   
 
-  <!-- Tag Cloud -->
+  <!-- Sidebar Tags -->
   
   <div class="sidebar-card tags-card">
     <h3 class="sidebar-card__title">
-      <i class="fas fa-tags" style="margin-right:4px;font-size:0.85em;"></i>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       标签
     </h3>
-    <div class="tag-cloud">
+    <div class="sidebar-tags">
       
-        <a href="/tags/fountain-pen/" class="tag-cloud__item" data-count="5">fountain-pen</a>
+        <a href="/tags/tutorial/" class="sidebar-tags__item" data-count="8">教程</a>
       
-        <a href="/tags/fountain-pen-collection/" class="tag-cloud__item" data-count="5">收藏</a>
+        <a href="/tags/fountain-pen/" class="sidebar-tags__item" data-count="5">钢笔</a>
       
-        <a href="/tags/open-source/" class="tag-cloud__item" data-count="5">open-source</a>
+        <a href="/tags/history/" class="sidebar-tags__item" data-count="4">历史</a>
       
-        <a href="/tags/tutorial/" class="tag-cloud__item" data-count="4">教程</a>
+        <a href="/tags/programming/" class="sidebar-tags__item" data-count="4">编程</a>
       
-        <a href="/tags/deployment/" class="tag-cloud__item" data-count="4">部署</a>
+        <a href="/tags/blog/" class="sidebar-tags__item" data-count="3">博客</a>
       
-        <a href="/tags/self-hosted/" class="tag-cloud__item" data-count="4">self-hosted</a>
+        <a href="/tags/review/" class="sidebar-tags__item" data-count="3">评测</a>
       
-        <a href="/tags/history/" class="tag-cloud__item" data-count="3">history</a>
+        <a href="/tags/open-source/" class="sidebar-tags__item" data-count="3">开源</a>
       
-        <a href="/tags/frontend/" class="tag-cloud__item" data-count="3">前端</a>
+        <a href="/tags/deployment/" class="sidebar-tags__item" data-count="3">部署</a>
       
-        <a href="/tags/static-site/" class="tag-cloud__item" data-count="3">静态站点</a>
+        <a href="/tags/productivity/" class="sidebar-tags__item" data-count="2">效率</a>
       
-        <a href="/tags/design/" class="tag-cloud__item" data-count="2">设计</a>
+        <a href="/tags/email/" class="sidebar-tags__item" data-count="2">邮件</a>
       
-        <a href="/tags/email/" class="tag-cloud__item" data-count="2">email</a>
+        <a href="/tags/privacy/" class="sidebar-tags__item" data-count="2">隐私</a>
       
-        <a href="/tags/productivity/" class="tag-cloud__item" data-count="2">效率</a>
-      
-        <a href="/tags/programming/" class="tag-cloud__item" data-count="2">编程</a>
-      
-        <a href="/tags/github/" class="tag-cloud__item" data-count="2">github</a>
-      
-        <a href="/tags/halo/" class="tag-cloud__item" data-count="2">halo</a>
-      
-        <a href="/tags/docker/" class="tag-cloud__item" data-count="2">Docker</a>
-      
-        <a href="/tags/jekyll/" class="tag-cloud__item" data-count="2">jekyll</a>
-      
-        <a href="/tags/typography/" class="tag-cloud__item" data-count="1">typography</a>
-      
-        <a href="/tags/privacy/" class="tag-cloud__item" data-count="1">privacy</a>
-      
-        <a href="/tags/review/" class="tag-cloud__item" data-count="1">review</a>
-      
-        <a href="/tags/codeberg/" class="tag-cloud__item" data-count="1">codeberg</a>
-      
-        <a href="/tags/blog/" class="tag-cloud__item" data-count="1">blog</a>
-      
-        <a href="/tags/git-hosting/" class="tag-cloud__item" data-count="1">git-hosting</a>
-      
-        <a href="/tags/input-method/" class="tag-cloud__item" data-count="1">输入法</a>
-      
-        <a href="/tags/theme/" class="tag-cloud__item" data-count="1">主题</a>
-      
-        <a href="/tags/eleventy/" class="tag-cloud__item" data-count="1">eleventy</a>
-      
-        <a href="/tags/hugo/" class="tag-cloud__item" data-count="1">hugo</a>
-      
-        <a href="/tags/migration/" class="tag-cloud__item" data-count="1">migration</a>
-      
-        <a href="/tags/gaming/" class="tag-cloud__item" data-count="1">gaming</a>
-      
-        <a href="/tags/retro/" class="tag-cloud__item" data-count="1">retro</a>
-      
-        <a href="/tags/life/" class="tag-cloud__item" data-count="1">生活</a>
-      
-        <a href="/tags/minecraft/" class="tag-cloud__item" data-count="1">minecraft</a>
-      
-        <a href="/tags/troubleshooting/" class="tag-cloud__item" data-count="1">troubleshooting</a>
-      
-        <a href="/tags/forum/" class="tag-cloud__item" data-count="1">论坛</a>
-      
-        <a href="/tags/css/" class="tag-cloud__item" data-count="1">CSS</a>
-      
-        <a href="/tags/sheaffer/" class="tag-cloud__item" data-count="1">sheaffer</a>
-      
-        <a href="/tags/ai/" class="tag-cloud__item" data-count="1">ai</a>
-      
-        <a href="/tags/twikoo/" class="tag-cloud__item" data-count="1">twikoo</a>
-      
-        <a href="/tags/plugin/" class="tag-cloud__item" data-count="1">插件</a>
-      
-        <a href="/tags/chirpy/" class="tag-cloud__item" data-count="1">chirpy</a>
+        <a href="/tags/input-method/" class="sidebar-tags__item" data-count="1">输入法</a>
       
     </div>
   </div>
@@ -784,27 +561,47 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
   
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+    <nav class="site-footer__links">
+      
+        <a href="/">首页</a>
+      
+        <a href="/categories/">分类</a>
+      
+        <a href="/tags/">标签</a>
+      
+        <a href="/archive/">归档</a>
+      
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      
+        <a href="https://github.com/eiraud-fishball" target="_blank" rel="noopener">GitHub</a>
+      
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
   </div>
 </footer>
 
 
   <!-- Back to Top -->
   <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
-    <i class="fas fa-chevron-up"></i>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
   </button>
-
-  <script src="/assets/js/main.js"></script>
 
   <!-- Search Modal -->
   <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
     <div class="search-modal__overlay" id="searchOverlay"></div>
     <div class="search-modal__content">
       <div class="search-modal__header">
-        <i class="fas fa-search search-modal__icon"></i>
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
         <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
-          <i class="fas fa-times"></i>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
         </button>
       </div>
       <div class="search-modal__results" id="searchResults">
@@ -813,10 +610,15 @@ bundle <span class="token builtin class-name">exec</span> jekyll build
     </div>
   </div>
 
-  <!-- PWA: Service Worker Registration -->
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
   
   <script>
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js');
       });
