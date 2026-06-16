@@ -449,14 +449,34 @@
 }
 
 .calendar-widget__day {
-  padding: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0;
+  min-height: 28px;
   color: var(--text-secondary);
   cursor: default;
 }
 
 .calendar-widget__day--today {
+  position: relative;
   font-weight: 700;
-  color: var(--accent);
+  color: #fff;
+  z-index: 1;
+}
+
+.calendar-widget__day--today::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  background: var(--accent);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .calendar-widget__day--other {
