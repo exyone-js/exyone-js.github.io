@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     Base Layout (Template Layer)
+     Serves as the root template for all pages.
+     ============================================================ -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Eleventy v3">
+
+<title>欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利 - EXYONE@BLOG:~$</title>
+<meta name="description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta name="author" content="Exyone.dev">
+
+<!-- ========================================================== -->
+<!--  Open Graph / Social Preview                                -->
+<!-- ========================================================== -->
+<meta property="og:title" content="欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利 - EXYONE@BLOG:~$">
+<meta property="og:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://exyon.ee/posts/how-the-western-fountain-pen-was-invented/">
+<meta property="og:site_name" content="EXYONE@BLOG:~$">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://exyon.ee/assets/images/avatar.png">
+
+<!-- ========================================================== -->
+<!--  Twitter Card                                               -->
+<!-- ========================================================== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@exyone_frosty">
+<meta name="twitter:title" content="欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利 - EXYONE@BLOG:~$">
+<meta name="twitter:description" content="Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.">
+<meta name="twitter:image" content="https://exyon.ee/assets/images/avatar.png">
+
+<!-- ========================================================== -->
+<!--  Webmaster Verification                                     -->
+<!-- ========================================================== -->
+<meta name="google-site-verification" content="kBZNtZYwiUvmQLdeBYw3KVii7WNN8MEFG3yZlizKv08">
+
+
+
+<!-- ========================================================== -->
+<!--  Stylesheets                                                -->
+<!-- ========================================================== -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/atom+xml" title="EXYONE@BLOG:~$" href="https://exyon.ee/feed.xml">
+
+<!-- ========================================================== -->
+<!--  Favicon (SVG inline — cloud-drizzle icon)                 -->
+<!-- ========================================================== -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon-precomposed" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-cloud-drizzle' viewBox='0 0 16 16'%3E%3Cpath d='M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-title" content="EXYONE@BLOG:~$">
+<meta name="application-name" content="EXYONE@BLOG:~$">
+<meta name="theme-color" content="#ffffff">
+
+  
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利",
+  "description": "汉堡的冬天。1906年。银行家Claus-Johannes Voss和工程师August Eberstein坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。",
+  "datePublished": "2024-05-17T00:00:00Z",
+  "dateModified": "2024-05-17T00:00:00Z",
+  "author": {
+    "@type": "Person",
+    "name": "Exyone.dev",
+    "url": "https://github.com/eiraud-fishball"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://exyon.ee/posts/how-the-western-fountain-pen-was-invented/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Exyone.dev"
+  },
+  "url": "https://exyon.ee/posts/how-the-western-fountain-pen-was-invented/"
+}
+</script>
+
+
+
+  <!-- PWA: Web App Manifest -->
+  <link rel="manifest" href="/assets/manifest.json">
+  <meta name="theme-color" content="#f2efe8">
+
+  <!-- Analytics: Umami -->
+  
+
+  <!-- Analytics: Google (gtag.js) -->
+  
+
+  <!-- Analytics: Cloudflare Web Analytics -->
+  
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="site-header__logo">
+      <span class="leaf-accent" style="margin-right:6px;"></span>
+      <span class="site-header__logo-text">EXYONE@BLOG:~$</span>
+    </a>
+
+    <!-- Main Navigation (text links) -->
+    <nav class="header-nav">
+      <a href="/" class="header-nav__link">导航</a>
+      <a href="/categories/" class="header-nav__link">整理</a>
+      <a href="/links/" class="header-nav__link">友链</a>
+      <a href="/guestbook/" class="header-nav__link">留言</a>
+      <a href="/share/" class="header-nav__link">分享</a>
+      <a href="/about/" class="header-nav__link">关于</a>
+    </nav>
+
+    <!-- Right-aligned tools -->
+    <div class="header-tools">
+      <!-- Search -->
+      <button class="header-tools__btn" id="searchBtn" aria-label="搜索" title="搜索">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+
+      <!-- Theme Toggle -->
+      <div class="header-tools__btn header-theme-toggle" id="themeToggle">
+        <svg class="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+        </svg>
+      </div>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="切换导航" title="切换导航">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+
+  <div class="site-container">
+    
+
+<aside class="left-nav" id="leftNav">
+  <!-- Author Card — Text Only -->
+  <div class="left-nav__author">
+    <h2 class="left-nav__author-name">Exyone.dev</h2>
+    <p class="left-nav__site-title">EXYONE@BLOG:~$</p>
+    <p class="left-nav__site-tagline">Building software with C# and JS. Based in China.</p>
+    <p class="left-nav__author-desc">将好奇心转化为代码</p>
+    <div class="left-nav__social">
+      
+        <a href="https://github.com/eiraud-fishball" class="left-nav__social-link" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.61 8.21 11.16.6.11.82-.25.82-.57 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.37-1.34-1.74-1.34-1.74-1.09-.73.08-.72.08-.72 1.2.08 1.84 1.21 1.84 1.21 1.07 1.8 2.81 1.28 3.5.98.11-.76.42-1.28.76-1.57-2.67-.3-5.47-1.31-5.47-5.84 0-1.29.47-2.34 1.24-3.17-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 6 0c2.29-1.53 3.3-1.21 3.3-1.21.66 1.66.25 2.88.12 3.18.77.83 1.24 1.88 1.24 3.17 0 4.54-2.81 5.54-5.49 5.83.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.28 0 .32.22.69.83.57A12.04 12.04 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
+        </a>
+      
+      
+        <a href="https://twitter.com/exyone_frosty" class="left-nav__social-link" aria-label="Twitter" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </a>
+      
+      
+        <a href="mailto:exyone.dev@icloud.com" class="left-nav__social-link" aria-label="Email">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+      
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="left-nav__menu" aria-label="Main navigation">
+    
+      <a href="/" class="left-nav__item">
+        
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/><path d="M9 21v-6h6v6"/></svg>
+        
+        <span>首页</span>
+      </a>
+    
+      <a href="/categories/" class="left-nav__item">
+        
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        
+        <span>分类</span>
+      </a>
+    
+      <a href="/tags/" class="left-nav__item">
+        
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        
+        <span>标签</span>
+      </a>
+    
+      <a href="/archive/" class="left-nav__item">
+        
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="4"/><path d="M4 8v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+        
+        <span>归档</span>
+      </a>
+    
+  </nav>
+
+  <!-- Digital Clock -->
+  <div class="clock-widget">
+    <div class="clock-widget__time" id="clockTime">--:--:--</div>
+    <div class="clock-widget__date" id="clockDate">----.--.--</div>
+  </div>
+
+  <!-- Mini Calendar -->
+  <div class="calendar-widget" id="calendarWidget">
+    <div class="calendar-widget__header">
+      <span class="calendar-widget__month" id="calendarMonth">June 2026</span>
+      <div class="calendar-widget__nav">
+        <button id="calendarPrev" aria-label="上个月">&#8249;</button>
+        <button id="calendarNext" aria-label="下个月">&#8250;</button>
+      </div>
+    </div>
+    <div class="calendar-widget__grid" id="calendarGrid">
+      <span class="calendar-widget__day-name">日</span>
+      <span class="calendar-widget__day-name">一</span>
+      <span class="calendar-widget__day-name">二</span>
+      <span class="calendar-widget__day-name">三</span>
+      <span class="calendar-widget__day-name">四</span>
+      <span class="calendar-widget__day-name">五</span>
+      <span class="calendar-widget__day-name">六</span>
+    </div>
+  </div>
+
+  <!-- Overlay for mobile -->
+  <div class="left-nav__overlay" id="navOverlay"></div>
+</aside>
+
+
+<main class="main-content" id="main-content">
+  <article class="post-detail">
+    <!-- Article header -->
+    <header class="post-detail__header">
+      <!-- Title row: categories + title on the same line -->
+      <div class="post-detail__title-row">
+        <h1 class="post-detail__title">欧美钢笔厂商往事：万宝龙、百利金、水人、派克、犀飞利</h1>
+        
+          <div class="post-detail__categories">
+            
+              <a href="/categories/life-snippets/" class="category-badge">闲情杂记</a>
+            
+          </div>
+        
+      </div>
+
+      <!-- Tag badges -->
+      
+        <div class="post-detail__tags mb-3">
+          
+            <a href="/tags/fountain-pen/" class="tag-badge">#钢笔</a>
+          
+            <a href="/tags/history/" class="tag-badge">#历史</a>
+          
+        </div>
+      
+
+      <!-- Post metadata -->
+      <div class="post-detail__meta">
+        <span class="post-detail__date">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          发布于 2024-05-17
+        </span>
+        
+        
+        <span class="post-detail__reading-time">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          1 分钟阅读
+        </span>
+        
+        
+        <span class="post-detail__word-count">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          78 字
+        </span>
+        
+      </div>
+    </header>
+
+
+
+    <!-- ============================================================ -->
+    <!--  Article Content                                              -->
+    <!-- ============================================================ -->
+    <div class="post-detail__content">
+      <p>汉堡的冬天。1906年。银行家 Claus-Johannes Voss 和工程师 August Eberstein 坐在咖啡馆里，桌上摊着图纸。他们想做一支不漏墨的钢笔。那时候的钢笔，墨水总是从笔尖渗出来，弄脏手指，弄脏纸张。他们想改变这个。</p>
+<p>在墨迹斑斓的西方文坛，这些欧美钢笔厂商如古老城堡般屹立，守望着上世纪的荣光与风雨。它们从创新的火种中诞生，伴随两次世界大战与经济风云，铸就了书写永恒的传奇。万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，各有千秋，却共同谱写了一曲墨香交响。</p>
+<p>万宝龙1906年于德国汉堡启幕，由银行家与工程师联手，首创内置墨囊的安全笔，奠定奢华基调。其优点在于那份精致工艺，宛若艺术品般优雅耐久；早年价格高企，或让寻常文人稍感遥远，却正因稀贵，更添尊荣。1919年，其笔签署《凡尔赛条约》，见证和平曙光；1924年推出 Meisterstück，意为&quot;大师之作&quot;，从此成为全球最畅销的高端钢笔之一。这支笔之所以成为经典，在于它解决了钢笔的两个核心痛点：一是采用活塞上墨，墨水容量比同时代其他笔大得多；二是笔尖采用 14K 金、经过手工打磨，每一支的书写手感都有细微差别。至今万宝龙仍在生产 Meisterstück，笔尖的形状和尺寸几乎没变——这在日新月异的工业社会里近乎奇迹。重要笔型包括 1909 年首款安全笔 Rouge et Noir（红黑双色，防漏设计）和 1924 年的 Meisterstück 149——巨型金笔，18K 笔尖，雪峰星徽，高端典范。</p>
+<p>百利金1838年源于德国墨汁厂，1929年首推活塞填充钢笔，开启文具新纪元。其长处是可靠墨量与耐用身躯，如老友般陪伴不倦；早年专注欧洲，或在美洲稍显低调，却因此更显匠心纯真。1958年 P1 系列革新，引入塑料注塑，助力大众书写；战后复苏，出口全球，奠定&quot;绿鹈鹕&quot;传奇。重要笔型包括 1929 年的 100N（首款活塞笔，绿色条纹，墨水充盈）和 1950 至 1960 年代的 M400/M800——Souverän 系列，14K 金尖，平衡优雅。</p>
+<p>水人1883年由 Lewis Edson Waterman 在美国纽约创立，发明&quot;三裂喂墨&quot;系统，首创可靠钢笔。优点显于那份流畅优雅，书写如江河般自然；早期硬橡胶易褪色，或需细心呵护，却正合其古典韵味。20世纪初转向杠杆填充，革新墨水注入；1950年代推出卡匣笔，适应现代节奏。重要笔型包括 1920 年代的 Patrician（奢华硬橡胶笔，金饰华丽）和 1990 年代的 Expert（现代树脂笔身，书写流畅，日常伴侣）。</p>
+<p>派克1888年由 George Safford Parker 在美国威斯康星创立，首创&quot;Lucky Curve&quot;喂墨系统，解决漏墨痛点。其优点是可靠耐用，如盾牌般守护书写；早年价格亲民，普及大众，却在高端领域稍显不足，后以 Duofold 系列补足。1921年推出 Duofold，橙色大笔，轰动市场；1940年代&quot;51&quot;系列问世，包尖设计，书写如丝，成为二战后最畅销笔型。关键笔型包括 1921 年的 Duofold（巨型笔，橙色笔身，金尖华丽）和 1941 年的 51（包尖设计，墨水流畅，书写如丝，战后畅销传奇）。</p>
+<p>犀飞利1912年由 Walter A. Sheaffer 在美国爱荷华创立，首创&quot;Touchdown&quot;活塞填充系统——用户只需按压笔尾的金属杆，墨水就会被吸入笔身内部的活塞舱。这个设计比当时的杠杆填充更可靠，漏墨概率更低，迅速成为其标志性技术。其优点是灵动创新，设计如翼般轻盈；早年价格中高，受众稍窄，却在收藏家心中赢得独特地位。1920年代推出 Lifetime 系列，终身保修，树立品质信心；1940年代 Triumph 笔尖问世，包尖设计，书写沙沙作响，成为犀飞利标志性创新。重要笔型包括 1920 年代的 Lifetime（终身保修笔，金尖耐用）和 1940 年代的 Triumph（包尖设计，书写沙沙，手感独特）。</p>
+<p>万宝龙的华贵、百利金的稳健、水人的优雅、派克的可靠、犀飞利的灵动，共同谱写了上世纪的墨香交响。这些品牌至今仍在生产，虽然市场份额早已被中性笔和键盘蚕食，但每一支老笔背后，都藏着一个时代对书写这件事的认真。</p>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  Article Footer (Tags)                                        -->
+    <!-- ============================================================ -->
+    <footer class="post-detail__footer">
+      
+        <div class="post-detail__footer-tags">
+          
+            <a href="/tags/fountain-pen/" class="tag-badge">#钢笔</a>
+          
+            <a href="/tags/history/" class="tag-badge">#历史</a>
+          
+        </div>
+      
+    </footer>
+  </article>
+
+  <!-- ============================================================ -->
+  <!--  Prev / Next Post Navigation — Same Line                     -->
+  <!-- ============================================================ -->
+  
+  
+  
+  <nav class="post-nav">
+    
+      <a href="/posts/japans-fountain-pen-trinity-pilot-platinum-and-sailor/" class="post-nav-link post-nav-link--prev">
+        <span class="post-nav-direction">
+          <span class="post-nav-arrow">←</span>
+          上一篇
+        </span>
+        <span class="post-nav-title">日本钢笔御三家：百乐、白金、写乐的百年匠心</span>
+      </a>
+    
+    
+      <a href="/posts/switching-from-wubi-to-shuangpin-input/" class="post-nav-link post-nav-link--next">
+        <span class="post-nav-direction">
+          下一篇
+          <span class="post-nav-arrow">→</span>
+        </span>
+        <span class="post-nav-title">从五笔到双拼：一场不得不作的告别</span>
+      </a>
+    
+  </nav>
+
+  <!-- ============================================================ -->
+  <!--  Related Posts                                                -->
+  <!-- ============================================================ -->
+  
+  <section class="related-posts">
+    <h2 class="related-posts__title">相关文章</h2>
+    <div class="related-posts__grid">
+      
+      
+      <a href="/posts/building-a-three-column-blog-with-eleventy/" class="related-post-card">
+        <h3 class="related-post-card__title">用 Eleventy 打造一个三栏博客：从零搭建到多平台自动部署</h3>
+        <div class="related-post-card__meta">
+          <span>2026-06-15</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/talking-about-social-class/" class="related-post-card">
+        <h3 class="related-post-card__title">别把阶层固化甩锅给“性格劣质”：那些踩着底层的人，忘了自己也站在泥里</h3>
+        <div class="related-post-card__meta">
+          <span>2026-06-15</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/adding-twikoo-comments-to-chirpy-theme/" class="related-post-card">
+        <h3 class="related-post-card__title">为 Chirpy 添加 Twikoo 评论：一次插件开发记录</h3>
+        <div class="related-post-card__meta">
+          <span>2026-04-26</span>
+          <span>·</span>
+          <span>2 分钟阅读</span>
+        </div>
+      </a>
+      
+      <a href="/posts/copilots-data-policy-and-open-source-implications/" class="related-post-card">
+        <h3 class="related-post-card__title">Copilot的数据政策变更：AI时代的开源思考</h3>
+        <div class="related-post-card__meta">
+          <span>2026-03-28</span>
+          <span>·</span>
+          <span>1 分钟阅读</span>
+        </div>
+      </a>
+      
+    </div>
+  </section>
+  
+
+  
+
+<section class="comments-section" id="comments">
+  <div id="twikoo-comments"></div>
+  <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.all.min.js"></script>
+  <script>twikoo.init({ envId: 'https://comments.exyone.vip/', el: '#twikoo-comments' });</script>
+</section>
+
+
+</main>
+
+
+<aside class="right-sidebar">
+  <!-- Table of Contents -->
+  <div class="sidebar-card toc-card" id="tocCard" style="display:none;">
+    <h3 class="sidebar-card__title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      目录
+    </h3>
+    <nav class="toc" id="toc"></nav>
+  </div>
+
+  <!-- Site Stats -->
+  <div class="sidebar-card site-info-card">
+    <h3 class="sidebar-card__title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      站点统计
+    </h3>
+    <div class="site-info-card__stats">
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">21</span>
+        <span class="site-info-card__stat-label">文章</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">3</span>
+        <span class="site-info-card__stat-label">分类</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">22</span>
+        <span class="site-info-card__stat-label">标签</span>
+      </div>
+      <div class="site-info-card__stat">
+        <span class="site-info-card__stat-value">丙午马年</span>
+        <span class="site-info-card__stat-label">建站</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  
+  <div class="sidebar-card categories-card">
+    <h3 class="sidebar-card__title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M2 8h20"/></svg>
+      分类
+    </h3>
+    <ul class="categories-list">
+      
+        <li class="categories-list__item">
+          <a href="/categories/tech-notes/">技术笔记<span class="categories-list__count">10</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/life-snippets/">闲情杂记<span class="categories-list__count">6</span></a>
+        </li>
+      
+        <li class="categories-list__item">
+          <a href="/categories/projects/">项目分享<span class="categories-list__count">4</span></a>
+        </li>
+      
+    </ul>
+  </div>
+  
+
+  <!-- Sidebar Tags -->
+  
+  <div class="sidebar-card tags-card">
+    <h3 class="sidebar-card__title">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      标签
+    </h3>
+    <div class="sidebar-tags">
+      
+        <a href="/tags/tutorial/" class="sidebar-tags__item" data-count="8">教程</a>
+      
+        <a href="/tags/fountain-pen/" class="sidebar-tags__item" data-count="5">钢笔</a>
+      
+        <a href="/tags/history/" class="sidebar-tags__item" data-count="4">历史</a>
+      
+        <a href="/tags/programming/" class="sidebar-tags__item" data-count="4">编程</a>
+      
+        <a href="/tags/blog/" class="sidebar-tags__item" data-count="3">博客</a>
+      
+        <a href="/tags/review/" class="sidebar-tags__item" data-count="3">评测</a>
+      
+        <a href="/tags/open-source/" class="sidebar-tags__item" data-count="3">开源</a>
+      
+        <a href="/tags/deployment/" class="sidebar-tags__item" data-count="3">部署</a>
+      
+        <a href="/tags/productivity/" class="sidebar-tags__item" data-count="2">效率</a>
+      
+        <a href="/tags/email/" class="sidebar-tags__item" data-count="2">邮件</a>
+      
+        <a href="/tags/privacy/" class="sidebar-tags__item" data-count="2">隐私</a>
+      
+        <a href="/tags/input-method/" class="sidebar-tags__item" data-count="1">输入法</a>
+      
+    </div>
+  </div>
+  
+</aside>
+
+
+  </div>
+
+  
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <nav class="site-footer__links">
+      
+        <a href="/">首页</a>
+      
+        <a href="/categories/">分类</a>
+      
+        <a href="/tags/">标签</a>
+      
+        <a href="/archive/">归档</a>
+      
+      <a href="/links/">友链</a>
+      <a href="/feed.xml">RSS</a>
+      
+        <a href="https://github.com/eiraud-fishball" target="_blank" rel="noopener">GitHub</a>
+      
+    </nav>
+    <p class="site-footer__copy">&copy; 2026 Exyone.dev &nbsp;&middot;&nbsp; Powered by <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a></p>
+  </div>
+</footer>
+
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="回到顶部" title="回到顶部">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="搜索">
+    <div class="search-modal__overlay" id="searchOverlay"></div>
+    <div class="search-modal__content">
+      <div class="search-modal__header">
+        <svg class="search-modal__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" class="search-modal__input" id="searchInput" placeholder="搜索文章..." autocomplete="off" spellcheck="false">
+        <button class="search-modal__close" id="searchClose" aria-label="关闭搜索">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-modal__results" id="searchResults">
+        <div class="search-modal__empty">输入关键词开始搜索</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts — placed AFTER all DOM elements so getElementById finds everything -->
+  <!-- Fuse.js for client-side fuzzy search (self-hosted, zero CDN) -->
+  <script src="/assets/js/vendor/fuse.basic.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+
+  <!-- PWA: Service Worker Registration (production only — skip on localhost/file to avoid caching during dev) -->
+  
+  <script>
+    if ('serviceWorker' in navigator && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && location.protocol === 'https:') {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+  
+</body>
+</html>

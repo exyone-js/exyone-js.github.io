@@ -40,7 +40,7 @@
 
   <url>
     <loc>https://exyon.ee/categories/life-snippets/</loc>
-    <lastmod>2025-03-30T00:00:00Z</lastmod>
+    <lastmod>2026-06-15T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -140,6 +140,27 @@
   </url>
 
   <url>
+    <loc>https://exyon.ee/tags/mics/</loc>
+    <lastmod>2026-06-15T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/philosophy/</loc>
+    <lastmod>2026-06-15T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/tags/community/</loc>
+    <lastmod>2026-06-15T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://exyon.ee/tags/jekyll/</loc>
     <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>weekly</changefreq>
@@ -192,56 +213,63 @@
   <!-- Post pages -->
 
   <url>
-    <loc>https://exyon.ee/posts/building-eleventy-blog-system/</loc>
+    <loc>https://exyon.ee/posts/building-a-three-column-blog-with-eleventy/</loc>
     <lastmod>2026-06-15T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/chirpy-twikoo-comment-plugin/</loc>
+    <loc>https://exyon.ee/posts/talking-about-social-class/</loc>
+    <lastmod>2026-06-15T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://exyon.ee/posts/adding-twikoo-comments-to-chirpy-theme/</loc>
     <lastmod>2026-04-26T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/copilot-data-policy-open-source/</loc>
+    <loc>https://exyon.ee/posts/copilots-data-policy-and-open-source-implications/</loc>
     <lastmod>2026-03-28T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/docker-tinkering-lessons-learned/</loc>
+    <loc>https://exyon.ee/posts/docker-tinkering-what-i-learned-the-hard-way/</loc>
     <lastmod>2026-03-25T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/misans-font-for-long-reading/</loc>
+    <loc>https://exyon.ee/posts/misans-font-for-better-reading-experience/</loc>
     <lastmod>2025-07-26T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/github-alternatives-code-hosting/</loc>
+    <loc>https://exyon.ee/posts/github-alternatives-for-code-hosting/</loc>
     <lastmod>2025-05-21T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/sheaffer-imperial-ii-review/</loc>
+    <loc>https://exyon.ee/posts/sheaffer-imperial-ii-fountain-pen-review/</loc>
     <lastmod>2025-03-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/css-paragraph-text-indent/</loc>
+    <loc>https://exyon.ee/posts/css-paragraph-text-indentation-guide/</loc>
     <lastmod>2025-02-28T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -255,78 +283,78 @@
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/openlist-zfile-cloud-drive-tools/</loc>
+    <loc>https://exyon.ee/posts/openlist-and-zfile-for-cloud-drive-management/</loc>
     <lastmod>2025-01-19T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/only-bsd2-and-apache2-licenses/</loc>
+    <loc>https://exyon.ee/posts/why-i-only-use-bsd2-and-apache2-licenses/</loc>
     <lastmod>2025-01-16T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/protonmail-review-not-worth-it/</loc>
+    <loc>https://exyon.ee/posts/protonmail-review-why-it-is-not-worth-it/</loc>
     <lastmod>2024-11-30T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/nds-psp-handheld-golden-age/</loc>
+    <loc>https://exyon.ee/posts/the-golden-age-of-nds-and-psp-handhelds/</loc>
     <lastmod>2024-09-09T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/how-to-choose-email-service/</loc>
+    <loc>https://exyon.ee/posts/how-to-choose-the-right-email-service/</loc>
     <lastmod>2024-09-07T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/yongsheng-601a-triumph-nib/</loc>
+    <loc>https://exyon.ee/posts/yongsheng-601a-with-triumph-nib-review/</loc>
     <lastmod>2024-08-16T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/from-wubi-to-shuangpin/</loc>
+    <loc>https://exyon.ee/posts/switching-from-wubi-to-shuangpin-input/</loc>
     <lastmod>2024-06-21T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/western-fountain-pen-history/</loc>
+    <loc>https://exyon.ee/posts/how-the-western-fountain-pen-was-invented/</loc>
     <lastmod>2024-05-17T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/japanese-fountain-pen-trinity/</loc>
+    <loc>https://exyon.ee/posts/japans-fountain-pen-trinity-pilot-platinum-and-sailor/</loc>
     <lastmod>2024-04-16T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/jekyll-chirpy-trial-and-error/</loc>
-    <lastmod>2024-02-03T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/the-history-of-chinese-vintage-fountain-pens/</loc>
+    <lastmod>2024-03-15T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://exyon.ee/posts/chinese-vintage-pen-history/</loc>
-    <lastmod>2023-03-15T00:00:00Z</lastmod>
+    <loc>https://exyon.ee/posts/migrating-to-jekyll-chirpy-theme/</loc>
+    <lastmod>2024-02-03T00:00:00Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>

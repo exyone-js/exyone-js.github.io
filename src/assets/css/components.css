@@ -590,7 +590,7 @@
 /*  Post Detail Header                                               */
 /* ================================================================ */
 .post-detail__header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .post-detail__title-row {
@@ -652,16 +652,7 @@
   font-size: var(--text-xs);
 }
 
-.post-detail__excerpt {
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-  background: rgba(var(--accent-rgb), 0.04);
-  border-left: 3px solid var(--accent);
-  color: var(--text-secondary);
-  font-size: var(--text-sm);
-  font-style: italic;
-  line-height: var(--leading-relaxed);
-}
+
 
 /* ================================================================ */
 /*  Post Content Headings                                            */

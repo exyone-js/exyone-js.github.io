@@ -29,7 +29,8 @@ metadata:
     <link href="{{ absolutePostUrl }}" />
     <updated>{{ (post.data.updated or post.date) | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
-    <content type="html">{{ post.content | renderTransforms(post.data.page, metadata.base) }}</content>
+    <summary>{{ post.data.excerpt or "" }}</summary>
+    <content type="html">&lt;p&gt;{{ post.data.excerpt or "" }}&lt;/p&gt;</content>
   </entry>
   {%- endfor %}
 </feed>

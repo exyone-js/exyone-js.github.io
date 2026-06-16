@@ -40,6 +40,9 @@ module.exports = function () {
       "游戏": "gaming",
       "Eleventy": "11ty",
       "Docker": "docker",
+      "杂谈": "mics",
+      "哲学": "philosophy",
+      "社会": "community",
     },
   };
 };
