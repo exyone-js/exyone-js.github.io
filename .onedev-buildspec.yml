@@ -113,7 +113,7 @@ jobs:
         fi
         export CLOUDFLARE_API_TOKEN="@secret:cloudflare-api-token@"
         export CLOUDFLARE_ACCOUNT_ID="@secret:cloudflare-account-id@"
-        npx wrangler pages deploy _site --project-name exyone-blog --branch main --commit-dirty=true
+        npx wrangler pages deploy _site --project-name exyone --branch main --commit-dirty=true
     useTTY: false
     condition: SUCCESSFUL
     optional: false
@@ -304,6 +304,12 @@ jobs:
 
 - name: Backup to Codeberg
   steps:
+  - type: CheckoutStep
+    name: checkout
+    cloneCredential:
+      type: DefaultCredential
+    condition: SUCCESSFUL
+    optional: false
   - type: CommandStep
     name: push to codeberg
     runInContainer: false
@@ -330,6 +336,12 @@ jobs:
 
 - name: Backup to Git.gay
   steps:
+  - type: CheckoutStep
+    name: checkout
+    cloneCredential:
+      type: DefaultCredential
+    condition: SUCCESSFUL
+    optional: false
   - type: CommandStep
     name: push to git.gay
     runInContainer: false
