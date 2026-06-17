@@ -33,7 +33,12 @@ jobs:
       type: DefaultInterpreter
       commands: |
         cd /tmp/exyone-blog-build
-        npm ci
+        if [ -d "node_modules" ]; then
+          echo "node_modules exists, skipping npm ci"
+        else
+          echo "node_modules not found, running npm ci"
+          npm ci
+        fi
     useTTY: false
     condition: SUCCESSFUL
     optional: false
@@ -94,7 +99,12 @@ jobs:
           cp -r . "$BUILD_DIR/"
           cd "$BUILD_DIR"
           export PATH="/usr/local/bin:$PATH"
-          npm ci
+          if [ -d "node_modules" ]; then
+            echo "node_modules exists, skipping npm ci"
+          else
+            echo "node_modules not found, running npm ci"
+            npm ci
+          fi
           npm run build
         fi
     useTTY: false
@@ -108,6 +118,7 @@ jobs:
       type: DefaultInterpreter
       commands: |
         cd /tmp/exyone-blog-build
+        export PATH="/usr/local/bin:$(npm root -g):$PATH"
         if ! command -v wrangler &> /dev/null; then
           npm install -g wrangler
         fi
@@ -149,7 +160,12 @@ jobs:
           cp -r . "$BUILD_DIR/"
           cd "$BUILD_DIR"
           export PATH="/usr/local/bin:$PATH"
-          npm ci
+          if [ -d "node_modules" ]; then
+            echo "node_modules exists, skipping npm ci"
+          else
+            echo "node_modules not found, running npm ci"
+            npm ci
+          fi
           npm run build
         fi
     useTTY: false
@@ -200,7 +216,12 @@ jobs:
           cp -r . "$BUILD_DIR/"
           cd "$BUILD_DIR"
           export PATH="/usr/local/bin:$PATH"
-          npm ci
+          if [ -d "node_modules" ]; then
+            echo "node_modules exists, skipping npm ci"
+          else
+            echo "node_modules not found, running npm ci"
+            npm ci
+          fi
           npm run build
         fi
     useTTY: false
@@ -218,8 +239,11 @@ jobs:
         cd "$BUILD_DIR"
         git config --global user.email "[email protected]"
         git config --global user.name "OneDev CI"
+        # Remove entire deploy directory (including .git) to ensure clean state
+        rm -rf "$DEPLOY_DIR"
         git clone @secret:codeberg-pages-repo-url@ "$DEPLOY_DIR" --depth 1
-        rm -rf "$DEPLOY_DIR"/*
+        # Clear all files except .git
+        find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
         cp -r _site/* "$DEPLOY_DIR/"
         cd "$DEPLOY_DIR"
         echo "exyone.js.cool" > .domains
@@ -261,7 +285,12 @@ jobs:
           cp -r . "$BUILD_DIR/"
           cd "$BUILD_DIR"
           export PATH="/usr/local/bin:$PATH"
-          npm ci
+          if [ -d "node_modules" ]; then
+            echo "node_modules exists, skipping npm ci"
+          else
+            echo "node_modules not found, running npm ci"
+            npm ci
+          fi
           npm run build
         fi
     useTTY: false
@@ -279,8 +308,11 @@ jobs:
         cd "$BUILD_DIR"
         git config --global user.email "[email protected]"
         git config --global user.name "OneDev CI"
+        # Remove entire deploy directory (including .git) to ensure clean state
+        rm -rf "$DEPLOY_DIR"
         git clone @secret:gitgay-pages-repo-url@ "$DEPLOY_DIR" --depth 1
-        rm -rf "$DEPLOY_DIR"/*
+        # Clear all files except .git
+        find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
         cp -r _site/* "$DEPLOY_DIR/"
         cd "$DEPLOY_DIR"
         git add .

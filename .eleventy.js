@@ -86,16 +86,37 @@ module.exports = function (eleventyConfig) {
       .map(([year, posts]) => [year, posts.sort((a, b) => ensureDate(a.date) - ensureDate(b.date))]);
   });
 
-  /** Estimate reading time based on word count (average 300 WPM) */
-  eleventyConfig.addFilter("readingTime", (text) => {
-    const words = (text || "").trim().split(/\s+/).length;
-    const minutes = Math.max(1, Math.ceil(words / 300));
-    return minutes;
+  /**
+   * Count words in text content (supports Chinese + English)
+   * Chinese: count characters (each Hanzi = 1 word)
+   * English: count words (space-separated)
+   */
+  eleventyConfig.addFilter("wordCount", (text) => {
+    if (!text) return 0;
+    const str = String(text).trim();
+    // Count Chinese characters (CJK Unified Ideographs range)
+    const chineseChars = (str.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+    // Count English words (sequences of letters/numbers)
+    const englishWords = (str.match(/[a-zA-Z0-9]+/g) || []).length;
+    return chineseChars + englishWords;
   });
 
-  /** Count words in text content */
-  eleventyConfig.addFilter("wordCount", (text) => {
-    return (text || "").trim().split(/\s+/).length;
+  /**
+   * Estimate reading time (supports Chinese + English)
+   * Chinese: ~350 chars/min, English: ~220 words/min
+   */
+  eleventyConfig.addFilter("readingTime", (text) => {
+    if (!text) return 1;
+    const str = String(text).trim();
+    // Count Chinese characters
+    const chineseChars = (str.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+    // Count English words
+    const englishWords = (str.match(/[a-zA-Z0-9]+/g) || []).length;
+    // Calculate reading time (weighted average)
+    const chineseMinutes = chineseChars / 350;
+    const englishMinutes = englishWords / 220;
+    const totalMinutes = Math.max(1, Math.ceil(chineseMinutes + englishMinutes));
+    return totalMinutes;
   });
 
   /** Strip HTML and Markdown markup, collapse whitespace — used by search index */
