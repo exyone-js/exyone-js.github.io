@@ -11,13 +11,13 @@ tags:
 excerpt: 这篇文章记录了为博客配置 OneDev CI/CD 的完整过程。从最初的 YAML 语法错误，到各种步骤配置问题，再到最终实现多平台自动部署和仓库备份，踩了不少坑。希望这些经验能帮到同样在折腾 OneDev 的朋友。
 ---
 
-之前博客的 CI/CD 跑在 GitHub Actions 上，功能单一，只负责构建和部署 GitHub Pages。这次我想把整个流程迁移到自建的 OneDev 上，实现更灵活的多平台部署。目标很明确：一次推送，自动构建，同时部署到 Cloudflare Pages、Netlify、Codeberg Pages、Git.gay Pages，还要把源码仓库备份到 Codeberg 和 Git.gay。
+昔余之博客 CI/CD 寄于 GitHub Actions，事简功微，唯构建与部署 GitHub Pages 而已。今欲迁其全务于自建之 OneDev，冀调度之便，一推送而遍布诸平台。志既定：凡一提交，即自动构建，同发於 Cloudflare Pages、Netlify、Codeberg Pages、Git.gay Pages 四境；复以源码备份於 Codeberg、Git.gay 二仓。  
 
-听起来不难，实际操作下来踩了一堆坑。这篇文章就是完整的踩坑记录。
+其事似易，行之则坎阱相属。此篇所录，皆亲历之失，以警来者。
 
-## 第一坑：CommandStep 的 commands 字段位置
+## 第一失：CommandStep 之 commands 位阶
 
-最开始写的 CommandStep 长这样：
+初撰 `CommandStep`，其式如下，OneDev 拒之，报曰：“Unable to find property 'commands' on class...”。
 
 ```yaml
 - type: CommandStep
@@ -26,207 +26,89 @@ excerpt: 这篇文章记录了为博客配置 OneDev CI/CD 的完整过程。从
     npm run build
 ```
 
-OneDev 报错：`Unable to find property 'commands' on class: io.onedev.server.buildspec.step.CommandStep`
-
-查了官方文档才知道，commands 字段不在 CommandStep 的顶层，而是在 interpreter 下面。正确的写法是：
+检官档方知：`commands` 非居顶层，乃隶於 `interpreter` 之下。改作：
 
 ```yaml
 - type: CommandStep
   name: build
-  runInContainer: false
   interpreter:
     type: DefaultInterpreter
     commands: |
       npm run build
-  useTTY: false
-  condition: SUCCESSFUL
-  optional: false
 ```
 
-这个结构比 GitHub Actions 复杂不少。GitHub Actions 的 `run:` 直接写命令就行，OneDev 却要嵌套一层 interpreter。
+较之 GitHub Actions 直书 `run:` 者，繁简迥异矣。
 
-## 第二坑：Trigger 的语法问题
+## 第二失：Trigger 之语法乖谬
 
-OneDev 的 Trigger 配置也有坑。我最初写的 BranchUpdateTrigger 带了 paths 属性：
+触发器亦多舛。初设 `BranchUpdateTrigger`，妄加 `paths` 属性，报云：“Cannot create property=paths...”。  
+盖此器本无 `paths` 字段，遂删之。
 
-```yaml
-triggers:
-- type: BranchUpdateTrigger
-  branches: main
-  paths:
-    - src/**
-```
-
-报错：`Cannot create property=paths for JavaBean=io.onedev.server.buildspec.job.trigger.BranchUpdateTrigger`
-
-原来 OneDev 的 BranchUpdateTrigger 根本不支持 paths 字段。只能删掉。
-
-然后是 TagCreateTrigger 的写法。我写成了：
+又误书 `TagCreateTrigger` 为：
 
 ```yaml
 - type: TagCreateTrigger {}
 ```
 
-报错：`Can't construct a java object for !TagCreateTrigger%20%7B%7D`
-
-正确写法是不带大括号：
+报曰：“Can't construct a java object for ...”。  
+正写当去其括弧：
 
 ```yaml
 - type: TagCreateTrigger
 ```
 
-## 第三坑：userMatch 字段不能为空
+## 第三失：userMatch 不可阙
 
-配置文件终于能被 OneDev 识别了，但验证时报了一堆错：
+配置既通，校验复错：“验证构建规范时发生错误……不得为空”。  
+凡 `BranchUpdateTrigger` 必补 `userMatch: anyone`。此字段所以限何人可触发，缺则必报，填 `anyone` 则任人皆可。
 
-```
-验证构建规范时发生错误（位置：jobs[0].triggers[0].userMatch，错误消息：不得为空）
-验证构建规范时发生错误（位置：jobs[1].triggers[0].userMatch，错误消息：不得为空）
-...
-```
+## 第四失：Job Executor 未设
 
-所有 BranchUpdateTrigger 都要加上 `userMatch: anyone`：
+校验虽过，运行又败。报云：“No job executor defined... No applicable executor discovered”。  
 
-```yaml
-triggers:
-- type: BranchUpdateTrigger
-  branches: main
-  userMatch: anyone
-```
+盖 OneDev 需预置执行器方可运务。余择“裸机构建”（不假 Docker），遂於后台增 **Server Shell Executor**，配毕方得行。
 
-这个字段指定哪些用户触发的更新会执行该 Job。不填就报错，填 `anyone` 表示任何人都可以触发。
+## 第五失：Node.js 隐遁
 
-## 第四坑：Job Executor 找不到
-
-配置文件验证通过了，运行时报错：
-
-```
-No job executor defined, auto-discovering...
-No applicable executor discovered for current job
-```
-
-OneDev 需要配置 Job Executor 才能运行 Job。我选的是裸机构建模式（不使用 Docker），需要在 OneDev 管理后台添加 Server Shell Executor：
-
-1. 进入 Administration → Build Executors
-2. 添加新的 Server Shell Executor
-3. 配置服务器地址和工作目录
-
-配置完成后，Job 终于能跑了。
-
-## 第五坑：Node.js 命令找不到
-
-Job 开始执行，第一步就挂了：
-
-```
-/opt/onedev/temp/server/onedev-build-6-1-3/command/step-1.sh: line 6: node: command not found
-/opt/onedev/temp/server/onedev-build-6-1-3/command/step-1.sh: line 7: npm: command not found
-```
-
-服务器上通过 aaPanel 安装的 Node.js 没有加到系统 PATH 里。解决方案是用 apt 重新安装：
+始运之际，首步即坠。报云 `node`、`npm` 皆不在 PATH 中。  
+缘旧以 aaPanel 装之，路径未载。遂重以 apt 安之：
 
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-安装后 `node --version` 和 `npm --version` 都能正常输出了。
+验之，版本皆出，乃复常。
 
-## 第六坑：Cloudflare 项目名称错误
+## 第六失：Cloudflare 名实不符
 
-部署到 Cloudflare Pages 时报错：
+部署至 Cloudflare Pages，报“Project not found”。  
+余所用项目名曰 `exyone-blog`，而云端实名乃 `exyone`。更名乃通。
 
-```
-Project not found. The specified project name does not match any of your existing projects. [code: 8000007]
-```
+## 第七失：备份无 Git 之基
 
-我用的项目名是 `exyone-blog`，但 Cloudflare 上创建的项目名是 `exyone`。改成正确的名字就好了：
+备份至 Codeberg 又败，报“fatal: not a git repository”。  
+因缺 `CheckoutStep`，工目中空无一物。补之，始得代码。
 
-```yaml
-npx wrangler pages deploy _site --project-name exyone --branch main --commit-dirty=true
-```
+## 第八失：Netlify 命令难寻
 
-## 第七坑：备份作业找不到 Git 仓库
+至 Netlify 部署，虽预装 `netlify-cli`，仍报找不到命令。  
+盖全局包未必在 PATH 中。改以 `npx` 调用，`npx` 自取所需，免预装之烦，遂成。
 
-备份到 Codeberg 的 Job 报错：
+## 终局之构
 
-```
-fatal: not a git repository (or any of the parent directories): .git
-```
+历诸险，终成 `.onedev-buildspec.yml`。含七务：构建、四端部署、二处备份。每务先验产物存否，无则构建，有则复用，以免重复，且保各端一致。
 
-原因是备份 Job 没有 CheckoutStep，工作目录里根本没有代码。加上检出步骤：
-
-```yaml
-- name: Backup to Codeberg
-  steps:
-  - type: CheckoutStep
-    name: checkout
-    cloneCredential:
-      type: DefaultCredential
-    condition: SUCCESSFUL
-    optional: false
-  - type: CommandStep
-    name: push to codeberg
-    ...
-```
-
-## 第八坑：Netlify 命令找不到
-
-最后一个问题是 Netlify 部署：
+机密之事，皆纳於 OneDev Secrets 中。带 Token 之 URL 式如下：
 
 ```
-netlify: command not found
+https://username:token@codeberg.org/username/repo.git
 ```
 
-虽然用 `npm install -g netlify-cli` 安装了，但全局安装的包可能不在 PATH 里。改用 npx 更可靠：
+GitHub Actions 之责遂减，唯定时同步、布 GitHub Pages 而已。由是 OneDev 为主仓，GitHub 为从。
 
-```yaml
-npx netlify-cli deploy --prod --dir _site --site @secret:netlify-site-id@ --auth @secret:netlify-auth-token@
-```
+综观此次迁务，OneDev 之 YAML 远繁於 GitHub Actions，盖其本於 Java 对象映射，规制甚严。然其报错所示类名、属性名，皆直指病灶，循此索解，立可得愈，此亦一大获也。
 
-npx 会自动下载并执行 netlify-cli，不需要预先安装。
+裸机构建，速快而耗省，然须自理环境；若厌其琐，用 Docker 模式可省心力。
 
-## 最终配置结构
-
-踩完所有坑后，最终的 `.onedev-buildspec.yml` 包含以下 Job：
-
-1. **Build Blog** - 检出代码、安装依赖、构建站点
-2. **Deploy to Cloudflare Pages** - 部署到 Cloudflare
-3. **Deploy to Netlify** - 部署到 Netlify
-4. **Deploy to Codeberg Pages** - 部署到 Codeberg Pages
-5. **Deploy to Git.gay Pages** - 部署到 Git.gay Pages
-6. **Backup to Codeberg** - 备份源码到 Codeberg
-7. **Backup to Git.gay** - 备份源码到 Git.gay
-
-每个部署 Job 都会检查 `/tmp/exyone-blog-build/_site` 是否存在，不存在就先构建。这样避免了重复构建，也保证了各平台部署的产物一致。
-
-## OneDev Secrets 配置
-
-敏感信息通过 OneDev 的 Secrets 管理：
-
-- `cloudflare-api-token` - Cloudflare API Token
-- `cloudflare-account-id` - Cloudflare Account ID
-- `netlify-site-id` - Netlify Site ID
-- `netlify-auth-token` - Netlify Personal Access Token
-- `codeberg-pages-repo-url` - Codeberg Pages 仓库 URL（带 Token）
-- `codeberg-backup-repo-url` - Codeberg 备份仓库 URL（带 Token）
-- `gitgay-pages-repo-url` - Git.gay Pages 仓库 URL（带 Token）
-- `gitgay-backup-repo-url` - Git.gay 备份仓库 URL（带 Token）
-
-带 Token 的 URL 格式是 `https://username:token@codeberg.org/username/repo.git`。
-
-## GitHub CI 的角色调整
-
-OneDev 成为主要的 CI/CD 平台后，GitHub Actions 的职责简化为：
-
-1. 定时从 OneDev 仓库拉取代码（保持同步）
-2. 构建并部署 GitHub Pages
-
-这样 OneDev 是主仓库，GitHub 是从仓库。所有开发工作推送到 OneDev，GitHub 定期同步并维护自己的 Pages 部署。
-
-## 总结
-
-OneDev 的 YAML 配置比 GitHub Actions 复杂不少，主要是 Java 对象映射的那套规则比较严格。踩坑过程中最大的收获是学会了阅读 OneDev 的错误信息——它报的 Java 类名和属性名直接对应 YAML 字段，顺着这个线索查文档能快速定位问题。
-
-裸机构建模式的好处是速度快、资源占用少，但需要自己管理服务器环境。如果不想折腾服务器配置，用 Docker 模式会更省心。
-
-最终实现的效果是：一次 `git push`，OneDev 自动构建并部署到 4 个平台，同时备份源码到 2 个平台。冗余度拉满，再也不用担心某个平台挂掉了。
+今既告成：一 `git push`，OneDev 即构建并布於四平台，备份於二仓。冗余既足，纵一平台倾圮，亦可无忧矣。
