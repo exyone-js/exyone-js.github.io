@@ -1,6 +1,8 @@
-name: Deploy Site
+name: Build and Deploy
 
 on:
+  schedule:
+    - cron: '*/30 * * * *'
   push:
     branches:
       - main
@@ -21,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -29,6 +31,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Sync from OneDev
+        run: |
+          git remote add onedev https://git.exyon.ee/exyone.git
+          git fetch onedev
+          git checkout main
+          git reset --hard onedev/main
+          git push origin main --force
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
 
       - name: Setup Pages
         id: pages
@@ -41,21 +63,3 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-
-      - name: Push to GitLab
-        run: |
-          git remote add gitlab ${{ secrets.GITLAB_REPO_URL }}
-          git push gitlab main --force
-        continue-on-error: true
-
-      - name: Deploy to Codeberg Pages
-        run: |
-          git clone ${{ secrets.CODEBERG_PAGES_REPO_URL }} codeberg-deploy --depth 1
-          rm -rf codeberg-deploy/*
-          cp -r _site/* codeberg-deploy/
-          cd codeberg-deploy
-          echo "exyone.js.cool" > .domains
-          git add .
-          git commit -m "Deploy: Update site"
-          git push -f origin main
-        continue-on-error: true
