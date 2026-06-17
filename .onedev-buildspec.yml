@@ -315,7 +315,7 @@ jobs:
   triggers:
   - type: BranchUpdateTrigger
     branches: main
-  - type: TagCreateTrigger {}
+  - type: TagCreateTrigger
   
   retryCondition: never
   maxRetries: 3
@@ -340,7 +340,7 @@ jobs:
   triggers:
   - type: BranchUpdateTrigger
     branches: main
-  - type: TagCreateTrigger {}
+  - type: TagCreateTrigger
   
   retryCondition: never
   maxRetries: 3
