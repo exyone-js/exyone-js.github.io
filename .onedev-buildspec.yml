@@ -303,7 +303,7 @@ jobs:
     name: push to codeberg
     remoteUrl: '@secret:codeberg-backup-repo-url@'
     userName: '@secret:codeberg-username@'
-    password: '@secret:codeberg-token@'
+    accessTokenSecret: codeberg-token
     pushAllBranches: true
     pushAllTags: true
     condition: SUCCESSFUL
@@ -325,7 +325,7 @@ jobs:
     name: push to git.gay
     remoteUrl: '@secret:gitgay-backup-repo-url@'
     userName: '@secret:gitgay-username@'
-    password: '@secret:gitgay-token@'
+    accessTokenSecret: gitgay-token
     pushAllBranches: true
     pushAllTags: true
     condition: SUCCESSFUL
