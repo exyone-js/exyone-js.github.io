@@ -86,6 +86,7 @@
 
   .left-nav {
     display: flex !important;
+    flex-direction: column;
     position: fixed;
     top: 52px;
     left: 0;
@@ -93,6 +94,7 @@
     z-index: 100;
     width: 280px;
     max-width: 85vw;
+    max-height: calc(100vh - 52px);
     padding: 1rem 0.75rem;
     padding-bottom: env(safe-area-inset-bottom, 1rem);
     overflow-y: auto;
@@ -109,6 +111,39 @@
 
   .left-nav.active {
     transform: translateX(0);
+  }
+
+  .left-nav__item.left-nav__mobile-only {
+    display: flex;
+  }
+
+  .left-nav__mobile-tools {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .left-nav__mobile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-muted);
+    border: none;
+    border-radius: 0;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast), background var(--transition-fast);
+    font-family: var(--font-body);
+  }
+
+  .left-nav__mobile-btn:hover {
+    color: var(--accent);
+    background: rgba(var(--accent-rgb), 0.04);
   }
 
   .site-header__inner {

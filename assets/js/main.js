@@ -479,6 +479,27 @@ function unlockScroll() {
   })();
 
   /* ================================================================ */
+  /*  Mobile Drawer: Wire Up Search & Theme Toggle                     */
+  /* ================================================================ */
+  (function () {
+    var mobileSearch = document.getElementById("mobileSearchBtn");
+    var mobileTheme = document.getElementById("mobileThemeToggle");
+    var desktopSearch = document.getElementById("searchBtn");
+    var desktopTheme = document.getElementById("themeToggle");
+
+    if (mobileSearch && desktopSearch) {
+      mobileSearch.addEventListener("click", function () {
+        desktopSearch.click();
+      });
+    }
+
+    if (mobileTheme && desktopTheme) {
+      mobileTheme.addEventListener("click", function () {
+        desktopTheme.click();
+      });
+    }
+  })();
+
   /*  Theme Toggle (Dark/Light)                                        */
   /* ================================================================ */
   (function () {
