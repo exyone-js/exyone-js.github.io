@@ -1,6 +1,6 @@
 {# ================================================================
    Comments Section (Template Layer - Component)
-   Reusable comments block — supports Giscus and Twikoo.
+   Reusable comments block — supports Giscus, Twikoo, and Remark42.
    Usage: {% include "comments.njk" %}
    ================================================================ #}
 {% if comments.provider == "giscus" and comments.giscus.repo %}
@@ -26,5 +26,33 @@
   <div id="twikoo-comments"></div>
   <script src="/assets/js/vendor/twikoo.min.js"></script>
   <script>twikoo.init({ envId: '{{ comments.twikoo.env_id }}', el: '#twikoo-comments' });</script>
+</section>
+{% elseif comments.provider == "remark42" and comments.remark42.host %}
+<section class="comments-section" id="comments">
+  <script>
+    var remark_config = Object.assign({}, {{ comments.remark42 | dump | safe }}, {
+      components: ['embed'],
+      locale: 'en',
+      url: ('{{ site.url }}{{ page.url }}').replace(/\/+$/, '').replace(/[?#].*$/, ''),
+      theme: localStorage.getItem('exyone-theme') === 'dark' ? 'dark' : 'light'
+    });
+  </script>
+  <script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+  <div id="remark42">Loading comments...</div>
+  <script>
+    (function() {
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'data-theme') {
+            var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            if (window.REMARK42 && window.REMARK42.changeTheme) {
+              window.REMARK42.changeTheme(theme);
+            }
+          }
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+    })();
+  </script>
 </section>
 {% endif %}

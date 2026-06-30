@@ -1,5 +1,5 @@
 {
-  "provider": "twikoo",
+  "provider": "remark42",
   "giscus": {
     "repo": "exyone-js/exyone-js.github.io",
     "repo_id": "R_kgDOSzU8GA",
@@ -12,7 +12,14 @@
     "reactions_enabled": true
   },
   "twikoo": {
-    "env_id": "https://cmt.exyone.top/",
+    "env_id": "https://cmt.exyon.ee/",
     "version": "1.7.13"
+  },
+  "remark42": {
+    "host": "https://cmt.exyone.top",
+    "site_id": "exyone",
+    "max_shown_comments": 7,
+    "show_email_subscription": false,
+    "show_rss_subscription": true
   }
 }

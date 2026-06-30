@@ -12,23 +12,7 @@ permalink: /share/
     <p>分享博主在日常生活中的一些杂谈。想说的、想讨论的，都可以在这里留言。不限主题，不拘形式。</p>
   </article>
 
-  <section class="comments-section" id="comments">
-    <script src="https://giscus.app/client.js"
-      data-repo="{{ comments.giscus.repo }}"
-      data-repo-id="{{ comments.giscus.repo_id }}"
-      data-category="{{ comments.giscus.category }}"
-      data-category-id="{{ comments.giscus.category_id }}"
-      data-mapping="{{ comments.giscus.mapping }}"
-      data-strict="{{ comments.giscus.strict }}"
-      data-reactions-enabled="{{ comments.giscus.reactions_enabled }}"
-      data-emit-metadata="0"
-      data-input-position="{{ comments.giscus.input_position }}"
-      data-lang="{{ site.lang }}"
-      data-theme="{{ comments.giscus["data-theme"] }}"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </section>
+  {% include "comments.njk" %}
 </main>
 
 {% include "sidebar-right.njk" %}

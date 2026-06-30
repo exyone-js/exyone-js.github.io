@@ -125,7 +125,7 @@ jobs:
         find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
         cp -r _site/* "$DEPLOY_DIR/"
         cd "$DEPLOY_DIR"
-        echo "blog.exyone.vip" > .domains
+        echo "exyone.js.cool" > .domains
         git add .
         git commit -m "Deploy: Update site from OneDev build @build_number@"
         git push -f origin main
