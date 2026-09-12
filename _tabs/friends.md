@@ -2,72 +2,57 @@
 icon: fas fa-link
 order: 5
 layout: post
-title: "Friends"
+title: "友链"
 comments: true
 ---
 
-> If you'd like to submit a friend link, please visit [exyone.us.kg/links](https://exyone.us.kg/links) to submit it.
+> ~~如需申请友链，请前往 [exyone.us.kg/links](https://exyone.us.kg/links) 提交。~~
+>
+> 这个页面我加了评论区，现在想申请的话直接在下面留言就好啦 (´･ᴗ･`)
 {: .prompt-tip }
 
-## My Sites
+## 朋友圈
 
-- **『自习室』EXYONE的篝火小屋**
-  - [www.exyone.me](https://www.exyone.me)
-  - [exyone.us.kg](https://exyone.us.kg)
-  - [400022.xyz](https://400022.xyz)
-  - 若有人兮山之阿，披薜荔兮带女萝。
+| 名称 | 网址 | 描述 |
+| --- | --- | --- |
+| 友链动态 | <https://exyone.top/friends/> | 海内存知己，天涯若比邻。 |
+| 注意！ | 由于站点重新迁移回 Jekyll | 因此此页面已废弃。 |
 
-- **EXYONE@BLOG:~$**
-  - [exyone.is-a.dev](https://exyone.is-a.dev)
-  - [exyone.de5.net](https://exyone.de5.net)
-  - In this humble corner, heaven and earth hide, By the flowing stream, a kindred soul I find.
+## 我的站点
 
-- **EXYONE's CLAW BLOG**
-  - [exyone.netlify.app](https://exyone.netlify.app)
-  - 折腾 · OpenClaw · 技术分享
+| 名称 | 网址 | 描述 |
+| --- | --- | --- |
+| Exyone Blog | <https://exyon.ee> | 莫道蓬门小，清幽胜琼楼。 |
+| Exyone Blog (已废弃) | <https://blog.exyon.ee> | 一隅藏天地，流水遇知音。 |
+| Exyone Moments （已废弃） | <https://jour.exyon.ee> | 苔花如米小，也学牡丹开。 |
+| Exyone Git | <https://git.exyon.ee> | 使用 OneDev 搭建 |
+| Exyone Drive | <https://sync.exyon.ee> | 使用 OpenList 搭建 |
+| 镜像站 1 | <https://www.exyone.top> | 托管于 GitHub Pages，「学 Mayx 搞了一堆镜像站出来（bushi）」 |
+| 镜像站 2 | <https://exyone.is-a.dev> | 托管于 Netlify，「访问稳定，推荐使用」 |
+| 镜像站 3 | <https://exyone.us.kg> | 托管于 Netlify，「备用」 |
 
-## Friends' Sites
+## 特别推荐
 
-- **Ited Blog**
-  - [www.itedev.com](https://www.itedev.com)
-  - You are good enough.
+| 名称 | 网址 | 描述 |
+| --- | --- | --- |
+| Ited Blog | <https://www.itedev.com> | 墨海扬帆远，文心映月明。 |
+| 清羽 〄 飞扬 | <https://blog.liushen.fun> | 柳影曳曳，清酒孤灯；扬笔撒墨，心境如霜。 |
+| 爱吃猫的鱼 | <https://blog.talen.top> | 心有山海阔，笔落天地宽。 |
+| Mayx's Blog | <https://mayx.eu.org> | 静室纳天地，闲窗读古今。 |
 
-- **我的小破站**
-  - [www.qiezechuan.cn](https://www.qiezechuan.cn)
-  - 解锁未知，乐享已知。
+## 友情链接
 
-- **清羽 〄 飞扬**
-  - [blog.liushen.fun](https://blog.liushen.fun)
-  - 柳影曳曳，清酒孤灯；扬笔撒墨，心境如霜。
-
-- **爱吃猫的鱼**
-  - [blog.talen.top](https://blog.talen.top)
-  - 前景可待，未来可期。
-
-- **索玛(Suo.Ma)**
-  - [suo.ma](https://suo.ma)
-  - 一位游戏爱好者！
-
-- **Erzbir's Blog**
-  - [erzbir.com](https://erzbir.com)
-  - #define __DESC ((void *)0)
-
-- **JiuLiuBlog**
-  - [myblog.icu](https://myblog.icu)
-  - JiuLiu的个人博客，分享前端开发经验与生活日常。
-
-- **青序栈**
-  - [www.qixz.cn](https://www.qixz.cn)
-  - 青序成栈，向简而生。
-
-- **寒士杰克**
-  - [www.hansjack.com](https://www.hansjack.com)
-  - 喜欢捣鼓，不断进步！
-
-- **記緒漂流**
-  - [ttio.cc](https://ttio.cc)
-  - 于记忆之川，泛思绪之舟。
-
-- **Mofei - A Super Dad Programmer in Finland**
-  - [www.mofei.life](https://www.mofei.life)
-  - A super dad programmer living in Finland, writing blogs about immigration life, parenting, and occasionally sharing tech insights.
+| 名称 | 网址 | 描述 |
+| --- | --- | --- |
+| Alecsargent | <https://alecsargent.codeberg.page> | 深林人不知，明月来相照。 |
+| Xiaochen004hao | <https://blog.xc4h.qzz.io> | 人闲桂花落，夜静春山空。 |
+| 索玛 (Suo.Ma) | <https://suo.ma> | 游戏三昧里，逍遥方寸间。 |
+| Erzbir's Blog | <https://erzbir.com> | 指尖敲日月，代码写春秋。 |
+| 谢县广的个人博客 | <https://www.xiexianguang.com> | 心怀美好愿，静待花自开。 |
+| 我的小破站 | <https://www.qiezechuan.cn> | 方寸藏天地，一隅有乾坤。 |
+| JiuLiu Blog | <https://myblog.icu> | 前端观万象，代码写人生。 |
+| 青序栈 | <https://www.qixz.cn> | 青序成栈，向简而生。 |
+| 寒士杰克 | <https://www.hansjack.com> | 寒窗磨一剑，妙手自成春。 |
+| 記緒漂流 | <https://ttio.cc> | 于记忆之川，泛思绪之舟。 |
+| Mofei | <https://www.mofei.life> | 远行千万里，心安即是家。 |
+| 涵哲子居 | <https://iluc.cn> | 天哲地理，共公卿好。 |
