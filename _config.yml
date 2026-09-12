@@ -3,18 +3,22 @@
 # Import the theme
 theme: jekyll-theme-chirpy
 
+# Jekyll plugins
+plugins:
+  - jekyll-minifier
+
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
 # otherwise, the layout language will use the default value of 'en'.
-lang: en
+lang: zh-cn
 
 # Change to your timezone › https://zones.arilyn.cc
-timezone:
+timezone: Asia/Shanghai
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: EXYONE@BLOG:~$ # the main title
 
 tagline: A text-focused Jekyll theme # it will display as the subtitle
 
@@ -23,31 +27,31 @@ description: >- # used by seo meta and the atom feed
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "https://www.exyone.top"
 
 github:
-  username: github_username # change to your GitHub username
+  username: exyone-js # change to your GitHub username
 
 twitter:
-  username: twitter_username # change to your Twitter username
+  username: exyone_forsty # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: Exyone.dev
+  email: exyone.dev@icloud.com # change to your email address
   fediverse_handle: # fill in your fediverse handle. E.g. "@username@domain.com"
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/username # change to your GitHub homepage
+    - https://twitter.com/exyone_frosty # change to your Twitter homepage
+    - https://github.com/exyone-js # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
 
 # Site Verification Settings
 webmaster_verifications:
-  google: # fill in your Google verification code
+  google: kBZNtZYwiUvmQLdeBYw3KVii7WNN8MEFG3yZlizKv08
   bing: # fill in your Bing verification code
   alexa: # fill in your Alexa verification code
   yandex: # fill in your Yandex verification code
@@ -99,7 +103,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: /assets/img/avatar.png
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -120,7 +124,7 @@ actions:
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
-  provider: # [disqus | utterances | giscus]
+  provider: waline # [disqus | utterances | giscus | waline]
   # The provider options are as follows:
   disqus:
     shortname: # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
@@ -130,15 +134,32 @@ comments:
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: # <gh-username>/<repo>
-    repo_id:
-    category:
-    category_id:
-    mapping: # optional, default to 'pathname'
-    strict: # optional, default to '0'
-    input_position: # optional, default to 'bottom'
+    repo: exyone-js/exyone-js.github.io # <gh-username>/<repo>
+    repo_id: R_kgDOSzU8GA
+    category: Comments
+    category_id: DIC_kwDOSzU8GM4C_2T_
+    mapping: pathname # optional, default to 'pathname'
+    strict: 0 # optional, default to '0'
+    input_position: top # optional, default to 'bottom'
     lang: # optional, default to the value of `site.lang`
-    reactions_enabled: # optional, default to the value of `1`
+    reactions_enabled: true # optional, default to the value of `1`
+  # Waline options › https://waline.js.org/
+  waline:
+    server_url: "https://waline.exyon.ee/.netlify/functions/comment"
+    dark: 'html[data-bs-theme="dark"]' # Chirpy 7.x toggles `data-bs-theme` on <html>
+    lang: zh-CN
+    emoji:
+      - "https://unpkg.com/@waline/emojis@1.2.0/weibo"
+    meta: # commenter info fields, in order
+      - nick
+      - mail
+      - link
+    required_meta:
+      - nick
+    login: enable # [enable | disable | force]
+    pageview: false
+    locale:
+      placeholder: 欢迎评论
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:
@@ -215,6 +236,29 @@ compress_html:
   blanklines: false
   ignore:
     envs: [development]
+
+# Conservative HTML minification for production only (JEKYLL_ENV=production).
+# Option names verified against jekyll-minifier README. Non-HTML assets are
+# excluded and CSS/JS/JSON compression is disabled to protect code blocks,
+# math formulas, Mermaid, TOC, search data, feeds and sitemap.
+jekyll-minifier:
+  exclude:
+    - "*.xml"
+    - "*.json"
+    - "*.txt"
+    - "*.js"
+    - "*.css"
+    - "assets/**"
+  compress_css: false
+  compress_javascript: false
+  compress_json: false
+  remove_comments: true
+  remove_intertag_spaces: false
+  remove_quotes: false
+  simple_doctype: false
+  simple_boolean_attributes: false
+  remove_spaces_inside_tags: true
+  preserve_line_breaks: false
 
 exclude:
   - "*.gem"
