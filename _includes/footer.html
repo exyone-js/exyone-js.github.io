@@ -1,0 +1,68 @@
+<!-- The Footer -->
+<footer
+  aria-label="Site Info"
+  class="d-flex flex-column justify-content-center text-muted flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3"
+>
+  <p class="mb-0 copyright">
+    © <span id="year"></span>
+    · <em class="fst-normal">{{ site.social.name }}</em>
+    <i class="fas fa-heartbeat heartbeat-icon"></i>
+    {{ site.posts | size }} posts · {{ site.tags | size }} tags
+  </p>
+
+  <p class="mb-0">
+    Built with <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> &amp;
+    <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> ·
+    Hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> ·
+    <a href="https://www.cloudflare.com" target="_blank" rel="noopener">Cloudflare CDN</a>
+  </p>
+</footer>
+
+<style>
+  #sidebar .site-title {
+    font-size: 1.5rem;
+  }
+
+  .heartbeat-icon {
+    color: #ff6b6b;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: inline-block;
+    margin: 0 0.3em;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14%      { transform: scale(1.15); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.15); }
+    70%      { transform: scale(1); }
+  }
+
+  .heartbeat-icon:hover {
+    color: #ff4757;
+    animation: heartbeat-hover 1s ease-in-out infinite;
+    cursor: pointer;
+  }
+
+  @keyframes heartbeat-hover {
+    0%, 100% { transform: scale(1); }
+    14%      { transform: scale(1.2); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.2); }
+    70%      { transform: scale(1); }
+  }
+
+  [data-mode="dark"] .heartbeat-icon {
+    color: #ff6b6b;
+  }
+  [data-mode="dark"] .heartbeat-icon:hover {
+    color: #ff4757;
+  }
+</style>
+
+<script>
+  (function() {
+    var year = new Date().getFullYear();
+    document.getElementById('year').textContent = year;
+  })();
+</script>

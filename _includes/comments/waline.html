@@ -1,0 +1,70 @@
+<!-- https://waline.js.org/ -->
+{%- assign waline = site.comments.waline -%}
+{%- if waline.server_url -%}
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@waline/client@3.15.2/dist/waline.css"
+>
+
+<style>
+  #waline {
+    margin-top: 2.5rem;
+  }
+</style>
+
+<script type="module">
+  (function () {
+    // Chirpy renders comment partials outside the article, so mount before the footer,
+    // mirroring the other comment providers.
+    const el = document.createElement('div');
+    el.id = 'waline';
+
+    const footer = document.querySelector('footer');
+    footer.insertAdjacentElement('beforebegin', el);
+
+    const walineConfig = {
+      el: '#waline',
+      serverURL: {{ waline.server_url | jsonify }},
+      // Chirpy 7.x signals dark mode via the `data-bs-theme` attribute on <html>.
+      dark: {{ waline.dark | default: 'html[data-bs-theme="dark"]' | jsonify }},
+      lang: {{ waline.lang | default: 'zh-CN' | jsonify }},
+      {%- if waline.emoji %}
+      emoji: {{ waline.emoji | jsonify }},
+      {%- endif %}
+      {%- if waline.meta %}
+      meta: {{ waline.meta | jsonify }},
+      {%- endif %}
+      {%- if waline.required_meta %}
+      requiredMeta: {{ waline.required_meta | jsonify }},
+      {%- endif %}
+      {%- if waline.login %}
+      login: {{ waline.login | jsonify }},
+      {%- endif %}
+      {%- if waline.locale.placeholder %}
+      locale: {
+        placeholder: {{ waline.locale.placeholder | jsonify }}
+      },
+      {%- endif %}
+      pageview: {{ waline.pageview | default: false }}
+    };
+
+    // Lazy-load the client only when the comment area approaches the viewport.
+    let loaded = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!loaded && entries[0].isIntersecting) {
+          loaded = true;
+          observer.disconnect();
+
+          import('https://unpkg.com/@waline/client@3.15.2/dist/waline.js').then(
+            ({ init }) => init(walineConfig)
+          );
+        }
+      },
+      { rootMargin: '400px 0px' }
+    );
+
+    observer.observe(el);
+  })();
+</script>
+{%- endif -%}

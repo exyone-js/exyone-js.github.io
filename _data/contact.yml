@@ -3,8 +3,28 @@
 - type: github
   icon: "fab fa-github"
 
+- type: codeberg
+  icon: "fas fa-code-branch"  # Use code branch icon for Codeberg.org
+  url: "https://codeberg.org/exyone"
+
 - type: twitter
   icon: "fa-brands fa-x-twitter"
+
+- type: bluesky
+  icon: 'fa-brands fa-bluesky'
+  url: 'https://exyone.bsky.social'                   # Fill with your Bluesky profile link
+
+- type: bilibili
+  icon: "fa-brands fa-bilibili"
+  url: "https://space.bilibili.com/3706949002595300"
+
+- type: youtube
+  icon: "fa-brands fa-youtube"
+  url: "https://www.youtube.com/@exyone-t3a"
+
+- type: qq
+  icon: "fab fa-qq"
+  url: "https://qm.qq.com/q/9m5B32MsaQ"
 
 - type: email
   icon: "fas fa-envelope"
@@ -26,10 +46,6 @@
 # - type: stack-overflow
 #   icon: 'fab fa-stack-overflow'
 #   url:  ''                  # Fill with your stackoverflow homepage
-#
-# - type: bluesky
-#   icon: 'fa-brands fa-bluesky'
-#   url: ''                   # Fill with your Bluesky profile link
 #
 # - type: reddit
 #   icon: 'fa-brands fa-reddit'
