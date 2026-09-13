@@ -1,0 +1,41 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+.content {
+  font-family: "Noto Sans SC", "Sarasa Gothic SC",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.icon-border {
+  visibility: hidden !important;
+  width: 0.4rem !important;
+  margin: 0 0.2rem !important;
+}
+
+@media (min-width: 1651px) {
+  .icon-border {
+    width: 0.6rem !important;
+  }
+}
+
+@media (min-width: 576px) {
+  div[class^='language-'] .code-header::before {
+    background-color: #ff5f57;
+    box-shadow:
+      1.25rem 0 0 #febc2e,
+      2.5rem 0 0 #28c840;
+  }
+}

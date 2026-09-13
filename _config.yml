@@ -103,7 +103,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: /assets/img/avatar.png
+avatar: /assets/img/avatar-v1.png
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -145,7 +145,7 @@ comments:
     reactions_enabled: true # optional, default to the value of `1`
   # Waline options › https://waline.js.org/
   waline:
-    server_url: "https://waline.exyon.ee/.netlify/functions/comment"
+    server_url: "https://waline.exyon.ee/.netlify/functions"
     dark: 'html[data-bs-theme="dark"]' # Chirpy 7.x toggles `data-bs-theme` on <html>
     lang: zh-CN
     emoji:
