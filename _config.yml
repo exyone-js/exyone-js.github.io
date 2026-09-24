@@ -5,7 +5,7 @@ theme: jekyll-theme-chirpy
 
 # Jekyll plugins
 plugins:
-  - jekyll-minifier
+  - jekyll-minify
 
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
@@ -237,29 +237,6 @@ compress_html:
   blanklines: false
   ignore:
     envs: [development]
-
-# Conservative HTML minification for production only (JEKYLL_ENV=production).
-# Option names verified against jekyll-minifier README. Non-HTML assets are
-# excluded and CSS/JS/JSON compression is disabled to protect code blocks,
-# math formulas, Mermaid, TOC, search data, feeds and sitemap.
-jekyll-minifier:
-  exclude:
-    - "*.xml"
-    - "*.json"
-    - "*.txt"
-    - "*.js"
-    - "*.css"
-    - "assets/**"
-  compress_css: false
-  compress_javascript: false
-  compress_json: false
-  remove_comments: true
-  remove_intertag_spaces: false
-  remove_quotes: false
-  simple_doctype: false
-  simple_boolean_attributes: false
-  remove_spaces_inside_tags: true
-  preserve_line_breaks: false
 
 exclude:
   - "*.gem"

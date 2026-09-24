@@ -7,7 +7,7 @@ gem "jekyll-theme-chirpy", "~> 7.6"
 gem "html-proofer", "~> 5.0", group: :test
 
 group :jekyll_plugins do
-  gem "jekyll-minifier"
+  gem "jekyll-minify", "~> 1.1"
 end
 
 platforms :windows, :jruby do
