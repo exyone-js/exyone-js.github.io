@@ -1,31 +1,133 @@
 <!-- https://waline.js.org/ -->
 {%- assign waline = site.comments.waline -%}
+{%- assign giscus = site.comments.giscus -%}
 {%- if waline.server_url -%}
+{%- assign waline_ver = '2.15.8' -%}
+
+<noscript>
+  <p style="margin: 2.5rem 0; color: #757575;">Comments require JavaScript.</p>
+</noscript>
+
+{%- comment -%} Async CSS: loads without blocking render; onerror falls back to unpkg {%- endcomment -%}
 <link
   rel="stylesheet"
-  href="https://unpkg.com/@waline/client@3.15.2/dist/waline.css"
+  href="https://cdn.jsdelivr.net/npm/@waline/client@{{ waline_ver }}/dist/waline.css"
+  media="print"
+  onload="this.media='all'"
+  onerror="this.onerror=null;this.href='https://unpkg.com/@waline/client@{{ waline_ver }}/dist/waline.css'"
 >
+<noscript>
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@{{ waline_ver }}/dist/waline.css">
+</noscript>
 
 <style>
-  #waline {
+  #comments-wrapper {
     margin-top: 2.5rem;
   }
+
+  #comments-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2rem 0 1rem;
+  }
+
+  #comments-divider::before,
+  #comments-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--main-border-color, var(--bs-border-color, #ddd));
+    opacity: 0.7;
+  }
+
+  #cd-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--main-border-color, var(--bs-border-color, #ddd));
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-muted-color, var(--bs-secondary-color, #757575));
+    font-size: 0.8rem;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease,
+      border-color 0.15s ease;
+  }
+
+  #cd-toggle:hover {
+    background: var(--bs-secondary-bg, #f8f8f8);
+    color: var(--text-color, var(--bs-body-color, #34343c));
+  }
+
+  #cd-toggle svg {
+    width: 0.95em;
+    height: 0.95em;
+    fill: currentColor;
+  }
+
+  #cd-toggle .cd-chevron {
+    transition: transform 0.25s ease;
+  }
+
+  #cd-toggle[aria-expanded='true'] {
+    color: var(--text-color, var(--bs-body-color, #34343c));
+  }
+
+  #cd-toggle[aria-expanded='true'] .cd-chevron {
+    transform: rotate(180deg);
+  }
+
+  #giscus-box {
+    margin-top: 2.5rem;
+    animation: cd-reveal 0.25s ease both;
+  }
+
+  @keyframes cd-reveal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  [hidden] { display: none !important; }
 </style>
 
 <script type="module">
   (function () {
-    // Chirpy renders comment partials outside the article, so mount before the footer,
-    // mirroring the other comment providers.
-    const el = document.createElement('div');
-    el.id = 'waline';
-
     const footer = document.querySelector('footer');
-    footer.insertAdjacentElement('beforebegin', el);
+    if (!footer) return;
+
+    /* ---------------- config ---------------- */
+
+    const VER = '{{ waline_ver }}';
+    const CDNS = [
+      `https://cdn.jsdelivr.net/npm/@waline/client@${VER}/dist`,
+      `https://unpkg.com/@waline/client@${VER}/dist`
+    ];
+
+    const GISCUS_READY = Boolean(
+      {{ giscus.repo | default: '' | jsonify }} &&
+        {{ giscus.repo_id | default: '' | jsonify }}
+    );
+
+    const GISCUS_ATTRS = {
+      'data-repo': {{ giscus.repo | default: '' | jsonify }},
+      'data-repo-id': {{ giscus.repo_id | default: '' | jsonify }},
+      'data-category': {{ giscus.category | default: '' | jsonify }},
+      'data-category-id': {{ giscus.category_id | default: '' | jsonify }},
+      'data-mapping': {{ giscus.mapping | default: 'pathname' | jsonify }},
+      'data-strict': {{ giscus.strict | default: '0' | jsonify }},
+      'data-input-position': {{ giscus.input_position | default: 'bottom' | jsonify }},
+      'data-lang': {{ giscus.lang | default: site.lang | default: 'en' | jsonify }},
+      'data-reactions-enabled': {{ giscus.reactions_enabled | default: true | jsonify }} ? '1' : '0',
+      'data-loading': 'lazy'
+    };
 
     const walineConfig = {
-      el: '#waline',
+      el: null, // assigned below
       serverURL: {{ waline.server_url | jsonify }},
-      // Chirpy 7.x signals dark mode via the `data-bs-theme` attribute on <html>.
+      // Chirpy 7.x signals dark mode via `data-bs-theme` on <html>.
       dark: {{ waline.dark | default: 'html[data-bs-theme="dark"]' | jsonify }},
       lang: {{ waline.lang | default: 'zh-CN' | jsonify }},
       {%- if waline.emoji %}
@@ -48,23 +150,182 @@
       pageview: {{ waline.pageview | default: false }}
     };
 
-    // Lazy-load the client only when the comment area approaches the viewport.
-    let loaded = false;
+    /* ---------------- dom ---------------- */
+
+    const wrapper = document.createElement('div');
+    wrapper.id = 'comments-wrapper';
+
+    const walineBox = document.createElement('div');
+    walineBox.id = 'waline';
+    walineConfig.el = walineBox;
+
+    const giscusBox = document.createElement('div');
+    giscusBox.id = 'giscus-box';
+    giscusBox.setAttribute('hidden', '');
+
+    footer.insertAdjacentElement('beforebegin', wrapper);
+    wrapper.appendChild(walineBox);
+
+    /* ---------------- divider ---------------- */
+
+    const STORE_KEY = 'comments-giscus-open';
+    let toggler = null;
+    let label = null;
+    let expanded = false;
+
+    if (GISCUS_READY) {
+      try {
+        expanded = localStorage.getItem(STORE_KEY) === '1';
+      } catch (e) {}
+
+      const divider = document.createElement('div');
+      divider.id = 'comments-divider';
+
+      toggler = document.createElement('button');
+      toggler.id = 'cd-toggle';
+      toggler.type = 'button';
+      toggler.setAttribute('aria-expanded', 'false');
+      toggler.innerHTML =
+        '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>' +
+        '<span class="cd-label"></span>' +
+        '<svg class="cd-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>';
+
+      label = toggler.querySelector('.cd-label');
+      toggler.addEventListener('click', () => setExpanded(!expanded));
+
+      divider.appendChild(toggler);
+      wrapper.appendChild(divider);
+      wrapper.appendChild(giscusBox);
+
+      applyState();
+    }
+
+    /* ---------------- state ---------------- */
+
+    function applyState() {
+      toggler.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      label.textContent = expanded ? '收起 GitHub 讨论区' : '展开 GitHub 讨论区';
+      toggler.setAttribute(
+        'aria-label',
+        expanded ? '收起 GitHub 讨论区' : '展开 GitHub 讨论区'
+      );
+      if (expanded) giscusBox.removeAttribute('hidden');
+      else giscusBox.setAttribute('hidden', '');
+    }
+
+    function setExpanded(value) {
+      expanded = value;
+      applyState();
+
+      try {
+        localStorage.setItem(STORE_KEY, expanded ? '1' : '0');
+      } catch (e) {}
+
+      if (expanded) loadGiscus();
+    }
+
+    /* ---------------- waline ---------------- */
+
+    let walineLoaded = false;
+
+    // Try each CDN in order; return null if all fail (stay silent).
+    async function loadModule() {
+      for (const base of CDNS) {
+        try {
+          return await import(`${base}/waline.mjs`);
+        } catch (e) { /* try next */ }
+      }
+      return null;
+    }
+
+    function loadWaline() {
+      if (walineLoaded) return;
+      walineLoaded = true;
+
+      loadModule().then((m) => {
+        if (!m) return;
+        m.init(walineConfig);
+      });
+    }
+
+    /* ---------------- giscus ---------------- */
+
+    function isDark() {
+      return Boolean(document.querySelector('html[data-bs-theme="dark"]'));
+    }
+
+    let giscusLoaded = false;
+
+    function loadGiscus() {
+      if (!GISCUS_READY || giscusLoaded) {
+        syncGiscusTheme();
+        return;
+      }
+      giscusLoaded = true;
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      // giscus mounts its iframe next to the script element it was loaded from.
+      script.async = false;
+
+      Object.entries(GISCUS_ATTRS).forEach(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+          script.setAttribute(key, value);
+        }
+      });
+      script.setAttribute('data-theme', isDark() ? 'dark' : 'light');
+
+      giscusBox.appendChild(script);
+
+      // Sync theme as soon as the iframe lands.
+      new MutationObserver((_, observer) => {
+        if (giscusBox.querySelector('iframe.giscus-frame')) {
+          observer.disconnect();
+          syncGiscusTheme();
+        }
+      }).observe(giscusBox, { childList: true, subtree: true });
+    }
+
+    function syncGiscusTheme() {
+      const frame = giscusBox.querySelector('iframe.giscus-frame');
+      if (!frame || !frame.contentWindow) return;
+
+      frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: isDark() ? 'dark' : 'light' } } },
+        'https://giscus.app'
+      );
+    }
+
+    // Follow Chirpy's light/dark toggle.
+    new MutationObserver(() => syncGiscusTheme()).observe(
+      document.documentElement,
+      { attributes: true, attributeFilter: ['data-bs-theme'] }
+    );
+
+    /* ---------------- lazy load ---------------- */
+
+    let armed = false;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (!loaded && entries[0].isIntersecting) {
-          loaded = true;
+        if (!armed && entries[0].isIntersecting) {
+          armed = true;
           observer.disconnect();
-
-          import('https://unpkg.com/@waline/client@3.15.2/dist/waline.js').then(
-            ({ init }) => init(walineConfig)
-          );
+          loadWaline();
+          if (expanded) loadGiscus();
         }
       },
       { rootMargin: '400px 0px' }
     );
 
-    observer.observe(el);
+    if (toggler) {
+      toggler.addEventListener('click', () => {
+        armed = true;
+        observer.disconnect();
+        loadWaline();
+      });
+    }
+
+    observer.observe(wrapper);
   })();
 </script>
 {%- endif -%}

@@ -145,21 +145,22 @@ comments:
     reactions_enabled: true # optional, default to the value of `1`
   # Waline options › https://waline.js.org/
   waline:
-    server_url: "https://waline.exyon.ee/.netlify/functions"
-    dark: 'html[data-bs-theme="dark"]' # Chirpy 7.x toggles `data-bs-theme` on <html>
-    lang: zh-CN
-    emoji:
-      - "https://unpkg.com/@waline/emojis@1.2.0/weibo"
-    meta: # commenter info fields, in order
-      - nick
-      - mail
-      - link
-    required_meta:
-      - nick
-    login: enable # [enable | disable | force]
-    pageview: false
-    locale:
-      placeholder: 欢迎评论
+    server_url: https://waline.exyon.ee/.netlify/functions/comment
+    cdn: jsdelivr          # jsdelivr | unpkg | custom base url
+    emoji:                 # Emoji packages
+      - https://cdn.jsdelivr.net/npm/@waline/emojis@1.4.0/weibo
+      - https://cdn.jsdelivr.net/npm/@waline/emojis@1.4.0/tieba
+      - https://cdn.jsdelivr.net/npm/@waline/emojis@1.4.0/bilibili
+      - https://cdn.jsdelivr.net/npm/@waline/emojis@1.4.0/qq
+    reaction: true        # Article reactions
+    meta: [nick, mail, link]
+    required_meta: [nick]
+    login: disable          # enable | force | disable
+    word_limit: 0
+    page_size: 10
+    pageview: true         # Page views statistics
+    image_uploader: false
+    search: false
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:
