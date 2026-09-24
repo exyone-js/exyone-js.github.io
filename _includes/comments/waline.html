@@ -125,9 +125,9 @@
     };
 
     const walineConfig = {
-      el: null, // assigned below
+      el: null, /* assigned below */
       serverURL: {{ waline.server_url | jsonify }},
-      // Chirpy 7.x signals dark mode via `data-bs-theme` on <html>.
+      /* Chirpy 7.x signals dark mode via `data-bs-theme` on <html>. */
       dark: {{ waline.dark | default: 'html[data-bs-theme="dark"]' | jsonify }},
       lang: {{ waline.lang | default: 'zh-CN' | jsonify }},
       {%- if waline.emoji %}
@@ -228,7 +228,7 @@
 
     let walineLoaded = false;
 
-    // Try each CDN in order; return null if all fail (stay silent).
+    /* Try each CDN in order; return null if all fail (stay silent). */
     async function loadModule() {
       for (const base of CDNS) {
         try {
@@ -265,7 +265,7 @@
 
       const script = document.createElement('script');
       script.src = 'https://giscus.app/client.js';
-      // giscus mounts its iframe next to the script element it was loaded from.
+      /* giscus mounts its iframe next to the script element it was loaded from. */
       script.async = false;
 
       Object.entries(GISCUS_ATTRS).forEach(([key, value]) => {
@@ -277,7 +277,7 @@
 
       giscusBox.appendChild(script);
 
-      // Sync theme as soon as the iframe lands.
+      /* Sync theme as soon as the iframe lands. */
       new MutationObserver((_, observer) => {
         if (giscusBox.querySelector('iframe.giscus-frame')) {
           observer.disconnect();
@@ -296,7 +296,7 @@
       );
     }
 
-    // Follow Chirpy's light/dark toggle.
+    /* Follow Chirpy's light/dark toggle. */
     new MutationObserver(() => syncGiscusTheme()).observe(
       document.documentElement,
       { attributes: true, attributeFilter: ['data-bs-theme'] }

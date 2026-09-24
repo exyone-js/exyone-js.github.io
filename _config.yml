@@ -230,7 +230,7 @@ compress_html:
   comments: all
   endings: all
   profile: false
-  blanklines: true
+  blanklines: false
   ignore:
     envs: [development]
 
