@@ -34,17 +34,18 @@ order: 4
 
 作为一名软件开发者，我会的语言不多，只有 C# 和 JavaScript。但在我看来，这已经够用了——它们覆盖了绝大多数使用场景。到了 AI 时代，编程语言的选择似乎也没那么重要了，更关键的是项目架构设计和技术选型。
 
-不过，软件开发终究是件很耗精力的事。如果只是出于兴趣去折腾，我会很有动力；但如果要真正实现一个可投入生产的完整项目，我坦白说做不到。因此，我也没有什么拿得出手的开源项目。尽管我热衷于讨论各种技术栈，但实际上，我的技术水平非常平庸。
+不过，软件开发终究是件很耗精力的事。如果只是出于兴趣去折腾，我会很有动力；但如果要真正实现一个可投入生产的完整项目，坦白地说，我做不到。因此，我也没有什么拿得出手的开源项目。尽管我热衷于讨论各种技术栈，但实际上，我的技术水平非常平庸。
 
 _先写这么多吧，以后可能会再来补充。_
 
 ## 联系方式
 
 - GitHub：[@exyone-js](https://github.com/exyone-js){: .btn .btn-outline }
-- 邮箱：[me@exyon.ee](mailto:me@exyon.ee){: .btn .btn-outline }
+- 邮箱：[admin@exyon.ee](mailto:admin@exyon.ee){: .btn .btn-outline }
 - 备用邮箱：[exyone@qq.com](mailto:exyone@qq.com){: .btn .btn-outline }
 
->注意：me@exyon.ee和exyone.dev@icloud.com都可以用来联系我，前者会自动转发到后者。
+>_admin@exyon.ee_ 是我利用 **Cloudflare Email** 搭建的邮箱，邮件会自动转发到 _exyone.dev@icloud.com_。
+{: .prompt-tip }
 
 <details>
   <summary style="cursor: pointer; color: #666; font-size: 0.9em;">更多链接</summary>

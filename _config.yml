@@ -29,17 +29,17 @@ github:
   username: exyone-js # change to your GitHub username
 
 twitter:
-  username: exyone_forsty # change to your Twitter username
+  username: exyone_t3a # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Exyone.dev
+  name: exyone
   email: exyone.dev@icloud.com # change to your email address
   fediverse_handle: # fill in your fediverse handle. E.g. "@username@domain.com"
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/exyone_frosty # change to your Twitter homepage
+    - https://twitter.com/exyone_t3a # change to your Twitter homepage
     - https://github.com/exyone-js # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
@@ -111,8 +111,8 @@ toc: true
 actions:
   # Display "Edit this post" action on each post page to encourage contributions.
   edit_post:
-    enabled: false # set to true to display the "Edit this post" action.
-    url: "" # repository base URL, e.g. https://github.com/cotes2020/jekyll-theme-chirpy/edit/master
+    enabled: true # set to true to display the "Edit this post" action.
+    url: "https://github.com/exyone-js/exyone-js.github.io/edit/main" # repository base URL, e.g. https://github.com/cotes2020/jekyll-theme-chirpy/edit/master
     # Use dynamic or static URL for the edit link.
     # If `static_url` is false, the post's path will be appended to the `url` above as the final edit link.
     # Set to true if the URL should remain unchanged, which means each post will share the same edit link.
@@ -154,7 +154,7 @@ comments:
     login: disable          # enable | force | disable
     word_limit: 0
     page_size: 10
-    pageview: true         # Page views statistics
+    pageview: false         # Page views statistics
     image_uploader: false
     search: false
 
