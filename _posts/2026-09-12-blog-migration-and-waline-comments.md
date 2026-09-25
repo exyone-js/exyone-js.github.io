@@ -8,6 +8,7 @@ tags:
 - Jekyll
 - Waline
 excerpt: 记录从 Halo、Eleventy 回到 Jekyll Chirpy，回顾 Twikoo、Giscus、Remark42 等评论系统的选型与折腾，并说明把评论系统迁到 Waline 时遇到的主要问题。
+image: https://jekyllrb.com/img/logo-2x.png
 ---
 
 如你所见，这个站点又被我搬回 Jekyll Chirpy 了。

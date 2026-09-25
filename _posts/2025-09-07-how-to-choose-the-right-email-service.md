@@ -4,8 +4,7 @@ date: 2025-09-07T00:00:00.000Z
 categories:
   - 技术笔记
 tags:
-  - 邮件
-  - 隐私
+  - 邮箱
   - 评测
   - 教程
 excerpt: ProtonMail 的“完全隐私”承诺存在结构性的信任悖论。从 Outlook、Foxmail、iCloud 到 Yandex、Zoho，再到自建邮件服务器，本文梳理了一条从依赖第三方到掌控在自己手里的邮箱选择路径。

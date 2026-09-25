@@ -1,14 +1,14 @@
 ---
-title: OneDev CI/CD 配置踩坑记：从报错到成功部署
-date: 2026-06-17T00:00:00.000Z
+title: OneDev CI/CD 配置踩坑记：从报错到成功部署，深入浅出 Actions 环境
+date: 2026-05-03T00:00:00.000Z
 categories:
   - 技术笔记
 tags:
   - OneDev
-  - 部署
   - 教程
-  - 编程
+  - 软件开发
 excerpt: 记录将博客 CI/CD 从 GitHub Actions 迁移到自建 OneDev 的过程。从 YAML 语法到各种步骤配置，再到多平台自动部署和仓库备份，踩了不少坑。希望这些经验能帮到同样在折腾的朋友。
+image: https://onedev.io/_next/image?url=%2Fimg%2Ffeatures%2Fcode-annotation.png&w=1080&q=75
 ---
 
 我之前的博客 CI/CD 用的是 GitHub Actions，只负责构建和部署 GitHub Pages，事情不多。最近打算把全部流程迁移到自建的 OneDev 上，主要是看中它的调度灵活性——希望实现一次推送，就能自动构建并部署到多个平台。

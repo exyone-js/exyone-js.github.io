@@ -49,7 +49,6 @@ comments: true
 | 索玛 (Suo.Ma) | <https://suo.ma> | 游戏三昧里，逍遥方寸间。 |
 | Erzbir's Blog | <https://erzbir.com> | 指尖敲日月，代码写春秋。 |
 | 谢县广的个人博客 | <https://www.xiexianguang.com> | 心怀美好愿，静待花自开。 |
-| 我的小破站 | <https://www.qiezechuan.cn> | 方寸藏天地，一隅有乾坤。 |
 | JiuLiu Blog | <https://myblog.icu> | 前端观万象，代码写人生。 |
 | 青序栈 | <https://www.qixz.cn> | 青序成栈，向简而生。 |
 | 寒士杰克 | <https://www.hansjack.com> | 寒窗磨一剑，妙手自成春。 |
