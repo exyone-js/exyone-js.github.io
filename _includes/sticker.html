@@ -1,0 +1,37 @@
+<!-- _includes/sticker.html -->
+<style>
+  .page-sticker {
+    position: fixed;
+    bottom: 5rem;
+    right: 0;
+    z-index: 50;
+    opacity: 0.5;
+    pointer-events: none;
+    line-height: 0;
+    transition: opacity 0.2s ease;
+    width: 15vw;
+  }
+
+  .page-sticker img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .page-sticker:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .page-sticker {
+      display: none;
+    }
+  }
+</style>
+
+<div class="page-sticker" aria-hidden="true">
+  <img src="{{ '/assets/img/sticker.png' | relative_url }}"
+       alt="" loading="lazy">
+</div>

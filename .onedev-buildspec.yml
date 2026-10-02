@@ -1,0 +1,219 @@
+version: 47
+# =============================================================================
+#  OneDev CI/CD Pipeline - pages deploy
+# =============================================================================
+jobs:
+
+# ---------------------------------------------------------------------------
+#  BUILD & DEPLOY — triggered on every main-branch push
+# ---------------------------------------------------------------------------
+- name: Build & Deploy
+  steps:
+
+  # ---- checkout ----
+  - type: CheckoutStep
+    name: checkout
+    cloneCredential:
+      type: DefaultCredential
+    condition: SUCCESSFUL
+    optional: false
+
+  # ---- install dependencies ----
+  - type: CommandStep
+    name: install dependencies
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        BUILD_DIR="/tmp/exyone-blog-build"
+        rm -rf "$BUILD_DIR"
+        mkdir -p "$BUILD_DIR"
+        cp -r . "$BUILD_DIR/"
+        cd "$BUILD_DIR"
+        export PATH="/usr/local/bin:$PATH"
+        ruby --version
+        bundle --version
+
+        export BUNDLE_JOBS=4
+        export BUNDLE_RETRY=3
+
+        # Keep all gem groups (mirror Cloudflare Pages build env)
+        bundle install
+    useTTY: false
+    condition: SUCCESSFUL
+    optional: false
+
+  # ---- build site ----
+  - type: CommandStep
+    name: build site
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        cd /tmp/exyone-blog-build
+        export JEKYLL_ENV="production"
+        bundle exec jekyll build
+        if [ ! -d "_site" ]; then
+          echo "Build failed! _site directory not found."
+          exit 1
+        fi
+        echo "Build successful! _site size:"
+        du -sh _site/
+    useTTY: false
+    condition: SUCCESSFUL
+    optional: false
+
+  - type: SetBuildVersionStep
+    name: set build version
+    buildVersion: '@build_number@'
+    condition: SUCCESSFUL
+    optional: false
+
+  # =========================================================================
+  #  DEPLOY STEPS — independent & optional (ALWAYS); one failure does not
+  #  block the others
+  # =========================================================================
+
+  # ---- deploy: Cloudflare Pages ----
+  - type: CommandStep
+    name: deploy to cloudflare pages
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        cd /tmp/exyone-blog-build
+        export PATH="/usr/local/bin:$(npm root -g):$PATH"
+        if ! command -v wrangler &> /dev/null; then
+          npm install -g wrangler
+        fi
+        export CLOUDFLARE_API_TOKEN="@secret:cloudflare-api-token@"
+        export CLOUDFLARE_ACCOUNT_ID="@secret:cloudflare-account-id@"
+        npx wrangler pages deploy _site \
+          --project-name exyone \
+          --branch main \
+          --commit-dirty=true
+    useTTY: false
+    condition: ALWAYS
+    optional: true
+
+  # ---- deploy: Netlify ----
+  - type: CommandStep
+    name: deploy to netlify
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        cd /tmp/exyone-blog-build
+        export PATH="/usr/local/bin:$(npm root -g):$PATH"
+        NETLIFY_SITE_ID="@secret:netlify-site-id@"
+        NETLIFY_TOKEN="@secret:netlify-auth-token@"
+        npx netlify-cli deploy --prod \
+          --dir _site \
+          --site "$NETLIFY_SITE_ID" \
+          --auth "$NETLIFY_TOKEN" \
+          --message "OneDev #@build_number@"
+    useTTY: false
+    condition: ALWAYS
+    optional: true
+
+  # ---- deploy: Codeberg Pages (git-push) ----
+  - type: CommandStep
+    name: deploy to codeberg pages
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        BUILD_DIR="/tmp/exyone-blog-build"
+        DEPLOY_DIR="/tmp/codeberg-deploy"
+        cd "$BUILD_DIR"
+        git config --global user.email "[email protected]"
+        git config --global user.name "OneDev CI"
+        rm -rf "$DEPLOY_DIR"
+        git clone "@secret:codeberg-pages-repo-url@" "$DEPLOY_DIR" --depth 1
+        find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+        cp -r _site/* "$DEPLOY_DIR/"
+        cd "$DEPLOY_DIR"
+        echo "exyone.de5.net" > .domains
+        git add .
+        git commit -m "Deploy: Update site from OneDev build #@build_number@"
+        git push -f origin main
+    useTTY: false
+    condition: ALWAYS
+    optional: true
+
+  # ---- deploy: GitLink Pages (git-push) ----
+  - type: CommandStep
+    name: deploy to gitlink pages
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        BUILD_DIR="/tmp/exyone-blog-build"
+        DEPLOY_DIR="/tmp/gitlink-deploy"
+        cd "$BUILD_DIR"
+        git config --global user.email "[email protected]"
+        git config --global user.name "OneDev CI"
+        rm -rf "$DEPLOY_DIR"
+        git clone "@secret:gitlink-pages-repo-url@" "$DEPLOY_DIR" --depth 1
+        find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+        cp -r _site/* "$DEPLOY_DIR/"
+        cd "$DEPLOY_DIR"
+        git add .
+        git commit -m "Deploy: Update site from OneDev build #@build_number@"
+        git push -f origin main
+    useTTY: false
+    condition: ALWAYS
+    optional: true
+
+  triggers:
+  - type: BranchUpdateTrigger
+    branches: main
+    userMatch: anyone
+
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
+
+# ---------------------------------------------------------------------------
+#  BACKUP — push mirror to Codeberg on main/tag
+# ---------------------------------------------------------------------------
+- name: Backup to Codeberg
+  steps:
+  - type: CheckoutStep
+    name: checkout
+    cloneCredential:
+      type: DefaultCredential
+    condition: SUCCESSFUL
+    optional: false
+  - type: CommandStep
+    name: push to codeberg
+    runInContainer: false
+    interpreter:
+      type: DefaultInterpreter
+      commands: |
+        set -e
+        git remote remove codeberg 2>/dev/null || true
+        git remote add codeberg '@secret:codeberg-backup-repo-url@'
+        git push codeberg --all --force
+        git push codeberg --tags --force
+    useTTY: false
+    condition: SUCCESSFUL
+    optional: false
+
+  triggers:
+  - type: BranchUpdateTrigger
+    branches: main
+    userMatch: anyone
+  - type: TagCreateTrigger
+
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 600

@@ -1,0 +1,139 @@
+<!-- Warm up the CDNs used by the enhancement modules below. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://epigram.exyon.ee" crossorigin>
+<link rel="dns-prefetch" href="https://unpkg.com">
+
+<!-- SiteEnhance configuration; sourced from `site_enhance` in _config.yml.
+     Every key is optional and defaults live in assets/js/core.js. Keys are
+     written in snake_case in YAML and converted to camelCase below. -->
+{%- assign se = site.site_enhance -%}
+{%- capture se_json -%}
+{
+  "zhConvert": {
+    "enabled": {{ se.zh_convert.enabled | default: true }},
+    "autoDetect": {{ se.zh_convert.auto_detect | default: true }}
+  },
+  "player": {
+    "enabled": {{ se.player.enabled | default: true }},
+    "volume": {{ se.player.volume | default: 0.7 }},
+    "order": {{ se.player.order | default: 'random' | jsonify }},
+    "audius": {
+      "playlistId": {{ se.player.audius.playlistId | default: '' | jsonify }}
+    },
+    "cdn": {
+      "js": {{ se.player.cdn.js | jsonify }}
+    }
+  },
+  "quotes": {
+    "enabled": {{ se.quotes.enabled | default: true }},
+    "endpoints": {{ se.quotes.endpoints | jsonify }}
+  },
+  "reading": {
+    "enabled": {{ se.reading.enabled | default: true }}
+  },
+  "menu": {
+    "enabled": {{ se.menu.enabled | default: true }},
+    "searchEngine": {{ se.menu.search_engine | default: 'bing' | jsonify }},
+    "submenu": {{ se.menu.submenu | default: true }},
+    "groups": {
+      "selection": {{ se.menu.groups.selection | default: true }},
+      "link": {{ se.menu.groups.link | default: true }},
+      "image": {{ se.menu.groups.image | default: true }},
+      "code": {{ se.menu.groups.code | default: true }},
+      "page": {{ se.menu.groups.page | default: true }}
+    }
+  },
+  "clickEffect": {
+    "mode": {{ se.click_effect.mode | default: 'word' | jsonify }},
+    "throttle": {{ se.click_effect.throttle | default: 80 }},
+    "max": {{ se.click_effect.max | default: 6 }}
+  }
+}
+{%- endcapture -%}
+<script>window.SITE_ENHANCE = {{ se_json | strip_newlines }};</script>
+
+<!-- Reading progress indicator. -->
+<div id="reading-progress" aria-hidden="true"></div>
+
+<!-- Draggable floating cards: music player and daily quote. -->
+<div id="tool-cards" aria-live="polite" aria-atomic="false">
+
+  <section id="player-card" class="tool-card h-card" hidden aria-label="背景音乐">
+    <div class="enh-card-header" data-drag-handle>
+      <i class="fa-fw fas fa-music enh-card-icon" aria-hidden="true"></i>
+      <span class="enh-card-title" id="vplayer-title">背景音乐</span>
+      <button type="button" class="enh-card-close" data-close
+              aria-label="关闭音乐播放器" title="关闭">×</button>
+    </div>
+    <div class="enh-card-body">
+      <span class="player-ctrl">
+        <button type="button" data-pctl="prev" aria-label="上一首" title="上一首">
+          <i class="fas fa-backward-step" aria-hidden="true"></i>
+        </button>
+        <button type="button" data-pctl="toggle" aria-label="播放或暂停" title="播放 / 暂停">
+          <i class="fas fa-play" aria-hidden="true"></i>
+        </button>
+        <button type="button" data-pctl="next" aria-label="下一首" title="下一首">
+          <i class="fas fa-forward-step" aria-hidden="true"></i>
+        </button>
+      </span>
+      <span class="enh-card-hint" id="vplayer-hint">点击播放</span>
+      <span class="player-progress" aria-hidden="true"><i id="vplayer-progress"></i></span>
+    </div>
+  </section>
+
+  <section id="epigram-card" class="tool-card h-card epigram-card" hidden
+           aria-label="隽语" role="button" tabindex="0"
+           title="点击卡片换一句">
+    <div class="enh-card-header" data-drag-handle>
+      <i class="fa-fw fas fa-quote-left enh-card-icon" aria-hidden="true"></i>
+      <span class="enh-card-title">隽语</span>
+      <button type="button" class="enh-card-close" data-close
+              aria-label="关闭隽语" title="关闭">×</button>
+    </div>
+    <div class="enh-card-body">
+      <span class="enh-card-hint">点击换一句</span>
+      <span class="epigram-content epigram-loading">正在加载隽语…</span>
+      <span class="epigram-meta"></span>
+    </div>
+  </section>
+
+</div>
+
+<!-- Overlays: custom context menu, toast host and shortcut help dialog. -->
+<div id="custom-context-menu" class="ctx-menu" role="menu"
+     aria-label="上下文菜单" hidden></div>
+
+<div id="toast-host" aria-live="polite" aria-atomic="false"></div>
+
+<div id="shortcuts-modal" class="sc-modal" role="dialog"
+     aria-modal="true" aria-label="键盘快捷键" hidden>
+  <div class="sc-modal-backdrop" data-close></div>
+  <div class="sc-modal-body" role="document">
+    <header class="sc-modal-header">
+      <h3>键盘快捷键</h3>
+      <button type="button" class="sc-modal-close" data-close aria-label="关闭">×</button>
+    </header>
+    <ul class="sc-list">
+      <li><kbd>Alt</kbd> + <kbd>Z</kbd><span>简繁转换</span></li>
+      <li><kbd>Alt</kbd> + <kbd>空格</kbd><span>播放 / 暂停音乐</span></li>
+      <li><kbd>Shift</kbd> + <kbd>右键</kbd><span>恢复浏览器菜单</span></li>
+      <li><kbd>Esc</kbd><span>关闭当前弹层</span></li>
+      <li><kbd>?</kbd><span>显示本帮助</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Enhancement modules, loaded as classic scripts in dependency order. -->
+<script defer src="{{ '/assets/js/core.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/card.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/zh-convert.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/player.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/quotes.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/reading.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/effects.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/particles.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/menu.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
+{% include sticker.html %}
