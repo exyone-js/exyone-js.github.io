@@ -11,6 +11,9 @@ image: https://jekyllrb.com/img/logo-2x.png
 pin: true
 ---
 
+> 前言：由于没有按耐住折腾的心，本文中对 Waline 的改造被我再度爆改升级，由于篇幅限制，不在本文中赘述了，欢迎访问[仓库](https://github.com/exyone-js/waline-netlify)查看源码。
+{: .prompt-warn }
+
 如你所见，这个站点又被我搬回 Jekyll Chirpy 了。
 
 倒不是说 Halo 不好，也不是之前用 Eleventy 自己搭的博客不行，而是越折腾越觉得：Jekyll 这种成熟、稳定、省心的静态生成器，更适合现在的我。自己开发的 Zest SSG 虽然是一点点做出来的，但当初设计得过于复杂，而我现在最需要的是简洁轻量。

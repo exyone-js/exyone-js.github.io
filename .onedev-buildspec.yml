@@ -130,14 +130,18 @@ jobs:
         set -e
         BUILD_DIR="/tmp/exyone-blog-build"
         DEPLOY_DIR="/tmp/codeberg-deploy"
+        # Shell Executor runs a non-interactive shell without HOME, which git
+        # needs for config/credentials. Point it at a writable directory.
+        export HOME="${HOME:-/tmp/onedev-home}"
+        mkdir -p "$HOME"
         cd "$BUILD_DIR"
-        git config --global user.email "[email protected]"
-        git config --global user.name "OneDev CI"
         rm -rf "$DEPLOY_DIR"
         git clone "@secret:codeberg-pages-repo-url@" "$DEPLOY_DIR" --depth 1
         find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
         cp -r _site/* "$DEPLOY_DIR/"
         cd "$DEPLOY_DIR"
+        git config user.email "[email protected]"
+        git config user.name "OneDev CI"
         echo "exyone.de5.net" > .domains
         git add .
         git commit -m "Deploy: Update site from OneDev build #@build_number@"
@@ -156,14 +160,18 @@ jobs:
         set -e
         BUILD_DIR="/tmp/exyone-blog-build"
         DEPLOY_DIR="/tmp/gitlink-deploy"
+        # Shell Executor runs a non-interactive shell without HOME, which git
+        # needs for config/credentials. Point it at a writable directory.
+        export HOME="${HOME:-/tmp/onedev-home}"
+        mkdir -p "$HOME"
         cd "$BUILD_DIR"
-        git config --global user.email "[email protected]"
-        git config --global user.name "OneDev CI"
         rm -rf "$DEPLOY_DIR"
         git clone "@secret:gitlink-pages-repo-url@" "$DEPLOY_DIR" --depth 1
         find "$DEPLOY_DIR" -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
         cp -r _site/* "$DEPLOY_DIR/"
         cd "$DEPLOY_DIR"
+        git config user.email "[email protected]"
+        git config user.name "OneDev CI"
         git add .
         git commit -m "Deploy: Update site from OneDev build #@build_number@"
         git push -f origin main
@@ -199,6 +207,10 @@ jobs:
       type: DefaultInterpreter
       commands: |
         set -e
+        export HOME="${HOME:-/tmp/onedev-home}"
+        mkdir -p "$HOME"
+        git config --global user.email "[email protected]"
+        git config --global user.name "OneDev CI"
         git remote remove codeberg 2>/dev/null || true
         git remote add codeberg '@secret:codeberg-backup-repo-url@'
         git push codeberg --all --force

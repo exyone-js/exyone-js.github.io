@@ -22,30 +22,30 @@ comments: true
 | --- | --- | --- |
 | Exyone Blog | <https://exyon.ee> | 莫道蓬门小，清幽胜琼楼。 |
 | Exyone Journal | <https://jour.exyon.ee> | 一隅藏天地，流水遇知音。 |
-| Exyone Git | <https://git.exyon.ee> | 使用 OneDev 搭建 |
-| 镜像站 1 | <https://www.exyone.top> | 托管于 GitHub Pages |
-| 镜像站 2 | <https://exyone.is-a.dev> | 托管于 Netlify |
+| Exyone Git | <https://git.exyon.ee> | 自建的代码托管服务，基于 OneDev 搭建。 |
+| 镜像站 1 | <https://www.exyone.top> | 本站镜像，托管于 GitHub Pages。 |
+| 镜像站 2 | <https://exyone.is-a.dev> | 本站镜像，托管于 Netlify。 |
 
 ## 特别推荐
 
 | 名称 | 网址 | 描述 |
 | --- | --- | --- |
-| Ited Blog | <https://www.itedev.com> | 墨海扬帆远，文心映月明。 |
-| Mayx Blog | <https://mayx.eu.org> | 静室纳天地，闲窗读古今。 |
-| 爱吃猫的鱼 | <https://blog.talen.top> | 心有山海阔，笔落天地宽。 |
-| 清羽 〄 飞扬 | <https://blog.liushen.fun> | 柳影曳曳，清酒孤灯；扬笔撒墨，心境如霜。 |
+| Ited Blog | <https://www.itedev.com> | 读书破万卷，下笔如有神。 |
+| Mayx Blog | <https://mayx.eu.org> | 行到水穷处，坐看云起时。 |
+| 爱吃猫的鱼 | <https://blog.talen.top> | 海阔凭鱼跃，天高任鸟飞。 |
+| 清羽 〄 飞扬 | <https://blog.liushen.fun> | 荷风送香气，竹露滴清响。 |
 
 ## 友情链接
 
 | 名称 | 网址 | 描述 |
 | --- | --- | --- |
 | Alecsargent | <https://alecsargent.codeberg.page> | 深林人不知，明月来相照。 |
-| Manalogues | <https://manalogues.com> | 人闲桂花落，夜静春山空。 |
-| Mofei Blog | <https://www.mofei.life> | 远行千万里，心安即是家。 |
-| Erzbir Blog | <https://erzbir.com> | 指尖敲日月，代码写春秋。 |
-| JiuLiu Blog | <https://myblog.icu> | 前端观万象，代码写人生。 |
-| 筱序二十 | <https://www.qixz.cn> | 青序成栈，向简而生。 |
-| 索玛博客 | <https://www.suo.ma> | 游戏三昧里，逍遥方寸间。 |
-| 寒士杰克 | <https://www.hansjack.com> | 寒窗磨一剑，妙手自成春。 |
+| Manalogues | <https://manalogues.com> | 相望始登高，心随雁飞灭。 |
+| Mofei Blog | <https://www.mofei.life> | 浮云一别后，流水十年间。 |
+| Erzbir Blog | <https://erzbir.com> | 岂不罹凝寒，松柏有本性。 |
+| JiuLiu Blog | <https://myblog.icu> | 随风潜入夜，润物细无声。 |
+| 筱序二十 | <https://www.qixz.cn> | 清水出芙蓉，天然去雕饰。 |
+| 索玛博客 | <https://www.suo.ma> | 绿树村边合，青山郭外斜。 |
+| 寒士杰克 | <https://www.hansjack.com> | 十年磨一剑，霜刃未曾试。 |
 | 記緒漂流 | <https://ttio.cc> | 于记忆之川，泛思绪之舟。 |
-| 涵哲子居 | <https://iluc.cn> | 天哲地理，共公卿好。 |
+| 涵哲子居 | <https://iluc.cn> | 世事波上舟，沿洄安得住。 |
