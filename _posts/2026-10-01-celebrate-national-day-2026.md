@@ -1,8 +1,8 @@
 ---
 title: "十月序章：欢度国庆，回望百年党史，重温解放战争「三大战役」"
-date: 2026-10-01T00:00:00.000Z
+date: 2026-10-01
 categories: [笔耕问道]
-tags: [党史, 诗词, 生活]
+tags: [历史, 诗词, 生活]
 image: https://www.news.cn/politics/20260930/d422309fca5948af8ed2766ebff52af6/20260930d422309fca5948af8ed2766ebff52af6_20260930a039279f6e274f8c8f04c0d67fe1f245.jpeg
 ---
 

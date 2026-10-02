@@ -12,7 +12,7 @@ pin: true
 ---
 
 > 前言：由于没有按耐住折腾的心，本文中对 Waline 的改造被我再度爆改升级，由于篇幅限制，不在本文中赘述了，欢迎访问[仓库](https://github.com/exyone-js/waline-netlify)查看源码。
-{: .prompt-warn }
+{: .prompt-warning }
 
 如你所见，这个站点又被我搬回 Jekyll Chirpy 了。
 
