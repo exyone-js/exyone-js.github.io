@@ -1,6 +1,6 @@
 ---
 icon: fas fa-comments
-order: 6
+order: 7
 layout: post
 title: "留言"
 comments: true

@@ -199,6 +199,9 @@ collections:
   tabs:
     output: true
     sort_by: order
+  poems:
+    output: true
+    sort_by: date
 
 defaults:
   - scope:
@@ -221,6 +224,14 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: poems
+    values:
+      layout: post # reuse the post layout as-is, poems need no dedicated one
+      comments: true
+      toc: true
+      permalink: /poems/:title/
 
 sass:
   style: compressed

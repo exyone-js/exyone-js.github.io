@@ -1,6 +1,6 @@
 ---
 icon: fas fa-link
-order: 5
+order: 6
 layout: post
 title: "友链"
 comments: true
