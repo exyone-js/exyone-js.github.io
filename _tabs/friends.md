@@ -20,8 +20,8 @@ comments: true
 
 | 名称 | 网址 | 描述 |
 | --- | --- | --- |
-| Exyone Blog | <https://exyon.ee> | 莫道蓬门小，清幽胜琼楼。 |
-| Exyone Journal | <https://jour.exyon.ee> | 一隅藏天地，流水遇知音。 |
+| Exyone Blog | <https://exyon.ee> | 基于 Jekyll 搭建的个人博客。 |
+| Exyone Blog | <https://blog.exyon.ee> | 曾经使用过的博客系统，基于 Halo 搭建。 |
 | Exyone Git | <https://git.exyon.ee> | 自建的代码托管服务，基于 OneDev 搭建。 |
 | 镜像站 1 | <https://www.exyone.top> | 本站镜像，托管于 GitHub Pages。 |
 | 镜像站 2 | <https://exyone.is-a.dev> | 本站镜像，托管于 Netlify。 |

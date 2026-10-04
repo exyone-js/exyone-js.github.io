@@ -289,7 +289,7 @@ site_enhance:
   quotes:
     enabled: true
     endpoints:
-      - "https://epigram.exyon.ee/api/quotes"
+      - "https://htk.exyon.ee/api/quotes"
 
   # Reading progress bar.
   reading:
