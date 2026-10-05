@@ -35,11 +35,10 @@ comments: true
 | 爱吃猫的鱼 | <https://blog.talen.top> | 海阔凭鱼跃，天高任鸟飞。 |
 | 清羽 〄 飞扬 | <https://blog.liushen.fun> | 荷风送香气，竹露滴清响。 |
 
-## 友情链接
+## 中文友链
 
 | 名称 | 网址 | 描述 |
 | --- | --- | --- |
-| Alecsargent | <https://alecsargent.codeberg.page> | 深林人不知，明月来相照。 |
 | Manalogues | <https://manalogues.com> | 相望始登高，心随雁飞灭。 |
 | Mofei Blog | <https://www.mofei.life> | 浮云一别后，流水十年间。 |
 | Erzbir Blog | <https://erzbir.com> | 岂不罹凝寒，松柏有本性。 |
@@ -49,3 +48,17 @@ comments: true
 | 寒士杰克 | <https://www.hansjack.com> | 十年磨一剑，霜刃未曾试。 |
 | 記緒漂流 | <https://ttio.cc> | 于记忆之川，泛思绪之舟。 |
 | 涵哲子居 | <https://iluc.cn> | 世事波上舟，沿洄安得住。 |
+
+## 国际友链
+
+| 名称 | 网址 | 描述 |
+| --- | --- | --- |
+| Albenga | <https://lucio.albenga.es> | 落花人独立，微雨燕双飞。 |
+| Akselmo | <https://akselmo.dev> | 朔风如解意，容易莫摧残。 |
+| Alecsargent | <https://alecsargent.codeberg.page> | 深林人不知，明月来相照。 |
+| Andrienko | <https://eugene-andrienko.com> | 斜月照帘帷，忆君和梦稀。 |
+| Bobbyhiltz | <https://bobbyhiltz.com> | 皑如山上雪，皎若云间月。 |
+| Clayton | <https://claytonerrington.com> | 世界微尘里，吾宁爱与憎。 |
+| Dallineation | <https://dallincrump.com> | 雨落不上天，水覆难再收。 |
+| Joelchrono | <https://joelchrono.xyz> | 长歌吟松风，曲尽河星稀。 |
+| Nathan | <https://nthp.me> | 湛湛长江去，冥冥细雨来。 |
