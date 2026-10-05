@@ -298,7 +298,6 @@ site_enhance:
   # Custom context menu.
   menu:
     enabled: true
-    search_engine: bing    # google | bing | baidu
     submenu: true
     groups:
       selection: true

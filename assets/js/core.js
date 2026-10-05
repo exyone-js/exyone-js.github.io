@@ -56,7 +56,6 @@
        link: { enabled: true, items: { 'copy-html-link': false } } */
     menu: {
       enabled: true,
-      searchEngine: 'bing',
       submenu: true,
       groups: { selection: true, link: true, image: true, code: true, page: true }
     },

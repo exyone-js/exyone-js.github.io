@@ -142,6 +142,8 @@
       {%- if waline.login %}
       login: {{ waline.login | jsonify }},
       {%- endif %}
+      {%- comment -%} false hides the image button and disables uploads {%- endcomment -%}
+      imageUploader: {{ waline.image_uploader | default: false | jsonify }},
       {%- if waline.locale.placeholder %}
       locale: {
         placeholder: {{ waline.locale.placeholder | jsonify }}

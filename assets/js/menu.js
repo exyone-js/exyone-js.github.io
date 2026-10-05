@@ -31,12 +31,6 @@
       return CONFIG.submenu !== false;
     }
 
-    var SEARCH_ENGINES = {
-      google: { search: 'https://www.google.com/search?q=', visual: 'https://lens.google.com/uploadbyurl?url=' },
-      bing: { search: 'https://www.bing.com/search?q=', visual: 'https://www.bing.com/visualsearch?imgurl=' },
-      baidu: { search: 'https://www.baidu.com/s?wd=', visual: 'https://graph.baidu.com/details?isfromtusoupc=1&tn=pc&carousel=0&image=' }
-    };
-
     var DIVIDER = { divider: true };
     var VIEWPORT_GAP = 8;
     var EXIT_DURATION = 140;
@@ -57,10 +51,6 @@
     };
 
     /* ------------------------------------------------------------ Actions -- */
-
-    function engine() {
-      return SEARCH_ENGINES[CONFIG.searchEngine] || SEARCH_ENGINES.bing;
-    }
 
     /* Clipboard helper; core already falls back to execCommand when the async
        clipboard API is unavailable, so failures surface as a plain toast. */
@@ -144,9 +134,6 @@
     var ACTIONS = {
       /* Selection ---------------------------------------------------------- */
       'copy-selection': function (ctx) { return copy(ctx.selection, '已复制选中文本'); },
-      'search-selection': function (ctx) {
-        openExternal(engine().search + encodeURIComponent(ctx.selection));
-      },
       'copy-quote': function (ctx) { return copy('> ' + ctx.selection, '已复制为引用'); },
       'copy-md-quote': function (ctx) {
         return copy(
@@ -232,9 +219,6 @@
         link.remove();
         Toast.show('开始下载…', 'info', 1200);
       },
-      'image-search': function (ctx) {
-        if (ctx.image) openExternal(engine().visual + encodeURIComponent(ctx.image.src));
-      },
 
       /* Code --------------------------------------------------------------- */
       'copy-code': function (ctx) { if (ctx.code) return copy(ctx.code, '代码已复制'); },
@@ -297,13 +281,6 @@
         if (!button) { Toast.warn('未找到主题切换按钮'); return; }
         button.click();
       },
-      'focus-search': function () {
-        var input = document.getElementById('search-input');
-        if (input) { input.focus(); return; }
-        var trigger = document.getElementById('search-trigger');
-        if (trigger) { trigger.click(); return; }
-        Toast.warn('未找到搜索入口');
-      },
       'toggle-fullscreen': function () {
         var root = document.documentElement;
         var request = root.requestFullscreen || root.webkitRequestFullscreen;
@@ -321,36 +298,10 @@
       /* Kept for programmatic use, not listed in any menu. */
       'print': function () { window.print(); },
       'copy-title': function () { return copy(document.title, '标题已复制'); },
-      'reload': function () { location.reload(); },
-      'view-source': function () {
-        var win = window.open('', '_blank');
-        if (!win) { Toast.error('弹窗被浏览器拦截'); return; }
-
-        win.document.open();
-        win.document.write(
-          '<!DOCTYPE html><meta charset="utf-8">' +
-          '<title>源码 · ' + document.title + '</title>' +
-          '<pre id="src">正在加载源码…</pre>'
-        );
-        win.document.close();
-
-        window.fetch(location.href, { cache: 'force-cache' })
-          .then(function (res) { return res.text(); })
-          .then(function (html) {
-            win.document.getElementById('src').textContent = html;
-          })
-          .catch(function () {
-            win.document.getElementById('src').textContent = '源码加载失败。';
-          });
-      }
+      'reload': function () { location.reload(); }
     };
 
     /* ---------------------------------------------------------------- Items */
-
-    function searchLabel(ctx) {
-      var snippet = ctx.selection.slice(0, 12);
-      return '搜索「' + snippet + (ctx.selection.length > 12 ? '…' : '') + '」';
-    }
 
     /* Reads the live value straight from the owning module every time the menu
        opens, so the label always reflects reality. */
@@ -369,7 +320,6 @@
         when: function (ctx) { return !!ctx.selection; },
         items: [
           { icon: 'fa-copy', label: '复制选中文本', action: 'copy-selection' },
-          { icon: 'fa-magnifying-glass', label: searchLabel, action: 'search-selection' },
           {
             icon: COPY_AS.icon,
             label: COPY_AS.label,
@@ -411,8 +361,7 @@
             label: '图片操作…',
             children: [
               { label: '复制图片到剪贴板', action: 'copy-image-blob' },
-              { label: '保存图片到本地', action: 'save-image' },
-              { label: '以图搜图', action: 'image-search' }
+              { label: '保存图片到本地', action: 'save-image' }
             ]
           }
         ]
@@ -474,12 +423,10 @@
             children: [
               { icon: 'fa-link', label: '复制页面链接', action: 'copy-page-url' },
               { icon: 'fa-print', label: '打印 / 另存为 PDF', action: 'print' },
-              { icon: 'fa-code', label: '查看页面源码', action: 'view-source' },
               { icon: 'fa-rotate', label: '刷新页面', action: 'reload' }
             ]
           },
           DIVIDER,
-          { icon: 'fa-magnifying-glass', label: '搜索本站', action: 'focus-search' },
           { icon: 'fa-circle-half-stroke', label: '切换明暗主题', action: 'toggle-theme' },
           { icon: 'fa-expand', label: '全屏显示', action: 'toggle-fullscreen' },
           { icon: 'fa-share-nodes', label: '分享当前页', action: 'share-page' },

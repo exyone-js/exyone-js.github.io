@@ -21,9 +21,9 @@
 
   /* ---------------- Tunables ---------------- */
   var CFG = {
-    density:       18000,  // px² per particle; higher = sparser
-    maxParticles:  56,
-    minParticles:  24,
+    density:       20000,  // px² per particle; higher = sparser
+    maxParticles:  44,
+    minParticles:  18,
     speed:         0.12,   // drift speed (px per frame)
     linkDist:      120,    // particle-to-particle link distance
     mouseLinkDist: 145,    // mouse link distance
