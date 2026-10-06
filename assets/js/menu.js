@@ -324,9 +324,9 @@
             icon: COPY_AS.icon,
             label: COPY_AS.label,
             children: [
-              { label: '复制为引用', action: 'copy-quote' },
-              { label: '复制为 Markdown 引用（带来源）', action: 'copy-md-quote' },
-              { label: '复制为纯文本（去格式）', action: 'copy-plain' }
+              { icon: 'fa-quote-right', label: '复制为引用', action: 'copy-quote' },
+              { icon: 'fa-reply', label: '复制为 Markdown 引用（带来源）', action: 'copy-md-quote' },
+              { icon: 'fa-font', label: '复制为纯文本（去格式）', action: 'copy-plain' }
             ]
           },
           { icon: 'fa-volume-high', label: '朗读选中文本', action: 'speak-selection' },
@@ -343,9 +343,9 @@
             icon: COPY_AS.icon,
             label: COPY_AS.label,
             children: [
-              { label: '复制为 Markdown 链接', action: 'copy-md-link' },
-              { label: '复制为 HTML 链接', action: 'copy-html-link' },
-              { label: '复制为纯文本链接', action: 'copy-plain-link' }
+              { icon: 'fa-file-code', label: '复制为 Markdown 链接', action: 'copy-md-link' },
+              { icon: 'fa-code', label: '复制为 HTML 链接', action: 'copy-html-link' },
+              { icon: 'fa-font', label: '复制为纯文本链接', action: 'copy-plain-link' }
             ]
           }
         ]
@@ -360,8 +360,8 @@
             icon: 'fa-image',
             label: '图片操作…',
             children: [
-              { label: '复制图片到剪贴板', action: 'copy-image-blob' },
-              { label: '保存图片到本地', action: 'save-image' }
+              { icon: 'fa-clipboard', label: '复制图片到剪贴板', action: 'copy-image-blob' },
+              { icon: 'fa-download', label: '保存图片到本地', action: 'save-image' }
             ]
           }
         ]
@@ -375,9 +375,9 @@
             icon: 'fa-code',
             label: '代码操作…',
             children: [
-              { label: '复制为 Markdown 代码块', action: 'copy-md-code' },
-              { label: '复制代码（去行号）', action: 'copy-code-noline' },
-              { label: '下载代码', action: 'download-code' }
+              { icon: 'fa-file-code', label: '复制为 Markdown 代码块', action: 'copy-md-code' },
+              { icon: 'fa-list-ol', label: '复制代码（去行号）', action: 'copy-code-noline' },
+              { icon: 'fa-download', label: '下载代码', action: 'download-code' }
             ]
           }
         ]
