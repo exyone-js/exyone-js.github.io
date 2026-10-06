@@ -11,33 +11,31 @@ render_with_liquid: false
 - [Discord](https://discord.gg/ggrU3gWJUY)
 - [QQ群聊](https://qm.qq.com/q/O7CiBfOVSa)
 
-断更了很久，最近终于腾出手来推进 Zest。说干就干，我又做了一次大规模重构，顺带一批破坏性更新——好在还在内测阶段，改动不必背太多包袱。重构的结果有两面：代码架构确实清晰了，但原先那些面条代码的脆弱也一并暴露出来，迁移之后不少功能是被破坏掉的，最后只好推倒重来。
+断更了很长一段时间，最近终于有时间来更新我开发的 Zest SSG 了。说干就干，我又做了一次大规模重构，顺带做了一批破坏性更新——反正现在还是在内测阶段，可以自由地大刀阔斧地重构。重构的结果有好有坏：代码架构确实清晰了，但原先那些面条代码的脆弱也一并暴露出来，迁移之后不少功能是被破坏掉的，最后只好推倒重来。
 
-代价先说在前面：现在的 Zest 仍在内测，接口和行为都可能再变。如果你已经装好 .NET 10，直接 `dotnet tool install -g zest` 就能全局安装。
+代价先说在前面：现在的 Zest 仍在内测，接口和行为随时都可能会随着下一次更新变化。如果你已经装好 .NET 10，直接 `dotnet tool install -g zest` 就能全局安装。
 
 这篇文章把 Zest SSG 整体介绍一遍：它是什么、为什么这样设计、怎么用、现在能做什么，以及还缺什么。
 
-## Zest 是什么
+# Zest：模板即代码的静态站点生成器
 
-**Zest**（全称 **Zest: Easy Static-site Toolkit**，这个全称前后改过几版，最后定在这个）是一个用 **F# + C#** 混合编写的静态网站生成器。它最核心的设计理念只有一句话：
+Zest（全称 **Zest: Easy Static-site Toolkit**，这个全称前后改过几版，最后定在这个）是一个用 **F# + C#** 混合编写的静态网站生成器。它最核心的设计理念只有一句话：
 
 > **模板就是真正的代码，而不是字符串。**
 
-这句话是针对模板语言的普遍处境说的。多数静态站点生成器会自带一门模板语言，你得在里面拼字符串、绕开类型检查、为循环和条件找各种 workaround。Zest 把这件事交回宿主语言：直接用 F# 写页面，循环、条件、函数、模式匹配、字符串插值全是原生语法，类型检查照常生效。写文章这件事 Markdown 仍然更舒服，所以 `.md` 一样支持。
+这句话针对的是模板语言的普遍处境。多数静态站点生成器会自带一门模板语言，你得在其中拼字符串、绕开类型检查、为循环和条件寻找各种变通方案。Zest 把这件事交回宿主语言：直接用 F# 写页面，循环、条件、函数、模式匹配、字符串插值全是原生语法，类型检查照常生效。写文章这件事，Markdown 仍然更舒服，所以 `.md` 一样支持。
 
-整个项目建立在一个前提上：**模板语言和宿主语言应该是同一个东西。** 后面所有设计，大抵都从这个前提推出来。
+整个项目建立在一个前提上：**模板语言和宿主语言应该是同一个东西。** 后面所有设计，都是从这个前提推出来的。
 
-## 为什么是 Zest
+## 为什么我要开发 Zest
 
 选一个生成器，本质上是在选它替你做了哪些决定。Zest 的决定可以概括为四条。
 
 页面就是普通的 F# 程序。用类型安全的 HTML DSL 组合结构，循环、条件、函数、数据都是语言原生能力，不需要任何模板语言的变通方案；当散文比代码更合适时，Markdown 依然可用。
 
-创作格式只保留两种：**Zestucks**（`.ztk`，以及用于 Nunjucks 文件的 `.njk`），语法兼容 Nunjucks；以及脚本层 `.zest.fsx`。格式少，意味着边界清楚：模板管结构，脚本管逻辑。
+模板格式只保留两种：**Zestucks**（`.ztk`，是我开发的一个用 F# 实现的 Nunjucks 兼容层），语法兼容了我曾经在 Eleventy 中使用过的 Nunjucks；以及脚本层 `.zest.fsx`。这两者边界划分得很清晰：模板负责页面结构，脚本负责逻辑，当然，`.zest.fsx` 本身也内置了用于生成 HTML 的 DSL，因此也可以用作模板，但写法上仍旧是 F# 自身的语法，与传统 HTML 相去甚远。
 
-输出是纯静态 HTML，可以托管在任何地方，不依赖特定运行时。
-
-内置的 starter 刻意克制：没有动画、没有阴影、没有花哨的 hover 效果，靠排版和留白撑起页面。这是审美选择，不是功能缺失——装饰你可以自己加。
+构建产物是纯静态的 HTML，可以托管在任何提供静态网站托管服务的地方，不依赖特定运行时。
 
 一个 `dotnet` CLI 工具搞定 `init`、`build`、`serve`、`clean` 和 `preview`，从脚手架到预览都在同一条命令线上。
 
@@ -73,7 +71,7 @@ zest preview
 - **TOML 配置** — 零配置默认值；通过 `_config.toml` 和 `_data/*.toml` 自定义。没有 YAML。
 - **Live reload** — `zest serve` 监视变化并自动重建。
 - **批量求值** — 多个 F# 页面脚本在单个 FSI 进程中求值，构建更快。
-- **增量构建** — 文件变化检测会跳过未变化的页面和资源。
+- **增量构建** — 文件变化检测会跳过未变化的页面和资源。（待完善）
 - **跨平台** — 支持 Windows x64、Linux x64/ARM64 和 macOS ARM64。
 
 ## 写内容
@@ -123,7 +121,7 @@ render [
 
 ### 示例：在 `.zest.fsx` 页面里内联 Markdown
 
-`md` 助手把 Markdown 字符串渲染成 HTML 字符串，所以散文和 F# HTML DSL 可以在同一个页面里混用。和其他 DSL 构建器一样，`md` 返回一个普通的 `string`。
+`md` 字段把 Markdown 字符串渲染成 HTML 字符串，所以 Markdown 和 F# HTML DSL 可以在同一个页面里混用。和其他 DSL 构建器一样，`md` 返回一个普通的 `string`。
 
 ```fsharp
 // @title About
@@ -142,7 +140,7 @@ Learn more at the [Zest repository](https://github.com/zest-ssg/zest).
 ]
 ```
 
-### 样式即 ZCSS（`.zcss`）
+### 自创的 CSS 预处理器： ZCSS（`.zcss`）
 
 ```zcss
 // F# 风格的 let 绑定，带数学表达式
@@ -195,7 +193,7 @@ Zestucks 是 Zest 给自家 Nunjucks 兼容引擎起的名字，它的语法和 
 
 `.ztk` 和 `.njk` 是同一种语言，只是扩展名不同：新模板用 `.ztk`，从 Nunjucks 移植过来的文件继续用 `.njk`，中间没有翻译步骤。用 `.njk` 还有一个实际好处——不必另外配置 IDE 高亮，直接用编辑器原生的 Nunjucks 高亮即可。
 
-布局和 partial 是 `.ztk` 或 `.njk` 文件（纯 HTML 也行：`.html` 文件在包含 `{{ }}` / `{% %}` 语法时会走 Zestucks）。
+布局和 partial 是 `.ztk` 或 `.njk` 文件（直接使用 HTML 也行：`.html` 文件实际上也是经过 Zestucks 引擎处理的）。
 
 ```html
 <!DOCTYPE html>
@@ -226,7 +224,7 @@ Zestucks 是 Zest 给自家 Nunjucks 兼容引擎起的名字，它的语法和 
 | `content/`          | yes         | yes         | 变成有路由的页面。             |
 | 对它的引用          | `layout.ztk`| `layout.njk`| 两种拼写都行。                 |
 
-引用可以完全省略扩展名：`{% include "head" %}` 和 `{% extends "base" %}` 会先对 `_includes/` 再对 `_layouts/` 解析，先试 `.ztk` 再试 `.njk`。两者都存在时，`.ztk` 胜出。
+引用可以完全省略扩展名：`{% include "head" %}` 和 `{% extends "base" %}` 会先对 `_includes/` 再对 `_layouts/` 解析，先试 `.ztk` 再试 `.njk`。
 
 ## 项目布局
 
@@ -255,7 +253,7 @@ Zestucks 是 Zest 给自家 Nunjucks 兼容引擎起的名字，它的语法和 
 | `[site]` | `title` `url` `description` `language` `author` `version` `content_dir` `default_layout` `permalink_format` `dev_server_port` `live_reload_port` `log_level` `log_to_file` `log_timestamps` |
 | `[build]`| `output` `parallel` `incremental` `cache_busting` `finalize_on_error` |
 
-输出塑形——美化或压缩 HTML、CSS 和 JS——不在这里配置。它是构建后在 `_finalize.fsx` 里做的工作，作者可以选择具体应用什么；参见构建钩子。
+输出塑形——格式化或压缩 HTML、CSS 和 JS——不在这里配置。它是构建后在 `_finalize.fsx` 里做的工作，作者可以选择具体应用什么；参见构建钩子。（注：新版接口将所有输出塑形 API 统一转移至构建后 `_finalize.fsx` 中供调用了）
 
 没有列出的东西——`[[taxonomies]]`、`[menu.*]`、`[[defaults]]`、`[pagination]`、`[params]`、`include`、`exclude`、`[template.zestucks] compatibility`——都在顶层读取。
 
@@ -279,7 +277,7 @@ Zestucks 是 Zest 给自家 Nunjucks 兼容引擎起的名字，它的语法和 
 | **Zest.Markup**   | F#   | 页面作者写代码所针对的 API 表面：HTML/ZCSS markup 构建器、SEO 和 feed 助手、页面查询。 |
 | **Zest.Core**     | F#   | 无依赖的原语，被编译器和 markup 共享：slug、散文度量、日期。          |
 
-C# 负责进程与外部世界打交道的部分，F# 负责把源变成站点的部分；两者之间的边界就是 `Zest.Markup` 这一层公开 API。
+C# 负责进程与外部交互的部分，F# 负责构建源码的部分；两者之间的边界就是 `Zest.Markup` 这一层公开 API。
 
 ### 仓库布局
 
@@ -294,7 +292,7 @@ C# 负责进程与外部世界打交道的部分，F# 负责把源变成站点�
 
 ### 源码布局
 
-目录按它们持有的关注点命名，在 `Zest.Compiler` 中目录名也是命名空间（包括最后一段）。`Zest.Markup` 保持单一扁平命名空间——它的子目录只组织文件，因为它的模块名是页面作者写代码所针对的公共 DSL 表面。
+目录按照语义命名，在 `Zest.Compiler` 中目录名也是命名空间（包括最后一段）。`Zest.Markup` 保持单一扁平命名空间——它的子目录只组织文件，因为它的模块名是页面作者写代码所针对的公共 DSL 表面。
 
 ```
 src/Zest.App/            C#   Program, Cli/, Command/, Config/, Runtime/, Starter/
@@ -361,9 +359,9 @@ Zest 生成目录风格 URL，所以上面每个路由都写成 `<route>/index.h
 
 - **`index` 命名其目录。** `index.zest.fsx`（以及 `default.zest.fsx`）折叠到父目录的路由，所以 `blog/index.zest.fsx` 是 `/blog`，不是 `/blog/index`。
 - **`@permalink` 覆盖一切。** 当 URL 必须精确时使用它——starter 的 feed 就这么做（`// @permalink /rss.xml`），一个必须是 `/404.html` 而不是 `/404/` 的 404 页面也会这么做。
-- **只有 `.zest.fsx` 路由。** 把 `scripts/build.fsx` 重命名为 `scripts/build.zest.fsx` 会把它发布到 `/scripts/build/`。不应该存在的 URL 就留作普通 `.fsx`。
+- **`.zest.fsx` 语义等同于路由。** 把 `scripts/build.fsx` 重命名为 `scripts/build.zest.fsx` 会把它发布到 `/scripts/build/`。不应该存在的 URL 就留作普通 `.fsx`。
 
-当两个文件会产生相同输出时——比如 `about.ztk` 旁边有 `about.zest.fsx`——Zest 不做仲裁。后写入的页面胜出，所以给每个路由恰好一个源文件。
+当两个文件会产生相同输出时——比如 `about.ztk` 旁边有 `about.zest.fsx`——Zest 不做仲裁。构建引擎选择后者写入的页面，所以给每个路由恰好一个源文件。
 
 ### ZCSS 参考
 
@@ -376,7 +374,7 @@ Zest 生成目录风格 URL，所以上面每个路由都写成 `<route>/index.h
 | 管道操作符           | `value \|> fn(args)` → `fn(value, args)`                                  |
 | 单位简写             | `r` → `rem`，`p` → `%`                                                    |
 | 属性简写             | `py` → `padding-block`，`mx` → `margin-inline`，`bgc` → `background-color`|
-| 嵌套                 | 缩进或大括号模式                                                          |
+| 嵌套                 | 缩进（Python/SCSS 风格）或大括号（F# 风格）模式                                                          |
 | Mixin                | `@mixin`、`@include`                                                      |
 | 循环                 | `@each`、`@for`                                                           |
 | 条件                 | `@if`、`@else`                                                            |
@@ -396,7 +394,7 @@ Zest 总是用 Zestucks 渲染，所以路由只取决于文件扩展名：
 
 ### Zestucks 兼容模式
 
-`_config.toml` 中的 `[template.zestucks] compatibility` 控制 Zestucks 多严格地镜像 Nunjucks：
+`_config.toml` 中的 `[template.zestucks] compatibility` 控制 Zestucks 多严格地镜像 Nunjucks（注意：此处属于是 AI 过度设计，实际开发中两者区别不大，下一次版本更新中将直接移除这个选项，自动注册所有扩展过滤器）：
 
 | 值       | 含义                                                        |
 |----------|-------------------------------------------------------------|
@@ -451,7 +449,7 @@ defaults → _config.toml → _prebuild.fsx → render + write _site/ → _final
 | `_prebuild.fsx` | 任何渲染之前                | 注入模板读取的数据、过滤器和值。                  | 触碰构建输出。                       |
 | `_finalize.fsx` | `_site/` 完成后             | 检查、索引和重塑最终输出。                        | 注入模板数据；写 `_site/` 之外。     |
 
-没有第三个钩子，也没有 `afterBuild` 命令列表：构建后运行外部工具就是在 `_finalize.fsx` 里 `exec`。失败的钩子会被报告并导致构建失败，除非用 `setFailOnError false` 选择退出。
+没有第三个钩子，也没有 `afterBuild` 命令列表：构建后运行外部工具就是在 `_finalize.fsx` 里 `exec`。失败的钩子会被报告并导致构建失败，除非用 `setFailOnError false` 选择退出。（理论上你可以利用 `_finalize.fsx` 做一些更高级的事情，例如构建完成后自动推送到远程 git 仓库，亦或是自动通过终端上传到 Cloudflare/Netlify，毕竟这是一个功能完备的 .NET FSI 交互环境，具备完整的编程能力。我们正在考虑要不要把这些功能做成内置接口以简化流程，如果你有更好的意见，欢迎在社区或是进群发表自己的一些想法，我们会纳入参考意见的。）
 
 #### `_prebuild.fsx` API
 
@@ -503,14 +501,14 @@ defaults → _config.toml → _prebuild.fsx → render + write _site/ → _final
 | 函数                        | 用途                                                          |
 |-----------------------------|---------------------------------------------------------------|
 | `rewriteFiles ext transform`| 对 `_site/` 下该扩展名的每个文件应用 `transform`。             |
-| `formatHtml html`           | 美化 HTML。                                                    |
+| `formatHtml html`           | 格式化 HTML。                                                    |
 | `minifyHtml html`           | 压缩 HTML。                                                    |
-| `formatCss css`             | 美化 CSS（2 空格缩进）。                                       |
+| `formatCss css`             | 格式化 CSS（2 空格缩进）。                                       |
 | `minifyCss css`             | 压缩 CSS。                                                     |
-| `formatJs js`               | 美化 JavaScript（2 空格缩进）。                                |
+| `formatJs js`               | 格式化 JavaScript（2 空格缩进）。                                |
 | `minifyJs js`               | 压缩 JavaScript。                                              |
 
-一个完整的“美化 + 压缩”构建，也就是被移除的四个 `_config.toml` 键过去做的事情：
+一个完整的“格式化 + 压缩”构建，也就是被移除的四个 `_config.toml` 键过去做的事情：
 
 ```fsharp
 rewriteFiles ".html" formatHtml
@@ -556,7 +554,7 @@ let purge = exec "node" [ "scripts/purge-cdn.js"; site.url ]
 if purge.code <> 0 then consoleLog (sprintf "CDN purge failed: %s" purge.stderr)
 ```
 
-`finalize_on_error`（默认 `true`）控制当主构建已经报告错误时钩子是否仍然运行，这正是“即使构建不好，也验证已写入内容”成为可能的原因。
+`finalize_on_error`（默认 `true`）控制当主构建已经报告错误时钩子是否仍然运行，这正是“即使构建报错，也能验证已写入内容”成为可能的原因。
 
 ## 从源码构建
 
@@ -575,10 +573,7 @@ dotnet publish src/Zest.App/Zest.App.csproj -c Release -r win-x64 --self-contain
 
 1. **内容即代码，代码即内容。** F# DSL 和模板引擎共享同一个数据模型，所以边界上没有任何损失。
 2. **没有魔法。** 每个转换都是源码里可读的普通管线阶段。没有隐藏运行时，没有隐式依赖。
-3. **速度是特性。** 并行编译、最小分配和缓存是核心设计的一部分，不是事后想法。
 4. **输出就是交付物。** 静态 HTML，不需要 JavaScript，托管在任何地方。
-
-说到底，Zest 不是通用静态站点生成器。它是对一组特定约束的特定回答：F# 作为模板，TOML 作为契约，没有 Node.js，没有 YAML。
 
 ## 未来计划
 
