@@ -1,0 +1,18 @@
+{
+  "name": "exyone-frontend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Front-end TypeScript sources for exyone-js.github.io: browser bundle in _frontend/src, build-time page generators in _frontend/pages",
+  "scripts": {
+    "build": "esbuild _frontend/src/main.ts --bundle --format=iife --target=es2019 --minify --legal-comments=none --outfile=assets/js/bundle.js",
+    "pages": "esbuild _frontend/pages/friends.ts --bundle --platform=node --format=esm --target=node18 --packages=external --outfile=.cache/pages/friends.mjs && node .cache/pages/friends.mjs",
+    "watch": "esbuild _frontend/src/main.ts --bundle --format=iife --target=es2019 --sourcemap --watch --outfile=assets/js/bundle.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.node.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.25.0",
+    "rss-parser": "^3.13.0",
+    "typescript": "^5.7.0"
+  }
+}

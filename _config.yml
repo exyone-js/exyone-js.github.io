@@ -202,6 +202,9 @@ collections:
   poems:
     output: true
     sort_by: date
+  moments:
+    output: true
+    sort_by: date
 
 defaults:
   - scope:
@@ -229,9 +232,17 @@ defaults:
       type: poems
     values:
       layout: post # reuse the post layout as-is, poems need no dedicated one
-      comments: true
-      toc: true
-      permalink: /poems/:title/
+      comments: false
+      toc: false
+      permalink: /poems/:year-:month-:day-:title/
+  - scope:
+      path: ""
+      type: moments
+    values:
+      layout: post # a moment is short, the stock post layout already fits
+      comments: false
+      toc: false
+      permalink: /moments/:year-:month-:day-:title/
 
 sass:
   style: compressed
@@ -255,6 +266,11 @@ exclude:
   - purgecss.js
   - "*.config.js"
   - "package*.json"
+  # TypeScript sources + toolchain for the front-end bundle; only the compiled
+  # output in assets/js/bundle.js is published.
+  - _frontend
+  - node_modules
+  - tsconfig.json
 
 jekyll-archives:
   enabled: [categories, tags]
@@ -266,7 +282,7 @@ jekyll-archives:
     category: /categories/:name/
 
 # SiteEnhance front-end modules (_includes/metadata-hook.html)
-# Every key is optional; defaults live in assets/js/core.js.
+# Every key is optional; defaults live in _frontend/src/core.ts.
 site_enhance:
   # Simplified <-> Traditional Chinese toggle, Alt+Z or context menu.
   zh_convert:

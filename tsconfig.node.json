@@ -1,0 +1,11 @@
+{
+  /* Build-time scripts (Node, no DOM) — kept separate from the browser bundle
+     so Node globals never leak into the front-end typings. */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node"]
+  },
+  "include": ["_frontend/pages"]
+}

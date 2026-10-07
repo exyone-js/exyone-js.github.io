@@ -4,7 +4,7 @@
 <link rel="dns-prefetch" href="https://unpkg.com">
 
 <!-- SiteEnhance configuration; sourced from `site_enhance` in _config.yml.
-     Every key is optional and defaults live in assets/js/core.js. Keys are
+     Every key is optional and defaults live in _frontend/src/core.ts. Keys are
      written in snake_case in YAML and converted to camelCase below. -->
 {%- assign se = site.site_enhance -%}
 {%- capture se_json -%}
@@ -123,16 +123,9 @@
   </div>
 </div>
 
-<!-- Enhancement modules, loaded as classic scripts in dependency order. -->
-<script defer src="{{ '/assets/js/core.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/card.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/zh-convert.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/player.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/quotes.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/reading.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/effects.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/particles.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/menu.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/main.js' | relative_url }}"></script>
+<!-- Single bundle: TypeScript sources in `_frontend/src/` compiled by esbuild
+     (`npm run build`). Loaded as a classic script so it runs after parsing but
+     before DOMContentLoaded, exactly like the old multi-file chain. -->
+<script defer src="{{ '/assets/js/bundle.js' | relative_url }}"></script>
 
 {% include sticker.html %}

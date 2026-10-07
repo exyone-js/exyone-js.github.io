@@ -35,6 +35,7 @@ order: 4
         {{ poem.date | date: df_strftime_m }}
       </span>
       <a href="{{ poem.url | relative_url }}">{{ poem.title }}</a>
+      <span class="brief">{{ poem.content | strip_html | strip_newlines | truncate: 45 }}</span>
     </li>
 
     {% if forloop.last %}</ul>{% endif %}

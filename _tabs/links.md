@@ -1,20 +1,21 @@
 ---
 icon: fas fa-link
-order: 6
+order: 7
 layout: post
 title: "友链"
 comments: true
 ---
 
-> ~~如需申请友链，请前往 [友站链接](https://exyone.us.kg/links) 提交。~~  
-> 这个页面我加了评论区，现在想申请的话直接在下面留言就好啦 (´･ᴗ･`)
-{: .prompt-tip }
-
-> **友链申请方式已变更**  
-> 由于站点重新迁移回 Jekyll，旧申请入口 `exyone.us.kg/links` 及旧“朋友圈”页面已废弃。  
-> 现在本页已添加评论区，如需申请友链，请直接在下方留言。  
-> ~~友链动态：<https://exyone.us.kg/friends>~~_（已废弃）_  
-> 海内存知己，天涯若比邻。
+<a href="/friends" aria-label="进入友链动态页面" style="display:flex;align-items:center;gap:1rem;margin:1.5rem 0;padding:1.1rem 1.25rem;border-radius:1rem;text-decoration:none;color:inherit;background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(139,92,246,.12));border:1px solid rgba(59,130,246,.28);box-shadow:0 4px 16px -8px rgba(59,130,246,.4);">
+  <span style="flex:0 0 auto;width:44px;height:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff">
+    <i class="fas fa-user-friends" style="font-size:1.25rem"></i>
+  </span>
+  <span style="flex:1 1 auto;min-width:0">
+    <strong style="display:block;font-weight:700;font-size:1rem;line-height:1.3">友链动态</strong>
+    <span style="display:block;margin-top:.2rem;font-size:.8rem;line-height:1.5;opacity:.7">海内存知己，天涯若比邻 —— 看看朋友们最近写了什么</span>
+  </span>
+  <span style="flex:0 0 auto;font-size:.85rem;font-weight:600;opacity:.7;white-space:nowrap">浏览 ›</span>
+</a>
 
 ## 我的站点
 
@@ -63,3 +64,6 @@ comments: true
 | Joelchrono | <https://joelchrono.xyz> | 长歌吟松风，曲尽河星稀。 |
 | Krymtkts | <https://krymtkts.github.io> | 一条藤径绿，万点雪峰晴。 |
 | Nathan | <https://nthp.me> | 湛湛长江去，冥冥细雨来。 |
+
+> 如果想要申请友链，请在这个页面下方的评论区留言 (´･ᴗ･`)
+{: .prompt-tip }

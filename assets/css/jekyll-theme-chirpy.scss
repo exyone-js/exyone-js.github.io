@@ -798,7 +798,7 @@
   #reading-progress { height: 2.5px; }
 }
 
-// Particle network background (assets/js/particles.js).
+// Particle network background (_frontend/src/particles.ts).
 // Palette variables are scoped to #particles-bg so they never leak
 // into the global namespace; JS reads computed styles from the canvas.
 #particles-bg {
@@ -830,4 +830,15 @@
   --pn-line-alpha:  .34;
   --pn-dot-alpha:   .82;
   --pn-mouse-alpha: .52;
+}
+
+// Muted one-line preview trailing each title on the /poems and /moments
+// timelines. Both pages reuse the theme's `#archives` scope, so this is the
+// only style they need on top of it.
+
+#archives .brief {
+  margin-left: .6rem;
+  font-size: .85rem;
+  color: var(--enh-muted);
+  word-break: break-word;
 }

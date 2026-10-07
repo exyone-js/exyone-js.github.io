@@ -54,11 +54,27 @@ jobs:
         set -e
         cd /tmp/exyone-blog-build
         export JEKYLL_ENV="production"
+
+        # Rebuild assets/js/bundle.js from _frontend/src so a stale committed
+        # artifact can never ship.
+        if [ -f package.json ]; then
+          npm install
+          npm run typecheck
+          npm run build
+        fi
+
         bundle exec jekyll build
         if [ ! -d "_site" ]; then
           echo "Build failed! _site directory not found."
           exit 1
         fi
+
+        # _site/friends/index.html from the friend feeds. Runs after Jekyll and
+        # tolerates unreachable feeds.
+        if [ -f package.json ]; then
+          npm run pages
+        fi
+
         echo "Build successful! _site size:"
         du -sh _site/
     useTTY: false
