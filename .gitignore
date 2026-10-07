@@ -18,6 +18,9 @@ package-lock.json
 # Build-time script output (compiled from _frontend/pages before running)
 .cache
 
+# Generated Jekyll page source (from _frontend/pages/friends.ts before jekyll build)
+/friends/
+
 # IDE configurations
 .idea
 .vscode/*

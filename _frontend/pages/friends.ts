@@ -13,7 +13,11 @@
  * Migrated from the Eleventy template `friends.11ty.js`, which read its feed
  * list from a sibling `friends.json` and published through an 11ty permalink.
  * The feed list is now inlined below and the page is written straight into the
- * Jekyll output directory, so no 11ty runtime is involved any more.
+ * Jekyll source tree, so no 11ty runtime is involved any more.
+ *
+ * Must run BEFORE `jekyll build` (see `npm run build:site`): the generated
+ * `friends/index.html` is a Jekyll page source, so the published file is part
+ * of the same build output every deploy target consumes.
  */
 import { mkdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -36,8 +40,30 @@ const FEEDS: readonly string[] = [
   'https://www.qixz.cn/atom.xml'
 ];
 
-const OUTPUT_DIR = '_site';
+/**
+ * Written into the Jekyll source tree (and gitignored), NOT into `_site`.
+ *
+ * `_site` is a throwaway deploy hop: anything dropped into it after
+ * `jekyll build` only exists for the deploy step that happens to consume that
+ * same directory. Generating the page *before* the build makes it an ordinary
+ * Jekyll page, so it ships in the one `_site` that every deploy target reads.
+ * Runs before `jekyll build` — see the CI steps and `npm run build:site`.
+ */
+const OUTPUT_DIR = '.';
 const OUTPUT_PATH = 'friends/index.html';
+
+/**
+ * Front matter for the generated page.
+ *
+ * `layout: null` keeps it standalone (it carries its own <html>/<style>), and
+ * `render_with_liquid: false` stops Jekyll from touching the inline CSS/JS.
+ */
+const FRONT_MATTER = `---
+layout: null
+sitemap: false
+render_with_liquid: false
+---
+`;
 
 const FEED_TIMEOUT = 12_000;      // Per HTTP request (rss-parser internal)
 const PER_FEED_TIMEOUT = 15_000;  // Outer guard per configured source
@@ -795,7 +821,7 @@ function buildDocument(result: CollectResult): string {
 
   const script = totalPages > 1 ? buildScript() : '';
 
-  return `${buildHead()}
+  return `${FRONT_MATTER}${buildHead()}
 <body>
 <div class="fe-wrap">
   <header class="fe-head">

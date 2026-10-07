@@ -38,13 +38,14 @@ jobs:
         with:
           node-version: 20
 
-      # Compiles _frontend/src/*.ts into assets/js/bundle.js. Runs before Jekyll
-      # so a stale committed artifact can never ship.
-      - name: Build front-end bundle
+      # Compiles _frontend/src/*.ts into assets/js/bundle.js and generates
+      # friends/index.html. Both must run before Jekyll so a stale committed
+      # artifact can never ship.
+      - name: Build front-end assets
         run: |
           npm install
           npm run typecheck
-          npm run build
+          npm run build:site
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -58,10 +59,10 @@ jobs:
           JEKYLL_ENV: "production"
           BUNDLE_WITHOUT: ""
 
-      # Writes _site/friends/index.html from the friend feeds. Must run after
-      # Jekyll, and never fails the build on a dead feed.
-      - name: Build friends page
-        run: npm run pages
+      - name: Verify build output
+        run: |
+          test -f _site/friends/index.html
+          test -f _site/assets/js/bundle.js
 
       - name: Publish site to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

@@ -61,6 +61,12 @@ jobs:
           npm install
           npm run typecheck
           npm run build
+
+          # Generates friends/index.html as a Jekyll page SOURCE, so it must run
+          # before `jekyll build`. Never writes into _site: that directory is
+          # shared mutable state between steps and one deploy target would end
+          # up missing whatever a later step dropped into it.
+          npm run pages
         fi
 
         bundle exec jekyll build
@@ -68,11 +74,9 @@ jobs:
           echo "Build failed! _site directory not found."
           exit 1
         fi
-
-        # _site/friends/index.html from the friend feeds. Runs after Jekyll and
-        # tolerates unreachable feeds.
-        if [ -f package.json ]; then
-          npm run pages
+        if [ ! -f "_site/friends/index.html" ]; then
+          echo "Build failed! _site/friends/index.html not found."
+          exit 1
         fi
 
         echo "Build successful! _site size:"
