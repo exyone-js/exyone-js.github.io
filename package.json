@@ -5,7 +5,10 @@
   "description": "Front-end TypeScript sources for exyone-js.github.io: browser bundle in _frontend/src, build-time page generators in _frontend/pages",
   "scripts": {
     "build": "esbuild _frontend/src/main.ts --bundle --format=iife --target=es2019 --minify --legal-comments=none --outfile=assets/js/bundle.js",
-    "pages": "esbuild _frontend/pages/friends.ts --bundle --platform=node --format=esm --target=node18 --packages=external --outfile=.cache/pages/friends.mjs && node .cache/pages/friends.mjs",
+    "build:tarot": "node -e \"const fs=require('fs');const d='tarot/assets';if(fs.existsSync(d))for(const f of fs.readdirSync(d))if(f.endsWith('.js'))fs.rmSync(d+'/'+f,{force:true})\" && esbuild _frontend/src/tarot/index.ts --bundle --format=iife --target=es2019 --charset=utf8 --minify --legal-comments=none --outfile=tarot/assets/tarot.bundle.js",
+    "pages": "npm run pages:friends && npm run pages:tarot",
+    "pages:friends": "esbuild _frontend/pages/friends.ts --bundle --platform=node --format=esm --target=node18 --packages=external --outfile=.cache/pages/friends.mjs && node .cache/pages/friends.mjs",
+    "pages:tarot": "esbuild _frontend/pages/tarot.ts --bundle --platform=node --format=esm --target=node18 --packages=external --outfile=.cache/pages/tarot.mjs && node .cache/pages/tarot.mjs && npm run build:tarot",
     "build:site": "npm run build && npm run pages",
     "watch": "esbuild _frontend/src/main.ts --bundle --format=iife --target=es2019 --sourcemap --watch --outfile=assets/js/bundle.js",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.node.json --noEmit"

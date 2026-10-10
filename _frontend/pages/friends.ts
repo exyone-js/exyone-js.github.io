@@ -2,24 +2,36 @@
  * Friends feed page generator.
  *
  * Build-time script (not part of the browser bundle): pulls the latest posts
- * from every friend's feed and renders a standalone page to
- * `_site/friends/index.html`.
+ * from every friend's feed and renders a **multi-page** static site under
+ * `friends/` — a gitignored Jekyll page source tree:
  *
- * Runs after `jekyll build`, and never fails the pipeline — a dead feed or a
- * blocked network degrades to an empty state instead of an error.
+ *   friends/index.html          ← page 1 (the canonical `/friends/` URL)
+ *   friends/page/2/index.html   ← page 2
+ *   friends/page/N/index.html   ← ...
+ *   friends/assets/friends.css  ← shared stylesheet, cached across pages
+ *   friends/assets/friends.js   ← shared navigation helper
+ *
+ * The previous revision rendered ONE document that shipped *every* pagination
+ * page at once and swapped between them with an in-memory index. Each page is
+ * now an independent HTML file that carries only its own articles, so a browser
+ * never downloads another page's markup.
+ *
+ * Multi-page rules this generator follows:
+ *   • Page state lives in the URL (`/friends/`, `/friends/page/2/`, ...) rather
+ *     than a JavaScript variable — each page is linkable, cacheable and back-
+ *     button friendly.
+ *   • Navigation uses ordinary `<a href>` links (no client-side view switching).
+ *   • Styles/scripts are shared external files; every page still renders fully
+ *     on its own, with or without JavaScript.
+ *   • `/friends/` keeps its original URL, so existing inbound links still work.
+ *
+ * Runs BEFORE `jekyll build` (see `npm run build:site`): the generated tree is
+ * Jekyll page source, so every page ships in the one `_site` each deploy target
+ * consumes.
  *
  *   npm run pages
- *
- * Migrated from the Eleventy template `friends.11ty.js`, which read its feed
- * list from a sibling `friends.json` and published through an 11ty permalink.
- * The feed list is now inlined below and the page is written straight into the
- * Jekyll source tree, so no 11ty runtime is involved any more.
- *
- * Must run BEFORE `jekyll build` (see `npm run build:site`): the generated
- * `friends/index.html` is a Jekyll page source, so the published file is part
- * of the same build output every deploy target consumes.
  */
-import { mkdirSync, renameSync, unlinkSync, writeFileSync } from 'node:fs';
+import { mkdirSync, renameSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import Parser from 'rss-parser';
@@ -41,24 +53,42 @@ const FEEDS: readonly string[] = [
 ];
 
 /**
- * Written into the Jekyll source tree (and gitignored), NOT into `_site`.
+ * Root of the generated page tree (repo-relative, gitignored).
  *
  * `_site` is a throwaway deploy hop: anything dropped into it after
  * `jekyll build` only exists for the deploy step that happens to consume that
  * same directory. Generating the page *before* the build makes it an ordinary
- * Jekyll page, so it ships in the one `_site` that every deploy target reads.
- * Runs before `jekyll build` — see the CI steps and `npm run build:site`.
+ * Jekyll page, so it ships in the one `_site` every deploy target reads.
  */
-const OUTPUT_DIR = '.';
-const OUTPUT_PATH = 'friends/index.html';
+const OUTPUT_ROOT = 'friends';
+/** Page 1 → `<root>/index.html`; page N>1 → `<root>/page/N/index.html`. */
+const PAGE_SEGMENT = 'page';
+/** Shared assets, served under `<root>/assets/`. */
+const ASSET_SEGMENT = 'assets';
+const CSS_FILE = 'friends.css';
+const JS_FILE = 'friends.js';
+/** Path segment used while embedding `pageUrl()` into the generated markup. */
+const INDEX_SEGMENT = 'index.html';
+
+/** Site-absolute URLs (the site is served from the domain root, no baseurl). */
+const BASE_URL = '/' + OUTPUT_ROOT;
+const ASSET_URL = `${BASE_URL}/${ASSET_SEGMENT}`;
 
 /**
- * Front matter for the generated page.
+ * Front matter for the generated pages.
  *
- * `layout: null` keeps it standalone (it carries its own <html>/<style>), and
- * `render_with_liquid: false` stops Jekyll from touching the inline CSS/JS.
+ * `layout: null` keeps them standalone (they carry their own <html>), and
+ * `render_with_liquid: false` stops Jekyll from touching the inline markup.
  */
 const FRONT_MATTER = `---
+layout: null
+sitemap: false
+render_with_liquid: false
+---
+`;
+
+/** Same treatment for the shared assets: copied verbatim, never liquidated. */
+const ASSET_FRONT_MATTER = `---
 layout: null
 sitemap: false
 render_with_liquid: false
@@ -153,6 +183,16 @@ interface CollectResult {
   articles: Article[];
   sourcesOk: number;
   failed: SourceResult[];
+}
+
+/** Everything a single generated page needs to render itself. */
+interface PageDoc {
+  page: number;
+  totalPages: number;
+  items: readonly Article[];
+  totalArticles: number;
+  sourcesOk: number;
+  failedCount: number;
 }
 
 /* ---------------------------------------------------------------- Utilities -- */
@@ -464,42 +504,81 @@ async function collect(): Promise<CollectResult> {
   return { articles, sourcesOk, failed };
 }
 
+/* ------------------------------------------------------------------- Routing -- */
+
+/**
+ * Public URL of a pagination page.
+ *
+ * Page 1 keeps the canonical `/friends/` address; later pages get their own
+ * crawlable, linkable path. This URL *is* the page state — nothing is carried
+ * in memory between documents.
+ */
+function pageUrl(page: number): string {
+  return page <= 1 ? `${BASE_URL}/` : `${BASE_URL}/${PAGE_SEGMENT}/${page}/`;
+}
+
+/** Source-tree path the given page is written to (page 1 → `<root>/index.html`). */
+function pageFilePath(page: number): string {
+  return page <= 1
+    ? path.join(OUTPUT_ROOT, INDEX_SEGMENT)
+    : path.join(OUTPUT_ROOT, PAGE_SEGMENT, String(page), INDEX_SEGMENT);
+}
+
 /* ------------------------------------------------------------------- Styles -- */
 
-/* CSS variable-driven neumorphism; light/dark follow `prefers-color-scheme`. */
+/**
+ * Neumorphism ("Soft UI") stylesheet — shared by every page via
+ * `/friends/assets/friends.css`.
+ *
+ * Hard rules baked in:
+ *   • 背景 / 元素同色系 (#e0e5ec)；暗阴影右下 (#b8bcc2)，亮阴影左上 (#ffffff)。
+ *   • 交互元素 hover 时阴影 *缩小* (Hover Shadowing)；active 从凸起转内凹
+ *     (Extrude → Intrude)，全程不使用 translate。
+ *   • 所有过渡统一 300ms ease-in-out (Smooth Molding)。
+ *   • 无纯黑 / 纯白背景、无渐变、无粗边框、无直角。
+ *   • 附带 prefers-reduced-motion 与 prefers-contrast 降级分支。
+ */
 function buildStyles(): string {
   return `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:15px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 
 :root{
-  /* Base colors — light/dark shades derived from --bg */
-  --bg:#dfe6ef;
-  --fg:#2b3a4f;
-  --muted:#6b7d94;
-  --accent:#3b82f6;
-  --card:#dfe6ef;
-  --neu-light:#f5fbff;      /* Highlight (~8% lighter than bg) */
-  --neu-dark:#bccada;       /* Shadow (~12% darker than bg) */
-  /* Depth levels */
-  --depth-card:8px;
-  --depth-card-blur:18px;
-  --depth-btn:5px;
-  --depth-btn-blur:12px;
-  --radius-card:24px;
+  /* Base surfaces — everything shares the same hue, differentiation is by light */
+  --bg:#e0e5ec;
+  --surface:#e0e5ec;
+  --raised:#f0f0f3;
+  --fg:#333333;
+  --fg-soft:#4a5568;
+  --muted:#6b7280;
+  --accent:#6d5dfc;
+  --accent-tint:rgba(109,93,252,.10);
+
+  /* Dual-light source — direction is fixed: light at -X/-Y, shadow at +X/+Y */
+  --neu-light:#ffffff;
+  --neu-dark:#b8bcc2;
+
+  --radius-card:22px;
   --radius-btn:14px;
   --radius-pill:999px;
+
   --gap:1.35rem;
+  --dur:300ms;
+  --ease:cubic-bezier(.4,0,.2,1);
 }
+
 @media(prefers-color-scheme:dark){
   :root{
-    --bg:#1a2332;
-    --fg:#e6edf6;
-    --muted:#8294ac;
-    --accent:#60a5fa;
-    --card:#1a2332;
-    --neu-light:#222c3e;
-    --neu-dark:#10181f;
+    --bg:#232831;
+    --surface:#232831;
+    --raised:#2a303a;
+    --fg:#d4dae5;
+    --fg-soft:#aab3c0;
+    --muted:#8892a4;
+    --accent:#8b7dfc;
+    --accent-tint:rgba(139,125,252,.14);
+    --neu-light:#2d3440;
+    --neu-dark:#171c25;
   }
 }
 
@@ -519,67 +598,85 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap;
 }
-.fe-head__left{display:flex;align-items:center;gap:.85rem}
+.fe-head__left{display:flex;align-items:center;gap:.9rem}
 .fe-head__icon{
-  width:44px;height:44px;border-radius:var(--radius-btn);
-  background:var(--card);color:var(--accent);
+  width:46px;height:46px;border-radius:var(--radius-btn);
+  background:var(--surface);color:var(--accent);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  box-shadow:var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
 }
 .fe-head__icon svg{width:22px;height:22px}
-.fe-head__title{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.fe-head__title{
+  font-size:1.15rem;font-weight:700;letter-spacing:-.015em;line-height:1.2;
+}
 .fe-head__sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+
 .fe-head__back{
   font-size:.8125rem;color:var(--muted);text-decoration:none;
-  padding:.55rem 1.1rem;border-radius:var(--radius-pill);
-  background:var(--card);white-space:nowrap;
-  box-shadow:var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+  padding:.55rem 1.15rem;border-radius:var(--radius-pill);
+  background:var(--surface);white-space:nowrap;
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease),color var(--dur) var(--ease);
 }
-.fe-head__back:hover{color:var(--accent)}
+.fe-head__back:hover{
+  color:var(--accent);
+  /* Hover Shadowing — 手指靠近遮光，阴影收缩 */
+  box-shadow:3px 3px 6px var(--neu-dark),-3px -3px 6px var(--neu-light);
+}
 .fe-head__back:active{
-  box-shadow:inset var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             inset calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+  /* Extrude → Intrude，无 translate */
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-head__back:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--radius-pill);
 }
 
 /* ── Stats bar ── */
 .fe-stats{
-  display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.75rem;
+  display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.75rem;
   font-size:.78rem;color:var(--muted);
 }
 .fe-stat{
   display:inline-flex;align-items:center;gap:.5rem;
-  padding:.5rem 1rem;border-radius:var(--radius-pill);background:var(--card);
-  box-shadow:inset 3px 3px 7px var(--neu-dark),inset -3px -3px 7px var(--neu-light);
+  padding:.5rem 1rem;border-radius:var(--radius-pill);background:var(--surface);
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
 }
 .fe-stat strong{color:var(--fg);font-weight:600}
 
-/* ── Article grid ── */
-.fe-page{display:none;gap:var(--gap);grid-template-columns:repeat(2,1fr)}
-.fe-page--active{display:grid}
+/* ── Article grid ──
+   Each HTML page owns exactly one grid, so it is always visible — the
+   display toggling that used to live in JS is gone with the multi-page split. */
+.fe-page{display:grid;gap:var(--gap);grid-template-columns:repeat(2,1fr)}
 @media(max-width:640px){.fe-page{grid-template-columns:1fr}}
 
 .fe-item{
   position:relative;
   padding:1.35rem 1.5rem;
   border-radius:var(--radius-card);
-  background:var(--card);
-  box-shadow:var(--depth-card) var(--depth-card) var(--depth-card-blur) var(--neu-dark),
-             calc(var(--depth-card)*-1) calc(var(--depth-card)*-1) var(--depth-card-blur) var(--neu-light);
+  background:var(--surface);
+  box-shadow:8px 8px 16px var(--neu-dark),-8px -8px 16px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease);
   overflow:hidden;
 }
-.fe-item::after{
-  content:"";position:absolute;inset:0;border-radius:inherit;
-  box-shadow:0 14px 30px rgba(59,130,246,.18),0 6px 14px var(--neu-dark);
-  opacity:0;pointer-events:none;
+.fe-item:hover,
+.fe-item:focus-within{
+  /* Hover Shadowing — 阴影收缩而非扩大，符合光照物理 */
+  box-shadow:5px 5px 10px var(--neu-dark),-5px -5px 10px var(--neu-light);
 }
-.fe-item:hover::after{opacity:1}
 
 .fe-item__title{font-size:.95rem;font-weight:600;line-height:1.45}
-.fe-item__title a{color:var(--fg);text-decoration:none}
+.fe-item__title a{
+  color:var(--fg);text-decoration:none;
+  transition:color var(--dur) var(--ease);
+}
 .fe-item__title a:hover{color:var(--accent)}
+/* 覆盖全卡片，实现整卡可点击 */
 .fe-item__title a::after{content:"";position:absolute;inset:0}
+.fe-item__title a:focus-visible{outline:none}
+.fe-item__title a:focus-visible::after{
+  outline:2px solid var(--accent);outline-offset:6px;
+  border-radius:var(--radius-card);
+}
 
 .fe-item__summary{
   margin-top:.55rem;font-size:.78rem;color:var(--muted);line-height:1.55;
@@ -590,51 +687,68 @@ body{
   display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;
   margin-top:.85rem;padding-top:.75rem;
   font-size:.7rem;color:var(--muted);
-  border-top:1px solid color-mix(in srgb,var(--neu-dark) 40%,transparent);
+  border-top:1px solid color-mix(in srgb,var(--neu-dark) 55%,transparent);
 }
 .fe-item__src{
-  font-weight:600;color:var(--fg);
+  font-weight:600;color:var(--fg-soft);
   max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .fe-item__dot{opacity:.5}
 .fe-item__time{white-space:nowrap}
 
-/* ── Pagination ── */
+/* ── Pagination ──
+   Real links, not buttons: prev/next navigate to sibling documents. */
 .fe-pag{
   display:flex;align-items:center;justify-content:center;gap:1rem;
-  margin-top:1.75rem;
+  margin-top:1.75rem;flex-wrap:wrap;
 }
 .fe-pag__btn{
-  font-size:.8125rem;padding:.55rem 1.25rem;border:none;border-radius:var(--radius-btn);
-  background:var(--card);color:var(--fg);cursor:pointer;
-  box-shadow:var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+  font-family:inherit;
+  font-size:.8125rem;padding:.6rem 1.35rem;
+  border:none;border-radius:var(--radius-btn);
+  background:var(--surface);color:var(--fg);cursor:pointer;
+  display:inline-block;text-decoration:none;line-height:1.2;white-space:nowrap;
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease),color var(--dur) var(--ease);
 }
-.fe-pag__btn:hover:not(:disabled){color:var(--accent)}
-.fe-pag__btn:active:not(:disabled){
-  box-shadow:inset var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             inset calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+.fe-pag__btn:not([aria-disabled="true"]):hover{
+  color:var(--accent);
+  box-shadow:3px 3px 6px var(--neu-dark),-3px -3px 6px var(--neu-light);
 }
-.fe-pag__btn:disabled{opacity:.4;cursor:not-allowed}
-.fe-pag__info{font-size:.75rem;color:var(--muted);min-width:120px;text-align:center}
+.fe-pag__btn:not([aria-disabled="true"]):active{
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-pag__btn:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;
+}
+/* First/last page: the missing neighbour renders as an inert, sunk-in chip. */
+.fe-pag__btn[aria-disabled="true"]{
+  opacity:.45;cursor:not-allowed;pointer-events:none;
+  box-shadow:inset 2px 2px 4px var(--neu-dark),inset -2px -2px 4px var(--neu-light);
+}
+.fe-pag__info{
+  font-size:.75rem;color:var(--muted);
+  min-width:140px;text-align:center;
+  padding:.35rem .85rem;border-radius:var(--radius-pill);
+  box-shadow:inset 2px 2px 4px var(--neu-dark),inset -2px -2px 4px var(--neu-light);
+}
 
 /* ── Note / Empty state ── */
 .fe-note{
   font-size:.78rem;color:var(--muted);margin-top:1.25rem;
-  padding:.85rem 1.1rem;border-radius:var(--radius-btn);background:var(--card);
-  box-shadow:inset 4px 4px 9px var(--neu-dark),inset -4px -4px 9px var(--neu-light);
+  padding:.85rem 1.15rem;border-radius:var(--radius-btn);background:var(--surface);
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
 }
 .fe-empty{
   text-align:center;padding:3.5rem 1.5rem;color:var(--muted);
-  border-radius:var(--radius-card);background:var(--card);margin-top:1rem;
-  box-shadow:inset 6px 6px 14px var(--neu-dark),inset -6px -6px 14px var(--neu-light);
+  border-radius:var(--radius-card);background:var(--surface);margin-top:1rem;
+  box-shadow:inset 4px 4px 8px var(--neu-dark),inset -4px -4px 8px var(--neu-light);
 }
 .fe-empty__icon{
   width:56px;height:56px;margin:0 auto 1rem;border-radius:50%;
   display:flex;align-items:center;justify-content:center;color:var(--accent);
-  background:var(--card);
-  box-shadow:var(--depth-btn) var(--depth-btn) var(--depth-btn-blur) var(--neu-dark),
-             calc(var(--depth-btn)*-1) calc(var(--depth-btn)*-1) var(--depth-btn-blur) var(--neu-light);
+  background:var(--surface);
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
 }
 .fe-empty__icon svg{width:26px;height:26px}
 .fe-empty__text{font-size:.9rem}
@@ -643,39 +757,111 @@ body{
 .fe-foot{
   text-align:center;font-size:.72rem;color:var(--muted);
   margin-top:2.5rem;padding-top:1.5rem;
-  border-top:1px solid color-mix(in srgb,var(--neu-dark) 30%,transparent);
+  border-top:1px solid color-mix(in srgb,var(--neu-dark) 40%,transparent);
 }
 
-@media(prefers-contrast:high){
-  :root{--neu-dark:rgba(0,0,0,.55);--neu-light:rgba(255,255,255,.7)}
-  .fe-item,.fe-head__back,.fe-pag__btn,.fe-head__icon{
-    border:1px solid currentColor;box-shadow:none;
+/* ── Accessibility fallbacks ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
   }
-  .fe-item::after{display:none}
 }
+@media(prefers-contrast:more){
+  :root{--neu-dark:#8a8e94;--neu-light:#ffffff}
+  .fe-item,.fe-pag__btn,.fe-head__back,.fe-head__icon,.fe-empty__icon{
+    border:1px solid var(--fg);
+  }
+}
+`;
+}
+
+/**
+ * Shared navigation helper — loaded by every page from
+ * `/friends/assets/friends.js`.
+ *
+ * Links already work without JavaScript (they are plain <a href> elements);
+ * this only adds the two gestures the single-page build had: ← / → keys and
+ * horizontal touch swipes. Both simply follow the neighbour link, i.e. they
+ * trigger a normal document navigation.
+ */
+function buildScript(): string {
+  return `/* Friends feed — keyboard / swipe shortcuts for the pager. */
+(function () {
+  "use strict";
+
+  var bar = document.getElementById("fe-pag");
+  if (!bar) return; // Only one page was generated: nothing to navigate.
+
+  function link(kind) {
+    var el = bar.querySelector('[data-nav="' + kind + '"]');
+    return el && el.tagName === "A" ? el : null;
+  }
+
+  // The destination is the neighbour page's own URL, so navigation is a plain
+  // document load: history, caching and the back button stay native.
+  function go(kind) {
+    var el = link(kind);
+    var href = el && el.getAttribute("href");
+    if (href) window.location.assign(href);
+  }
+
+  document.addEventListener("keydown", function (e) {
+    var tag = e.target && e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+    if (e.key === "ArrowLeft") go("prev");
+    else if (e.key === "ArrowRight") go("next");
+  });
+
+  // Touch swipe: horizontal only, conservative thresholds so vertical scroll wins.
+  var sx = 0, sy = 0, tracking = false;
+
+  document.addEventListener("touchstart", function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    tracking = true;
+  }, { passive: true });
+
+  document.addEventListener("touchend", function (e) {
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches && e.changedTouches[0];
+    if (!t) return;
+    var dx = t.clientX - sx;
+    var dy = t.clientY - sy;
+    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    go(dx < 0 ? "next" : "prev");
+  }, { passive: true });
+})();
 `;
 }
 
 /* -------------------------------------------------------- HTML fragments ---- */
 
-function buildHead(): string {
+function buildHead(page: number, totalPages: number): string {
+  const title = page > 1 ? `\u53cb\u94fe\u52a8\u6001 \u00b7 \u7b2c ${page} \u9875` : '\u53cb\u94fe\u52a8\u6001';
+  const prevLink = page > 1 ? `\n<link rel="prev" href="${pageUrl(page - 1)}">` : '';
+  const nextLink = page < totalPages ? `\n<link rel="next" href="${pageUrl(page + 1)}">` : '';
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>友链动态</title>
-<meta name="description" content="聚合朋友站点的最新文章动态">
+<title>${title}</title>
+<meta name="description" content="\u805a\u5408\u670b\u53cb\u7ad9\u70b9\u7684\u6700\u65b0\u6587\u7ae0\u52a8\u6001">
 <meta name="robots" content="index,follow">
 <meta name="apple-mobile-web-app-title" content="EXYONE@BLOG:~$">
 <meta name="application-name" content="EXYONE@BLOG:~$">
-<meta name="theme-color" content="#dfe6ef" media="(prefers-color-scheme:light)">
-<meta name="theme-color" content="#1a2332" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#e0e5ec" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#232831" media="(prefers-color-scheme:dark)">
 <link rel="apple-touch-icon" href="${FAVICON_HREF}">
 <link rel="apple-touch-icon-precomposed" href="${FAVICON_HREF}">
 <link rel="icon" type="image/svg+xml" href="${FAVICON_HREF}">
-<link rel="shortcut icon" href="${FAVICON_HREF}">
-<style>${buildStyles()}</style>
+<link rel="shortcut icon" href="${FAVICON_HREF}">${prevLink}${nextLink}
+<link rel="stylesheet" href="${ASSET_URL}/${CSS_FILE}">
 </head>`;
 }
 
@@ -694,7 +880,7 @@ function buildCard(item: Article): string {
   ${summary}
   <div class="fe-item__meta">
     <span class="fe-item__src" title="${esc(item.siteName)}">${esc(item.siteName)}</span>
-    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <span class="fe-item__dot" aria-hidden="true">\u00b7</span>
     <time class="fe-item__time"${dtAttr}>${timeText}</time>
   </div>
 </article>`;
@@ -708,145 +894,90 @@ function paginate<T>(items: readonly T[], perPage: number): T[][] {
   return pages;
 }
 
-function buildPagesHtml(pages: readonly Article[][]): string {
-  return pages
-    .map((pageItems, idx) => {
-      const itemsHtml = pageItems.map(buildCard).join('\n');
-      return `<div class="fe-page${idx === 0 ? ' fe-page--active' : ''}">\n${itemsHtml}\n</div>`;
-    })
-    .join('\n');
-}
-
-function buildPaginationHtml(totalPages: number, totalArticles: number): string {
+/**
+ * Prev/next navigation between sibling documents.
+ *
+ * A neighbour that does not exist is emitted as an inert `<span>` carrying
+ * `aria-disabled` (visually identical to the old disabled button) instead of a
+ * link, so a multi-page crawl never produces a dead href.
+ */
+function buildPaginationHtml(page: number, totalPages: number, totalArticles: number): string {
   if (totalPages <= 1) return '';
-  return `<nav class="fe-pag" id="fe-pag" aria-label="分页导航">
-  <button class="fe-pag__btn" data-page="prev" type="button" disabled aria-label="上一页">&lsaquo; 上一页</button>
-  <span class="fe-pag__info" role="status" aria-live="polite">第 <span id="fe-page-num">1</span> / ${totalPages} 页 · 共 ${totalArticles} 篇</span>
-  <button class="fe-pag__btn" data-page="next" type="button" aria-label="下一页">下一页 &rsaquo;</button>
+
+  const prev = page > 1
+    ? `<a class="fe-pag__btn" href="${pageUrl(page - 1)}" rel="prev" data-nav="prev">&lsaquo; \u4e0a\u4e00\u9875</a>`
+    : `<span class="fe-pag__btn" aria-disabled="true" data-nav="prev">&lsaquo; \u4e0a\u4e00\u9875</span>`;
+
+  const next = page < totalPages
+    ? `<a class="fe-pag__btn" href="${pageUrl(page + 1)}" rel="next" data-nav="next">\u4e0b\u4e00\u9875 &rsaquo;</a>`
+    : `<span class="fe-pag__btn" aria-disabled="true" data-nav="next">\u4e0b\u4e00\u9875 &rsaquo;</span>`;
+
+  return `<nav class="fe-pag" id="fe-pag" aria-label="\u5206\u9875\u5bfc\u822a">
+  ${prev}
+  <span class="fe-pag__info" role="status" aria-live="polite">\u7b2c ${page} / ${totalPages} \u9875 \u00b7 \u5171 ${totalArticles} \u7bc7</span>
+  ${next}
 </nav>`;
 }
 
 function buildEmptyState(hasErrors: boolean): string {
-  const text = hasErrors ? '暂无友链动态，请检查订阅源配置' : '暂无友链动态';
+  const text = hasErrors
+    ? '\u6682\u65e0\u53cb\u94fe\u52a8\u6001\uff0c\u8bf7\u68c0\u67e5\u8ba2\u9605\u6e90\u914d\u7f6e'
+    : '\u6682\u65e0\u53cb\u94fe\u52a8\u6001';
   return `<div class="fe-empty">
   <div class="fe-empty__icon" aria-hidden="true">${ICON_CLOUD}</div>
   <p class="fe-empty__text">${text}</p>
 </div>`;
 }
 
-function buildScript(): string {
-  return `<script>
-(function(){
-  "use strict";
-  var pages = Array.prototype.slice.call(document.querySelectorAll(".fe-page"));
-  if (pages.length <= 1) return;
-
-  var bar = document.getElementById("fe-pag");
-  var numEl = document.getElementById("fe-page-num");
-  if (!bar || !numEl) return;
-
-  var prevBtn = bar.querySelector('[data-page="prev"]');
-  var nextBtn = bar.querySelector('[data-page="next"]');
-  var cur = 0;
-
-  function render() {
-    for (var i = 0; i < pages.length; i++) {
-      pages[i].classList.toggle("fe-page--active", i === cur);
-    }
-    numEl.textContent = String(cur + 1);
-    if (prevBtn) prevBtn.disabled = cur === 0;
-    if (nextBtn) nextBtn.disabled = cur === pages.length - 1;
-  }
-
-  function go(delta) {
-    var next = cur + delta;
-    if (next < 0 || next >= pages.length) return;
-    cur = next;
-    render();
-  }
-
-  bar.addEventListener("click", function(e) {
-    var t = e.target && e.target.closest ? e.target.closest(".fe-pag__btn") : null;
-    if (!t || t.disabled) return;
-    var d = t.getAttribute("data-page");
-    if (d === "prev") go(-1);
-    else if (d === "next") go(1);
-  });
-
-  document.addEventListener("keydown", function(e) {
-    var tag = e.target && e.target.tagName;
-    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-    if (e.key === "ArrowLeft") go(-1);
-    else if (e.key === "ArrowRight") go(1);
-  });
-
-  // Touch swipe: horizontal only, conservative thresholds so vertical scroll wins.
-  var sx = 0, sy = 0, tracking = false;
-  document.addEventListener("touchstart", function(e) {
-    if (e.touches.length !== 1) { tracking = false; return; }
-    sx = e.touches[0].clientX;
-    sy = e.touches[0].clientY;
-    tracking = true;
-  }, { passive: true });
-
-  document.addEventListener("touchend", function(e) {
-    if (!tracking) return;
-    tracking = false;
-    var t = e.changedTouches && e.changedTouches[0];
-    if (!t) return;
-    var dx = t.clientX - sx;
-    var dy = t.clientY - sy;
-    if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-    go(dx < 0 ? 1 : -1);
-  }, { passive: true });
-})();
-</script>`;
-}
-
 /* ------------------------------------------------------------------ Render -- */
 
-function buildDocument(result: CollectResult): string {
-  const { articles, sourcesOk, failed } = result;
-  const pages = paginate(articles, ITEMS_PER_PAGE);
-  const totalPages = pages.length;
+/**
+ * Renders ONE pagination page as a standalone document.
+ *
+ * The document contains only its own articles plus links to its neighbours —
+ * no other page's markup, and no state handed over from another document.
+ */
+function buildPageDocument(doc: PageDoc): string {
+  const { page, totalPages, items, totalArticles, sourcesOk, failedCount } = doc;
 
-  const body = articles.length
-    ? buildPagesHtml(pages) + buildPaginationHtml(totalPages, articles.length)
-    : buildEmptyState(failed.length > 0);
+  const body = totalArticles > 0
+    ? `<div class="fe-page">
+${items.map(buildCard).join('\n')}
+</div>
+${buildPaginationHtml(page, totalPages, totalArticles)}`
+    : buildEmptyState(failedCount > 0);
 
   const errorsHtml =
-    failed.length > 0
-      ? `<p class="fe-note">${failed.length} 个订阅源暂时无法访问</p>`
+    failedCount > 0
+      ? `<p class="fe-note">${failedCount} \u4e2a\u8ba2\u9605\u6e90\u6682\u65f6\u65e0\u6cd5\u8bbf\u95ee</p>`
       : '';
 
-  const script = totalPages > 1 ? buildScript() : '';
-
-  return `${FRONT_MATTER}${buildHead()}
+  return `${FRONT_MATTER}${buildHead(page, totalPages)}
 <body>
 <div class="fe-wrap">
   <header class="fe-head">
     <div class="fe-head__left">
       <div class="fe-head__icon" aria-hidden="true">${ICON_CLOUD}</div>
       <div>
-        <div class="fe-head__title">友链动态</div>
-        <div class="fe-head__sub">聚合朋友站点的最新文章</div>
+        <div class="fe-head__title">\u53cb\u94fe\u52a8\u6001</div>
+        <div class="fe-head__sub">\u805a\u5408\u670b\u53cb\u7ad9\u70b9\u7684\u6700\u65b0\u6587\u7ae0</div>
       </div>
     </div>
-    <a href="/" class="fe-head__back">← 返回主页</a>
+    <a href="/" class="fe-head__back">\u2190 \u8fd4\u56de\u4e3b\u9875</a>
   </header>
 
   <div class="fe-stats">
-    <span class="fe-stat"><strong>${articles.length}</strong> 篇文章</span>
-    <span class="fe-stat"><strong>${sourcesOk}</strong> / ${FEEDS.length} 源在线</span>
-    <span class="fe-stat"><strong>${totalPages}</strong> 页</span>
+    <span class="fe-stat"><strong>${totalArticles}</strong> \u7bc7\u6587\u7ae0</span>
+    <span class="fe-stat"><strong>${sourcesOk}</strong> / ${FEEDS.length} \u6e90\u5728\u7ebf</span>
+    <span class="fe-stat"><strong>${totalPages}</strong> \u9875</span>
   </div>
 
   ${body}
   ${errorsHtml}
 
-  <p class="fe-foot">Exyone Blog · 友链动态 · 订阅聚合</p>
+  <p class="fe-foot">Exyone's Blog \u00b7 \u53cb\u94fe\u52a8\u6001 \u00b7 \u8ba2\u9605\u805a\u5408</p>
 </div>
-${script}
+<script src="${ASSET_URL}/${JS_FILE}" defer></script>
 </body>
 </html>`;
 }
@@ -870,6 +1001,51 @@ function writeAtomic(filePath: string, contents: string): void {
   }
 }
 
+/**
+ * Drops the previous build's `/page/N/` tree.
+ *
+ * The page count changes with the feed window, so a shrinking result would
+ * otherwise leave orphaned, still-crawlable documents behind. `force` swallows
+ * ENOENT; a permission error (e.g. a file locked by a browser) is survivable —
+ * the fresh pages are still written, only stale ones linger.
+ */
+function removeStalePages(): void {
+  try {
+    rmSync(path.join(OUTPUT_ROOT, PAGE_SEGMENT), { recursive: true, force: true });
+  } catch (error) {
+    console.warn('[friends] Could not clear stale pages:', toErrorMessage(error));
+  }
+}
+
+/** Writes the shared assets + one HTML document per pagination page. */
+function writeSite(result: CollectResult): number {
+  const { articles, sourcesOk, failed } = result;
+  const pages = paginate(articles, ITEMS_PER_PAGE);
+  // An empty result reports `0 页` (as the single-page build did) but still
+  // emits page 1, so `/friends/` is never a 404.
+  const totalPages = pages.length;
+  const documents = Math.max(totalPages, 1);
+
+  writeAtomic(path.join(OUTPUT_ROOT, ASSET_SEGMENT, CSS_FILE), ASSET_FRONT_MATTER + buildStyles());
+  writeAtomic(path.join(OUTPUT_ROOT, ASSET_SEGMENT, JS_FILE), ASSET_FRONT_MATTER + buildScript());
+
+  removeStalePages();
+
+  for (let page = 1; page <= documents; page++) {
+    const html = buildPageDocument({
+      page,
+      totalPages,
+      items: pages[page - 1] ?? [],
+      totalArticles: articles.length,
+      sourcesOk,
+      failedCount: failed.length
+    });
+    writeAtomic(pageFilePath(page), html);
+  }
+
+  return documents;
+}
+
 /* -------------------------------------------------------------------- Main -- */
 
 /**
@@ -891,10 +1067,8 @@ function finish(code: number): void {
 
 async function generate(): Promise<void> {
   const result = await collect();
-  const html = buildDocument(result);
-  const outPath = path.join(OUTPUT_DIR, OUTPUT_PATH);
-  writeAtomic(outPath, html);
-  console.log('[friends] Written to ' + outPath + '\n');
+  const totalPages = writeSite(result);
+  console.log(`[friends] Written ${totalPages} page(s) to ${OUTPUT_ROOT}/\n`);
 }
 
 let exitCode = 0;
@@ -902,11 +1076,10 @@ let exitCode = 0;
 try {
   await generate();
 } catch (error) {
-  // Never fail the pipeline: emit a valid empty page instead of a broken build.
+  // Never fail the pipeline: emit a valid empty site instead of a broken build.
   console.error('[friends] Generation failed:', toErrorMessage(error));
   try {
-    const fallback = buildDocument({ articles: [], sourcesOk: 0, failed: [] });
-    writeAtomic(path.join(OUTPUT_DIR, OUTPUT_PATH), fallback);
+    writeSite({ articles: [], sourcesOk: 0, failed: [] });
     console.log('[friends] Wrote empty fallback page\n');
   } catch (innerError) {
     console.error('[friends] Fallback write failed:', toErrorMessage(innerError));

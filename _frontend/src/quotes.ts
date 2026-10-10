@@ -45,7 +45,7 @@ const Quotes: QuotesModule | null = (function (): QuotesModule | null {
     cardEl.classList.remove('is-error');
     contentEl.classList.remove('epigram-error');
     contentEl.classList.add('epigram-loading');
-    contentEl.textContent = '正在加载隽语…';
+    contentEl.textContent = '正在加载引语…';
     metaEl.textContent = '';
   }
 
@@ -62,7 +62,7 @@ const Quotes: QuotesModule | null = (function (): QuotesModule | null {
   }
 
   function markFailed(): void {
-    contentEl.textContent = '隽语加载失败，点击重试';
+    contentEl.textContent = '引语加载失败，点击重试';
     contentEl.classList.remove('epigram-loading');
     contentEl.classList.add('epigram-error');
     cardEl.classList.add('is-error');

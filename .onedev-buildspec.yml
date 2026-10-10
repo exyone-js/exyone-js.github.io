@@ -78,6 +78,10 @@ jobs:
           echo "Build failed! _site/friends/index.html not found."
           exit 1
         fi
+        if [ ! -f "_site/tarot/index.html" ] || [ ! -f "_site/tarot/assets/tarot.css" ] || [ ! -f "_site/tarot/assets/tarot.bundle.js" ]; then
+          echo "Build failed! the generated tarot app is incomplete."
+          exit 1
+        fi
 
         echo "Build successful! _site size:"
         du -sh _site/

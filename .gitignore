@@ -21,6 +21,10 @@ package-lock.json
 # Generated Jekyll page source (from _frontend/pages/friends.ts before jekyll build)
 /friends/
 
+# Generated Jekyll page source + shared assets for the tarot app
+# (from _frontend/pages/tarot.ts and _frontend/src/tarot before jekyll build)
+/tarot/
+
 # IDE configurations
 .idea
 .vscode/*

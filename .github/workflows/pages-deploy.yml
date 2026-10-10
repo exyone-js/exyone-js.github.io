@@ -38,9 +38,9 @@ jobs:
         with:
           node-version: 20
 
-      # Compiles _frontend/src/*.ts into assets/js/bundle.js and generates
-      # friends/index.html. Both must run before Jekyll so a stale committed
-      # artifact can never ship.
+      # Compiles _frontend/src/*.ts into assets/js/bundle.js, then generates the
+      # friends and tarot page trees. All of it must run before Jekyll so a
+      # stale committed artifact can never ship.
       - name: Build front-end assets
         run: |
           npm install
@@ -62,6 +62,10 @@ jobs:
       - name: Verify build output
         run: |
           test -f _site/friends/index.html
+          test -f _site/tarot/index.html
+          test -f _site/tarot/deck/index.html
+          test -f _site/tarot/assets/tarot.css
+          test -f _site/tarot/assets/tarot.bundle.js
           test -f _site/assets/js/bundle.js
 
       - name: Publish site to gh-pages branch

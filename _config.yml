@@ -234,7 +234,7 @@ defaults:
       layout: post # reuse the post layout as-is, poems need no dedicated one
       comments: false
       toc: false
-      permalink: /poems/:year-:month-:day-:title/
+      permalink: /poems/:year/:month/:day/:title/
   - scope:
       path: ""
       type: moments
@@ -242,7 +242,7 @@ defaults:
       layout: post # a moment is short, the stock post layout already fits
       comments: false
       toc: false
-      permalink: /moments/:year-:month-:day-:title/
+      permalink: /moments/:year/:month/:day/:title/
 
 sass:
   style: compressed
