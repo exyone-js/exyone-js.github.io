@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>友链动态</title>
+<meta name="description" content="聚合朋友站点的最新文章动态">
+<meta name="robots" content="index,follow">
+<meta name="apple-mobile-web-app-title" content="EXYONE@BLOG:~$">
+<meta name="application-name" content="EXYONE@BLOG:~$">
+<meta name="theme-color" content="#e0e5ec" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#232831" media="(prefers-color-scheme:dark)">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M4.158%2012.025a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m-3.5%201.5a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%201%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m.747-8.498a5.001%205.001%200%200%200-9.499-1.004A3.5%203.5%200%201%200%203.5%2011H13a3%203%200%200%200%20.405-5.973M8.5%202a4%204%200%200%201%203.976%203.555.5.5%200%200%200%20.5.445H13a2%202%200%200%201%200%204H3.5a2.5%202.5%200%201%201%20.605-4.926.5.5%200%200%200%20.596-.329A4%204%200%200%201%208.5%202%22%2F%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon-precomposed" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M4.158%2012.025a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m-3.5%201.5a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%201%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m.747-8.498a5.001%205.001%200%200%200-9.499-1.004A3.5%203.5%200%201%200%203.5%2011H13a3%203%200%200%200%20.405-5.973M8.5%202a4%204%200%200%201%203.976%203.555.5.5%200%200%200%20.5.445H13a2%202%200%200%201%200%204H3.5a2.5%202.5%200%201%201%20.605-4.926.5.5%200%200%200%20.596-.329A4%204%200%200%201%208.5%202%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M4.158%2012.025a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m-3.5%201.5a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%201%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m.747-8.498a5.001%205.001%200%200%200-9.499-1.004A3.5%203.5%200%201%200%203.5%2011H13a3%203%200%200%200%20.405-5.973M8.5%202a4%204%200%200%201%203.976%203.555.5.5%200%200%200%20.5.445H13a2%202%200%200%201%200%204H3.5a2.5%202.5%200%201%201%20.605-4.926.5.5%200%200%200%20.596-.329A4%204%200%200%201%208.5%202%22%2F%3E%3C%2Fsvg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M4.158%2012.025a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m-3.5%201.5a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%200%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m6%200a.5.5%200%200%201%20.316.633l-.5%201.5a.5.5%200%201%201-.948-.316l.5-1.5a.5.5%200%200%201%20.632-.317m.747-8.498a5.001%205.001%200%200%200-9.499-1.004A3.5%203.5%200%201%200%203.5%2011H13a3%203%200%200%200%20.405-5.973M8.5%202a4%204%200%200%201%203.976%203.555.5.5%200%200%200%20.5.445H13a2%202%200%200%201%200%204H3.5a2.5%202.5%200%201%201%20.605-4.926.5.5%200%200%200%20.596-.329A4%204%200%200%201%208.5%202%22%2F%3E%3C%2Fsvg%3E">
+<link rel="next" href="/friends/page/2/">
+<link rel="stylesheet" href="/friends/assets/friends.css">
+</head>
+<body>
+<div class="fe-wrap">
+  <header class="fe-head">
+    <div class="fe-head__left">
+      <div class="fe-head__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m-3.5 1.5a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m6 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 1 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317m.747-8.498a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973M8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4 4 0 0 1 8.5 2"/></svg></div>
+      <div>
+        <div class="fe-head__title">友链动态</div>
+        <div class="fe-head__sub">聚合朋友站点的最新文章</div>
+      </div>
+    </div>
+    <a href="/" class="fe-head__back">← 返回主页</a>
+  </header>
+
+  <div class="fe-stats">
+    <span class="fe-stat"><strong>182</strong> 篇文章</span>
+    <span class="fe-stat"><strong>10</strong> / 10 源在线</span>
+    <span class="fe-stat"><strong>19</strong> 页</span>
+  </div>
+
+  <div class="fe-page">
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://www.suo.ma/97/" target="_blank" rel="noopener noreferrer">超级智能代替人工智能？</a></h3>
+  <p class="fe-item__summary">2026 年 9 月底，‌特朗普签署行政令，要求美国联邦政府在官方文件中用“超级智能（SI）”取代“人工智能（AI）”‌。这不是全球强制改名，主要是美国政府内部的用语调整 。‌‌‌ 早在过年前就在推特上看到</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="索玛(Suo.Ma)">索玛(Suo.Ma)</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-10-08T07:18:32.000Z">10月8日　2 天前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://ttio.cc/jotting/tailscale-https" target="_blank" rel="noopener noreferrer">Tailscale 内网 HTTPS 统一路由方案</a></h3>
+  <p class="fe-item__summary">带有端口的 Docker 访问方式并非长久之计，通过子域名访问相对更具备语义，同时还能解决 HTTPS 的支持问题。 由于原先已经配置了 Tailscale，通过 : 的格式即可访问 NAS 上的 Docker 服务。 Tailscale 内置了 tailscale cert 和 tailscale serve 命令，…</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="記緒漂流">記緒漂流</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-09-30T02:00:19.000Z">9月30日　10 天前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://www.hansjack.com/posts/short/97" target="_blank" rel="noopener noreferrer">【计划预告】复古物语百人文明模拟计划 Vintage Story</a></h3>
+  <p class="fe-item__summary">百人文明模拟计划https://vintagestory.top/t/topic/724针对中文社区，我们计划筹备一场以 100 名玩家为目标规模的文明模拟玩法，希望通过这种大型多人游戏体验，进...</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="寒士杰克">寒士杰克</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-09-25T05:17:45.000Z">9月25日　15 天前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://www.suo.ma/96/" target="_blank" rel="noopener noreferrer">马耳他域名注册难度挺高</a></h3>
+  <p class="fe-item__summary">无意中得知有马耳他域名[.mt]，试着去注册一个玩玩。 在域名比价网查询了价格，只有注册局是最低价。首次注册需要支付配置费+一年使用费，之后续费就不用配置费了。 &lt;img src=&quot;/img/blogimg/96-1.png&quot; alt=&quot;96-1&quot; loadi</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="索玛(Suo.Ma)">索玛(Suo.Ma)</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-09-20T02:03:02.000Z">9月20日　20 天前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://blog.liushen.fun/posts/6a6de263/" target="_blank" rel="noopener noreferrer">近期开发的四个开源项目</a></h3>
+  <p class="fe-item__summary">这里是清羽AI，这篇文章介绍了站长清羽飞扬近期维护与开发的四个开源项目。首先是对Artalk评论系统的增强，新增了AI内容审核、关键词拦截、AI评论助手及重构后的管理后台，在保留接口兼容的同时提升了反垃圾与互动能力。其次是Memora相册项目，基于Chronoframe重构为Go后端与纯静态前端，接入高德地图替代海外服…</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="LiuShen&#039;s Blog - 清羽飞扬">LiuShen&#039;s Blog - 清羽飞扬</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-09-08T18:12:00.000Z">9月8日　1 个月前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://myblog.icu/article/26" target="_blank" rel="noopener noreferrer">ComfyUI 动漫局部重绘思路与搭建方法</a></h3>
+  <p class="fe-item__summary">作者：久流 | 发布时间：2026-08-29T00:48:01 | 标签：confyui,ai 出图出多了，废图也攒得多。十张里往往有七八张构图、人设、氛围都在线，偏偏手崩了、眼花了、脸歪了一点。整图重抽等于把对的部分一起扔掉，成本太高。局部重绘解决的就是这个问题：只动出问题的区域，其余像素原样保留。 这篇文档整理我…</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="JiuLiuBLOG">JiuLiuBLOG</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-08-29T00:48:01.000Z">8月29日　1 个月前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://www.suo.ma/95/" target="_blank" rel="noopener noreferrer">八月末无题</a></h3>
+  <p class="fe-item__summary">我现在越来越离不开Ai了，WorkBuddy每天白嫖积分来用。 就拿我这个hexo博客来说，原主题很简约，自己需要的一些功能都是通过Ai来修改实现的。比如：自助友链，提交友链信息到GitHub issues，我手机给issue</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="索玛(Suo.Ma)">索玛(Suo.Ma)</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-08-26T08:27:31.000Z">8月26日　1 个月前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://www.mofei.life/zh/blog/article/baltic-family-road-trip-2026" target="_blank" rel="noopener noreferrer">带着两个孩子，我们开车跨过波罗的海</a></h3>
+  <p class="fe-item__summary">芬兰的暑假已经接近尾声了。今年一开始想着坐飞机去哥本哈根看一看，但是家里老二还小，商量了一番，我们最后还是决定自驾。先坐轮渡跨过波罗的海，再从爱沙尼亚一路开到拉脱维亚。最早还想安排九天，顺便把立陶宛也看了，后来考虑到孩子还小，就压缩到了七天。 直到出发前一天才和GPT一起把具体的路线定下来，每天开车控制在两三个小时。第…</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="你好我是Mofei">你好我是Mofei</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-08-14T09:01:45.000Z">8月14日　1 个月前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://erzbir.com/archives/halo-pro-activation-flaw-zh" target="_blank" rel="noopener noreferrer">Halo Pro 许可证激活缺陷导致无效许可证仍可激活</a></h3>
+  <p class="fe-item__summary">分析了 Halo Pro 的许可证激活机制, 并发现了一个激活状态没有被正确回滚的问题, 导致许可证验证失败后仍然可能保持激活状态.</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="Erzbir">Erzbir</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-08-09T12:48:09.000Z">8月9日　2 个月前</time>
+  </div>
+</article>
+<article class="fe-item">
+  <h3 class="fe-item__title"><a href="https://erzbir.com/archives/halo-pro-activation-flaw" target="_blank" rel="noopener noreferrer">Halo Pro License Activation Flaw Allows Invalid Licenses to Remain Active</a></h3>
+  <p class="fe-item__summary">I analyzed Halo Pro&#039;s license activation mechanism and found an issue where the activation state was not properly rolled back, allowing it to remain active even…</p>
+  <div class="fe-item__meta">
+    <span class="fe-item__src" title="Erzbir">Erzbir</span>
+    <span class="fe-item__dot" aria-hidden="true">·</span>
+    <time class="fe-item__time" datetime="2026-08-07T18:22:46.000Z">8月7日　2 个月前</time>
+  </div>
+</article>
+</div>
+<nav class="fe-pag" id="fe-pag" aria-label="分页导航">
+  <span class="fe-pag__btn" aria-disabled="true" data-nav="prev">&lsaquo; 上一页</span>
+  <span class="fe-pag__info" role="status" aria-live="polite">第 1 / 19 页 · 共 182 篇</span>
+  <a class="fe-pag__btn" href="/friends/page/2/" rel="next" data-nav="next">下一页 &rsaquo;</a>
+</nav>
+  
+
+  <p class="fe-foot">Exyone's Blog · 友链动态 · 订阅聚合</p>
+</div>
+<script src="/friends/assets/friends.js" defer></script>
+</body>
+</html>

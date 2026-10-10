@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>牌义图鉴 · Codex</title>
+<meta name="description" content="78 张塔罗牌的正位、逆位、象征与德行对照，支持检索与筛选。">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f0e6d0">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="/tarot/assets/tarot.css">
+</head>
+<body data-page="codex">
+<header class="vault-head">
+<div class="vault-head__inner">
+    <a class="brand" href="/tarot/">
+      <span class="brand__mark" aria-hidden="true">✠</span>
+      <span class="brand__text">
+        <span class="brand__title">圣言牌阵</span>
+        <span class="brand__latin">Sortes Sacrae</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="站内导航"><a class="nav__link" href="/tarot/" title="Sanctum">圣所</a><a class="nav__link" href="/tarot/draw/" title="Sortes">抽牌</a><a class="nav__link" href="/tarot/deck/" title="Codex" aria-current="page">图鉴</a><a class="nav__link" href="/tarot/history/" title="Memoria">记录</a><a class="nav__link" href="/tarot/about/" title="Ratio">说明</a></nav>
+  </div>
+</header>
+
+<main class="wrap shell">
+<section class="section" style="margin-top:40px">
+  <div class="section__head">
+    <h1>牌义图鉴</h1>
+    <p>Codex · 78 张</p>
+  </div>
+
+  <div class="panel panel--tight">
+    <div class="table-head" style="margin-bottom:14px">
+      <label class="field" style="flex:1 1 280px">
+        <span class="field__label">检索 · Quaerere</span>
+        <input class="input" type="search" autocomplete="off"
+               placeholder="牌名、拉丁名或关键词，例如「希望」" data-codex-search>
+      </label>
+      <div class="chips" data-codex-filters><button class="chip" type="button" data-codex-filter="all" aria-pressed="true">全部 78</button><button class="chip" type="button" data-codex-filter="major" aria-pressed="false">大阿卡纳 22</button><button class="chip" type="button" data-codex-filter="wands" aria-pressed="false">权杖 · Virgae</button><button class="chip" type="button" data-codex-filter="cups" aria-pressed="false">圣杯 · Calices</button><button class="chip" type="button" data-codex-filter="swords" aria-pressed="false">宝剑 · Gladii</button><button class="chip" type="button" data-codex-filter="pentacles" aria-pressed="false">星币 · Nummi</button></div>
+    </div>
+    <p class="progress" style="margin:0" data-codex-count></p>
+  </div>
+
+  <div class="codex-grid" data-codex-grid style="margin-top:24px">
+  <button class="codex-item" type="button" data-card="major-00" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">0</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">愚者</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">愚者</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-01" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">I</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">魔术师</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">魔术师</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-02" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">II</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">女祭司</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">女祭司</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-03" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">III</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">皇后</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">皇后</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-04" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">IV</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">皇帝</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">皇帝</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-05" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">V</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">教皇</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">教皇</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-06" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">VI</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">恋人</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">恋人</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-07" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">VII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">战车</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">战车</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-08" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">VIII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">力量</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">力量</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-09" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">IX</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">隐者</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">隐者</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-10" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">X</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">命运之轮</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">命运之轮</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-11" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XI</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">正义</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">正义</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-12" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">倒吊人</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">倒吊人</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-13" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XIII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">死神</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">死神</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-14" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XIV</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">节制</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">节制</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-15" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XV</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">恶魔</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">恶魔</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-16" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XVI</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">塔</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">塔</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-17" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XVII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">星星</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">星星</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-18" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XVIII</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">月亮</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">月亮</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-19" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XIX</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">太阳</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">太阳</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-20" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XX</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">审判</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">审判</span>
+  </button>
+  <button class="codex-item" type="button" data-card="major-21" data-suit="major">
+    <div class="card card--major" aria-hidden="true">
+  <div class="card__numeral">XXI</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.4"/><path d="M12 6.4v11.2M7.2 10.6h9.6"/></svg></div>
+    <div class="card__name">世界</div>
+    <div class="card__suit">大阿卡纳 · Arcana Maiora</div>
+  </div>
+</div>
+    <span class="codex-item__name">世界</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-00" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">一</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖首牌</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖首牌</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-01" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">二</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖二</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖二</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-02" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">三</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖三</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖三</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-03" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">四</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖四</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖四</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-04" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">五</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖五</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖五</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-05" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">六</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖六</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖六</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-06" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">七</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖七</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖七</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-07" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">八</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖八</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖八</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-08" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">九</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖九</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖九</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-09" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">十</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖十</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖十</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-10" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">侍从</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖侍从</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖侍从</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-11" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">骑士</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖骑士</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖骑士</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-12" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">王后</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖王后</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖王后</span>
+  </button>
+  <button class="codex-item" type="button" data-card="wands-13" data-suit="wands">
+    <div class="card card--wands" aria-hidden="true">
+  <div class="card__numeral">国王</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c1.7 2.1 2.7 3.6 2.7 5a2.7 2.7 0 1 1-5.4 0c0-1.4 1-2.9 2.7-5z"/><path d="M12 11.2V20.6M8.7 20.8h6.6"/></svg></div>
+    <div class="card__name">权杖国王</div>
+    <div class="card__suit">权杖 · Virgae</div>
+  </div>
+</div>
+    <span class="codex-item__name">权杖国王</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-00" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">一</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯首牌</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯首牌</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-01" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">二</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯二</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯二</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-02" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">三</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯三</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯三</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-03" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">四</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯四</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯四</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-04" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">五</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯五</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯五</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-05" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">六</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯六</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯六</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-06" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">七</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯七</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯七</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-07" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">八</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯八</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯八</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-08" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">九</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯九</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯九</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-09" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">十</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯十</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯十</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-10" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">侍从</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯侍从</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯侍从</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-11" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">骑士</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯骑士</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯骑士</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-12" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">王后</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯王后</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯王后</span>
+  </button>
+  <button class="codex-item" type="button" data-card="cups-13" data-suit="cups">
+    <div class="card card--cups" aria-hidden="true">
+  <div class="card__numeral">国王</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4.4h11.2l-.9 4.5a4.9 4.9 0 0 1-9.4 0z"/><path d="M12 13.6v5.2M8.4 20.6h7.2"/></svg></div>
+    <div class="card__name">圣杯国王</div>
+    <div class="card__suit">圣杯 · Calices</div>
+  </div>
+</div>
+    <span class="codex-item__name">圣杯国王</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-00" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">一</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑首牌</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑首牌</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-01" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">二</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑二</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑二</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-02" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">三</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑三</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑三</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-03" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">四</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑四</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑四</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-04" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">五</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑五</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑五</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-05" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">六</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑六</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑六</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-06" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">七</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑七</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑七</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-07" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">八</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑八</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑八</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-08" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">九</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑九</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑九</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-09" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">十</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑十</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑十</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-10" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">侍从</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑侍从</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑侍从</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-11" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">骑士</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑骑士</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑骑士</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-12" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">王后</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑王后</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑王后</span>
+  </button>
+  <button class="codex-item" type="button" data-card="swords-13" data-suit="swords">
+    <div class="card card--swords" aria-hidden="true">
+  <div class="card__numeral">国王</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8l1.7 3.6v8.2h-3.4V6.4z"/><path d="M8 14.6h8M12 14.6v5M9.6 20.8h4.8"/></svg></div>
+    <div class="card__name">宝剑国王</div>
+    <div class="card__suit">宝剑 · Gladii</div>
+  </div>
+</div>
+    <span class="codex-item__name">宝剑国王</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-00" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">一</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币首牌</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币首牌</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-01" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">二</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币二</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币二</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-02" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">三</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币三</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币三</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-03" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">四</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币四</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币四</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-04" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">五</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币五</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币五</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-05" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">六</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币六</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币六</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-06" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">七</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币七</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币七</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-07" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">八</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币八</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币八</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-08" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">九</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币九</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币九</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-09" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">十</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币十</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币十</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-10" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">侍从</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币侍从</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币侍从</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-11" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">骑士</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币骑士</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币骑士</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-12" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">王后</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币王后</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币王后</span>
+  </button>
+  <button class="codex-item" type="button" data-card="pentacles-13" data-suit="pentacles">
+    <div class="card card--pentacles" aria-hidden="true">
+  <div class="card__numeral">国王</div>
+  <div class="card__art">
+    <div class="card__sigil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6v10.8M8.2 10.8h7.6"/></svg></div>
+    <div class="card__name">星币国王</div>
+    <div class="card__suit">星币 · Nummi</div>
+  </div>
+</div>
+    <span class="codex-item__name">星币国王</span>
+  </button>
+  </div>
+
+  <div class="empty" data-codex-empty hidden>
+    <p class="empty__mark" aria-hidden="true">✠</p>
+    <p>没有符合条件的牌。换一个关键词，或点「全部 78」。</p>
+  </div>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<p class="note">四花色分别对映火、水、风、土；每张牌的正位与逆位释义都只是一种读法，不是定义。</p>
+
+<div class="modal" data-modal hidden>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-label="牌义详情">
+    <button class="modal__close" type="button" data-modal-close aria-label="关闭">✕</button>
+    <div data-modal-content></div>
+  </div>
+</div>
+</main>
+
+<footer class="vault-foot">
+  <p>圣言牌阵 · Sortes Sacrae — 以默观之心抽一张牌，向自己提问。</p>
+  <p style="margin-top:16px"><a href="/tarot/about/">玩法说明</a> · <a href="/">返回 Exyone's Blog</a></p>
+</footer>
+
+<script defer src="/tarot/assets/tarot.bundle.js"></script>
+</body>
+</html>

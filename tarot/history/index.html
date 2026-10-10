@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>占卜记录 · Memoria</title>
+<meta name="description" content="本机保存的塔罗牌阵记录，可回看与导出。">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f0e6d0">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="/tarot/assets/tarot.css">
+</head>
+<body data-page="history">
+<header class="vault-head">
+<div class="vault-head__inner">
+    <a class="brand" href="/tarot/">
+      <span class="brand__mark" aria-hidden="true">✠</span>
+      <span class="brand__text">
+        <span class="brand__title">圣言牌阵</span>
+        <span class="brand__latin">Sortes Sacrae</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="站内导航"><a class="nav__link" href="/tarot/" title="Sanctum">圣所</a><a class="nav__link" href="/tarot/draw/" title="Sortes">抽牌</a><a class="nav__link" href="/tarot/deck/" title="Codex">图鉴</a><a class="nav__link" href="/tarot/history/" title="Memoria" aria-current="page">记录</a><a class="nav__link" href="/tarot/about/" title="Ratio">说明</a></nav>
+  </div>
+</header>
+
+<main class="wrap shell">
+<section class="section" style="margin-top:40px">
+  <div class="section__head">
+    <h1>占卜记录</h1>
+    <p>Memoria · 只存在本机浏览器</p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" type="button" data-history-export>导出 JSON</button>
+    <button class="btn btn--danger" type="button" data-history-clear>清空全部</button>
+  </div>
+
+  <p class="note" style="margin-top:18px">
+    记录保存在这台设备的 <code>localStorage</code> 中，不会上传到任何服务器。清除浏览器数据会一并删除；
+    想长期保留，请用「导出 JSON」。
+  </p>
+
+  <ul class="history-list" data-history-root style="margin-top:26px"></ul>
+
+  <div class="empty" data-history-empty hidden>
+    <p class="empty__mark" aria-hidden="true">✠</p>
+    <p>还没有记录。去<a href="/tarot/draw/">抽牌台</a>抽一次牌阵，解读完就会自动记在这里。</p>
+  </div>
+</section>
+</main>
+
+<footer class="vault-foot">
+  <p>圣言牌阵 · Sortes Sacrae — 以默观之心抽一张牌，向自己提问。</p>
+  <p style="margin-top:16px"><a href="/tarot/about/">玩法说明</a> · <a href="/">返回 Exyone's Blog</a></p>
+</footer>
+
+<script defer src="/tarot/assets/tarot.bundle.js"></script>
+</body>
+</html>

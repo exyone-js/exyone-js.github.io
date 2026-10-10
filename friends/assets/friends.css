@@ -1,0 +1,234 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+:root{
+  /* Base surfaces — everything shares the same hue, differentiation is by light */
+  --bg:#e0e5ec;
+  --surface:#e0e5ec;
+  --raised:#f0f0f3;
+  --fg:#333333;
+  --fg-soft:#4a5568;
+  --muted:#6b7280;
+  --accent:#6d5dfc;
+  --accent-tint:rgba(109,93,252,.10);
+
+  /* Dual-light source — direction is fixed: light at -X/-Y, shadow at +X/+Y */
+  --neu-light:#ffffff;
+  --neu-dark:#b8bcc2;
+
+  --radius-card:22px;
+  --radius-btn:14px;
+  --radius-pill:999px;
+
+  --gap:1.35rem;
+  --dur:300ms;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#232831;
+    --surface:#232831;
+    --raised:#2a303a;
+    --fg:#d4dae5;
+    --fg-soft:#aab3c0;
+    --muted:#8892a4;
+    --accent:#8b7dfc;
+    --accent-tint:rgba(139,125,252,.14);
+    --neu-light:#2d3440;
+    --neu-dark:#171c25;
+  }
+}
+
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.65;
+  min-height:100vh;
+}
+
+/* ── Container ── */
+.fe-wrap{max-width:860px;margin:0 auto;padding:2.5rem 1.25rem 3rem}
+
+/* ── Header ── */
+.fe-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap;
+}
+.fe-head__left{display:flex;align-items:center;gap:.9rem}
+.fe-head__icon{
+  width:46px;height:46px;border-radius:var(--radius-btn);
+  background:var(--surface);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+}
+.fe-head__icon svg{width:22px;height:22px}
+.fe-head__title{
+  font-size:1.15rem;font-weight:700;letter-spacing:-.015em;line-height:1.2;
+}
+.fe-head__sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+
+.fe-head__back{
+  font-size:.8125rem;color:var(--muted);text-decoration:none;
+  padding:.55rem 1.15rem;border-radius:var(--radius-pill);
+  background:var(--surface);white-space:nowrap;
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+.fe-head__back:hover{
+  color:var(--accent);
+  /* Hover Shadowing — 手指靠近遮光，阴影收缩 */
+  box-shadow:3px 3px 6px var(--neu-dark),-3px -3px 6px var(--neu-light);
+}
+.fe-head__back:active{
+  /* Extrude → Intrude，无 translate */
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-head__back:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--radius-pill);
+}
+
+/* ── Stats bar ── */
+.fe-stats{
+  display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.75rem;
+  font-size:.78rem;color:var(--muted);
+}
+.fe-stat{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.5rem 1rem;border-radius:var(--radius-pill);background:var(--surface);
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-stat strong{color:var(--fg);font-weight:600}
+
+/* ── Article grid ──
+   Each HTML page owns exactly one grid, so it is always visible — the
+   display toggling that used to live in JS is gone with the multi-page split. */
+.fe-page{display:grid;gap:var(--gap);grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){.fe-page{grid-template-columns:1fr}}
+
+.fe-item{
+  position:relative;
+  padding:1.35rem 1.5rem;
+  border-radius:var(--radius-card);
+  background:var(--surface);
+  box-shadow:8px 8px 16px var(--neu-dark),-8px -8px 16px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease);
+  overflow:hidden;
+}
+.fe-item:hover,
+.fe-item:focus-within{
+  /* Hover Shadowing — 阴影收缩而非扩大，符合光照物理 */
+  box-shadow:5px 5px 10px var(--neu-dark),-5px -5px 10px var(--neu-light);
+}
+
+.fe-item__title{font-size:.95rem;font-weight:600;line-height:1.45}
+.fe-item__title a{
+  color:var(--fg);text-decoration:none;
+  transition:color var(--dur) var(--ease);
+}
+.fe-item__title a:hover{color:var(--accent)}
+/* 覆盖全卡片，实现整卡可点击 */
+.fe-item__title a::after{content:"";position:absolute;inset:0}
+.fe-item__title a:focus-visible{outline:none}
+.fe-item__title a:focus-visible::after{
+  outline:2px solid var(--accent);outline-offset:6px;
+  border-radius:var(--radius-card);
+}
+
+.fe-item__summary{
+  margin-top:.55rem;font-size:.78rem;color:var(--muted);line-height:1.55;
+  overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+}
+
+.fe-item__meta{
+  display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;
+  margin-top:.85rem;padding-top:.75rem;
+  font-size:.7rem;color:var(--muted);
+  border-top:1px solid color-mix(in srgb,var(--neu-dark) 55%,transparent);
+}
+.fe-item__src{
+  font-weight:600;color:var(--fg-soft);
+  max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.fe-item__dot{opacity:.5}
+.fe-item__time{white-space:nowrap}
+
+/* ── Pagination ──
+   Real links, not buttons: prev/next navigate to sibling documents. */
+.fe-pag{
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  margin-top:1.75rem;flex-wrap:wrap;
+}
+.fe-pag__btn{
+  font-family:inherit;
+  font-size:.8125rem;padding:.6rem 1.35rem;
+  border:none;border-radius:var(--radius-btn);
+  background:var(--surface);color:var(--fg);cursor:pointer;
+  display:inline-block;text-decoration:none;line-height:1.2;white-space:nowrap;
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+  transition:box-shadow var(--dur) var(--ease),color var(--dur) var(--ease);
+}
+.fe-pag__btn:not([aria-disabled="true"]):hover{
+  color:var(--accent);
+  box-shadow:3px 3px 6px var(--neu-dark),-3px -3px 6px var(--neu-light);
+}
+.fe-pag__btn:not([aria-disabled="true"]):active{
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-pag__btn:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;
+}
+/* First/last page: the missing neighbour renders as an inert, sunk-in chip. */
+.fe-pag__btn[aria-disabled="true"]{
+  opacity:.45;cursor:not-allowed;pointer-events:none;
+  box-shadow:inset 2px 2px 4px var(--neu-dark),inset -2px -2px 4px var(--neu-light);
+}
+.fe-pag__info{
+  font-size:.75rem;color:var(--muted);
+  min-width:140px;text-align:center;
+  padding:.35rem .85rem;border-radius:var(--radius-pill);
+  box-shadow:inset 2px 2px 4px var(--neu-dark),inset -2px -2px 4px var(--neu-light);
+}
+
+/* ── Note / Empty state ── */
+.fe-note{
+  font-size:.78rem;color:var(--muted);margin-top:1.25rem;
+  padding:.85rem 1.15rem;border-radius:var(--radius-btn);background:var(--surface);
+  box-shadow:inset 3px 3px 6px var(--neu-dark),inset -3px -3px 6px var(--neu-light);
+}
+.fe-empty{
+  text-align:center;padding:3.5rem 1.5rem;color:var(--muted);
+  border-radius:var(--radius-card);background:var(--surface);margin-top:1rem;
+  box-shadow:inset 4px 4px 8px var(--neu-dark),inset -4px -4px 8px var(--neu-light);
+}
+.fe-empty__icon{
+  width:56px;height:56px;margin:0 auto 1rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:var(--accent);
+  background:var(--surface);
+  box-shadow:6px 6px 12px var(--neu-dark),-6px -6px 12px var(--neu-light);
+}
+.fe-empty__icon svg{width:26px;height:26px}
+.fe-empty__text{font-size:.9rem}
+
+/* ── Footer ── */
+.fe-foot{
+  text-align:center;font-size:.72rem;color:var(--muted);
+  margin-top:2.5rem;padding-top:1.5rem;
+  border-top:1px solid color-mix(in srgb,var(--neu-dark) 40%,transparent);
+}
+
+/* ── Accessibility fallbacks ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
+@media(prefers-contrast:more){
+  :root{--neu-dark:#8a8e94;--neu-light:#ffffff}
+  .fe-item,.fe-pag__btn,.fe-head__back,.fe-head__icon,.fe-empty__icon{
+    border:1px solid var(--fg);
+  }
+}

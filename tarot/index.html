@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>圣言牌阵 · Sortes Sacrae</title>
+<meta name="description" content="天主教风格的塔罗牌阵工具：六种牌阵、78 张完整牌义、可检索图鉴与本机占卜记录。">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#f0e6d0">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="shortcut icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23c9a74e%22%20stroke-width%3D%222%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%2213%22%2F%3E%3Cpath%20d%3D%22M16%206v20M6%2016h20%22%2F%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="/tarot/assets/tarot.css">
+</head>
+<body data-page="index">
+<header class="vault-head">
+<div class="vault-head__inner">
+    <a class="brand" href="/tarot/">
+      <span class="brand__mark" aria-hidden="true">✠</span>
+      <span class="brand__text">
+        <span class="brand__title">圣言牌阵</span>
+        <span class="brand__latin">Sortes Sacrae</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="站内导航"><a class="nav__link" href="/tarot/" title="Sanctum" aria-current="page">圣所</a><a class="nav__link" href="/tarot/draw/" title="Sortes">抽牌</a><a class="nav__link" href="/tarot/deck/" title="Codex">图鉴</a><a class="nav__link" href="/tarot/history/" title="Memoria">记录</a><a class="nav__link" href="/tarot/about/" title="Ratio">说明</a></nav>
+  </div>
+</header>
+
+<main class="wrap shell">
+<section class="hero">
+  <p class="hero__latin">Sortes Sacrae</p>
+  <h1 class="hero__title"><span class="dropcap">圣言牌阵</span></h1>
+  <p class="hero__motto">「你们应站在路上察看，探问旧路——那是善道，便行在其间。」</p>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<section class="panel" id="daily">
+  <h2 class="panel__title">今日一牌 <span class="panel__latin">Signum Diei</span></h2>
+  <p class="panel__lead">同一天之内只会抽出同一张牌，它不会因为你再点一次而改变。想换一个提问，请改用其他牌阵。</p>
+  <div class="btn-row">
+    <button class="btn btn--gold" type="button" data-daily-draw>抽出今日之牌</button>
+    <a class="btn" href="/tarot/draw/?spread=tria">直接进入三德阵</a>
+  </div>
+  <div data-daily-result style="margin-top:24px"></div>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<section class="section" id="spreads">
+  <div class="section__head">
+    <h2>选择牌阵</h2>
+    <p>Six spreads · 一张到十张</p>
+  </div>
+  <div class="grid grid--3">
+  <a class="spread-card" href="/tarot/draw/?spread=signum">
+    <span class="spread-card__seal" aria-hidden="true">1</span>
+    <h3 class="spread-card__name">圣言一牌</h3>
+    <p class="spread-card__latin">Signum</p>
+    <p class="spread-card__summary">只抽一张。为今天定一个默想的方向。</p>
+    <p class="spread-card__foot"><span>共 1 张</span><span>进入 ›</span></p>
+  </a>
+  <a class="spread-card" href="/tarot/draw/?spread=tria">
+    <span class="spread-card__seal" aria-hidden="true">3</span>
+    <h3 class="spread-card__name">信望爱三德阵</h3>
+    <p class="spread-card__latin">Tria</p>
+    <p class="spread-card__summary">三张牌，检视一件心事里的信、望、爱。</p>
+    <p class="spread-card__foot"><span>共 3 张</span><span>进入 ›</span></p>
+  </a>
+  <a class="spread-card" href="/tarot/draw/?spread=crux">
+    <span class="spread-card__seal" aria-hidden="true">5</span>
+    <h3 class="spread-card__name">圣十字阵</h3>
+    <p class="spread-card__latin">Crux</p>
+    <p class="spread-card__summary">五张牌，看清此刻的处境与可用的助力。</p>
+    <p class="spread-card__foot"><span>共 5 张</span><span>进入 ›</span></p>
+  </a>
+  <a class="spread-card" href="/tarot/draw/?spread=viae">
+    <span class="spread-card__seal" aria-hidden="true">6</span>
+    <h3 class="spread-card__name">双途阵</h3>
+    <p class="spread-card__latin">Duae Viae</p>
+    <p class="spread-card__summary">六张牌，把两条路各看到底。</p>
+    <p class="spread-card__foot"><span>共 6 张</span><span>进入 ›</span></p>
+  </a>
+  <a class="spread-card" href="/tarot/draw/?spread=rosarium">
+    <span class="spread-card__seal" aria-hidden="true">7</span>
+    <h3 class="spread-card__name">七德阵</h3>
+    <p class="spread-card__latin">Rosarium</p>
+    <p class="spread-card__summary">七张牌，围绕七种德行查验自己。</p>
+    <p class="spread-card__foot"><span>共 7 张</span><span>进入 ›</span></p>
+  </a>
+  <a class="spread-card" href="/tarot/draw/?spread=magnus">
+    <span class="spread-card__seal" aria-hidden="true">10</span>
+    <h3 class="spread-card__name">大十字阵</h3>
+    <p class="spread-card__latin">Magnus Ordo</p>
+    <p class="spread-card__summary">十张牌。最完整的一次梳理，看清来龙去脉。</p>
+    <p class="spread-card__foot"><span>共 10 张</span><span>进入 ›</span></p>
+  </a>
+</div>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<section class="section">
+  <div class="section__head">
+    <h2>三步入门</h2>
+    <p>Rule of three</p>
+  </div>
+  <div class="grid grid--3">
+    <div class="panel panel--tight">
+    <span class="spread-card__seal" aria-hidden="true">壹</span>
+    <h3 class="spread-card__name" style="margin-top:12px">静心</h3>
+    <p class="spread-card__latin">Quiescere</p>
+    <p class="spread-card__summary">先安静一分钟，把想问的事写成一句话。写不出来，就先不抽。</p>
+  </div>
+    <div class="panel panel--tight">
+    <span class="spread-card__seal" aria-hidden="true">贰</span>
+    <h3 class="spread-card__name" style="margin-top:12px">洗牌与切牌</h3>
+    <p class="spread-card__latin">Miscere · Secare</p>
+    <p class="spread-card__summary">点「洗牌」打乱牌堆，再点「切牌」把它分成两叠，象征把自己也放进去。</p>
+  </div>
+    <div class="panel panel--tight">
+    <span class="spread-card__seal" aria-hidden="true">叁</span>
+    <h3 class="spread-card__name" style="margin-top:12px">逐张翻开</h3>
+    <p class="spread-card__latin">Revelare</p>
+    <p class="spread-card__summary">按牌阵的顺序一张张点开，不要跳位。全部翻开后进入解读页。</p>
+  </div>
+  </div>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<section class="section">
+  <div class="section__head">
+    <h2>其他入口</h2>
+    <p>Codex · Memoria · Ratio</p>
+  </div>
+  <div class="grid grid--3">
+    <a class="spread-card" href="/tarot/deck/">
+      <h3 class="spread-card__name">牌义图鉴</h3>
+      <p class="spread-card__latin">Codex</p>
+      <p class="spread-card__summary">78 张牌的正位、逆位、象征与德行对照，可检索筛选。</p>
+      <p class="spread-card__foot"><span>78 张</span><span>翻阅 ›</span></p>
+    </a>
+    <a class="spread-card" href="/tarot/history/">
+      <h3 class="spread-card__name">占卜记录</h3>
+      <p class="spread-card__latin">Memoria</p>
+      <p class="spread-card__summary">你抽过的牌阵都存在这台设备上，可回看、可导出。</p>
+      <p class="spread-card__foot"><span>本机存储</span><span>查看 ›</span></p>
+    </a>
+    <a class="spread-card" href="/tarot/about/">
+      <h3 class="spread-card__name">玩法说明</h3>
+      <p class="spread-card__latin">Ratio</p>
+      <p class="spread-card__summary">六种牌阵的用法、牌的结构，以及必须说明的免责声明。</p>
+      <p class="spread-card__foot"><span>必读</span><span>阅读 ›</span></p>
+    </a>
+  </div>
+</section>
+
+<div class="ornament" aria-hidden="true">✠ ❦ ✠</div>
+
+<p class="note">这不是一个预测工具。牌面只是一组固定的意象，用来帮你把说不出口的问题说清楚——真正的答案，通常在你写问题的时候就已经露出来了。</p>
+</main>
+
+<footer class="vault-foot">
+  <p>圣言牌阵 · Sortes Sacrae — 以默观之心抽一张牌，向自己提问。</p>
+  <p style="margin-top:16px"><a href="/tarot/about/">玩法说明</a> · <a href="/">返回 Exyone's Blog</a></p>
+</footer>
+
+<script defer src="/tarot/assets/tarot.bundle.js"></script>
+</body>
+</html>

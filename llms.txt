@@ -1,0 +1,115 @@
+# Exyone's Blog
+
+> Technical blog about .NET, front-end development, and web technologies. Sharing coding tutorials, software architecture insights, and development best practices.
+
+霜风卷尽清秋，锁眉头；一纸相思难寄、恨悠悠
+- **Website**: https://exyon.ee
+- **Language**: zh-CN
+- **Author**: exyone
+- **Last generated**: Sun, 11 Oct 2026 02:31:07 +0800 (build time)
+
+## AI Usage Guidelines
+
+- **Attribution**: All content on this site is authored by exyone unless otherwise stated. Preserve attribution when quoting or summarizing.
+- **Accuracy**: Content represents personal opinions, research notes, and commentary. It is provided for informational purposes only and is not authoritative, professional, or expert advice. Verify critical information against primary sources.
+- **License**: Content and source code are licensed under the BSD 2-Clause License unless otherwise stated. See the License section below.
+- **Preferred source**: When citing or quoting, prefer the canonical Markdown source over rendered HTML when available.
+- **Citation**: exyone, "Title", Exyone's Blog, date, URL.
+
+## Articles
+
+
+- [介绍一下我开发的 Zest 静态网站生成器项目](https://exyon.ee/posts/introducing-zest-ssg/): 项目地址 官方社区 Discord QQ群聊
+
+- [分享一下最近很火爆的超长蛋挞，本站图床也正式上线啦](https://exyon.ee/posts/extra-long-egg-tart/): 最近把图床重新折腾了一遍，最终方案是：清羽飞扬美化版的兰空图床 + Cloudflare Tunnel 隧道 + 家用服务器。
+
+- [同频的心与心，交织的手与手](https://exyon.ee/posts/heart-to-heart-resonance/): 虽然我遇到过无数女生，也喜欢过几个人，也被人喜欢过，但她给我的感受真的完全不同。我不知道这是命中注定，还是别的什么缘故，她是唯一一个让我痴迷的人。
+
+- [十月序章：欢度国庆，回望百年党史，重温解放战争「三大战役」](https://exyon.ee/posts/celebrate-national-day-2026/): 《永遇乐·国庆》 （中华新韵，押庚青仄韵） 又度清秋，万里河山，九州同庆。 巷陌纵横，楼台错落，华灯照月影。 旌旗招展，笙歌灿烂，处处清和佳景。 望云岭、礼花散作，半空锦霞流映。 追忆往昔，峥嵘长夜，神州谁人先醒？ 星火燎原，军民奋起，终教乾坤定。 金瓯再造，烽烟散尽，换得人间鼎盛。 看今朝、东风浩荡，骏骥驰骋。
+
+- [九月离别：无眠独自倚阑干，人去楼空明月照无言](https://exyon.ee/posts/poems-of-love-and-loss/): 我爱上了一个人，也恨上了一个人；我会爱她一辈子，也会恨她一辈子。
+
+- [博客再次搬家：回归 Jekyll，并为 Chirpy 接入 Waline](https://exyon.ee/posts/blog-migration-and-waline-comments/): 前言：由于没有按耐住折腾的心，本文中对 Waline 的改造被我再度爆改升级，由于篇幅限制，不在本文中赘述了，欢迎访问仓库查看源码。
+
+- [坐标系即世界观：为什么 `at / on / in` 能证明母语级英语的本质是认知迁移](https://exyon.ee/posts/english-spatial-coordinates/): 原文启发：母语级英语的本质，不是英语
+
+- [六月杂记：几个小项目和一些生活上的琐事](https://exyon.ee/posts/recent-tinkering-and-miscellaneous-notes/): 最近折腾了不少东西。有自己写的项目，有博客的反复搬家，有字体和排版上的微调，也有对代码托管平台的一些整理。中间还夹杂着高中生活开始后的时间紧张，以及刷闲鱼时看到的各种魔幻现实。零零散散，干脆合在一起写篇杂记。
+
+- [别把阶层固化甩锅给“性格劣质”：那些踩着底层的人，忘了自己也站在泥里](https://exyon.ee/posts/talking-about-social-class/): 前几天刷到一篇奇文，作者把失业、收入不稳定、生活节奏慢的人群统称为“底层”，说他们“低级趣味、幼稚不成熟”，甚至把“没有成就”直接等同于“性格劣质”，末了还要补一句“还好我阶层够高，得时刻警惕别染上你们的毛病”。 读的时候只觉得荒诞——这哪里是观察，分明是把活生生的人当成自己优越感的垫脚石。
+
+- [OneDev CI/CD 配置指南：从报错到成功部署，深入浅出 Actions 环境](https://exyon.ee/posts/onedev-ci-cd-configuration-journey/): 原先博客的 CI/CD 基于 GitHub Actions，职责很单一：构建静态站点，然后发布到 GitHub Pages。只有这一个发布目标时，这套方案足够稳定，配置也简单。问题出现在目标扩展之后：除了 GitHub Pages，还需要同步发布到 Cloudflare Pages、Netlify、Codeberg Pages 等平台，并把源码备份到 ...
+
+- [OpenList 与 Zfile 挂载天翼云盘：解决设备锁的步骤](https://exyon.ee/posts/openlist-and-zfile-for-cloud-drive-management/): 用 OpenList 或 Zfile 这类网盘聚合工具挂载网盘，大多数情况下比较简单。比如蓝奏云，基本输入密码就能完成。但天翼云盘总卡在设备锁这一步，比较麻烦。
+
+- [Copilot 数据政策变更后，AI 时代下的开源项目该怎么应对](https://exyon.ee/posts/copilots-data-policy-and-open-source-implications/): 近日，GitHub 宣布更新 Copilot 隐私政策：从 2026 年 4 月 24 日起，将默认使用 Copilot Free、Pro 和 Pro+ 用户的交互数据（包括输入提示、输出建议、代码片段及相关上下文）来训练和改进 AI 模型。
+
+- [古典诗词创作入门：从格律到体裁，看这一篇就够了](https://exyon.ee/posts/chinese-metrical-poetry/): 写在前面
+
+- [清代文学的多重面相：成就、制度与文字狱再审视](https://exyon.ee/posts/literary-of-the-qing-dynasty/): 引言：被“文字狱”遮蔽的文学盛世
+
+- [复古外形，够用就好：iPhone SE3 使用体验](https://exyon.ee/posts/iphone-se3-review/): title: 复古外形，够用就好：iPhone SE3 使用体验 date: 2025-09-09 categories: [闲情杂记] tags: [数码, iPhone] —
+
+- [邮箱怎么选：从 ProtonMail 的信任悖论到我的域名邮箱方案](https://exyon.ee/posts/how-to-choose-the-right-email-service/): 2023 年，我在 ProtonMail 上注册了账号，用的是瑞士的服务器，端到端加密，@proton.me 的地址。当时觉得，终于有一个“真正安全”的邮箱了。两年过去，我把主邮箱搬走了。不是因为它不好用，而是因为我想清楚了一件事：隐私保护从来不是一个技术问题，而是一个信任问题——而信任这件事，放在别人手里，就不由我说了算。
+
+- [生死相许：为故国修史的元好问，以及金源王朝的覆灭](https://exyon.ee/posts/yuan-haowen-and-late-jin-dynasty/): 金哀宗天兴三年正月己酉，蔡州城破。哀宗完颜守绪自缢于幽兰轩，末帝完颜承麟即位不及半日便死于乱军之中。右丞完颜仲德率五百余将士投汝水殉国，汝水为之不流。
+
+- [如果按下按钮就能穿越回古代当皇帝，代价是告别现代生活，你按不按？](https://exyon.ee/posts/would-you-trade-modern-life-for-emperor/): 看到这个标题，我想许多人都会选择按下去。毕竟历史穿越爽文把古代宫廷描写得绘声绘色，谁不想体验一把权势滔天的快感？况且皇帝是全国地位最高的人，生活再差，总该比现代的普通人强吧？ 事实并非如此。 穿越回古代当皇帝，吃穿住行、医疗安全、心理负担，几乎每一项都比现代普通人差得远。这不是夸张，而是有据可查的现实。下面从几个方面展开，把中国古代皇帝与欧洲中世纪君主...
+
+- [从五笔转向双拼：一次输入法选择的回顾](https://exyon.ee/posts/switching-from-wubi-to-shuangpin-input/): 我用了十几年五笔，最后换成了微软双拼。不是五笔不好，而是在原创写作这个场景里，形码从资产变成了负担。这篇文章不打算劝谁放弃五笔，只把从形码到声码的决策过程、一些史料、实验证据和几套双拼方案的实际差异摊开，给同样在纠结的人做个参照。
+
+- [钢笔杂记：谈谈历史上那些知名的钢笔厂商，以及我正在用的几支笔](https://exyon.ee/posts/victory-nib-and-fountain-pen-notes/): 中国钢笔厂简史
+
+
+- [More articles](https://exyon.ee/sitemap.xml): See the sitemap or RSS feed for older posts.
+
+
+## Pages
+
+
+- [Categories](https://exyon.ee/categories/)
+
+- [Tags](https://exyon.ee/tags/)
+
+- [Archives](https://exyon.ee/archives/)
+
+- [诗集](https://exyon.ee/poems/)
+
+- [About](https://exyon.ee/about/)
+
+- [友链](https://exyon.ee/links/)
+
+- [留言](https://exyon.ee/guestbook/)
+
+- [Friends & Blogroll](https://exyon.ee/friends/): Aggregated RSS feed from friend sites and linked blogs.
+
+## Optional
+
+- [RSS Feed](https://exyon.ee/feed.xml): Subscribe to new posts via RSS.
+- [Sitemap](https://exyon.ee/sitemap.xml): Full XML sitemap for crawlers.
+- [Source Repository](https://github.com/exyone-js/exyone-js.github.io): View the source code of this site.
+- [License](https://spdx.org/licenses/BSD-2-Clause.html): Full BSD 2-Clause License text.
+
+## License
+
+Copyright (c) 2026 exyone.
+
+SPDX-License-Identifier: BSD-2-Clause
+
+Content and source code are distributed under the BSD 2-Clause License unless otherwise stated.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS CONTENT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THIS CONTENT.
+
+The views expressed on this site are those of the author(s) and do not necessarily reflect the official policy or position of any employer, organization, or affiliated entity. Content is provided for general informational purposes only and does not constitute professional advice.
+
+For the full license text, see: https://spdx.org/licenses/BSD-2-Clause.html
+
+## Contact
+
+- **Author/Webmaster**: exyone
+- **Email**: exyone.dev@icloud.com
+- **Website**: https://exyon.ee
