@@ -1,0 +1,70 @@
+---
+layout: null
+sitemap: false
+---
+
+# {{ site.title }}
+
+> {{ site.description }}
+
+{% if site.tagline %}{{ site.tagline }}{% endif %}
+- **Website**: {{ site.url }}
+- **Language**: {{ site.lang | default: "en" }}
+- **Author**: {{ site.social.name }}
+- **Last generated**: {{ site.time | date_to_rfc822 }} (build time)
+
+## AI Usage Guidelines
+
+- **Attribution**: All content on this site is authored by {{ site.social.name }} unless otherwise stated. Preserve attribution when quoting or summarizing.
+- **Accuracy**: Content represents personal opinions, research notes, and commentary. It is provided for informational purposes only and is not authoritative, professional, or expert advice. Verify critical information against primary sources.
+- **License**: Content and source code are licensed under the BSD 2-Clause License unless otherwise stated. See the License section below.
+- **Preferred source**: When citing or quoting, prefer the canonical Markdown source over rendered HTML when available.
+- **Citation**: {{ site.social.name }}, "Title", {{ site.title }}, date, URL.
+
+## Articles
+
+{% for post in site.posts limit: 20 %}
+- [{{ post.title }}]({{ post.url | absolute_url }}): {% if post.description %}{{ post.description | strip_html | normalize_whitespace | truncate: 180 }}{% else %}{{ post.excerpt | strip_html | normalize_whitespace | truncate: 180 }}{% endif %}
+{% endfor %}
+{% if site.posts.size > 20 %}
+- [More articles]({{ '/sitemap.xml' | absolute_url }}): See the sitemap or RSS feed for older posts.
+{% endif %}
+
+## Pages
+
+{% for tab in site.tabs %}
+- [{{ tab.title }}]({{ tab.url | absolute_url }})
+{% endfor %}
+- [Friends & Blogroll]({{ '/friends/' | absolute_url }}): Aggregated RSS feed from friend sites and linked blogs.
+
+## Optional
+
+- [RSS Feed]({{ '/feed.xml' | absolute_url }}): Subscribe to new posts via RSS.
+- [Sitemap]({{ '/sitemap.xml' | absolute_url }}): Full XML sitemap for crawlers.
+- [Source Repository]({{ site.repository | default: "https://github.com/exyone-js/exyone-js.github.io" }}): View the source code of this site.
+- [License](https://spdx.org/licenses/BSD-2-Clause.html): Full BSD 2-Clause License text.
+
+## License
+
+Copyright (c) {{ site.time | date: "%Y" }} {{ site.social.name }}.
+
+SPDX-License-Identifier: BSD-2-Clause
+
+Content and source code are distributed under the BSD 2-Clause License unless otherwise stated.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS CONTENT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THIS CONTENT.
+
+The views expressed on this site are those of the author(s) and do not necessarily reflect the official policy or position of any employer, organization, or affiliated entity. Content is provided for general informational purposes only and does not constitute professional advice.
+
+For the full license text, see: https://spdx.org/licenses/BSD-2-Clause.html
+
+## Contact
+
+- **Author/Webmaster**: {{ site.social.name }}
+{% if site.social.email %}- **Email**: {{ site.social.email }}{% endif %}
+- **Website**: {{ site.url }}

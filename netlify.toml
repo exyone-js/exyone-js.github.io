@@ -1,0 +1,10 @@
+# Netlify configuration
+#
+# This site is built by the OneDev CI pipeline and published via
+# `netlify deploy --prod --dir _site` (direct upload). Netlify itself does
+# not build the project anymore, so no build command / Ruby environment is
+# configured here. The prebuilt output in _site is deployed as-is.
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  publish = "_site"
